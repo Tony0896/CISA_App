@@ -1,0 +1,177 @@
+<template>
+    <div class="page">
+        <div class="navbar" style="background-color: #063E7F;height: 52px;">
+            <div style="text-align: center;"><img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field"></div>
+              <div class="navbar-inner sliding" style="height: 52px;">
+                  <div class="left">
+                    <style>            
+                      .nav-text-regresar{
+                          color: #ffffff;
+                          border: 2px solid white;
+                          padding: 0 10px;
+                          border-radius: 7px;
+                          font-size: 14px;
+                      }
+                      hr{
+                        border: none;
+                        height: 50px;
+                        margin-top: 0;
+                        border-bottom: 1px solid #9d9d9d96;
+                        box-shadow: 0px 16px 20px -20px #5f61627a;
+                        margin: -50px auto 10px;
+                      }
+                    </style>
+                    <a href="#" class="link back" style="margin-left: 5px;">
+                      <span class="nav-text-regresar">Regresar</span>
+                    </a>
+                  </div>
+              </div>
+        </div>
+        <div class="page-content">
+            <div id="nointernet-page" style="display:none;text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                <img src="img/nosignal.svg" width="60%" style="margin-top: 140px;">
+                <div style="text-align: left;">
+                    <h2 style="margin: 50px 0 0 15px;text-align: left;"><b>¡VAYA!</b></h2>
+                    <h2 style="margin: 0 0 0 15px;text-align: left;"><b>No tienes internet.</b></h2>
+                    <h4 style="margin: 0 0 0 15px;text-align: left;">Para realizar esta consulta es necesario tener una conexion.</h>
+                </div>
+            </div>
+            <div id="content-page" style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                <br>
+                <h2 style="color:#00A7B5;font-family: 'ITC Avant Garde Gothic';font-size: 24px;margin-top: 27px;">Anticipo (20%)</h2>
+                <div class='item-after' style='height: 100%;width: 90%;padding: 0;margin: 0;margin-left: 5%;'>
+                    <div class="progress" style="width: 100%;background-color: #64646480;display: flex;align-self: center;border-radius: 10px;">
+                        <div id="barra-global1" class="progress-bar" role="progressbar" style="width: 25%;color: white;background-color: #00A7B5;height: 100%;padding-top: 1px;border-radius: 10px 0px 0px 10px;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+                <div style="width: 90%;border-radius: 15px;margin-left: 5%;">
+                    <span class="span" style="font-weight: bold;width: 100%;">Proceso:</span>
+                    <span id="text2" style="width: 100%;margin-bottom: 0;border-bottom: 0;">
+                        <input type='text' value="TELCEL JALISCO" class="FWM-textBox" disabled style="width: 100%;margin-bottom: 0;border-bottom: 0;border: 1px solid gray;border-radius: 10px;height: 38px;padding-left: 5px;"/>
+                    </span>
+
+                    <span class="span" style="font-weight: bold;width: 100%;">Fecha:</span>
+                    <span id="text2" style="width: 100%;margin-bottom: 0;border-bottom: 0;">
+                        <input type='text' value="27/09/2021" class="FWM-textBox" disabled style="width: 100%;margin-bottom: 0;border-bottom: 0;border: 1px solid gray;border-radius: 10px;height: 38px;padding-left: 5px;"/>
+                    </span>
+
+                    <span class="span" style="font-weight: bold;width: 100%;">Sitio/ID (Telcel):</span>
+                    <span id="text2" style="width: 100%;margin-bottom: 0;border-bottom: 0;">
+                        <input type='text' value="8758690" class="FWM-textBox" disabled style="width: 100%;margin-bottom: 0;border-bottom: 0;border: 1px solid gray;border-radius: 10px;height: 38px;padding-left: 5px;"/>
+                    </span>
+
+                    <span class="span" style="font-weight: bold;width: 100%;">Orden de compra:</span>
+                    <span id="text2" style="width: 100%;margin-bottom: 0;border-bottom: 0;">
+                        <input type='text' value="8758690" class="FWM-textBox" disabled style="width: 100%;margin-bottom: 0;border-bottom: 0;border: 1px solid gray;border-radius: 10px;height: 38px;padding-left: 5px;"/>
+                    </span>
+                    <span class="span" style="font-weight: bold;width: 100%;">Contratista:</span>
+                    <span id="text2" style="width: 100%;margin-bottom: 0;border-bottom: 0;">
+                        <input type='text' value="Marcelo Perez" class="FWM-textBox" disabled style="width: 100%;margin-bottom: 0;border-bottom: 0;border: 1px solid gray;border-radius: 10px;height: 38px;padding-left: 5px;"/>
+                    </span>
+                    <span class="span" style="font-weight: bold;width: 100%;">Tipo de Proyecto:</span>
+                    <span id="text2" style="width: 100%;margin-bottom: 0;border-bottom: 0;">
+                        <input type='text' value="694639287439" class="FWM-textBox" disabled style="width: 100%;margin-bottom: 0;border-bottom: 0;border: 1px solid gray;border-radius: 10px;height: 38px;padding-left: 5px;"/>
+                    </span>
+                    <span class="span" style="font-weight: bold;width: 100%;">Region:</span>
+                    <span id="text2" style="width: 100%;margin-bottom: 0;border-bottom: 0;">
+                        <input type='text' value="Mex" class="FWM-textBox" disabled style="width: 100%;margin-bottom: 0;border-bottom: 0;border: 1px solid gray;border-radius: 10px;height: 38px;padding-left: 5px;"/>
+                    </span>
+                    <span class="span" style="font-weight: bold;width: 100%;">Torre:</span>
+                    <span id="text2" style="width: 100%;margin-bottom: 0;border-bottom: 0;">
+                        <input type='text' value="8790" class="FWM-textBox" disabled style="width: 100%;margin-bottom: 0;border-bottom: 0;border: 1px solid gray;border-radius: 10px;height: 38px;padding-left: 5px;"/>
+                    </span>
+                </div>
+
+                <table style="text-align: initial;margin-top: 35px; font-size: 14px;" cellspacing="0">
+                    <tbody>
+                        <tr>
+                        <th style="background-color:#063E7F;color: white;">Proceso</th>
+                        <th style="background-color:#063E7F;color: white;">Fecha subida</th>
+                        <th style="background-color:#063E7F;color: white;">Persona Subio</th>
+                        <th style="background-color:#063E7F;color: white;">Acción</th>
+                        </tr>
+                        <tr>
+                            <td><span id="nombre-P0">Orden de compra</span></td>
+                            <td><span id="fecha-P0"></span></td>
+                            <td><span id="usuario-P0"></span></td>
+                            <td><span id="boton-P0"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span id="nombre-P1">Validación tecnica de candidato (VTC)</span></td>
+                            <td><span id="fecha-P1"></span></td>
+                            <td><span id="usuario-P1"></span></td>
+                            <td><span id="boton-P1"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span id="nombre-P2">Analisis de reiesgo autorizado por region</span></td>
+                            <td><span id="fecha-P2"></span></td>
+                            <td><span id="usuario-P2"></span></td>
+                            <td><span id="boton-P2"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span id="nombre-P3">Validacion de tipo de torre con Vel. de viento y factores</span></td>
+                            <td><span id="fecha-P3"></span></td>
+                            <td><span id="usuario-P3"></span></td>
+                            <td><span id="boton-P3"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span id="nombre-P4">Contarto de arrendamiento firmado por el arrendador</span></td>
+                            <td><span id="fecha-P4"></span></td>
+                            <td><span id="usuario-P4"></span></td>
+                            <td><span id="boton-P4"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span id="nombre-P5">Inicio de tramite CFE)</span></td>
+                            <td><span id="fecha-P5"></span></td>
+                            <td><span id="usuario-P5"></span></td>
+                            <td><span id="boton-P5"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span id="nombre-P6">Entrega de claves y capacitacion al arrendador	</span></td>
+                            <td><span id="fecha-P6"></span></td>
+                            <td><span id="usuario-P6"></span></td>
+                            <td><span id="boton-P6"></span></td>
+                        </tr>
+                    </tbody>
+                </table> 
+        </div>
+    </div>
+</template>
+<script>
+    return {
+        on: {
+            pageInit: function (e, page) {
+                var numero = 0;
+                app.request.get('https://www.fwm.com.mx/app/trackingDetalleMer.php',{track: "1"}, function (data) {
+                    var content = JSON.parse(data);
+                    for(var e=0; e < content.length; e++){
+                        $("#fecha-P"+e).text(content[e].fecha);
+                        $("#usuario-P"+e).text(content[e].agente);
+                        if(content[e].boton == "2"){
+                            var link = content[e].liga;
+                            var pdf = link.split("./")
+                            $("#boton-P"+e).append(`
+                                <button style="background-color: rgb(208 3 3);border: none; padding-top: 10px;">
+                                    <a class="external item-link" href="https://fwm.com.mx/pages_mergroup/${pdf[1]}" target="_system">
+                                        <img style="height: 35px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNC4wLjIsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgdmlld0JveD0iMCAwIDU1MC44IDU1MC44IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1NTAuOCA1NTAuODsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9DQo8L3N0eWxlPg0KPGc+DQoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTE2MC40LDI4Mi4yYzAtMTQuOC0xMC4zLTIzLjctMjguNS0yMy43Yy03LjQsMC0xMi40LDAuNy0xNS4xLDEuNHY0Ny42YzMuMSwwLjcsNi45LDAuOSwxMi4yLDAuOQ0KCQlDMTQ4LjQsMzA4LjUsMTYwLjQsMjk4LjcsMTYwLjQsMjgyLjJ6Ii8+DQoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTI3Mi45LDI1OWMtOC4xLDAtMTMuNCwwLjctMTYuNSwxLjRWMzY2YzMuMSwwLjcsOC4xLDAuNywxMi43LDAuN2MzMywwLjIsNTQuNi0xNy45LDU0LjYtNTYuNQ0KCQlDMzIzLjgsMjc2LjcsMzA0LjIsMjU5LDI3Mi45LDI1OXoiLz4NCgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNDg4LjQsMTk3aC0xMy4ydi02My44YzAtMC40LTAuMS0wLjgtMC4xLTEuMmMwLTIuNS0wLjgtNS0yLjYtN0wzNjYuMywzLjdjMCwwLTAuMSwwLTAuMS0wLjENCgkJYy0wLjYtMC43LTEuNC0xLjMtMi4yLTEuOGMtMC4yLTAuMi0wLjUtMC4zLTAuNy0wLjRjLTAuNy0wLjQtMS40LTAuNy0yLjEtMC45Yy0wLjItMC4xLTAuNC0wLjEtMC42LTAuMkMzNTkuOSwwLjEsMzU5LDAsMzU4LjIsMA0KCQloLTI2MUM4NS4zLDAsNzUuNiw5LjcsNzUuNiwyMS42VjE5N0g2Mi40Yy0xNywwLTMwLjksMTMuOC0zMC45LDMwLjl2MTYwLjVjMCwxNywxMy44LDMwLjksMzAuOSwzMC45aDEzLjJ2MTA5LjkNCgkJYzAsMTEuOSw5LjcsMjEuNiwyMS42LDIxLjZoMzU2LjRjMTEuOSwwLDIxLjYtOS43LDIxLjYtMjEuNlY0MTkuM2gxMy4yYzE3LDAsMzAuOS0xMy44LDMwLjktMzAuOVYyMjcuOQ0KCQlDNTE5LjMsMjEwLjgsNTA1LjUsMTk3LDQ4OC40LDE5N3ogTTk3LjIsMjEuNmgyNTAuMnYxMTAuNWMwLDYsNC44LDEwLjgsMTAuOCwxMC44aDk1LjRWMTk3SDk3LjJWMjEuNnogTTM2Mi40LDMwOQ0KCQljMCwzMC45LTExLjIsNTIuMi0yNi44LDY1LjNjLTE3LDE0LjEtNDIuOCwyMC44LTc0LjQsMjAuOGMtMTguOSwwLTMyLjMtMS4yLTQxLjQtMi40VjIzNC40YzEzLjQtMi4xLDMwLjktMy4zLDQ5LjMtMy4zDQoJCWMzMC42LDAsNTAuNSw1LjUsNjYsMTcuMkMzNTEuOCwyNjAuNywzNjIuNCwyODAuNSwzNjIuNCwzMDl6IE04MC43LDM5My41VjIzNC40YzExLjItMS45LDI3LTMuMyw0OS4zLTMuMw0KCQljMjIuNSwwLDM4LjUsNC4zLDQ5LjMsMTIuOWMxMC4zLDguMSwxNy4yLDIxLjUsMTcuMiwzNy4zYzAsMTUuOC01LjMsMjkuMi0xNC44LDM4LjNjLTEyLjQsMTEuNy0zMC45LDE3LTUyLjQsMTcNCgkJYy00LjgsMC05LjEtMC4yLTEyLjQtMC43djU3LjdMODAuNywzOTMuNUw4MC43LDM5My41eiBNNDUzLjYsNTIzLjRIOTcuMlY0MTkuM2gzNTYuNEw0NTMuNiw1MjMuNEw0NTMuNiw1MjMuNHogTTQ4NC45LDI2Mi4xaC02Mg0KCQlWMjk5aDU3Ljl2MjkuN2gtNTcuOXY2NC44aC0zNi42VjIzMi4yaDk4LjZWMjYyLjF6Ii8+DQo8L2c+DQo8L3N2Zz4NCg==">
+                                        <p style="margin: 0;color: white;font-weight: 900;">PDF</p>
+                                    </a>
+                                </button>`);
+                                numero = numero + 1;
+                        } else {
+                            $("#boton-P"+e).append('<button style="background-color: rgb(208 188 3);border: none; padding-top: 10px;"><img style="height: 35px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNC4wLjIsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgdmlld0JveD0iMCAwIDI0IDI0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNCAyNDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCgkuc3Qwe2ZpbGw6I0ZGRkZGRjt9DQo8L3N0eWxlPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTIwLDNjMC42LDAsMS0wLjQsMS0xcy0wLjQtMS0xLTFINEMzLjQsMSwzLDEuNCwzLDJzMC40LDEsMSwxaDFjMC4xLDEuOCwwLjcsNS44LDMuMiw4QzUuNywxMy41LDUuMSwxOC43LDUsMjENCglINGMtMC42LDAtMSwwLjQtMSwxczAuNCwxLDEsMWgxNmMwLjYsMCwxLTAuNCwxLTFzLTAuNC0xLTEtMWgtMWMtMC4xLTIuMy0wLjYtNy41LTMuMi0xMGMyLjUtMi4zLDMtNi4yLDMuMi04SDIweiBNMTMuNiwxMC4xDQoJYy0wLjUsMC4zLTAuNywwLjktMC40LDEuNGMwLjEsMC4yLDAuMiwwLjMsMC40LDAuNGMyLjQsMS4yLDMuMiw2LjMsMy40LDkuMUg3YzAuMi0yLjgsMC45LTcuOSwzLjQtOS4xYzAuNS0wLjIsMC43LTAuOSwwLjQtMS4zDQoJYy0wLjEtMC4yLTAuMi0wLjMtMC40LTAuNEM3LjksOC43LDcuMiw0LjgsNy4xLDNoOS45QzE2LjgsNC44LDE2LjEsOC43LDEzLjYsMTAuMXogTTEyLDEzYzAsMCwzLDIuNCwzLDMuNlYyMEg5di0zLjQNCglDOSwxNS40LDEyLDEzLDEyLDEzeiIvPg0KPC9zdmc+DQo="><p style="margin: 0;color: white;font-weight: 900;">Pendiente</p></button>');
+                        }
+                    }
+                    var porcentaje = Math.round((numero*100)/7);
+                    $("#barra-global1").css("width",porcentaje+"%");
+                    $("#barra-global1").css("padding-left","5px");
+                    $("#barra-global1").text(porcentaje+"%");
+                },function (xhr) {
+                    $('.preloader').remove();
+                    $("#content-page").css('display','none');
+                    $("#nointernet-page").css('display','block');
+                });
+            }
+        }
+    }
+</script>

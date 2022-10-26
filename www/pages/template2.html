@@ -1,0 +1,416 @@
+<template>
+  <div class="page" style="background-color: rgb(245, 245, 245);">
+    <div class="navbar" style="background-color: #063E7F;height: 52px;">
+      <div style="text-align: center;">
+        <img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field">
+      </div>
+      <div class="navbar-inner sliding" style="height: 52px;">
+        <div class="left">
+          <a href="#" onclick="regresarBennetts2(),restorientation();" class="link" style="margin-left: 5px;">
+            <span class="nav-text-regresar">Regresar</span>
+          </a>
+        </div>
+        <div class="right">
+          <a href="#" onclick="validateScan()" class="link" style="margin-left: 5px;">
+            <span class="nav-text-regresar">?</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="page-content">
+      <h2 class="global-dates">Inventario</h2>
+      <div class="list" id="demo-form" style="margin-top: 0;">
+        <div class="form-baja">
+          <span class="span FWM-span-form">Ubicación:</span>
+          <div style="position:relative;">
+            <input type="text" class="FWM-input" id="ubicacion" name="ubicacion">
+            <button class="barcode-button" id="take-ubicacion"><img class="barcode-image" src="img/iconsMenu/barcode.svg"></button>
+          </div>
+          <span class="span FWM-span-form">Código:</span>
+          <div style="position:relative;">
+            <input type="search" class="FWM-input" id="codigo" name="codigo">
+            <button class="barcode-button" id="take-codigo"><img class="barcode-image" src="img/iconsMenu/barcode.svg"></button>
+          </div>
+          <div style="display: flex;flex-direction: row;align-items: end;display:none" id="filtrosUbicacion">
+            <button class="fwm-boton-setenta" onclick="llevarUbicacion()">Nueva Ubicación</button>
+            <button class="fwm-boton-setenta" onclick="rotate()" style="width: 15%;margin: 0;margin-left: 5%;height: 40px;background-color: red;"><i class="material-icons md-light" style="color: #ffffff;">rotate_right</i></button>
+          </div>
+        </div>
+      </div>
+      <style>
+        #inventario_filter label{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-left: 20px;
+          margin-bottom: 15px;
+        }
+        #inventario_length label{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          margin-left: 20px;
+        }
+        #inventario_length label select{
+          width: 36px;
+          height: 32px;
+          padding: 0 0 0 4px;
+          margin: 10px;
+          line-height: 15px;
+        }
+        tr ul{
+          width: 100%;
+        }
+      </style>
+
+      <table id="inventario" class="display responsive nowrap" style="width:100%;margin-bottom: 30px;">
+        <thead>
+            <tr>
+                <th style="color: white;background-color: #505759;">#</th>
+                <th style="color: white;background-color: #505759;">Cod. SAP</th>
+                <th style="color: white;background-color: #505759;">Cantidad</th>
+                <th style="color: white;background-color: #505759;">Descripción</th>
+                <th style="color: white;background-color: #505759;">Inventario</th>
+                <th style="color: white;background-color: #505759;">Ubicación</th>
+                <th style="color: white;background-color: #505759;">Acción</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <button class="fwm-boton-setenta" id="clean" style="width: 150px;background-color: red;height: 35px;position:absolute;right: 10px;">Borrar Ubicación</button>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    on: {
+      pageInit: function () {
+        var id_cedula = localStorage.getItem("IdCedula");
+        var table = $('#inventario').DataTable({
+          responsive: true,
+          ordering: false,
+          language: {
+            "decimal": "",
+            "emptyTable": "Sin registros",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+          },
+          "columnDefs": [
+            {
+                "targets": [0],
+                "visible": false,
+                "searchable": false
+            }
+          ]
+        });
+        
+        table.order([0, 'desc']).draw();
+        databaseHandler.db.transaction(
+          function(tx1){
+              tx1.executeSql(
+                  "Select * from conteo where id_cedula= ?",
+                  [id_cedula],
+                  function(tx, results){
+                      var length = results.rows.length;
+                      if(length == 0){
+                          $("#message-nr").css("display", "block");
+                      } else {
+                          for(var i = 0; i< length; i++){
+                              var item = results.rows.item(i);
+                              if(item.fisico == null){
+                                var fisico = "";
+                              } else {
+                                var fisico = item.fisico;
+                              }
+                              table.row.add([item.id_conteo,item.codigo_sap,"<input type='number' id='item"+item.id_conteo+"' onchange='cantidadIngresada(\"" + item.inventario + "\",this.id,"+item.id_conteo+")' placeholder='#' value='"+fisico+"' style='width:60px'>",item.descripcion,item.inventario,item.ubicacion,"<a href='#' class='remove' onclick='eliminarFilaBennetts(" + item.id_conteo + ",2,this);' style='border: none; outline:none;'><img src='img/borrar.png' width='30px' /></a>"]).draw();
+                              $("#message-nr").css("display", "none");
+                          }
+                      }
+                      $('.preloader').remove();
+                      $('.infinite-scroll-preloader').remove();
+                  },
+                  function(tx, error){
+                      console.log("Error al consultar: " + error.message);
+                  }
+              );
+          },
+          function(error){},
+          function(){}
+        );
+        // Capturar Ubicacion
+        $("#take-ubicacion").click(function(){
+          //Verifica orientación
+          if(localStorage.getItem("currentOrientation") == "portrait"){
+            //Activacion del escaner
+            cordova.plugins.barcodeScanner.scan(
+              //Verifica si es QR
+              function (result) {
+                if(result.format == "QR_CODE"){
+                  var text = result.text;
+                  if(text.includes(",") || text.includes("\r\n")){
+                    swal("Formato no compatible","El QR no cumple con los requisitos para cargar la ubicación.","warning");
+                  } else {
+                    var texto = text.replaceAll(" ","");
+                    $("#ubicacion").val(texto);
+                    $("#filtrosUbicacion").css("display","flex");
+                    var table = $('#inventario').DataTable();
+                    table.search(texto).draw();
+                  }
+                } else if(result.cancelled == true){
+
+                } else {
+                  var text = result.text;
+                  var texto = text.replaceAll(" ","");
+                  $("#ubicacion").val(texto);
+                  $("#filtrosUbicacion").css("display","flex");
+                  var table = $('#inventario').DataTable();
+                  table.search(texto).draw();
+                }
+              },
+              function (error) {
+                  alert("Scanning failed: " + error);
+              },
+              {
+                  preferFrontCamera : false,
+                  showFlipCameraButton : true,
+                  showTorchButton : true,
+                  torchOn: false,
+                  saveHistory: false,
+                  prompt : "Coloca el codigo de barras en la zona marcada",
+                  resultDisplayDuration: 500,
+                  orientation : "portrait",
+                  disableAnimations : true,
+                  disableSuccessBeep: false
+              }
+            );
+          } else {
+            cordova.plugins.barcodeScanner.scan(
+              function (result) {
+                var text = result.text;
+                var texto = text.replaceAll(" ","");
+                $("#ubicacion").val(texto);
+                $("#filtrosUbicacion").css("display","flex");
+              },
+              function (error) {
+                  alert("Scanning failed: " + error);
+              },
+              {
+                  preferFrontCamera : false,
+                  showFlipCameraButton : true,
+                  showTorchButton : true,
+                  torchOn: false,
+                  saveHistory: false,
+                  prompt : "Coloca el codigo de barras en la zona marcada",
+                  resultDisplayDuration: 500,
+                  orientation : "landscape",
+                  disableAnimations : true,
+                  disableSuccessBeep: false
+              }
+            );
+          }
+        });
+        // Pone la busqueda de la ubicacion cuando la ingresan
+        $("#ubicacion").keypress(function(event){
+          if(event.keyCode == 13){
+            if($("#ubicacion").val() == "" || $("#ubicacion").val() == " "){
+              $("#ubicacion").val() == "";
+            } else {
+              var texto = $("#ubicacion").val()
+              var table = $('#inventario').DataTable();
+              table.search(texto).draw();
+              $('input').blur();
+            }
+          }
+        });
+        //cuanto ubicacion cambia
+        $("#ubicacion").keyup(function(){
+          if($("#ubicacion").val() == "") {
+              $("#filtrosUbicacion").css("display","none");
+              var texto = "";
+              var table = $('#inventario').DataTable();
+              table.search(texto).draw();
+          } else {
+            var ubica = $("#ubicacion").val().trim();
+            if (ubica==''){
+              $("#filtrosUbicacion").css("display","none");
+              var texto = "";
+              var table = $('#inventario').DataTable();
+              table.search(texto).draw();
+            }else {
+              $("#filtrosUbicacion").css("display","flex");
+              var texto = $("#ubicacion").val()
+              var table = $('#inventario').DataTable();
+              table.search(texto).draw();
+            }
+          }
+        });
+        //Guardar
+        $("#take-codigo").click(function(){
+          // Verifica la orientacion
+          if(localStorage.getItem("currentOrientation") == "portrait"){
+            if($("#ubicacion").val() == ""){
+              swal("Ubicacion no ingresada","Debes de escanear primero la ubicacion .","warning");
+            } else {
+              cordova.plugins.barcodeScanner.scan(
+                function (result) {
+                  if(result.cancelled == true){
+
+                  } else if(result.format == "QR_CODE"){
+                    var text = result.text;
+                    text = text.replaceAll(" ","");
+                    if(text.includes(",")){
+                      var separado = text.split(",");
+                      var last = separado.length - 1;
+                      var lastitem = separado[last];
+                      var ultimo = lastitem.split("\r\n");
+                      for(var i = 0;i <= separado.length - 2;i++){
+                        searchAsin(separado[i])
+                      }
+                      searchAsin(ultimo[0]);
+                    } else {                      
+                      text = text.replaceAll(" ","");
+                      searchAsin(text);
+                    }
+                  } else {
+                    $("#codigo").val(result.text);
+                    var NomJson = localStorage.getItem("almacen");
+                    var codigo = $("#codigo").val();
+                    codigo = codigo.replaceAll(" ","");
+                    if(codigo == "" || codigo == " "){
+                      swal("Consulta vacia","No puedes realizar una consulta sin un codigo.","warning");
+                    } else {
+                      searchSingle(codigo)
+                    }
+                  }
+                },
+                function (error) {
+                    console.log("Scanning failed: " + error);
+                },
+                {
+                  preferFrontCamera : false,
+                  showFlipCameraButton : true,
+                  showTorchButton : true,
+                  torchOn: false,
+                  saveHistory: false,
+                  prompt : "Coloca el codigo de barras en la zona marcada",
+                  resultDisplayDuration: 500,
+                  orientation : "portrait",
+                  disableAnimations : true,
+                  disableSuccessBeep: false
+                }
+              );
+            }  
+          } else {
+            if($("#ubicacion").val() == ""){
+              swal("Ubicacion no ingresada","Debes de escanear primero la ubicacion .","warning");
+            } else {
+              cordova.plugins.barcodeScanner.scan(
+                function (result) {
+                  if(result.cancelled == true){
+
+                  } else if(result.format == "QR_CODE"){
+                    var text = result.text;
+                    if(text.includes(",")){
+                      var separado = text.split(",");
+                      var last = separado.length - 1;
+                      var lastitem = separado[last];
+                      var ultimo = lastitem.split("\r\n");
+                      for(var i = 0;i <= separado.length - 2;i++){
+                        searchAsin(separado[i])
+                      }
+                      searchAsin(ultimo[0]);
+                    } else {
+                      swal("Formato no valido","El codigo QR escaneado no cumple con los requisitos para la captura multiequipo.","warning");
+                    }
+                  } else {
+                    $("#codigo").val(result.text);
+                    var NomJson = localStorage.getItem("almacen");
+                    var codigo = $("#codigo").val();
+                    if(codigo == "" || codigo == " "){
+                      swal("Consulta vacia","No puedes realizar una consulta sin un codigo.","warning");
+                    } else {
+                      searchSingle(codigo)
+                    }
+                  }
+                },
+                function (error) {
+                    alert("Scanning failed: " + error);
+                },
+                {
+                  preferFrontCamera : false,
+                  showFlipCameraButton : true,
+                  showTorchButton : true,
+                  torchOn: false,
+                  saveHistory: false,
+                  prompt : "Coloca el codigo de barras en la zona marcada",
+                  resultDisplayDuration: 500,
+                  orientation : "landscape",
+                  disableAnimations : true,
+                  disableSuccessBeep: false
+                }
+              );
+            }
+          }
+        });
+        // Se ejecuta con Enter
+        $("#codigo").keypress(function(event){
+          if(event.keyCode == 13){
+            var NomJson = localStorage.getItem("almacen");;
+            var codigo = $("#codigo").val();
+            var ubicacion=$("#ubicacion").val();
+            if(ubicacion == "" || ubicacion == " "){
+              swal("Ubicacion vacia","Para agregar un producto debes tener la ubicación.","warning");
+            }else{
+              if(codigo == "" || codigo == " "){
+                swal("Consulta vacia","No puedes realizar una consulta sin un codigo.","warning");
+              } else {
+                searchSingle(codigo)
+              } 
+            }
+          }
+        });
+        
+        $('#inventario').on('click', '.remove', function () {
+          var tr = $(this).closest('tr');
+          if(tr.hasClass('child'))
+          {
+              tr = $(tr).prev();
+          }
+          table
+            .row(tr)
+            .remove()
+          .draw();
+        });
+        //Eliminar ubicacion
+        $("#clean").click(function(){
+          if($("#ubicacion").val() == "" || $("#ubicacion").val() == ""){
+            swal("Ubicacion vacia","Para eliminar una ubicacion primero escaneala.","warning");
+          } else {
+            app.dialog.prompt("Para eliminar esta ubicacion por favor escribe 'Eliminar'", `Eliminar ubicacion ${$("#ubicacion").val()}`, function (name) {
+              if(name == "Eliminar"){
+                app.dialog.confirm('¿Estas seguro que deseas eliminar la ubicacion? Se perderan todos los datos.<br>', 'FIELD', function () {
+                  eliminarubicacion();
+                });
+              }
+            });
+          }
+        });
+        localStorage.setItem("currentOrientation", "portrait");
+      }
+    }
+  }
+</script>

@@ -1,0 +1,75 @@
+<style>
+    html,
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #000;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      overflow: hidden;
+    }
+  </style>
+<template>
+        <div class="page" id="FWM-1">
+            <!-- Navbar -->
+            <div class="navbar" style="background-color: #000;height: 52px;">
+                <div style="text-align: center;"><img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field"></div>
+                <div class="navbar-inner sliding" style="height: 52px;">
+                    <div class="left">
+                        <a href="#" onclick="regresarVerImg();">
+                            <span class="nav-text-regresar" id="nav-text-regresar-function">Cerrar</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Contenido Formulario -->                                
+            <div class="page-content" style="background-color: black;">
+              <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <div class="swiper-zoom-container">
+                      <img id="imgtmp" src="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+</template>
+
+<script>
+  //cordova plugin rm cordova-plugin-console
+    return {
+        on: {      
+            pageInit: function () {
+              var route= localStorage.getItem("ruta");
+
+              $("#imgtmp").attr("src",cordova.file.dataDirectory+'tpm/'+route);
+              console.log(cordova.file.dataDirectory+'tpm/'+route);
+              var swiper = new Swiper(".mySwiper", {
+                zoom: true
+              });
+            }
+            
+        }
+    }
+    
+</script>

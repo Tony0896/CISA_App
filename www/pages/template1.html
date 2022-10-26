@@ -1,0 +1,180 @@
+<template>
+  <div class="page" style="background-color: rgb(245, 245, 245);">
+    <div class="navbar" style="background-color: #063E7F;height: 52px;">
+      <div style="text-align: center;">
+        <img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field">
+      </div>
+      <div class="navbar-inner sliding" style="height: 52px;">
+        <div class="left">
+          <a href="#" onclick="regresarBennetts();" class="link" style="margin-left: 5px;">
+            <span class="nav-text-regresar">Regresar</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div>
+        <h2 class="global-dates">Acta de baja de producto</h2>
+        <form class="list" id="demo-form" style="margin-top: 0;">
+          <div class="form-baja">
+            <span class="span FWM-span-form">Código:</span>
+            <input type="text" class="FWM-input" id="codigo" name="codigo" onchange="inputLleno(this.id,this.value)">
+            <span class="span FWM-span-form">Descripción:</span>
+            <textarea class="resizable FWM-input" id="descripcion" name="descripcion" onchange="inputLleno(this.id,this.value)"></textarea>
+            <span class="span FWM-span-form">Cantidad:</span>
+            <input type="text" class="FWM-input" id="cantidad" name="cantidad"
+              onchange="inputLleno(this.id,this.value)">
+            <span class="span FWM-span-form" style="line-height: 1.3;margin-top: 20px;margin-left: 20px;">Aplica:</span>
+            <div style="display: flex;justify-content: space-around;margin-bottom: 30px;">
+              <label
+                style="font-size: 18px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;color: gray;">
+                <input type="checkbox" id="destruccion" onclick="datosCheckB()" value="1">Destrucción
+              </label>
+              <label
+                style="font-size: 18px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;color: gray;">
+                <input type="checkbox" id="baja" onclick="datosCheckB()" value="2">Baja
+              </label>
+            </div>
+            <span class="span FWM-span-form">Motivo:</span>
+            <textarea class="resizable FWM-input" id="motivo" name="motivo"  onchange="inputLleno(this.id,this.value)"></textarea>
+            <br>
+            <center>
+              <table>
+                <tr style="text-align: center;">
+                  <td>
+                    <p class="title-photo">Foto (Antes)</p><br>
+                    <div class="FWM-photo-container">
+                      <div class="border-capture">
+                        <a id="1" onclick="captureMultiplePhoto(this.id);">
+                          <img class="FWM-photo" src="img/camera.svg" id="photoIcon1" width="45px"
+                            style="margin-left: 2px;">
+                        </a>
+                      </div>
+                      <img class="FWM-photo-hide" id="smallImage1" src="">
+                      <input type="hidden" id="imagenC1" name="imagenC1">
+                    </div>
+                  </td>
+                  <td style="text-align: center;">
+                    <p class="title-photo">Foto (Despues)</p><br>
+                    <div class="FWM-photo-container">
+                      <div class="border-capture">
+                        <a id="2" onclick="captureMultiplePhoto(this.id);">
+                          <img class="FWM-photo" src="img/camera.svg" id="photoIcon2" width="45px"
+                            style="margin-left: 2px;">
+                        </a>
+                      </div>
+                      <img class="FWM-photo-hide" id="smallImage2" src="">
+                      <input type="hidden" id="imagenC2" name="imagenC2">
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </center>
+            <div class="block-title FWM-subtitulo">Evidencias baja de producto</div>
+            <div class="card data-table">
+              <div class="infinite-scroll-content">
+                <table id="tabla_productos">
+                  <thead>
+                    <tr class="tabla-levantamiento-">
+                      <th class="text-color-white numeric-cell">
+                        Accion
+                      </th>
+                      <th class="text-color-white numeric-cell">
+                        Código
+                      </th>
+                      <th class="text-color-white numeric-cell">
+                        Descripción
+                      </th>
+                      <th class="text-color-white numeric-cell">
+                        Cantidad
+                      </th>
+                      <th class="text-color-white numeric-cell">
+                        Motivo
+                      </th>
+                      <th class="text-color-white numeric-cell">
+                        Aplica
+                      </th>
+                      <th class="text-color-white numeric-cell">
+                        Foto (antes)
+                      </th>
+                      <th class="text-color-white numeric-cell">
+                        Foto (despues)
+                      </th>
+                      <th class="text-color-white numeric-cell">
+                        Fecha
+                      </th>
+                    </tr>
+                  </thead>
+                  <div id="tabla_levantamiento_content">
+                    <tbody id="tabla_productos_a"></tbody>
+                  </div>
+                </table>
+                <div class="sentencia preloader color-grey infinite-scroll-preloader"></div>
+                <div id="message-nr"
+                  style="width: 100%;text-align: center;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 16px;"
+                  style="display: none;">
+                  <p>Sin registros</p>
+                </div>
+              </div>
+            </div>
+            <div class="block grid-resizable-demo">
+              <div class="row align-items-stretch" style="text-align: center;">
+                <div class="col-100 medium-50" style="min-width: 50px; border-style: none;">
+                  <span class="resize-handler"></span>
+                  <a href="#" onclick="actaBajaProducto(); deleteForm();" class="boton-personalizado-4">Guardar</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    on: {
+      pageInit: function () {
+        $('.preloader').remove();
+        $('.infinite-scroll-preloader').remove();
+        var id_cedula = localStorage.getItem("IdCedula");
+        
+        databaseHandler.db.transaction(
+          function (tx1) {
+            tx1.executeSql(
+              "Select * from productos where id_cedula= ?",
+              [id_cedula],
+              function (tx, results) {
+                var length = results.rows.length;
+                if (length == 0) {
+                  $("#message-nr").css("display", "block");
+                } else {
+                  for (var i = 0; i < length; i++) {
+                    var item = results.rows.item(i); 
+                    if(item.aplica ==1){
+                      var valoraplica = "Destrucción";
+                    } else{
+                      var valoraplica = "Baja";
+                    }
+                    $("#tabla_productos tbody").append("<tr id='fila" + item.id_producto + "'><td><a href='#' onclick='eliminarFilaBennetts(" + item.id_producto + ",1);' style='border: none; outline:none;'><img src='img/borrar.png' width='30px' /></a></td><td style='text-align: center;'>" + unescape(item.codigo_producto) + "</td><td style='text-align: center;'>" + unescape(item.descripcion_producto) + "</td><td style='text-align: center;'>" + unescape(item.cantidad_producto) + "</td><td style='text-align: center;'>" + unescape(item.motivo) + "</td><td style='text-align: center;'>" + valoraplica + "</td><td><img src='" + item.evidencia_foto_antes + "' width='60px' style='margin-top: 4px;'/></td><td><img src='" + item.evidencia_foto_despues + "' width='60px' style='margin-top: 4px;'/></td><td style='text-align: center;'>" + item.fecha + "</td></tr>");
+                    $("#message-nr").css("display", "none");
+                  }
+                }
+                $('.preloader').remove();
+                $('.infinite-scroll-preloader').remove();
+              },
+              function (tx, error) {
+                console.log("Error al consultar: " + error.message);
+              }
+            );
+           // console.log("Consulta correcta");
+          },
+          function (error) { },
+          function () { }
+        );
+
+
+      }
+    }
+  }
+</script>

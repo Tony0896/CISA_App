@@ -1,0 +1,231 @@
+<script>
+    // Validar si ya habia iniciado sesion
+    var IdUsuario = localStorage.getItem("id_usuario");
+    if (IdUsuario > 0){
+        localStorage.setItem("sendFlag", 0);
+        window.location.href = "menu.html";
+    }
+  </script>
+  <!DOCTYPE html>
+  <html>
+    <title>Login</title>
+    <head>
+      <link rel="stylesheet" type="text/css" href="css/util.css">
+      <link rel="stylesheet" type="text/css" href="fonts/AvantGarde.css">
+      <link rel="stylesheet" type="text/css" href="css/main.css">
+      <!-- <link rel="shortcut icon" type="image/png" href="img/favicon.png" /> -->
+      <script src="js/jquery-3.3.1.js"></script>
+      <script src="js/sweetalert.min.js"></script>
+      <script src="js/geturl.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+      <script src="js/jquery.finger.js"></script>
+      <script>
+        // Boton para regresar
+        $(document).ready(function(){
+          document.addEventListener('backbutton', function (e) {
+            app.views.main.router.back();
+        });
+        // Evento si no tiene conexion
+        document.addEventListener("offline", onOffline, false);
+        // Verificar el tipo de conexion
+        function networkInfo() {
+          var networkState = navigator.connection.type;
+          var states = {};
+          states[Connection.UNKNOWN]  = 'Unknown connection';
+          states[Connection.ETHERNET] = 'Ethernet connection';
+          states[Connection.WIFI]     = 'WiFi connection';
+          states[Connection.CELL_2G]  = 'Cell 2G connection';
+          states[Connection.CELL_3G]  = 'Cell 3G connection';
+          states[Connection.CELL_4G]  = 'Cell 4G connection';
+          states[Connection.CELL]     = 'Cell generic connection';
+          states[Connection.NONE]     = 'No network connection';
+          alert("Connection type:"+ states[networkState]);
+        }
+          // Si no tiene conexion
+          function onOffline() {
+            window.location.href = "offline.html";
+          }
+          // Validar datos de sesion
+          $("#insert").click(function(){
+            $('#preloader').html('<div class="preloader"></div>');
+            var nombre = $('#nombre').val();
+            var contra = $("#contra").val();
+            var datos = "nombre=" + nombre + "&contra=" + contra +"&insert=";
+            if($.trim(nombre).length > 0 & $.trim(contra).length > 0){
+              // $.ajax({
+              //   type: "POST",
+              //   url: "http://www.appbennetts.com/FWM2/app/validarUsuario_field.php",
+              //   data: datos,
+              //   success: function(data){
+              //     let termino = "</html>";
+              //     let posicion = data.toLowerCase().indexOf(termino.toLowerCase());
+              //     if (posicion !== -1){
+              //       swal("","No cuentas con internet!","error");
+              //       $("#preloader").fadeOut("slow");
+              //     }else {
+              //       if(data == "0"){
+              //           swal("","Usuario y/o Contraseña invalido(s).","error");
+              //           $("#preloader").fadeOut("slow");
+              //       } else if(data == "1"){
+              //         swal ("Usuario inactivo","Por favor, reportale este problema a tu supervisor","error");
+              //         $("#preloader").fadeOut("slow");
+              //       }else{
+              //         var separado = data.split("/");
+              //         var idusuario = separado[0];
+              //         var nombre = separado[1];
+              //         var apellido_paterno = separado[2];
+              //         var apellido_materno = separado[3];
+              //         var correo = separado[4];
+              //         var activo = separado[5];
+              //         var id_empresa = separado[6];
+              //         var nombre_empresa = separado[7];
+              //         var rol = separado[8];
+              //         localStorage.setItem("id_usuario", idusuario);
+              //         localStorage.setItem("nombre", nombre);
+              //         localStorage.setItem("apellido_paterno", apellido_paterno);
+              //         localStorage.setItem("apellido_materno", apellido_materno);
+              //         localStorage.setItem("correo", correo);
+              //         localStorage.setItem("activo", activo);
+              //         localStorage.setItem("id_empresa", id_empresa);
+              //         localStorage.setItem("nombre_empresa", nombre_empresa);
+              //         localStorage.setItem("rol", rol);
+                         localStorage.setItem("sendFlag", 0);
+              //         localStorage.setItem("camera", 1);
+                          window.location.href = "menu.html";
+              //       }
+              //     }
+              //   }
+              // });
+            }else{
+              //alert("Datos incompletos");
+              localStorage.setItem("nombre", "Antonio");
+              localStorage.setItem("apellido_paterno", "Cruz");
+              localStorage.setItem("apellido_materno", "Romero");
+              $("#preloader").fadeOut("slow");
+              window.location.href = "menu.html";
+            }
+          });
+  
+          $("#contra").keypress(function(event){
+            if(event.keyCode == 13){
+              $('#preloader').html('<div class="preloader"></div>');
+              var nombre = $('#nombre').val();
+              var contra = $("#contra").val();
+              var datos = "nombre=" + nombre + "&contra=" + contra +"&insert=";
+              if($.trim(nombre).length > 0 & $.trim(contra).length > 0){/*
+                $.ajax({
+                  type: "POST",
+                  url: "https://www.appbennetts.com/FWM2/app/validarUsuario_field.php",
+                  data: datos,
+                  success: function(data){
+                    let termino = "</html>";
+                    let posicion = data.toLowerCase().indexOf(termino.toLowerCase());
+                    if (posicion !== -1){
+                      swal("","No cuentas con internet!","error");
+                      $("#preloader").fadeOut("slow");
+                    }else {
+                      if(data == "0"){
+                          swal("","Usuario y/o Contraseña invalido(s).","error");
+                          $("#preloader").fadeOut("slow");
+                      } else if(data == "1"){
+                        swal ("Usuario inactivo","Por favor, reportale este problema a tu supervisor","error");
+                        $("#preloader").fadeOut("slow");
+                      }else{
+                        // var separado = data.split("/");
+                        // var idusuario = separado[0];
+                        // var nombre = separado[1];
+                        // var apellido_paterno = separado[2];
+                        // var apellido_materno = separado[3];
+                        // var correo = separado[4];
+                        // var activo = separado[5];
+                        // var id_empresa = separado[6];
+                        // var nombre_empresa = separado[7];
+                        // var rol = separado[8];
+                        // localStorage.setItem("id_usuario", idusuario);
+                        // localStorage.setItem("nombre", nombre);
+                        // localStorage.setItem("apellido_paterno", apellido_paterno);
+                        // localStorage.setItem("apellido_materno", apellido_materno);
+                        // localStorage.setItem("correo", correo);
+                        // localStorage.setItem("activo", activo);
+                        // localStorage.setItem("id_empresa", id_empresa);
+                        // localStorage.setItem("nombre_empresa", nombre_empresa);
+                        // localStorage.setItem("rol", rol);
+                        localStorage.setItem("sendFlag", 0);
+                        // localStorage.setItem("camera", 1);
+                        localStorage.setItem("nombre", "Antonio");
+                        localStorage.setItem("apellido_paterno", "Cruz");
+                        localStorage.setItem("apellido_materno", "Romero");
+                        $("#preloader").fadeOut("slow");
+                        window.location.href = "menu.html";
+                      }
+                    }
+                  }
+                });*/
+              }else{
+                alert("Datos incompletos");
+                $("#preloader").fadeOut("slow");
+              }
+            }
+          });
+        });
+      </script>
+      <script type="text/javascript" src="cordova.js"></script>
+    </head>
+    <body>
+      <!-- <nav class="fijada top-left">
+         <img src="img/field.png" height="41.38px" alt="Logo Field">
+      </nav> -->
+      <div class="container-login100" >
+        <div class="wrap-login100">
+          <!-- Preloader -->
+          <div id="preloader"></div>
+          <div style="text-align: center;padding-bottom: 25px;width: 100%;padding-top: 25px;">
+            <img src="img/logo1.png" height="100px" alt="Logo CISA">
+          </div>
+          <!-- Formulario de login -->
+          <form  method="post" class="login100-form validate-form" id="formulario">
+
+            <div class="wrap-input100 validate-input m-b-18" >
+              <select id="empresa" class="input100" style="height: 59px;border-width: 0;">
+                <option value="">Empresas</option>
+                <option value="">Empresa 1</option>
+                <option value="">Empresa 2</option>
+              </select>
+            </div>
+
+            <div class="wrap-input100 validate-input m-b-18" >
+              <input class="input100" type="text" name="nombre" id="nombre" placeholder="Usuario" required>
+            </div>
+  
+            <div class="wrap-input100 validate-input m-b-18" >
+              <div style="position:relative">
+                <input class="input100" type="password" name="contra" id="contra" placeholder="Contraseña" required >
+                <i style="position: absolute;top: 30%;right: 7px;font-size: 29px;color: gray;" class="bi bi-eye-slash" id="togglePassword"></i>
+              </div>
+            </div>
+  
+            <div class="container-login100-form-btn">
+              <br/>
+              <a id="insert"  class="login100-form-btn" style="text-decoration: none;">Ingresar</a>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- <nav class="footer">
+        <p>Bienvenido</p>
+      </nav> -->
+      <script>
+        $( "#togglePassword" ).click(function() {
+          if($("#contra").get(0).type == "password"){
+            $("#contra").attr("type","text");
+            $("#togglePassword").removeClass("bi-eye-slash");
+            $("#togglePassword").addClass("bi-eye");
+          } else {
+            $("#contra").attr("type","password");
+            $("#togglePassword").removeClass("bi-eye");
+            $("#togglePassword").addClass("bi-eye-slash");
+          }
+        });
+      </script>
+    </body>
+  </html>

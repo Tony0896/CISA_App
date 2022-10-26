@@ -1,0 +1,355 @@
+<template>
+    <div class="page">
+        <div class="navbar" style="background-color: #063E7F;height: 52px;">
+            <div style="text-align: center;"><img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field"></div>
+            <div class="navbar-inner sliding" style="height: 52px;">
+                <div class="left">
+                    <style>
+                        .nav-text-regresar{
+                            color: #ffffff;
+                            border: 2px solid white;
+                            padding: 0 10px;
+                            border-radius: 7px;
+                            font-size: 14px;
+                        }
+                    </style>
+                    <a href="#" class="link back" onclick="regresar();" style="margin-left: 5px;">
+                        <span class="nav-text-regresar">Regresar</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div id="nointernet-page" style="display:none;text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                <img src="img/nosignal.svg" width="60%" style="margin-top: 140px;">
+                <div style="text-align: left;">
+                    <h2 style="margin: 50px 0 0 15px;text-align: left;"><b>¡VAYA!</b></h2>
+                    <h2 style="margin: 0 0 0 15px;text-align: left;"><b>No tienes internet.</b></h2>
+                    <h4 style="margin: 0 0 0 15px;text-align: left;">Para realizar esta consulta es necesario tener una conexion.</h>
+                </div>
+            </div>
+            <div id="content-page" style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                <br>
+                <h2 style="color:#00A7B5;font-family: 'ITC Avant Garde Gothic';font-size: 24px;margin-top: 27px;">Programa de visitas</h2>
+                <!-- Tabla de mes y año -->
+                <table id="maac" align="center" style="width:94%;">
+                  <tr>
+                    <td style="color: #00A7B5; width:20%;">Mes:</td>
+                    <td style="width:40%;"><select name="month" id="month">
+                          <option value="">Seleccione un mes...</option>
+                        </select></td>
+                    <td style="color: #00A7B5; width:20%;">Año:</td>
+                    <td style="width:20%;"><select name="year" id="year">
+                          <option value="">Seleccione un año...</option>
+                        </select></td>
+                  </tr>
+                </table>
+                <table id="falta" align="center" style="width: 100%;">
+                    <th colspan="3" style="background-color: #00A7B5;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 14px;color: white;padding-top: 8px;">RESUMEN TOTAL</th>
+                    <tr style="background-color: #063E7F;color: white;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 13px;">
+                        <!-- Cambio archivo mejora -->
+                        <td style="padding-top: 5px;font-size: 14px;">Total pogramadas</td>
+                        <td style="padding-top: 5px;font-size: 14px;">Total realizadas</td>
+                        <td style="padding-top: 5px;font-size: 14px;">Visitas faltantes</td>
+                    </tr>
+                    <tbody id="faltantes" style="background-color: #F1F1F1;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 12px;">
+                        <tr>
+                            <td id="TotalC" style="font-size:16px"></td>
+                            <td id="RelizadasC" style="font-size:16px"></td>
+                            <td id="FaltantesC" style="font-size:16px"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="page-content infinite-scroll-content infinite-scroll-top" style="padding: 0;">
+                    <style type="text/css">
+                        #encabezado1{background-color: #063E7F;font-family: 'ITC Avant Garde Gothic';font-size: 13px;color: white; font-weight: bold;}
+                        #encabezado2{font-weight: bold;}
+                        #encabezado3{background-color: #063E7F;font-family: 'ITC Avant Garde Gothic';font-size: 13px;   color: white; font-weight: bold;}
+                        #encabezado4{background-color: #063E7F;font-family: 'ITC Avant Garde Gothic';font-size: 13px;color: white; font-weight: bold;}
+                        .rowing-content{
+                            width: 50%;
+                            white-space: none !important;
+                            flex-shrink: 0;
+                            display: flex;
+                            font-size: var(--f7-list-item-after-font-size);
+                            font-weight: var(--f7-list-item-after-font-weight);
+                            color: var(--f7-list-item-after-text-color);
+                            line-height: var(--f7-list-item-after-line-height);
+                            margin-left: 10px;
+                            text-align: left
+                        }
+                    </style>
+                    <div class="list sortable">
+                        <ul id="rutas">
+                            <li>
+                                <div id="encabezado1" class='item-content'>
+                                    <div class='item-inner'>
+                                        <div id="encabezado2" class='item-title' style="font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cliente</div>
+                                        <div id="encabezado3" class='item-after' style="font-size: 14px;">Programadas&nbsp;&nbsp;Realizadas</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="preloader infinite-scroll-preloader"></div>
+                    <div id="preloader2"></div>
+                </div>
+        </div>
+    </div>
+</template>
+<script>
+    return {
+        on: {
+            pageInit: function (e, page) {
+                var IdU = localStorage.getItem("id_usuario");
+                var id_empresa = localStorage.getItem("id_empresa");
+                var $$ = Dom7;
+                var allowInfinite = true;
+                var lastItemIndex = $$('.list sortable li').length;
+                var maxItems = 200;
+                var itemsPerLoad = 10;
+                $$('.infinite-scroll-content').on('infinite', function () {
+                    if (!allowInfinite) return;
+                    allowInfinite = false;
+                    setTimeout(function () {
+                        allowInfinite = true;
+                        if (lastItemIndex >= maxItems) {
+                            app.infiniteScroll.destroy('.infinite-scroll-content');
+                            $$('.infinite-scroll-preloader').remove();
+                            return;
+                        }
+                        var html ='';
+                        for (var i = lastItemIndex + 1; i <= lastItemIndex + itemsPerLoad; i++) {}
+                        $$('#rutas').append(html);
+                        $('.preloader').remove();
+                        $('.infinite-scroll-preloader').remove();
+                        lastItemIndex = $$('.list sortable li').length;
+                    }, 1000);
+                });
+                app.request.get('http://www.appbennett.com/FWM2/app/RutasResumenFWM.php', { IdUsuario: IdU,id_empresa:id_empresa}, function (data) {
+                    var content = JSON.parse(data);
+                    if(!data || data == "null"){
+                        $('#TotalC').append(0);
+                        $('#RelizadasC').append(0);
+                        $('#FaltantesC').append(0);
+                        $('#rutas').append("<li style='font-size:17px;margin-top:10px'>No hay datos para mostrar</li>");
+                        $('.preloader').remove();
+                    } else {
+                        var totalreg = content.length;
+                        var totalreg1 = totalreg - 1;
+                        $('#TotalC').append(content[totalreg1].totprogramadas);
+                        $('#RelizadasC').append(content[totalreg1].totrealizadas);
+                        $('#FaltantesC').append(content[totalreg1].totfaltantes);
+
+                        for(var e=0; e < content.length; e++){
+                            var res = content[e].NoVisitasProgramadas / 2;
+                            var resultado = Math.round(res);
+                            if(content[e].programadas == content[e].realizadas || content[e].realizadas > content[e].programadas){
+                                //Verde
+                                $('#rutas').append("<li style='background-color:#F1F1F1'><div class='item-content' style='padding:0;'><div class='item-inner'><div class='rowing-content'><strong style='font-size:12px;'><a onclick='clientSelected(\""+content[e].id_cliente+"\")'>" + content[e].id_cliente + "</a></strong></div><div class='item-after' style='height: 100%;'><label style='font-size: 12px !important;background-color:#00BB00;color:white; font-weight: 900;display: inline-flex;border-collapse:collapse; align-items:center;justify-content: center;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].programadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].realizadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div></div></div></li>");
+                            } else if(content[e].realizadas == 0){
+                                //Rojo
+                                $('#rutas').append("<li style='background-color:#F1F1F1'><div class='item-content' style='padding:0;'><div class='item-inner'><div class='rowing-content'><strong style='font-size:12px;'><a onclick='clientSelected(\""+content[e].id_cliente+"\")'>" + content[e].id_cliente+"</a></strong></div><div class='item-after' style='height: 100%;'><label style='font-size: 12px !important;background-color:#C70000;color:white;font-weight: 900;display: inline-flex;border-collapse:collapse; align-items:center;justify-content: center;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].programadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].realizadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div></div></div></li>");
+                            }else{
+                                // Amarillo
+                                $('#rutas').append("<li style='background-color:#F1F1F1'><div class='item-content' style='padding:0;'><div class='item-inner'><div class='rowing-content'><strong style='font-size:12px;'><a onclick='clientSelected(\""+content[e].id_cliente+"\")'>" + content[e].id_cliente+"</a></strong></div><div class='item-after' style='height: 100%;'><label style='font-size: 12px !important;background-color:#DDBB00;color:white;font-weight: 900;display: inline-flex;border-collapse:collapse; align-items:center;justify-content: center;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].programadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].realizadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div></div></div></li>");
+                            }
+                            $('.preloader').remove();
+                            $('.infinite-scroll-preloader').remove();
+
+
+                        }
+
+                    }
+                },function (xhr) {
+                    $('.preloader').remove();
+                    $("#content-page").css('display','none');
+                    $("#nointernet-page").css('display','block');
+                });
+                //consulta de los meses
+                var d = new Date();
+                var mactual = d.getMonth(); 
+                var m = 0;
+                var monthArray = new Array();
+                monthArray[0] = "Enero";
+                monthArray[1] = "Febrero";
+                monthArray[2] = "Marzo";
+                monthArray[3] = "Abril";
+                monthArray[4] = "Mayo";
+                monthArray[5] = "Junio";
+                monthArray[6] = "Julio";
+                monthArray[7] = "Agosto";
+                monthArray[8] = "Septiembre";
+                monthArray[9] = "Octubre";
+                monthArray[10] = "Noviembre";
+                monthArray[11] = "Diciembre";
+                for(m = 0; m <= 11; m++) {
+                    var optn = document.createElement("OPTION");
+                    optn.text = monthArray[m];
+                    optn.value = (m+1);
+                    if ( m == mactual) {
+                        optn.selected = true;
+                    }
+                    document.getElementById('month').options.add(optn);
+                }
+                //consulta de los años
+                var y = 0;
+                var yactual = new Date().getFullYear();
+                for(y = 2000; y <= 2040; y++) {
+                var optn = document.createElement("OPTION");
+                optn.text = y;
+                optn.value = y;
+                if (y == yactual) {
+                    optn.selected = true;
+                }
+                document.getElementById('year').options.add(optn);
+                }
+                //función on change de consulta por meses
+                var IdU = localStorage.getItem("id_usuario");
+                var id_empresa = localStorage.getItem("id_empresa");
+                var $$ = Dom7;
+                var allowInfinite = true;
+                var lastItemIndex = $$('.list sortable li').length;
+                var maxItems = 200;
+                var itemsPerLoad = 10;
+                $('#month').on('change', function(){
+                  var mes_excel = $("#month").val();
+                  var year_excel = $("#year").val();
+                  $('#TotalC').empty();
+                  $('#RelizadasC').empty();
+                  $('#FaltantesC').empty();
+                  $('#rutas').empty();
+                  $('#rutas').append("<li><div id='encabezado1' class='item-content'><div class='item-inner'><div id='encabezado2' class='item-title' style='font-size: 14px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cliente</div><div id='encabezado3' class='item-after' style='font-size: 14px;'>Programadas&nbsp;&nbsp;Realizadas</div></div></div></li>");
+                  $$('.infinite-scroll-content').on('infinite', function () {
+                      if (!allowInfinite) return;
+                      allowInfinite = false;
+                      setTimeout(function () {
+                          allowInfinite = true;
+                          if (lastItemIndex >= maxItems) {
+                              app.infiniteScroll.destroy('.infinite-scroll-content');
+                              $$('.infinite-scroll-preloader').remove();
+                              return;
+                          }
+                          var html ='';
+                          for (var i = lastItemIndex + 1; i <= lastItemIndex + itemsPerLoad; i++) {}
+                          $$('#rutas').append(html);
+                          $('.preloader').remove();
+                          $('.infinite-scroll-preloader').remove();
+                          lastItemIndex = $$('.list sortable li').length;
+                      }, 1000);
+                  });
+                  app.request.get('http://www.appbennett.com/FWM2/app/RutasResumenFWM.php', { IdUsuario: IdU, mes_excel: mes_excel, year_excel: year_excel, id_empresa:id_empresa}, function (data) {
+                      var content = JSON.parse(data);
+                      if(!data || data == "null"){
+                          $('#TotalC').append(0);
+                          $('#RelizadasC').append(0);
+                          $('#FaltantesC').append(0);
+                          $('#rutas').append("<li style='font-size:17px;margin-top:10px'>No hay datos para mostrar</li>");
+                          $('.preloader').remove();
+                      } else {
+                          var totalreg = content.length;
+                          var totalreg1 = totalreg - 1;
+                          $('#TotalC').append(content[totalreg1].totprogramadas);
+                          $('#RelizadasC').append(content[totalreg1].totrealizadas);
+                          $('#FaltantesC').append(content[totalreg1].totfaltantes);
+
+                          for(var e=0; e < content.length; e++){
+                              var res = content[e].NoVisitasProgramadas / 2;
+                              var resultado = Math.round(res);
+                              if(content[e].programadas == content[e].realizadas || content[e].realizadas > content[e].programadas){
+                                //Verde
+                                $('#rutas').append("<li style='background-color:#F1F1F1'><div class='item-content' style='padding:0;'><div class='item-inner'><div class='rowing-content'><strong style='font-size:12px;'><a onclick='clientSelected(\""+content[e].id_cliente+"\")'>" + content[e].id_cliente + "</a></strong></div><div class='item-after' style='height: 100%;'><label style='font-size: 12px !important;background-color:#00BB00;color:white; font-weight: 900;display: inline-flex;border-collapse:collapse; align-items:center;justify-content: center;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].programadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].realizadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div></div></div></li>");
+                                //Rojo
+                                } else if(content[e].realizadas == 0){
+                                    $('#rutas').append("<li style='background-color:#F1F1F1'><div class='item-content' style='padding:0;'><div class='item-inner'><div class='rowing-content'><strong style='font-size:12px;'><a onclick='clientSelected(\""+content[e].id_cliente+"\")'>" + content[e].id_cliente+"</a></strong></div><div class='item-after' style='height: 100%;'><label style='font-size: 12px !important;background-color:#C70000;color:white;font-weight: 900;display: inline-flex;border-collapse:collapse; align-items:center;justify-content: center;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].programadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].realizadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div></div></div></li>");
+                                // Amarillo
+                                }else{
+                                    $('#rutas').append("<li style='background-color:#F1F1F1'><div class='item-content' style='padding:0;'><div class='item-inner'><div class='rowing-content'><strong style='font-size:12px;'><a onclick='clientSelected(\""+content[e].id_cliente+"\")'>" + content[e].id_cliente+"</a></strong></div><div class='item-after' style='height: 100%;'><label style='font-size: 12px !important;background-color:#DDBB00;color:white;font-weight: 900;display: inline-flex;border-collapse:collapse; align-items:center;justify-content: center;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].programadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].realizadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div></div></div></li>");
+                                }
+                              $('.preloader').remove();
+                              $('.infinite-scroll-preloader').remove();
+                          }
+                      }
+                  },function (xhr) {
+                      $('.preloader').remove();
+                      $("#content-page").css('display','none');
+                      $("#nointernet-page").css('display','block');
+                  });
+                });
+                //función on change de consulta por años
+                var IdU = localStorage.getItem("id_usuario");
+                var id_empresa = localStorage.getItem("id_empresa");
+                var $$ = Dom7;
+                var allowInfinite = true;
+                var lastItemIndex = $$('.list sortable li').length;
+                var maxItems = 200;
+                var itemsPerLoad = 10;
+                $('#year').on('change', function(){
+                  var mes_excel = $("#month").val();
+                  var year_excel = $("#year").val();
+                  $('#TotalC').empty();
+                  $('#RelizadasC').empty();
+                  $('#FaltantesC').empty();
+                  $('#rutas').empty();
+                  $('#rutas').append("<li><div id='encabezado1' class='item-content'><div class='item-inner'><div id='encabezado2' class='item-title' style='font-size: 14px;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cliente</div><div id='encabezado3' class='item-after' style='font-size: 14px;'>Programadas&nbsp;&nbsp;Realizadas</div></div></div></li>");
+                  $$('.infinite-scroll-content').on('infinite', function () {
+                      if (!allowInfinite) return;
+                      allowInfinite = false;
+                      setTimeout(function () {
+                          allowInfinite = true;
+                          if (lastItemIndex >= maxItems) {
+                              app.infiniteScroll.destroy('.infinite-scroll-content');
+                              $$('.infinite-scroll-preloader').remove();
+                              return;
+                          }
+                          var html ='';
+                          for (var i = lastItemIndex + 1; i <= lastItemIndex + itemsPerLoad; i++) {}
+                          $$('#rutas').append(html);
+                          $('.preloader').remove();
+                          $('.infinite-scroll-preloader').remove();
+                          lastItemIndex = $$('.list sortable li').length;
+                      }, 1000);
+                  });
+                  app.request.get('http://www.appbennett.com/FWM2/app/RutasResumenFWM.php', { IdUsuario: IdU, mes_excel: mes_excel, year_excel: year_excel, id_empresa:id_empresa}, function (data) {
+                      var content = JSON.parse(data);
+                      if(!data || data == "null"){
+                          $('#TotalC').append(0);
+                          $('#RelizadasC').append(0);
+                          $('#FaltantesC').append(0);
+                          $('#rutas').append("<li style='font-size:17px;margin-top:10px'>No hay datos para mostrar</li>");
+                          $('.preloader').remove();
+                      } else {
+                          var totalreg = content.length;
+                          var totalreg1 = totalreg - 1;
+                          $('#TotalC').append(content[totalreg1].totprogramadas);
+                          $('#RelizadasC').append(content[totalreg1].totrealizadas);
+                          $('#FaltantesC').append(content[totalreg1].totfaltantes);
+
+                          for(var e=0; e < content.length; e++){
+                              var res = content[e].NoVisitasProgramadas / 2;
+                              var resultado = Math.round(res);
+                              if(content[e].programadas == content[e].realizadas || content[e].realizadas > content[e].programadas){
+                                //Verde
+                                $('#rutas').append("<li style='background-color:#F1F1F1'><div class='item-content' style='padding:0;'><div class='item-inner'><div class='rowing-content'><strong style='font-size:12px;'><a onclick='clientSelected(\""+content[e].id_cliente+"\")'>" + content[e].id_cliente + "</a></strong></div><div class='item-after' style='height: 100%;'><label style='font-size: 12px !important;background-color:#00BB00;color:white; font-weight: 900;display: inline-flex;border-collapse:collapse; align-items:center;justify-content: center;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].programadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].realizadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div></div></div></li>");
+                                //Rojo
+                                } else if(content[e].realizadas == 0){
+                                    $('#rutas').append("<li style='background-color:#F1F1F1'><div class='item-content' style='padding:0;'><div class='item-inner'><div class='rowing-content'><strong style='font-size:12px;'><a onclick='clientSelected(\""+content[e].id_cliente+"\")'>" + content[e].id_cliente+"</a></strong></div><div class='item-after' style='height: 100%;'><label style='font-size: 12px !important;background-color:#C70000;color:white;font-weight: 900;display: inline-flex;border-collapse:collapse; align-items:center;justify-content: center;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].programadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].realizadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div></div></div></li>");
+                                // Amarillo
+                                }else{
+                                    $('#rutas').append("<li style='background-color:#F1F1F1'><div class='item-content' style='padding:0;'><div class='item-inner'><div class='rowing-content'><strong style='font-size:12px;'><a onclick='clientSelected(\""+content[e].id_cliente+"\")'>" + content[e].id_cliente+"</a></strong></div><div class='item-after' style='height: 100%;'><label style='font-size: 12px !important;background-color:#DDBB00;color:white;font-weight: 900;display: inline-flex;border-collapse:collapse; align-items:center;justify-content: center;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].programadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+content[e].realizadas+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></div></div></div></li>");
+                                }
+                              $('.preloader').remove();
+                              $('.infinite-scroll-preloader').remove();
+                          }
+                      }
+                  },function (xhr) {
+                      $('.preloader').remove();
+                      $("#content-page").css('display','none');
+                      $("#nointernet-page").css('display','block');
+                  });
+                });
+            }
+        }
+    }
+</script>

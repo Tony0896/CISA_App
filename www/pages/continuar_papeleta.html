@@ -1,0 +1,133 @@
+<template>
+    <div class="page">
+        <div class="navbar" style="background-color: #063E7F;height: 52px;">
+            <div style="text-align: center;"><img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field"></div>
+            <div class="navbar-inner sliding" style="height: 52px;">
+                <div class="left">
+                    <style>            
+                        .nav-text-regresar{
+                            color: #ffffff;
+                            border: 2px solid white;
+                            padding: 0 10px;
+                            border-radius: 7px;
+                            font-size: 14px;
+                        }
+                    </style>
+                    <a href="#" class="link back" onclick="regresar();" style="margin-left: 5px;">
+                        <span class="nav-text-regresar">Regresar</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <style>
+            .continuar-cedula{
+                text-align: left;
+                background-color: #00A7B5;
+                color:white;
+                margin: 46px 0 15px 0;
+                width: 94%;
+                padding: 7px 0 7px 22px;
+                font-size: 16px;
+                border: 1px solid white;
+            }
+            li:nth-child(2n) {
+                background-color: #1896A726;
+            }
+        </style>
+        <div class="page-content">
+            <div style="text-align: center;margin-top: 46px;justify-content:center; margin-right:auto; margin-left:auto; width: 99%;" id="continuar-container"></div>
+        </div>
+    </div> 
+</template>
+<script>
+    return {
+        on: {
+            pageInit: function (e, page) {
+                var id_usuario = localStorage.getItem("id_usuario");
+                var estatus = 0;
+                    $('#continuar-container').append(`
+                        <h2 style="color:#00A7B5;">Continuar Papeletas</h2>
+                        <div style="text-align: left;">        
+                            <div class="item-inner">
+                                <div class="block-title continuar-cedula">Papeletas Pendientes</div>
+                            </div>
+                        </div>            
+                        <div class="list sortable" id="papeletas" style="margin-top: 0;margin-bottom: 0;">
+                            <ul id="cedpendientes" style="background-color:white;margin-top: 0;margin-bottom: 0;">
+                            </ul>
+                        </div>
+                        <div style="text-align: left;">        
+                            <div class="item-inner">
+                                <div class="block-title continuar-cedula">Papeletas Enviadas</div>
+                            </div>
+                        </div>            
+                        <div class="list sortable" id="papeletas" style="margin-top: 0;margin-bottom: 0;">
+                            <ul id="cedpendientesen" style="background-color:white;margin-top: 0;margin-bottom: 0;">
+                            </ul>
+                        </div>
+                    `);
+                    databaseHandler.db.transaction(
+                        function(tx){
+                            tx.executeSql("Select d.id_cedula,c.tipo_cedula,c.nombre_cliente from visita_servInd d INNER JOIN cedulas_general c ON d.id_cedula = c.id_cedula where d.estatus_ced = 3 AND c.estatus = 3",
+                            [],
+                                function(tx, results){
+                                    var length = results.rows.length;
+                                    for(var i = 0; i< length; i++){
+                                        var item2 = results.rows.item(i);
+                                        $("#cedpendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circulo.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'>" + item2.nombre_cliente + "</div><div class='item-after'><a href='#' onclick='continuarPapeleta(`" + item2.id_cedula + "`,1);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarRegPapeleta(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
+                                    }
+                                },
+                                function(tx, error){
+                                    console.log("Error al mostrar datos cedula: " + error.message);
+                                }
+                            );
+                        },
+                        function(error){console.log("Error al mostrar datos cedula: " + error.message);},
+                        function(){}
+                    );
+                    //heb
+                    databaseHandler.db.transaction(
+                        function(tx){
+                            tx.executeSql("SELECT * FROM datos_eq d INNER JOIN cedulas_general c ON d.id_cedula = c.id_cedula where papeleta = 3",
+                            [],
+                                function(tx, results){
+                                    var length = results.rows.length;
+                                    for(var i = 0; i< length; i++){
+                                        var item2 = results.rows.item(i);
+                                        $("#cedpendientes").append("<li id='conc"+item2.id_datos+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circulo.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'>" + item2.nombre_cliente + " - "+item2.modelo +"</div><div class='item-after'><a href='#' onclick='continuarPapeleta(`" + item2.id_datos + "`,2);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarRegPapeleta(" + item2.id_datos+ ",`heb`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
+                                    }
+                                },
+                                function(tx, error){
+                                    console.log("Error al mostrar datos cedula: " + error.message);
+                                }
+                            );
+                        },
+                        function(error){console.log("Error al mostrar datos cedula: " + error.message);},
+                        function(){}
+                    );
+                    //heb
+                        databaseHandler.db.transaction(
+                            function(tx){
+                                tx.executeSql("Select d.id_cedula,c.tipo_cedula,c.nombre_cliente,d.fecha_papeleta from visita_servInd d INNER JOIN cedulas_general c ON d.id_cedula = c.id_cedula where d.estatus_ced = 5 AND c.estatus = 3",
+                                [],
+                                    function(tx, results){
+                                        var length = results.rows.length;
+                                        for(var i = 0; i< length; i++){
+                                            var item2 = results.rows.item(i);
+                                            fechac= formatDate(item2.fecha_papeleta);
+                                            $("#cedpendientesen").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloVerde.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'>" + item2.nombre_cliente + " | "+fechac+"</div></div></div></li>");
+                                        }
+                                    },
+                                    function(tx, error){
+                                        console.log("Error al mostrar datos cedula: " + error.message);
+                                    }
+                                );
+                            },
+                            function(error){console.log("Error al mostrar datos cedula: " + error.message);},
+                            function(){}
+                        );
+                        
+            }
+        }
+    }
+</script>

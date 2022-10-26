@@ -1,0 +1,112 @@
+<template>
+    <div class="page">
+        <div class="navbar" style="background-color: #063E7F;height: 52px;">
+            <div style="text-align: center;"><img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field"></div>
+            <div class="navbar-inner sliding" style="height: 52px;">
+                <div class="left">
+                    <div class="left">
+                        <style>            
+                            .nav-text-regresar{
+                                color: #ffffff;
+                                border: 2px solid white;
+                                padding: 0 10px;
+                                border-radius: 7px;
+                                font-size: 14px;
+                            }
+                          </style>
+                        <a href="#" class="link back" style="margin-left: 5px;">
+                            <span class="nav-text-regresar">Regresar</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div id="nointernet-page" style="display:none;text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                <img src="img/nosignal.svg" width="60%" style="margin-top: 140px;">
+                <div style="text-align: left;">
+                    <h2 style="margin: 50px 0 0 15px;text-align: left;"><b>¡VAYA!</b></h2>
+                    <h2 style="margin: 0 0 0 15px;text-align: left;"><b>No tienes internet.</b></h2>
+                    <h4 style="margin: 0 0 0 15px;text-align: left;">Para realizar esta consulta es necesario tener una conexion.</h>
+                </div>
+            </div>
+            <div id="content-page" style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                <br><br>
+                <h2 style="color:#00A7B5;font-size: 24px;margin-top: 27px;">Tablero de calificaciones <br> de clientes</h2>
+            <div class = "row" style="margin-top: 30px;">
+                <div class="col-md-6">
+                    <h2 style="color: #505759;">Resultados de satisfacci&oacute;n</h2>
+                    <div class="preloader infinite-scroll-preloader"></div>
+                    <div id="mysecondchart" style="height: 250px;display: none;" >
+                        <center><span style="color:#a1a1a1;font-size: 9pt;text-align: justify;">Estrellas</span></center>
+                    </div>
+                    <style>
+                        #calificacion-cedulas-tablero{
+                            color: #00A7B5;
+                        }
+                    </style>
+                    <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                        <br><br>
+                        <h2 id="calificacion-text" style="display:none;color:#063E7F;font-size: 24px;margin-top: 27px;">Calificación: <span id="calificacion-cedulas-tablero" style="color: #00A7B5;"></span></h2>
+                    </div>
+
+                    <script type="text/javascript">
+                        var IdUsuario = localStorage.getItem("id_usuario");
+
+                        app.request.get("http://www.appbennett.com/FWM2/app/EvaluacionFWM.php",{IdUsuario: IdUsuario}, function (data) {
+                                var content = JSON.parse(data);
+                                var uno = 0;
+                                var dos = 0;
+                                var tres = 0;
+                                var cuatro = 0;
+                                var cinco = 0;
+                                $('.preloader').remove();
+                                $('#mysecondchart').css('display','block');
+                                for(var i=0; i < content.length; i++){
+                                    uno = content[0].Total;
+                                    dos = content[1].Total;
+                                    tres = content[2].Total;
+                                    cuatro = content[3].Total;
+                                    cinco  = content[4].Total;
+                                }
+                                var total = (parseInt(uno) + parseInt(dos) + parseInt(tres) + parseInt(cuatro) + parseInt(cinco));
+                                var granTotal = total * 5;
+                                var unoTotal = uno * 1;
+                                var dosTotal = dos * 2;
+                                var tresTotal = tres * 3;
+                                var cuatroTotal = cuatro * 4;
+                                var cincoTotal = cinco * 5;
+                                var calificacion = ((unoTotal + dosTotal + tresTotal + cuatroTotal + cincoTotal) / granTotal ) * 10;
+                                var completa = calificacion.toFixed(20);
+                                document.getElementById("calificacion-text").style.display="block";
+                                document.getElementById("calificacion-cedulas-tablero").innerText = completa.slice(0, -18);
+                                var score = 
+                                Morris.Bar({
+                                  element: 'mysecondchart',
+                                  data: [
+                                    { Cedulas: '1 estrella', Evaluacion: uno},
+                                    { Cedulas: '2 estrellas', Evaluacion: dos},
+                                    { Cedulas: '3 estrellas', Evaluacion: tres},
+                                    { Cedulas: '4 estrellas', Evaluacion: cuatro},
+                                    { Cedulas: '5 estrellas', Evaluacion: cinco}
+                                  ],
+                                  xkey: 'Cedulas',
+                                  ykeys: ['Evaluacion'],
+                                  labels: ['Cedulas'],
+                                  xLabelMargin: 0,
+                                  barShape: 'soft',
+                                });
+                        },function (xhr) {
+                            $('.preloader').remove();
+                            $("#content-page").css('display','none');
+                            $("#nointernet-page").css('display','block');
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</template>
+

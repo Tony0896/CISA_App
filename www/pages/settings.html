@@ -1,0 +1,103 @@
+<template>
+    <div class="page">
+        <div class="navbar" style="background-color: #063E7F;height: 52px;">
+            <div style="text-align: center;"><img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field"></div>
+            <div class="navbar-inner sliding" style="height: 52px;">
+                <div class="left">
+                    <style>            
+                        .nav-text-regresar{
+                            color: #ffffff;
+                            border: 2px solid white;
+                            padding: 0 10px;
+                            border-radius: 7px;
+                            font-size: 14px;
+                        }
+                    </style>
+                    <a href="#" class="link back" onclick="regresar();" style="margin-left: 5px;">
+                        <span class="nav-text-regresar">Regresar</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div style="text-align: center; margin-top: 46px; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                <div style="text-align: center;">        
+                    <div class="item-inner">
+                        <div class="block-title">Configuraciones</div>
+                    </div>
+                </div>
+                <div class="list sortable" id="cedpendientes" style="background-color:white;margin-top: 0;margin-bottom: 0;">
+                    <ul id="bandeja" style="background-color: white;">
+                        <li>
+                            <div class='item-content' style="border-bottom: inset;">
+                                <div class='item-inner'>
+                                    <div class='item-title'><b>Camara:</b></div>
+                                </div>
+                            </div><div class='item-content'>
+                                <div class='item-inner'>
+                                    <div class='item-title'>Camara Nativa</div>
+                                    <div class='item-after'>
+                                        <input type="radio" id="config1" onclick="checkStatus(this.id),changeCamera(this.id)" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='item-content' style="border-bottom: inset;">
+                                <div class='item-inner'>
+                                    <div class='item-title'>Camara Field</div>
+                                    <div class='item-after'>
+                                        <input type="radio" id="config0" onclick="checkStatus(this.id),changeCamera(this.id)" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='item-content' style="border-bottom: inset;">
+                                <div class='item-inner'>
+                                    <div class='item-title'><b>Programa de visitas:</b></div>
+                                </div>
+                            </div><div class='item-content'>
+                                <div class='item-inner'>
+                                    <div class='item-title'>Vista Calendario</div>
+                                    <div class='item-after'>
+                                        <input type="radio" id="configProgra1" onclick="checkStatus(this.id),changeProgram(this.id)" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='item-content' style="border-bottom: inset;">
+                                <div class='item-inner'>
+                                    <div class='item-title'>Vista Resumen</div>
+                                    <div class='item-after'>
+                                        <input type="radio" id="configProgra0" onclick="checkStatus(this.id),changeProgram(this.id)" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class='sortable-handler'></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="fwm-delete-data-container">
+                <a class="item-content item-link entrar principalButton fwm-detelete-data-button" href="#" onclick="DeleteDatos();"><p style="margin: 0;">Eliminar datos de la app</p></a>
+            </div>
+        </div>
+    </div> 
+</template>
+<script>
+    return {
+        on: {
+            pageInit: function (e, page) {
+                var camera = localStorage.getItem("camera");
+                if(camera == "0"){
+                    $("#config0").prop("checked", true);
+                } else {
+                    $("#config1").prop("checked", true);
+                }
+                var programa = localStorage.getItem("programa");
+                if(programa == "0"){
+                    $("#configProgra0").prop("checked", true);
+                } else {
+                    $("#configProgra1").prop("checked", true);
+                }
+            }
+        }
+    }
+</script>

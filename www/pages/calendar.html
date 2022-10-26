@@ -1,0 +1,544 @@
+<template>
+    <div class="page">
+        <div class="navbar" style="background-color: #063E7F;height: 52px;">
+            <div style="text-align: center;"><img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field"></div>
+            <div class="navbar-inner sliding" style="height: 52px;">
+                <div class="left">
+                    <a href="#" class="link back" onclick="regresar();" style="margin-left: 5px;">
+                        <span class="nav-text-regresar">Regresar</span>
+                    </a>
+                </div>
+                <div class="" id="buscador" style="margin-top: 5px;display: none;">
+                    <a href="#" onclick="buscadorSMC(3);"  style="margin-left: 245px;margin-top: 10px;">
+                        <span ><i class="material-icons md-light" style="color: #ffffff;transform: scale(1.2);">search</i></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page-content">
+            <div id="nointernet-page" style="display:none;text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                <img src="img/nosignal.svg" width="60%" style="margin-top: 140px;">
+                <div style="text-align: left;">
+                    <h2 style="margin: 50px 0 0 15px;text-align: left;"><b>¡VAYA!</b></h2>
+                    <h2 style="margin: 0 0 0 15px;text-align: left;"><b>No tienes internet.</b></h2>
+                    <h4 style="margin: 0 0 0 15px;text-align: left;">Para realizar esta consulta es necesario tener una conexion.</h>
+                </div>
+            </div>
+            <div id="content-page" style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                <br>
+                <h2 style="color:#00A7B5;font-family: 'ITC Avant Garde Gothic';font-size: 24px;margin-top: 27px;">Programa de visitas</h2>
+
+                <div class="block block-strong no-padding">
+                    <div id="calendar-Field"></div>
+                    <table id="falta" align="center" style="width: 100%;margin-top: 30px;">
+                        <th colspan="3" id="table-title" style="background-color: #00A7B5;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 14px;color: white;padding-top: 8px;">RESUMEN TOTAL</th>
+                        <tr style="background-color: #063E7F;color: white;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 13px;">
+                            <td style="padding-top: 5px;font-size: 14px;">Total programadas</td>
+                            <td style="padding-top: 5px;font-size: 14px;">Total realizadas</td>
+                            <td style="padding-top: 5px;font-size: 14px;">Visitas faltantes</td>
+                        </tr>
+                        <tbody id="faltantes" style="background-color: #F1F1F1;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 12px;">
+                            <tr>
+                                <td id="TotalC" style="font-size:16px"></td>
+                                <td id="RelizadasC" style="font-size:16px"></td>
+                                <td id="FaltantesC" style="font-size:16px"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="registosBennetts2" style="display:none;">
+                        <button onclick="oficinabennetts2()" style="height: 40px;border-radius: 10px;background-color: #27AE60;color: white;font-weight: 800;border-color: transparent;margin-left: 10px;margin-right: 5px">Arranque de ruta</button>
+                        <button onclick="cierrebennetts2()" style="height: 40px;border-radius: 10px;background-color: #566573;color: white;font-weight: 800;border-color: transparent;margin-left: 5px;margin-right: 10px">Cierre de la ruta</button>
+                    </div>
+                    <div id="ruta_ci" style="display:none;">
+                        <button onclick="generarRutaCI()" style="height: 40px;border-radius: 10px;background-color: #27AE60;color: white;font-weight: 800;border-color: transparent;margin-left: 50px;margin-right: 50px">Preparación de ruta</button>
+                    </div>
+                    <h3 style="color: #505759;font-family: 'ITC Avant Garde Gothic';font-size: 20px;margin-bottom: 0;margin-top: 21px;" id="visitas_text">Visitas</h3>
+                    <div id="calendar-events" class="list no-margin no-hairlines no-safe-area-left">
+                    <ul id="calendar-items"></ul>
+                </div>
+                
+                <div id="acotacionSMC" style="display: none; text-align: left; padding-top: 15px; padding-bottom: 15px; background-color: #ededed;">                       
+                    <span style="background: #e91e63;border-radius: inherit;display: inline-block; line-height: 1em;width: 1em; margin-right: 10px; margin-bottom: 5px;">&nbsp;&nbsp;</span><span style="font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 13px;">Abierta(M)</span>
+                    <span style="background: #4caf50;border-radius: inherit;display: inline-block; line-height: 1em;width: 1em;margin-left: 64px; margin-right: 10px;  margin-bottom: 5px;">&nbsp;&nbsp;</span><span style="font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 13px;">Autorizada (MA) </span> </br>
+                    <span style="background: #d2db2f;border-radius: inherit;display: inline-block; line-height: 1em;width: 1em; margin-right: 6px;  margin-bottom: 5px;">&nbsp;&nbsp;</span> <span style="font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 13px;">Terminada(MJ)</span>
+                    <span style="background: #3f2fdb;border-radius: inherit;display: inline-block; line-height: 1em;width: 1em; margin-left: 36px; margin-right: 10px;  margin-bottom: 5px;">&nbsp;&nbsp;</span><span style="font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 13px;">Cerrada(MK)</span></br>
+                    <span style="background: #524e4e;border-radius: inherit;display: inline-block; line-height: 1em;width: 1em; margin-right: 10px; margin-bottom: 5px; ">&nbsp;&nbsp;</span><span style="font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 13px;">Cancelada(MM)</span>                           
+                </div>
+
+                <input type="hidden" id="year">
+                <input type="hidden" id="month">
+                <input type="hidden" id="day">
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<style>
+    .list .item-content {
+        padding-left: 0;
+    }
+    .event-color{
+        width: 8px;
+        height: 4vh;
+        margin-right: 10px;
+    }
+</style>
+<script>
+    return {
+        on: {
+            pageInit: function (e, page) {
+                const date = new Date();
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const day = date.getDate();
+                const id_usuario = localStorage.getItem("id_usuario");
+                const id_empresa = localStorage.getItem("id_empresa");
+                const division = localStorage.getItem("division");
+                let calendar;
+                let eventItems = [];
+                var events = [];
+                var detalle = 2; 
+                var visitas_kepler = 0;
+                
+                if(id_empresa == 3){
+                    $("#acotacionSMC").css("display", "block");
+                    $("#buscador").css("display", "block");
+                } else if(id_empresa == 21){
+                    $("#registosBennetts2").css("display", "flex");
+                } else if(id_empresa == 8){
+                    $("#visitas_text").html("Visitas por realizar");
+                } else if(id_empresa == 12){
+                    if(division == 1){
+                        $("#ruta_ci").css("display", "flex");
+                        app.request.get('http://www.fwm.com.mx/app/RutaCarnes.php', { IdUsuario: id_usuario,id_empresa:id_empresa,detalle:detalle}, function (data) { 
+                            if(data){
+                                localStorage.setItem("ruta", data);
+                            }
+                        },function (xhr) {
+                        });
+                    }
+                }
+
+                app.request.get('http://www.fwm.com.mx/app/RutasField.php', { IdUsuario: id_usuario,id_empresa:id_empresa,detalle:detalle}, function (data) { 
+                    var content = JSON.parse(data);
+                    if(content == null){
+                        $('#TotalC').text("0");
+                        $('#RelizadasC').text("0");
+                        $('#FaltantesC').text("0");
+                    } else {
+                        var totalReg = content.length - 1;
+                        for(i = 0;i <= totalReg;i++){
+                            let currentEvent = events.push({date: new Date("'"+content[i].fechaVisita+"'"),color:'#00A7B5'})
+                        }
+                        calendar.update();
+                        $("#table-title").text("RESUMEN TOTAL - "+ monthNames[calendar.currentMonth].toUpperCase());
+                        $('#TotalC').text(content[totalReg].totprogramadas);
+                        $('#RelizadasC').text(content[totalReg].totrealizadas);   
+                        $('#FaltantesC').text(content[totalReg].totfaltantes); 
+                    }
+                    if(id_empresa == 8) {
+                        app.request.get('http://www.fwm.com.mx/app/VisitasServKepler.php', { IdUsuario: id_usuario }, function (data) { 
+                            var content = JSON.parse(data);
+                            if(content == null){
+                            }else{
+                                var content = JSON.parse(data);
+                                visitas_kepler = content.length;
+                                var totprogramadas = parseInt($('#TotalC').text());
+                                var totfaltantes = parseInt($('#FaltantesC').text());
+                                $('#TotalC').text(totprogramadas+visitas_kepler);
+                                $('#FaltantesC').text(totfaltantes+visitas_kepler);
+                            }
+                            },function (xhr) {
+                        });
+                    }
+                },function (xhr) {
+                    $('.preloader').remove();
+                    $("#content-page").css('display','none');
+                    $("#nointernet-page").css('display','block');
+                });
+                
+                function renderEvents(calendar){
+                    if(calendar.value[1]){
+                        var currentFecha1 = new Date(calendar.value[0]);
+                        var dayR1 = currentFecha1.getDate();
+                        var monthR1 = currentFecha1.getMonth() + 1;
+                        var yearR1 = currentFecha1.getFullYear();
+                        var currentFecha2 = new Date(calendar.value[1]);
+                        var dayR2 = currentFecha2.getDate();
+                        var monthR2 = currentFecha2.getMonth() + 1;
+                        var yearR2 = currentFecha2.getFullYear();
+                        app.request.get('http://www.fwm.com.mx/app/getVisitas.php', { IdUsuario: id_usuario,id_empresa:id_empresa,day: dayR1,month:monthR1,year:yearR1,day2: dayR2,month2:monthR2,year2:yearR2}, function (data) {
+                            var content = JSON.parse(data);
+                            $("#calendar-items").empty();
+                            if(content == null){
+                                $('#calendar-items').append(`
+                                    <li class="item-content" id="text_nohay">
+                                        <div class="item-inner">
+                                        <div class="item-title">No hay visitas programadas.</div>
+                                        </div>
+                                    </li>
+                                `);
+                            } else {
+                                for(var e = 0; e < content.length; e++){
+                                    if(content[e].realizada == "0"){
+                                        var color = "#e91e63";
+                                    } else {
+                                        var color = "#4caf50";
+                                    }
+                                    if(id_empresa == 3){
+                                        app.request.get('http://fwm.com.mx/pages_smc/calendar/includes/getStatusOS.php', { key: content[e].orden_servicio}, function (data) {
+                                            var separado = data.split("-/-");
+                                            //console.log('stautus',separado[1])
+                                            if(separado[1] == "M"){
+                                                $('#'+separado[0]+'-color').css("background-color","#e91e63");
+                                                var separados = "M";
+                                            } else if(separado[1] == "MA"){
+                                                $('#'+separado[0]+'-color').css("background-color","#4caf50");
+                                                var separados = "MA";
+                                            } else if(separado[1] == "MB" || separado[1] == "MJ"  ){
+                                                $('#'+separado[0]+'-color').css("background-color","#d2db2f");
+                                                $('#'+separado[0]+'-opacity').css("opacity","50%");
+                                                $('#'+separado[0]+'-click').attr('onclick','');
+                                            } else if( separado[1] == "MH" || separado[1] == "MK"){
+                                                $('#'+separado[0]+'-color').css("background-color","#3f2fdb");
+                                                $('#'+separado[0]+'-opacity').css("opacity","50%");
+                                                $('#'+separado[0]+'-click').attr('onclick','');
+                                            } else if(separado[1] == "MM"){
+                                                $('#'+separado[0]+'-color').css("background-color","#524e4e");
+                                                $('#'+separado[0]+'-opacity').css("opacity","50%");
+                                                $('#'+separado[0]+'-click').attr('onclick','');
+                                            } else {
+                                                $('#'+separado[0]+'-color').css("background-color","#c07710");
+                                            }
+                                        },function (xhr) {
+                                            console.log("Error en la consulta");
+                                        });
+                                        var color = "#ffffff";
+                                    }
+                                    if(id_empresa == 8){
+                                        if(content[e].realizada == "0"){
+                                            $('#calendar-items').append(`
+                                                <li class="item-content">
+                                                    <div class="event-color" style="background-color: ${color}"></div>
+                                                    <div class="item-inner" onclick="clientSelected2('${content[e].nombreCliente}','${content[e].fecha}')">
+                                                        <div class="item-title">${content[e].nombreCliente} | ${content[e].orden_servicio}</div>
+                                                        <div class="item-after">${content[e].fecha}</div>
+                                                    </div>
+                                                </li>
+                                            `);
+                                        }
+                                    } else if(id_empresa == 3){
+                                        if(content[e].realizada == 1){
+                                            $('#calendar-items').append(`
+                                                <li class="item-content" id="${content[e].orden_servicio}-opacity" style="opacity: 50%;">
+                                                    <div class="event-color" id="${content[e].orden_servicio}-color" style="background-color: ${color}"></div>
+                                                    <div class="item-inner">
+                                                        <div class="item-title">${content[e].client_name} | <b>OS: ${content[e].orden_servicio}</b></div>
+                                                        <div class="item-after">${content[e].fecha}</div>
+                                                    </div>
+                                                </li>
+                                            `);
+                                        }else{
+                                            $('#calendar-items').append(`
+                                                <li class="item-content" id="${content[e].orden_servicio}-opacity">
+                                                    <div class="event-color" id="${content[e].orden_servicio}-color" style="background-color: ${color}"></div>
+                                                    <div class="item-inner" id="${content[e].orden_servicio}-click" onclick="clientSelected2('${content[e].nombreCliente}','${content[e].fecha}')">
+                                                        <div class="item-title">${content[e].client_name} | <b>OS: ${content[e].orden_servicio}</b></div>
+                                                        <div class="item-after">${content[e].fecha}</div>
+                                                    </div>
+                                                </li>
+                                            `);
+                                        }
+                                    } else if(id_empresa == 19){
+                                        var dates = new Date(content[e].fecha+" "+content[e].horas);
+                                        var fechas = dates.getDate() + "-" + (dates.getMonth() + 1) + "-" + dates.getFullYear();
+                                        var  hora = dates.getHours(); 
+                                        var  minutos = dates.getMinutes(); 
+                                        if ((hora >= 0)&&(hora <= 9)){ 
+                                            hora="0"+hora; 
+                                        }
+                                        if ((minutos >= 0)&&(minutos <= 9)){ 
+                                            minutos="0"+minutos;  
+                                        }
+
+                                        $('#calendar-items').append(`
+                                            <li class="item-content">
+                                                <div class="event-color" style="background-color: ${color}"></div>
+                                                <div class="item-inner" onclick="clientSelected2('${content[e].nombreCliente}','${content[e].fecha}')">
+                                                    <div class="item-title">${content[e].nombreCliente}</div>
+                                                    <div class="item-after">`+fechas+` `+hora+`:`+minutos+`</div>
+                                                </div>
+                                            </li>
+                                        `);
+                                    } else {
+                                        $('#calendar-items').append(`
+                                            <li class="item-content">
+                                                <div class="event-color" style="background-color: ${color}"></div>
+                                                <div class="item-inner" onclick="clientSelected2('${content[e].nombreCliente}','${content[e].fecha}')">
+                                                    <div class="item-title">${content[e].nombreCliente}</div>
+                                                    <div class="item-after">${content[e].fecha}</div>
+                                                </div>
+                                            </li>
+                                        `);
+                                    }
+                                    
+                                }
+                            }
+                            if(id_empresa == 8){
+                                //console.log("2 clic")
+                                localStorage.setItem("paso",1)
+                                app.request.get('http://www.fwm.com.mx/app/VisitasServKepler.php', { IdUsuario: id_usuario }, function (data) { 
+                                    var content = JSON.parse(data);
+                                    if(content == null){}else{
+                                        $("#text_nohay").css("display","none");
+                                        var color = "#e91e63";
+                                        for(var e = 0; e < content.length; e++){
+                                            $('#calendar-items').append(`
+                                                <li class="item-content">
+                                                    <div class="event-color" style="background-color: ${color}"></div>
+                                                    <div class="item-inner" onclick="clientSelected3('${content[e].nombreCliente}','${content[e].tipo_serv}','${content[e].orden_servicio}')">
+                                                        <div class="item-title">${content[e].nombreCliente} | ${content[e].orden_servicio}</div>
+                                                        <div class="item-after">${content[e].fecha}</div>
+                                                    </div>
+                                                </li>
+                                            `);
+                                        }
+                                    }
+                                    },function (xhr) {
+                                });
+                            }
+                        },function (xhr) {
+                            console.log("Error en la consulta");
+                        });
+                    } else {
+                        var currentFecha = new Date(calendar.value[0]);
+                        var dayR = currentFecha.getDate();
+                        var monthR = currentFecha.getMonth() + 1;
+                        var yearR = currentFecha.getFullYear();
+                        app.request.get('http://www.fwm.com.mx/app/getVisitas_dev.php', { IdUsuario: id_usuario,id_empresa:id_empresa,day: dayR,month:monthR,year:yearR,detalle:detalle}, function (data) { 
+                            var content = JSON.parse(data);
+                            $("#calendar-items").empty();
+                            if(content == null){
+                                $('#calendar-items').append(`
+                                    <li class="item-content" id="text_nohay">
+                                        <div class="item-inner">
+                                        <div class="item-title">No hay visitas programadas.</div>
+                                        </div>
+                                    </li>
+                                `);
+                            } else {
+                                for(var e = 0; e < content.length; e++){
+                                    if(content[e].realizada == "0"){
+                                        var color = "#e91e63";
+                                    } else {
+                                        var color = "#4caf50";
+                                    }
+                                    if(id_empresa == 3){
+                                        app.request.get('http://fwm.com.mx/pages_smc/calendar/includes/getStatusOS.php', { key: content[e].orden_servicio}, function (data) {
+                                            var separado = data.split("-/-");
+                                            if(separado[1] == "M"){
+                                                $('#'+separado[0]+'-color').css("background-color","#e91e63");
+                                            } else if(separado[1] == "MA"){
+                                                $('#'+separado[0]+'-color').css("background-color","#4caf50");
+                                            } else if(separado[1] == "MB" || separado[1] == "MJ"  ){
+                                                $('#'+separado[0]+'-color').css("background-color","#d2db2f");
+                                                $('#'+separado[0]+'-opacity').css("opacity","50%");
+                                                $('#'+separado[0]+'-click').attr('onclick','');
+                                            } else if( separado[1] == "MH" || separado[1] == "MK"){
+                                                $('#'+separado[0]+'-color').css("background-color","#3f2fdb");
+                                                $('#'+separado[0]+'-opacity').css("opacity","50%");
+                                                $('#'+separado[0]+'-click').attr('onclick','');
+                                            } else if(separado[1] == "MM"){
+                                                $('#'+separado[0]+'-color').css("background-color","#524e4e");
+                                                $('#'+separado[0]+'-opacity').css("opacity","50%");
+                                                $('#'+separado[0]+'-click').attr('onclick','');
+                                            } else {
+                                                $('#'+separado[0]+'-color').css("background-color","#c07710");
+                                            }
+                                        },function (xhr) {
+                                            console.log("Error en la consulta");
+                                        });
+                                        var color = "#ffffff";
+                                    }
+                                    if(id_empresa == 8){
+                                        if(content[e].realizada == "0"){
+                                            $('#calendar-items').append(`
+                                                <li class="item-content">
+                                                    <div class="event-color" style="background-color: ${color}"></div>
+                                                    <div class="item-inner" onclick="clientSelected2('${content[e].nombreCliente}','${content[e].fecha}')">
+                                                        <div class="item-title">${content[e].nombreCliente} | ${content[e].orden_servicio}</div>
+                                                        <div class="item-after">${content[e].fecha}</div>
+                                                    </div>
+                                                </li>
+                                            `);
+                                        } 
+                                    } else if(id_empresa == 3){
+                                        if(content[e].realizada == 1){
+                                            $('#calendar-items').append(`
+                                                <li class="item-content" style="opacity: 50%;">
+                                                    <div class="event-color" id="${content[e].orden_servicio}-color" style="background-color: ${color}"></div>
+                                                    <div class="item-inner">
+                                                        <div class="item-title">${content[e].client_name} | <b>OS: ${content[e].orden_servicio}</b></div>
+                                                        <div class="item-after">${content[e].fecha}</div>
+                                                    </div>
+                                                </li>
+                                            `);
+                                        }else{
+                                            $('#calendar-items').append(`
+                                                <li class="item-content" id="${content[e].orden_servicio}-opacity">
+                                                    <div class="event-color" id="${content[e].orden_servicio}-color" style="background-color: ${color}"></div>
+                                                    <div class="item-inner" id="${content[e].orden_servicio}-click" onclick="clientSelected2('${content[e].nombreCliente}','${content[e].fecha}')">
+                                                        <div class="item-title">${content[e].client_name} | <b>OS: ${content[e].orden_servicio}</b></div>
+                                                        <div class="item-after">${content[e].fecha}</div>
+                                                    </div>
+                                                </li>
+                                            `);
+                                        }
+                                    } else if(id_empresa == 19){
+                                        var dates = new Date(content[e].fecha+" "+content[e].horas);
+                                        var fechas = dates.getDate() + "-" + (dates.getMonth() + 1) + "-" + dates.getFullYear();
+                                        var  hora = dates.getHours(); 
+                                        var  minutos = dates.getMinutes(); 
+                                        if ((hora >= 0)&&(hora <= 9)){ 
+                                            hora="0"+hora; 
+                                        }
+                                        if ((minutos >= 0)&&(minutos <= 9)){ 
+                                            minutos="0"+minutos;  
+                                        }
+
+                                        $('#calendar-items').append(`
+                                            <li class="item-content">
+                                                <div class="event-color" style="background-color: ${color}"></div>
+                                                <div class="item-inner" onclick="clientSelected2('${content[e].nombreCliente}','${content[e].fecha}')">
+                                                    <div class="item-title">${content[e].nombreCliente}</div>
+                                                    <div class="item-after">`+fechas+` `+hora+`:`+minutos+`</div>
+                                                </div>
+                                            </li>
+                                        `);
+                                    }else {
+                                        $('#calendar-items').append(`
+                                            <li class="item-content">
+                                                <div class="event-color" style="background-color: ${color}"></div>
+                                                <div class="item-inner" onclick="clientSelected2('${content[e].nombreCliente}','${content[e].fecha}')">
+                                                    <div class="item-title">${content[e].nombreCliente}</div>
+                                                    <div class="item-after">${content[e].fecha}</div>
+                                                </div>
+                                            </li>
+                                        `);
+                                    }
+                                }
+                            }
+                            if(id_empresa == 8){
+                                //console.log("1 clic")
+                                if(localStorage.getItem("paso") == 1){
+                                    localStorage.setItem("paso",2)
+                                        app.request.get('http://www.fwm.com.mx/app/VisitasServKepler.php', { IdUsuario: id_usuario }, function (data) { 
+                                        var content = JSON.parse(data);
+                                        if(content == null){}else{
+                                            $("#text_nohay").css("display","none");
+                                            var content = JSON.parse(data);
+                                            var color = "#e91e63";
+                                            for(var e = 0; e < content.length; e++){
+                                                $('#calendar-items').append(`
+                                                    <li class="item-content">
+                                                        <div class="event-color" style="background-color: ${color}"></div>
+                                                        <div class="item-inner" onclick="clientSelected3('${content[e].nombreCliente}','${content[e].tipo_serv}','${content[e].orden_servicio}')">
+                                                            <div class="item-title">${content[e].nombreCliente} | ${content[e].orden_servicio}</div>
+                                                            <div class="item-after">${content[e].fecha}</div>
+                                                        </div>
+                                                    </li>
+                                                `);
+                                            }
+                                        }
+                                        },function (xhr) {
+                                    });
+                                }
+                            }
+                            
+                        },function (xhr) {
+                            console.log("Error en la consulta");
+                        });
+                    }
+                }
+
+                function renderMonthEvents(calendar,month,year){
+                    app.dialog.preloader('Cargando...','blue');
+                    app.request.get('http://www.fwm.com.mx/app/RutasField.php', { IdUsuario: id_usuario,id_empresa:id_empresa,currentMonth: month,currentYear: year}, function (data) {
+                        var content = JSON.parse(data);
+                        if(content == null){
+                            $('#TotalC').text("0");
+                            $('#RelizadasC').text("0");
+                            $('#FaltantesC').text("0");
+                        } else {
+                            var totalReg = content.length - 1;
+                            for(i = 0;i <= totalReg;i++){
+                                let currentEvent = events.push({date: new Date("'"+content[i].fechaVisita+"'"),color:'#00A7B5'})
+                            }
+                            $('#TotalC').text(content[totalReg].totprogramadas);
+                            $('#RelizadasC').text(content[totalReg].totrealizadas);
+                            $('#FaltantesC').text(content[totalReg].totfaltantes);
+                        }
+                        app.dialog.close();
+                        calendar.update();
+                        $("#table-title").text("RESUMEN TOTAL - "+ monthNames[calendar.currentMonth].toUpperCase());
+                    },function (xhr) {
+                        app.dialog.close();
+                        $("#content-page").css('display','none');
+                        $("#nointernet-page").css('display','block');
+                    });
+                    //console.log(events)
+                }
+
+                var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                calendar = app.calendar.create({
+                    containerEl: '#calendar-Field',
+                    value: [new Date()],
+                    weekHeader: true,
+                    multiple:false,
+                    rangePicker:true,
+                    rangePickerMaxDays:50,
+                    dateFormat: 'yyyy-mm-dd',
+                    dayNames:["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"],
+                    dayNamesShort:["Dom","Lun","Mar","Mie","Jue","Vie","Sab"],
+                    events: events,
+                    rangesClasses: null,
+                    touchMove: false,
+                    renderToolbar: function () {
+                        return `
+                        <div class="toolbar calendar-custom-toolbar no-shadow">
+                            <div class="toolbar-inner">
+                            <div class="left">
+                                <a href="#" class="link icon-only"><i class="icon icon-back ${app.theme === 'md' ? 'color-black' : ''}"></i></a>
+                            </div>
+                            <div class="center"></div>
+                            <div class="right">
+                                <a href="#" class="link icon-only"><i class="icon icon-forward ${app.theme === 'md' ? 'color-black' : ''}"></i></a>
+                            </div>
+                            </div>
+                        </div>
+                        `;
+                    },
+                    on: {
+                        init: function (calendar) {
+                            $('.calendar-custom-toolbar .center').text(monthNames[calendar.currentMonth] + ', ' + calendar.currentYear);
+                            $('.calendar-custom-toolbar .left .link').on('click', function () {
+                                calendar.prevMonth();
+                                renderMonthEvents(calendar,(calendar.currentMonth)+1,calendar.currentYear);
+                            });
+                            $('.calendar-custom-toolbar .right .link').on('click', function () {
+                                calendar.nextMonth();
+                                renderMonthEvents(calendar,(calendar.currentMonth)+1,calendar.currentYear);
+                            });
+                        },
+                        calendarChange: function(calendar){
+                            renderEvents(calendar);
+                        },
+                        monthYearChangeStart: function (calendar) {
+                            $('.calendar-custom-toolbar .center').text(monthNames[calendar.currentMonth] + ', ' + calendar.currentYear);
+                        }
+                    },
+                });
+            }
+        }
+    }
+</script>

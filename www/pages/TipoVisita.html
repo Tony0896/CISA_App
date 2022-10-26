@@ -1,0 +1,120 @@
+<template>
+    <div class="page">
+        <div class="navbar" style="background-color: #063E7F;height: 52px;">
+            <div style="text-align: center;"><img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field"></div>
+            <div class="navbar-inner" style="height: 52px;">
+                <div class="left">
+                    <a href="/menuVIC/" class="link back" style="margin-left: 5px;">
+                        <span class="nav-text-regresar-recorrido">Regresar</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content" style="background-color: #f6f7f9; ">
+            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                <input type="hidden" id="resp1" name="resp1" />
+                <div style="text-align: left;">        
+                    <div class="item-inner">
+                        <div class="block-title" style="text-align: center; font-size: 20px;">
+                            <h2 style="color:#505759;font-size: 22px;font-family: 'ITC Avant Garde Gothic', sans-serif;">Tipo Visita</h2></div>
+                    </div>
+                </div>
+                    <div class="buttons-container" style="display: flex;">
+                        <a onclick="recorrido3(1);" class="fwm-button-recorrido">
+                            <img src="img/iconsMenu/llamada.svg" width="90px" height="90px" id="img1"/>
+                            <span class="fwm-text-recorrido">Llamada</span>
+                        </a>
+                        <a onclick="recorrido3(2);" class="fwm-button-recorrido">
+                            <img src="img/iconsMenu/sitio.svg" width="90px" height="90px" id="img2"/>
+                            <span class="fwm-text-recorrido">Visita</span>
+                        </a>
+                    </div>
+                <!-- Inicio FWM Recorrido -->
+                    <div id="FWM-Menu" class="container-items" style="width: 100%;"></div>
+                <!-- Fin FWM Recorrido -->
+                <fwm></fwm>
+            </div> 
+        </div>
+    </div>
+</template>
+           
+<script>
+    return {
+        on: {      
+            pageInit: function () {
+                //Para cambiar los iconos de color
+                var id_cedula = localStorage.getItem("IdCedula");
+
+                //slecciono el proyecto?
+                databaseHandler.db.transaction(
+                    function(tx){
+                        tx.executeSql("SELECT * from ventas_bennetts WHERE id_cedula = ?",
+                            [id_cedula],
+                            function(tx, results){
+                                var item = results.rows.item(0);
+                                var avanza1=item.id_proyecto;
+                                    if(avanza1 != 0){
+                                    document.getElementById("img1").src="img/iconsMenu/persona.svg";
+                                        }else{
+                                            console.log("no "+avanza1);
+                                    }
+                            },
+                            function(tx, error){
+                            }
+                        );
+                    },
+                    function(error){},
+                    function(){}
+                );
+
+                databaseHandler.db.transaction(
+                    function(tx){
+                        tx.executeSql(
+                            "Select * from minuta WHERE id_cedula = ?",
+                            [id_cedula],
+                            function(tx, results){
+                                let length = results.rows.length;
+                                if(length == 0){
+                                    console.log('No hay datos');
+                                } else {
+                                    console.log('Si hay datos');
+                                    document.getElementById("img4").src="img/iconsMenu/herramientas2.svg";
+                                }
+                                 
+                            },
+                            function(tx, error){
+                                console.log("Error al guardar cedula: " + error.message);
+                                app.preloader.hide();  
+                            }
+                        );  
+                    },
+                    function(error){},
+                    function(){}
+                );
+
+                databaseHandler.db.transaction(
+                    function(tx){
+                        tx.executeSql("SELECT * from ventas_bennetts WHERE id_cedula = ?",
+                            [id_cedula],
+                            function(tx, results){
+                                var item = results.rows.item(0);
+                                var avanza=item.nivel;
+                                    if(avanza != undefined){
+                                    document.getElementById("img2").src="img/iconsMenu/equipo.svg";
+                                        }else{
+                                            console.log("no "+avanza);
+                                    }
+                            },
+                            function(tx, error){
+                            }
+                        );
+                    },
+                    function(error){},
+                    function(){}
+                );
+
+            }
+        }
+    }
+</script>

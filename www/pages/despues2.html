@@ -1,0 +1,155 @@
+<template>
+    <div class="view view-main view-init safe-areas">
+        <div class="page" id="FWM-1">
+            <!-- Navbar -->
+            <div class="navbar" style="background-color: #063E7F;height: 52px;">
+                <div style="text-align: center;"><img src="img/logo-FWM.png" style="margin-top: 5px;" height="41.38px" alt="Logo Field"></div>
+                <div class="navbar-inner sliding" style="height: 52px;">
+                    <div class="left">
+                        <a href="#" onclick="regresarRecorrido2();">
+                            <span class="nav-text-regresar" id="nav-text-regresar-function">Regresar</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Contenido Formulario -->                
+            <div class="page-content">
+                <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 30px;">
+                    <h2 class="FWN-titulo-2">Después del servicio</h2>
+                            
+                    <form class="list FWM-fixing-form">                                 
+                        <div style="text-align: left;">
+                            <span class="span FWM-span-form">Descripción:</span>
+                            <textarea class ="FWM-input" id="descripcion" name="descripcion"  cols="30" rows="10" onchange="guardarDescripcionDespuesSanitizacion()"></textarea>
+                
+                            <div style="display: flex;flex-direction: column;align-items: start;">
+                                <span class="span FWM-span-form">Foto del reporte físico:</span>                          
+                                <div class="FWM-photo-container">
+                                    <a onclick="capturePhotoSS3();">
+                                        <div class="border-capture-item">
+                                            <img class="FWM-photo-item" src="img/camera.svg" id="photoIcon" width="45px"/>
+                                        </div>
+                                    </a>
+                                    <img class="FWM-photo-hide-item" id="smallImage3" src=""/>
+                                    <input type="hidden" id="imagenC3" name="imagenC3"/>
+                                </div>
+                            </div>
+                
+                            <span class="span FWM-span-form">Nombre Área:</span>
+                            <input type="text" class="FWM-input" id="nombreArea" name="nombreArea" onchange="equipoLleno(this.id,this.value)"/>
+
+                            <span class="span FWM-span-form">Foto Área:</span>                          
+                            <div class="FWM-photo-container">
+                                <div class="border-capture">
+                                <a onclick="capturePhoto();">
+                                <img class="FWM-photo" src="img/camera.svg" id="photoIcon" width="45px" style="margin-left: 50px;"/>
+                                </a>
+                                </div>
+                                <img class="FWM-photo-hide" id="smallImage" src=""/>
+                                <input type="hidden" id="imagenC" name="imagenC"/>
+                            </div>
+                        </div>
+                    </form>  
+
+                    <div class="block-title FWM-subtitulo">Áreas guardadas</div>       
+                    <div class="card data-table">
+                        <div class="infinite-scroll-content">
+                            <table id="tabla-despues-sanitizacion">
+                                <thead>
+                                    <tr>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #063E7F;color: white;">Acción</th>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #063E7F;color: white;">Foto</th>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #063E7F;color: white;">Área</th>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #063E7F;color: white;">Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="despues-content"></tbody>
+                            </table>
+                            <div class="sentencia preloader color-grey infinite-scroll-preloader"></div>
+                            <div id="message-nr" style="width: 100%;text-align: center;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 16px;" style="display: none;">
+                                <p>Sin registros</p>
+                            </div>
+                        </div>
+                    </div>
+                            
+                    <div class="block grid-resizable-demo" style="margin-bottom: 170px;">
+                        <div class="row align-items-stretch" style="text-align: center;">
+                            <div class="col-100 medium-50" style="min-width: 50px; border-style: none;">
+                                <span class="resize-handler"></span>
+                                <a href="#" onclick="guardarDespuesSanitizacion();" class="boton-equipo">Guardar área</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin contenido formulario -->
+            <fwm></fwm>
+        </div>
+    </div>
+</template>
+<script>
+    return {
+      on: {
+        pageInit: function (e, page) {
+            var id_cedula = localStorage.getItem("IdCedula");
+            var fase = 'despues';
+            databaseHandler.db.transaction(
+                function(tx1){
+                    tx1.executeSql(
+                        "Select * from fotos_sanitizacion where id_cedula= ? and fase = ?",
+                        [id_cedula,fase],
+                        function(tx, results){
+                            var length = results.rows.length;
+                            if(length == 0){
+                                $("#message-nr").css("display", "block");
+                            } else {
+                                for(var i = 0; i< length; i++){
+                                    var item = results.rows.item(i);
+                                    $("#tabla-despues-sanitizacion").append("<tr id='fila"+ item.id_sanitizacion_foto +"'><td><a href='#' onclick='eliminarFila("+ item.id_sanitizacion_foto +",3);' style='border: none; outline:none;'><img src='img/borrar.png' width='30px' /></a></td><td><img src='"+item.foto_area+"' width='60px' style='margin-top: 4px;'/></td><td style='text-align: center;'>" + item.nombre_area + "</td><td style='text-align: center;'>" + item.fecha_foto + "</td></tr>");
+                                    $("#message-nr").css("display", "none");
+                                }
+                            }
+                            $('.preloader').remove();
+                            $('.infinite-scroll-preloader').remove();
+                        },
+                        function(tx, error){
+                            console.log("Error al consultar: " + error.message);
+                        }
+                    );
+                    console.log("Consulta correcta");
+                },
+                function(error){},
+                function(){}
+            );
+            databaseHandler.db.transaction(
+                function(tx1){
+                    tx1.executeSql(
+                        "Select descripcion_despues,foto_reporte from sanitizacion where id_cedula= ?",
+                        [id_cedula],
+                        function(tx, results){
+                            var item = results.rows.item(0);
+                            if(item.descripcion_despues === null){
+                            } else {
+                                $('#descripcion').val(item.descripcion_despues);
+                            }
+                            if(item.foto_reporte == null){
+                            } else {
+                                var smallImage = document.getElementById('smallImage3');
+                                smallImage.style.display = 'flex';
+                                smallImage.src = item.foto_reporte;
+                                $("#imagenC3").val(item.foto_reporte);
+                                $("#photoIcon3").attr("src","img/reload.svg");
+                            }
+                        },
+                        function(tx, error){
+                            console.log("Error al consultar: " + error.message);
+                        }
+                    );
+                },
+                function(error){},
+                function(){}
+            );
+        }
+      }  
+    }
+</script>
