@@ -222,7 +222,7 @@ iframe {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 43px 88px 93px 190px;
+  padding: 43px 88px 93px 88px;
 }
 
 
@@ -433,7 +433,6 @@ input.input100 {
 }
 
 .login100-form-btn:hover {
-  background-color: #0255a5;
   color: white;
 }
 
@@ -443,7 +442,7 @@ input.input100 {
 
 @media (max-width: 576px) {
   .login100-form {
-    padding: 0px 15px 57px 117px;
+    padding: 0px 15px 57px 15px;
   }
 }
 

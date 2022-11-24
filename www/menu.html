@@ -56,7 +56,7 @@
                   <div id="tab-1" class="page-content tab tab-active bg-color-white" style="background-color: rgb(245, 245, 245);">
                     <div class="block" style="padding-left: 15px;padding-top: 0;padding-right: 15px;">
                       <div class="container_empresa">
-                        <img class="loader-image" src="img/logo2.png" style="width: 50vw;">
+                        <img class="loader-image" src="img/logo1.png" style="width: 50vw;" id="img_logo">
                       </div>
                       <div>
                         <div id="visitsContainer">
@@ -70,7 +70,7 @@
                               </li>
 
                               <li class="container_info">
-                                <div class="item-content" id="processclick" onclick="updateData()">
+                                <div class="item-content" id="processclick" onclick="eliminaCache()">
                                   <i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">cloud_done</i>
                                   <div class="item-title"><a class="panel-text">Sincronizar datos</a></div>
                                 </div>
@@ -100,16 +100,16 @@
                     <div class="block">
                         <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
                           <table style="width: 100%;">
-                            <tr>
+                            <tr class="menu_imagen">
                               <td>
                                 <div>
                                   <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();"><img src="img/iconsMenu/portapapeles2.svg" height="60px"><p style="color: #000000;font-size: 19px;">Nuevo Checklist</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
                                 </div>
                               </td>
                             </tr>
-                            <tr>
+                            <tr class="menu_imagen">
                               <td>
-                                <a class="item-content item-link entrar principalButton" href="#" onclick="//moveMenu();" ><img src="img/iconsMenu/history.svg" height="60px"><p style="color: #000000;">Historial</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
+                                <a class="item-content item-link entrar principalButton" href="/history/" onclick="" ><img src="img/iconsMenu/history.svg" height="60px"><p style="color: #000000;">Historial</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
                               </td>
                             </tr>
                           </table>
@@ -172,15 +172,23 @@
   <script src="js/SimpleStarRating.js"></script>
   <script type="text/javascript" charset="utf-8">
     app.tab.show('#tab-2');
-    if(localStorage.getItem("nombre") == null || localStorage.getItem("id_usuario") == null){
+    if(localStorage.getItem("nombre") == null || localStorage.getItem("Usuario") == null){
       window.localStorage.removeItem("id_usuario");
     }
 
     window.localStorage.removeItem("IdCedula");
     window.localStorage.removeItem("page");
     window.localStorage.removeItem("fase");
+    window.localStorage.removeItem("IdCed");
+    window.localStorage.removeItem("TipoC");
 
-    $("#nombre_usuario").html(localStorage.getItem("nombre")+" "+localStorage.getItem("apellido_paterno")+" "+localStorage.getItem("apellido_materno"));
+    if(localStorage.getItem("Modulo") == 'Checklist'){
+      $(".menu_imagen").css("display", "grid");
+    }else{
+      $(".menu_imagen").css("display", "none");
+    }
+
+    $("#nombre_usuario").html(localStorage.getItem("nombre"));
     function updateData(){
       $("#processclick").show();
       $("#processclick").removeClass('99badge99');
@@ -202,12 +210,13 @@
           }
         ]
       });
-      jsonPadre.Get("http://189.254.4.243/CISAApp/Archivos/JSON/jsonName.json");
-        var directory = "jsons/jsonName.json";
+      var empresa = localStorage.getItem("empresa");
+      jsonPadre.Get("http://189.254.4.243/CISAApp/Archivos/JSON/jsonName"+empresa+".json");
+        var directory = "jsons/jsonName"+empresa+".json";
       function DownloaderError(err) {
         console.error("Error al descargar: " + err);
-        $("#processclick").html('Error<div class="item-title"><a class="panel-text">Sincronizar datos</a></div>');
-        app.dialog.alert('Error al conectar con la Base de Datos', 'Error');
+        $("#processclick").html('<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>');
+        app.dialog.alert('Error al actualizar datos', 'Error');
       }
       function DownloaderSuccess() {
         app.request.get(cordova.file.dataDirectory + directory, function (data) {
@@ -244,8 +253,8 @@
                 jsonHijos.Get("http://189.254.4.243/CISAApp/Archivos/JSON/" + valor.jsonName);
                 function DownloaderError(err) {
                   console.error("Error al descargar: " + valor.jsonName + " " + err);
-                  $("#processclick").html('Error<div class="item-title"><a class="panel-text">Sincronizar datos</a></div>');
-                  app.dialog.alert('Error al conectar con la Base de Datos', 'Error');
+                  $("#processclick").html('<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>');
+                  app.dialog.alert('Error al actualizar datos', 'Error');
                 }
                 function DownloaderSuccess() {
                   count++;
@@ -305,6 +314,9 @@
     }
      // Evento de inicio de base de datos y consuLtas
      document.addEventListener("deviceready", function(){
+        //cambio de picture()
+        var empresa = localStorage.getItem("empresa");
+        cambiaimgempresa(empresa);
         // Inicializando camara
         pictureSource = navigator.camera.PictureSourceType;
         destinationType = navigator.camera.DestinationType;
@@ -330,7 +342,8 @@
                         var length = results.rows.length;
                         for(var i = 0; i< length; i++){
                             var item2 = results.rows.item(i);
-                            $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> "+item2.nombre_cliente + "</div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,1);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
+                            var fechas = item2.fecha_entrada.split(" ");
+                            $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> "+item2.nombre_cliente + "| "+fechas[0]+ "</div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,1);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                         }
                     },
                     function(tx5, error){
@@ -388,7 +401,7 @@
         var alerted = 0;
         function onOffline() {
           if(alerted==0){
-            app.dialog.alert('Vaya! No tienes internet. Cuando te conectes se enviaran o descargaran los datos.', 'Aviso');
+            //app.dialog.alert('Vaya! No tienes internet. Cuando te conectes se enviaran o descargaran los datos.', 'Aviso');
             alerted++;
             sinConexion = 1;
           } else {}

@@ -1,7 +1,7 @@
 function AlmacenarError(respuesta){
     var datos = new Array();
-    var id_usuario = localStorage.getItem("id_usuario"); ;
-    var id_empresa = localStorage.getItem("id_empresa");;
+    var id_usuario = localStorage.getItem("Usuario");
+    var id_empresa = localStorage.getItem("empresa");
     datos[0] = {'id_usario':id_usuario,'id_empresa':id_empresa,'respuesta':respuesta};
     $.ajax({
         type: "POST",
@@ -10,6 +10,9 @@ function AlmacenarError(respuesta){
         dataType: 'html',
         data: {'datos': JSON.stringify(datos)},
         success: function(respuesta){
+            if(respuesta == 1){
+                swal("","No se pudo completar el registro","warning");
+            }
         },
         error: function(){
             console.log("Error en la comunicacion con el servidor");
@@ -19,8 +22,8 @@ function AlmacenarError(respuesta){
 function llevarTodo(id_cedula,tipo_cedula){
     //Aqio va el ajax (tipo de cedula,id_usuario y id_empresa)
     var datos = new Array();
-    var id_usuario = localStorage.getItem("id_usuario");
-    var id_empresa = localStorage.getItem("id_empresa");
+    var id_usuario = localStorage.getItem("Usuario");
+    var id_empresa = localStorage.getItem("empresa");
     var versionapp = '1.0.0';
     datos[0] = {'id_usuario':id_usuario,'id_empresa':id_empresa,'tipo_cedula':tipo_cedula,'versionapp':versionapp};
     $.ajax({
@@ -35,7 +38,7 @@ function llevarTodo(id_cedula,tipo_cedula){
             console.log("Error en la comunicacion con el servidor");
         }
     });
-    swal("Enviando!", "Puedes serguir usando la aplicación!", "success");
+    swal("Enviando", "....", "success");
     var empresa = localStorage.getItem("nombre_empresa");
     var datosCedulaGeneral = new Array();
     var checklist = new Array();
@@ -53,7 +56,7 @@ function llevarTodo(id_cedula,tipo_cedula){
                         var item = results.rows.item(i);
                         tipo = item.tipo_cedula;
                         //datosCedulaGeneral[i] = {'Valor':i,'id_cedula':item.id_cedula,'tipo_cedula':item.tipo_cedula,'id_usuario':item.id_usuario,'nombre_usuario':item.nombre_usuario,'fecha_entrada':item.fecha_entrada,'geolocalizacion_entrada': item.geolocalizacion_entrada,'id_cliente': item.id_cliente,'nombre_cliente': item.nombre_cliente,'horario_programado': item.horario_programado,'calificacion': item.calificacion,'fecha_salida':item.fecha_salida,'geolocalizacion_salida':item.geolocalizacion_salida,'nombre_evalua':item.nombre_evalua,'comentario_cliente':item.comentario_cliente,'fecha_envio':fecha_envio};
-                        datosCedulaGeneral[i] = {'Valor':i,'id_cedula':item.id_cedula,'tipo_cedula':item.tipo_cedula,'id_usuario':0,'nombre_usuario':item.nombre_usuario,'fecha_entrada':item.fecha_entrada,'geolocalizacion_entrada': item.geolocalizacion_entrada,'id_cliente': 0,'nombre_cliente': item.nombre_cliente,'horario_programado': item.horario_programado,'calificacion': 0,'fecha_salida':item.fecha_salida,'geolocalizacion_salida':item.geolocalizacion_salida,'nombre_evalua':item.nombre_evalua,'comentario_cliente':item.comentario_cliente,'fecha_envio':fecha_envio};
+                        datosCedulaGeneral[i] = {'Valor':i,'id_cedula':item.id_cedula,'tipo_cedula':item.tipo_cedula,'id_usuario':item.id_usuario,'nombre_usuario':item.nombre_usuario,'fecha_entrada':item.fecha_entrada,'geolocalizacion_entrada': item.geolocalizacion_entrada,'id_cliente': item.id_cliente,'nombre_cliente': item.nombre_cliente,'horario_programado': item.horario_programado,'calificacion': 0,'fecha_salida':item.fecha_salida,'geolocalizacion_salida':item.geolocalizacion_salida,'nombre_evalua':item.nombre_evalua,'comentario_cliente':item.comentario_cliente,'fecha_envio':fecha_envio};
                     }
                     if(tipo == "checklist"){
                         databaseHandler.db.transaction(
@@ -64,7 +67,7 @@ function llevarTodo(id_cedula,tipo_cedula){
                                         var length = results.rows.length;
                                         for(var i = 0; i< length; i++){
                                             var item1 = results.rows.item(i);
-                                            checklist[i] = {'Valor':i,'id_pregunta':item1.id_pregunta, 'revision':item1.revision, 'nombre_fase':item1.nombre_fase, 'int_ext':item1.int_ext, 'id_fase':item1.id_fase, 'obligatorio':item1.obligatorio, 'no_pregunta':item1.no_pregunta, 'respuesta':item1.respuesta, 'modelo':item1.modelo, 'comentarios':item1.comentarios};
+                                            checklist[i] = {'Valor':i,'id_pregunta':item1.id_pregunta, 'revision':item1.revision, 'nombre_fase':item1.nombre_fase, 'int_ext':item1.int_ext, 'id_fase':item1.id_fase, 'obligatorio':item1.obligatorio, 'no_pregunta':item1.no_pregunta, 'respuesta':item1.respuesta, 'modelo':item1.modelo, 'comentarios':item1.comentarios, 'multiple':item1.multiple};
                                         }
                                         databaseHandler.db.transaction(
                                             function(tx){
@@ -74,7 +77,7 @@ function llevarTodo(id_cedula,tipo_cedula){
                                                         var length = results.rows.length;
                                                         for(var i = 0; i< length; i++){
                                                             var item2 = results.rows.item(i);
-                                                            datos_generales_checklist[i] = {'Valor':i, 'Unidad':item2.Unidad, 'Chasis':item2.Chasis, 'Familia':item2.Familia, 'marca':item2.marca, 'Empresa':item2.Empresa, 'FK_id_unidad':item2.FK_id_unidad, 'id_unidad_vs':item2.id_unidad_vs, 'FK_id_empresa':item2.FK_id_empresa, 'id_modelo_check':item2.id_modelo_check, 'comentarios_generales':item2.comentarios_generales};
+                                                            datos_generales_checklist[i] = {'Valor':i, 'Unidad':item2.Unidad, 'Chasis':item2.Chasis, 'Familia':item2.Familia, 'marca':item2.marca, 'Empresa':item2.Empresa, 'FK_id_unidad':item2.FK_id_unidad, 'id_unidad_vs':item2.id_unidad_vs, 'FK_id_empresa':item2.FK_id_empresa, 'id_modelo_check':item2.id_modelo_check, 'comentarios_generales':item2.comentarios_generales, 'fecha_revision':item2.fecha_revision};
                                                         }
                                                         $.ajax({
                                                             type: "POST",
@@ -98,7 +101,7 @@ function llevarTodo(id_cedula,tipo_cedula){
                                                                                     function(tx7, results){
                                                                                         localStorage.setItem("sendFlag", 0);
                                                                                         $("#li-"+item.id_cedula).remove();
-                                                                                        swal("Enviado!", "Ya se envio tu visita!", "success");
+                                                                                        swal("Enviado!", "", "success");
                                                                                     }
                                                                                 );
                                                                             }
@@ -182,7 +185,7 @@ function EliminarRegistrosAntiguos(){
 function EliminarReg(id_cedula,tipo_cedula){
     swal({
         title: "Aviso",
-        text: "Estas apunto de eliminar todos los datos de la cedula, ¿Estas seguro continuar con la acción?",
+        text: "Estas apunto de eliminar todos los datos de este registro, ¿Estas seguro continuar con la acción?",
         icon: "warning",
         buttons: true,
         dangerMode: true,

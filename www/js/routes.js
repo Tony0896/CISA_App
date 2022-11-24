@@ -23,44 +23,9 @@ var routes = [
     componentUrl:  './pages/newprod.html',
   },
   {
-    name: 'pdfs',
-    path: '/pdfs/',
-    componentUrl:  './pages/pdfs.html',
-  },
-  {  
-    name: 'settings', 
-    path: '/settings/',
-    componentUrl: './pages/settings.html',
-  },
-  {
-    name: 'visualizar',
-    path: '/visualizar/',
-    componentUrl:  './pages/visualizar.html',
-  },
-  {
-    name: 'visualizars',
-    path: '/visualizars/:IdCte /:IdCed',
-    componentUrl:  './pages/visualizars.html',
-  },
-  {
-    name: 'visualizarf',
-    path: '/visualizarf/:IdCte /:IdCed',
-    componentUrl:  './pages/visualizarf.html',
-  },
-  {
-    name: 'fcierre',
-    path: '/fcierre/',
-    Url: './pages/fcierre.html',
-  },
-  {
-    name: 'continuarc',
-    path: '/continuarc/',
-    componentUrl: './pages/continuar_ced.html',
-  },
-  {
-    name: 'bandeja',
-    path: '/bandeja/',
-    componentUrl: './pages/bandejaSalida.html',
+    name: 'history',
+    path: '/history/',
+    componentUrl:  './pages/history.html',
   },
   {
     name: 'construccion',
@@ -95,15 +60,10 @@ var routes = [
   },
   //fin de checklist 
   {
-    name: 'excel',
-    path: '/excel/',
-    componentUrl: './pages/excel.html',
-  }, 
-  {
-    name: 'datosgenerales',
-    path: '/datosgenerales/',
-    componentUrl: './pages/datosgenerales.html',
-  }, 
+    name: 'visualizar',
+    path: '/visualizar/',
+    componentUrl: './pages/visualizar.html',
+  },
   {
     name: 'tablaventa',
     path: '/tablaventa/',

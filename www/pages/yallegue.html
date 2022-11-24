@@ -30,6 +30,8 @@
                                 <input class="FWM-input" type="text" id="marca" readonly/>
                             <span class="span FWM-span-form" name="">Empresa</span>
                                 <input class="FWM-input" type="text" id="Empresa" readonly/>
+                            <span class="span FWM-span-form" name="">Fecha de revisión</span>
+                                <input class="FWM-input" type="date" id="fecha_revision" readonly/>
 
                             <input type="hidden" id="FK_unidad">
                             <input type="hidden" id="id_unidad">
@@ -46,13 +48,28 @@
     return {
         on: {      
             pageInit: function () {
-                var empresa = 1;
+                var empresa = localStorage.getItem("empresa");;
                 var self = this;
                 var app = self.$app; 
                 var OPCV = localStorage.getItem("Opcion");       
                 var Division = localStorage.getItem("Division");
                 var NomJson = 'Unidades_empresa'+empresa;
                 var NomDescCli = "Unidades_desc_empresa"+empresa;
+
+                var fecha = new Date();
+                var mes = fecha.getMonth()+1;
+                var day = fecha.getDate();;
+
+                if(mes<10 && mes>=0){
+                    mes = '0'+mes;
+                }
+                if(day<10 && day>=0){
+                    day = '0'+day;
+                }
+
+                var fecha_revision = fecha.getFullYear()+"-"+mes+"-"+day;
+
+                $("#fecha_revision").val(fecha_revision);
 
                 self.autocompleteDropdownAjax = app.autocomplete.create({
                     inputEl: '#autocomplete-dropdown-ajax',
