@@ -5,7 +5,7 @@
             <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
                 <i class="icon material-icons md-only" style="font-weight: 900;">arrow_back</i>
             </a>
-            <div class="title">Revisión de Imagen</div>
+            <div class="title">Revisión de Limpieza</div>
             <a style="margin-right: 10px;">
                 <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
             </a>
@@ -25,7 +25,7 @@
 
                     <div class="list FWM-fixing-form" style="margin-top: 5px;"> 
                         <span class="span FWM-span-form">Observaciones adicionales:</span>
-                            <textarea class="FWM-input" style="font-family: 'ITC Avant Garde Gothic', sans-serif;" id="comentarios_generales" cols="30" rows="10" onchange="guardaComentarios_generales(this.value)"></textarea>
+                            <textarea class="FWM-input" style="font-family: 'ITC Avant Garde Gothic', sans-serif;" id="comentarios_generales" cols="30" rows="10" onchange="guardaComentarios_generales_limp(this.value)"></textarea>
                         <div class="block grid-resizable-demo" style="top: 25px;margin-bottom: 80px;"></div>
                     </div>
                 </div>
@@ -43,12 +43,12 @@ return {
             databaseHandler.db.transaction(
                 function(tx){
                     tx.executeSql(
-                        "Select MAX(id_fase) as max_fase from checklist where id_cedula= ?",
+                        "Select MAX(id_fase) as max_fase from checklist_revlimp where id_cedula= ?",
                         [id_cedula],
                         function(tx, results){
                             var item2 = results.rows.item(0);
                             var max_fase = parseInt(item2.max_fase);
-                            $("#toolbar_down").append(`<a href="#" onclick="moveChecklist(`+max_fase+`);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Anterior</a>
+                            $("#toolbar_down").append(`<a href="#" onclick="moveChecklist_limp(`+max_fase+`);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Anterior</a>
                             <a href="#" onclick="EnviarCheckList();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Enviar <i class="icon material-icons md-only" style="display: inline-block;">check</i></a>`);
                             $("#toolbar_down").css("background-color","#239B56")
                         }
@@ -61,7 +61,7 @@ return {
             databaseHandler.db.transaction(
                 function(tx){
                     tx.executeSql(
-                        "Select * from checklist where id_cedula= ? AND respuesta = 2",
+                        "Select * from checklist_revlimp where id_cedula= ? AND respuesta = 2",
                         [id_cedula],
                         function(tx, results){
                             var length = results.rows.length;
@@ -106,7 +106,7 @@ return {
             databaseHandler.db.transaction(
                 function(tx){
                     tx.executeSql(
-                        "Select comentarios_generales from datos_generales_checklist where id_cedula = ?",
+                        "Select comentarios_generales from datos_generales_revlimp where id_cedula = ?",
                         [id_cedula],
                         function(tx, results){
                             var length = results.rows.length;

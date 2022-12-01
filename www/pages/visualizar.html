@@ -45,7 +45,7 @@
         var cedula = localStorage.getItem("IdCed");
         var TipoCed = localStorage.getItem("TipoC");
         app.preloader.show('red');
-        app.request.get('http://189.254.4.243/CISAApp/Archivos/App/datageneral.php', { Id: cedula }, function (data) {
+        app.request.get('http://189.254.4.243/CISAApp/Archivos/App/datageneral.php', { Id: cedula, TipoCed:TipoCed }, function (data) {
           $('.sentencia1').remove();
           var content = JSON.parse(data);
           if (TipoCed == 'checklist') {

@@ -100,8 +100,12 @@
                     }else {
                       if(data){
                         if(data == 0){
+                          swal("","Algo salió mal.","warning");
+                        }else if(data == 2){
                           swal("","Las credenciales no coinciden.","warning");
-                        }else{
+                        } else if(data == 3){
+                          swal("","Al parecer aún no tienes permisos para entrar a la app.","warning");
+                        } else{
                           var separado = data.split("/");
                           var Usuario = separado[0];
                           var Nombre = separado[1];
@@ -113,6 +117,8 @@
                           if(AccesosUser.length > 0){
                             for(i=0; i < AccesosUser.length; i++){
                               if(AccesosUser[i] == "app_movil"){
+                                encontro = true;
+                              }else if (AccesoUser == '(Todos)'){
                                 encontro = true;
                               }
                             }
@@ -143,7 +149,19 @@
                               }else{
                                 localStorage.setItem("Modulo", 0);
                               }
-                              window.location.href = "menu.html";
+                              // window.location.href = "menu.html";
+                            }else if (AccesoUser == '(Todos)'){
+                              localStorage.setItem("sendFlag", 0);
+                              localStorage.setItem("Usuario", Usuario);
+                              localStorage.setItem("nombre", Nombre);
+                              localStorage.setItem("empresa", $("#empresa").val());
+                              localStorage.setItem("Area", Area);
+                              if(Modulo){
+                                localStorage.setItem("Modulo", Modulo);
+                              }else{
+                                localStorage.setItem("Modulo", 0);
+                              }
+                               window.location.href = "menu.html";
                             }else{
                               swal("","Tu usuario no tiene los suficientes permisos para entrar a la app.","warning");
                             }
@@ -163,15 +181,6 @@
               }
             }else{
               swal("","Debes de ingresar tus credenciales.","warning");
-            }
-          });
-  
-          $("#contra").keypress(function(event){
-            if(event.keyCode == 13){
-              var nombre = $('#nombre').val();
-              var contra = $("#contra").val();
-              var datos = "nombre=" + nombre + "&contra=" + contra +"&insert=";
-              
             }
           });
         });

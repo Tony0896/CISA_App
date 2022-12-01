@@ -37,6 +37,27 @@ var routes = [
     path: '/tablerocalificaciones/',
     componentUrl: './pages/tablerocalificaciones.html',
   },
+  //inicio Revision Limpieza
+  {
+    name: 'yallegueLimp',
+    path: '/yallegueLimp/',
+    componentUrl: './pages/yallegueLimp.html',
+  },
+  {
+    name: 'formLimp1',
+    path: '/formLimp1/',
+    componentUrl: './pages/formLimp1.html',
+  },
+  {
+    name: 'formLimp2',
+    path: '/formLimp2/',
+    componentUrl: './pages/formLimp2.html',
+  },
+  {
+    name: 'formLimp3',
+    path: '/formLimp3/',
+    componentUrl: './pages/formLimp3.html',
+  },
   //inicio de checklist
   {
     name: 'yallegue',

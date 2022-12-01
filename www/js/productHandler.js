@@ -66,5 +66,53 @@ var productHandler={
           function () {}
         );
   },
-  //(id_cedula,data[j].id_pregunta,data[j].revision,data[j].nombre_fase,data[j].nombre_seccion,data[j].fase,data[j].obligatorio,data[j].no_pregunta,2,data[j].modelos,aux,aux2);
+  addDatosGenerales_limp: function (id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "insert into datos_generales_revlimp(id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision],
+            function (tx, results) {
+              //console.log("Frio correcto");
+            },
+            function (tx, error) {
+              console.error("Error registrar:" + error.message);
+            }
+          );
+        },
+        function (error) {
+            console.log(error)
+        },
+  
+        function () {}
+      );
+  },
+  insertPreguntas_limp: function (id_cedula,id_pregunta,revision,nombre_fase,nombre_seccion,fase,obligatorio,no_pregunta,respuesta,modelos,aux,aux2,multiple){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "insert into checklist_revlimp(id_cedula, id_pregunta, revision, nombre_fase, int_ext, id_fase, obligatorio, no_pregunta, respuesta, modelo, multiple) values(?,?,?,?,?,?,?,?,?,?,?)",
+            [id_cedula,id_pregunta,revision,nombre_fase,nombre_seccion,fase,obligatorio,no_pregunta,respuesta,modelos,multiple],
+            function (tx, results) {
+              if(aux == aux2){
+                app.dialog.close();
+                app.views.main.router.navigate({ name: 'formLimp1'});
+              }else{
+                var dialog = app.dialog.get();
+                dialog.setProgress((aux2 * 100) / aux);
+                dialog.setText(aux2+' de '+aux);
+              }
+            },
+            function (tx, error) {
+              console.error("Error registrar:" + error.message);
+            }
+          );
+        },
+        function (error) {
+            console.log(error)
+        },
+
+        function () {}
+      );
+  },
 };

@@ -26,7 +26,7 @@ var databaseHandler = {
                     }
                 );
                 var empresa = localStorage.getItem("nombre_empresa");
-                //if(empresa == "DIPREC"){
+                //if(empresa == "MANTTO"){
                     tx.executeSql(
                         "create table if not exists checklist(id_check integer primary key, id_cedula integer, id_pregunta integer, revision text, nombre_fase text, int_ext text, id_fase int, obligatorio int, no_pregunta int, respuesta int, modelo int, comentarios text, multiple int)",
                         [],
@@ -39,6 +39,26 @@ var databaseHandler = {
                     );
                     tx.executeSql(
                         "create table if not exists datos_generales_checklist(id_dato integer primary key,id_cedula integer, Unidad text, Chasis text, Familia text, marca text, Empresa text, FK_id_unidad int, id_unidad_vs int, FK_id_empresa int, id_modelo_check int, comentarios_generales text, fecha_revision text)",
+                        [],
+                        function(tx, results){
+                            // console.log("Se creo Servicio tecnico DIPREC correctamente!");
+                        },
+                        function(tx, error){
+                            console.error("Error al crear la tabla de levantamiento_smc: " + error.message);
+                        }
+                    );
+                    tx.executeSql(
+                        "create table if not exists datos_generales_revlimp(id_dato integer primary key,id_cedula integer, Unidad text, Chasis text, Familia text, marca text, Empresa text, FK_id_unidad int, id_unidad_vs int, FK_id_empresa int, id_modelo_check int, comentarios_generales text, fecha_revision text)",
+                        [],
+                        function(tx, results){
+                            // console.log("Se creo Servicio tecnico DIPREC correctamente!");
+                        },
+                        function(tx, error){
+                            console.error("Error al crear la tabla de levantamiento_smc: " + error.message);
+                        }
+                    );
+                    tx.executeSql(
+                        "create table if not exists checklist_revlimp(id_check integer primary key, id_cedula integer, id_pregunta integer, revision text, nombre_fase text, int_ext text, id_fase int, obligatorio int, no_pregunta int, respuesta int, modelo int, comentarios text, multiple int)",
                         [],
                         function(tx, results){
                             // console.log("Se creo Servicio tecnico DIPREC correctamente!");

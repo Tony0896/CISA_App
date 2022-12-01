@@ -5,7 +5,7 @@
             <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
                 <i class="icon material-icons md-only" style="font-weight: 900;">arrow_back</i>
             </a>
-            <div class="title">Revisión de Imagen</div>
+            <div class="title">Revisión de Limpieza</div>
             <a style="margin-right: 10px;">
                 <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
             </a>
@@ -39,7 +39,7 @@ return {
             databaseHandler.db.transaction(
                 function(tx){
                     tx.executeSql(
-                        "Select MAX(id_fase) as max_fase from checklist where id_cedula= ?",
+                        "Select MAX(id_fase) as max_fase from checklist_revlimp where id_cedula= ?",
                         [id_cedula],
                         function(tx, results){
                             var item2 = results.rows.item(0);
@@ -47,18 +47,18 @@ return {
                             if (fase){
                                 if(fase == max_fase){
                                     var Anterior = fase-1;
-                                    $("#toolbar_down").append(`<a href="#" onclick="moveChecklist(`+Anterior+`);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Anterior</a>
-                                    <a href="#" onclick="TerminarCheckList();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Terminar <i class="icon material-icons md-only" style="display: inline-block;">check</i></a>`);
+                                    $("#toolbar_down").append(`<a href="#" onclick="moveChecklist_limp(`+Anterior+`);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Anterior</a>
+                                    <a href="#" onclick="TerminarCheckList_limp();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Terminar <i class="icon material-icons md-only" style="display: inline-block;">check</i></a>`);
                                     $("#toolbar_down").css("background-color","#239B56")
                                 }else{
                                     var Anterior = fase-1;
                                     $("#toolbar_down").css("background-color","#005D99");
                                     var Siguiente = fase+1;
-                                    $("#toolbar_down").append(`<a href="#" onclick="moveChecklist(`+Anterior+`);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Anterior</a>
-                                    <a href="#" onclick="moveChecklist(`+Siguiente+`);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Siguiente</a>`);
+                                    $("#toolbar_down").append(`<a href="#" onclick="moveChecklist_limp(`+Anterior+`);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Anterior</a>
+                                    <a href="#" onclick="moveChecklist_limp(`+Siguiente+`);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Siguiente</a>`);
                                 }
                             }else{
-                                $("#toolbar_down").append(`<a href="#" onclick="moveChecklist(1);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Siguiente</a>`);
+                                $("#toolbar_down").append(`<a href="#" onclick="moveChecklist_limp(1);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Siguiente</a>`);
                             }
                         }
                     );
@@ -70,7 +70,7 @@ return {
             databaseHandler.db.transaction(
                 function(tx){
                     tx.executeSql(
-                        "Select * from checklist where id_cedula= ? AND id_fase = ?",
+                        "Select * from checklist_revlimp where id_cedula= ? AND id_fase = ?",
                         [id_cedula,fase],
                         function(tx, results){
                             var length = results.rows.length;
@@ -95,9 +95,7 @@ return {
                                 if(item.comentarios){
                                     comentarios = item.comentarios;
                                 }
-                                //$("#datos_form").append(`<div style="display: flex;margin-top: 5px;"><span class="span-pregunta span FWM-span-form">`+item.id_fase+`.`+item.no_pregunta+`</span>&emsp; <span class="span-pregunta span FWM-span-form">`+item.revision+`</span> </div> <div style="display: flex;justify-content: space-around;margin-bottom: 10px;margin-top: 5px;"> <label id="label`+item.id_pregunta+`-1" class="radios `+check1+`"><input type="radio" id="radio`+item.id_pregunta+`-1" onclick="validaradios(this.id,3);" `+check1+`> Bueno </label>  <label id="label`+item.id_pregunta+`-2" class="radios `+check2+`"><input type="radio" id="radio`+item.id_pregunta+`-2" onclick="validaradios(this.id,3);" `+check2+`> Malo </label> <label id="label`+item.id_pregunta+`-3" class="radios `+check3+`"><input type="radio" id="radio`+item.id_pregunta+`-3" onclick="validaradios(this.id,3);" `+check3+`> N/A </label><button class="col button button-outline button-round button-raised" style="width: auto;border: 2px solid #cf0000;margin-top: auto;margin-bottom: auto;" onclick="agregaComentarios(`+item.id_pregunta+`)";><i class="material-icons md-light panel-cerrar" style="color: #cf0000;margin: auto;text-align: center;align-items: center;display: flex;">chat</i></button></div><div style="margin-bottom: 10px;"><span style="color: #ff0000;font-style: italic;" id="span-`+item.id_pregunta+`">`+comentarios+`</span></div><hr>`);
-                                //$("#datos_form").append(`<div style="display: flex;margin-top: 5px;"><span class="span-pregunta span FWM-span-form">`+item.id_fase+`.`+item.no_pregunta+`</span>&emsp; <span class="span-pregunta span FWM-span-form">`+item.revision+`</span> </div> <div style="display: flex;justify-content: space-around;margin-bottom: 10px;margin-top: 5px;"> <label id="label`+item.id_pregunta+`-1" class="radios `+check1+`"><input type="radio" id="radio`+item.id_pregunta+`-1" onclick="validaradios(this.id,3);" `+check1+`> Bueno </label>  <label id="label`+item.id_pregunta+`-2" class="radios `+check2+`"><input type="radio" id="radio`+item.id_pregunta+`-2" onclick="validaradios(this.id,3);" `+check2+`> Malo </label></div><div style="margin-bottom: 10px;"><span style="color: #ff0000;font-style: italic;" id="span-`+item.id_pregunta+`">`+comentarios+`</span></div><hr>`);
-                                $("#datos_form").append(`<div style="display: flex;margin-top: 5px;"><span class="span-pregunta span FWM-span-form">`+item.id_fase+`.`+item.no_pregunta+`</span>&emsp; <span class="span-pregunta span FWM-span-form">`+item.revision+`</span> </div> <div style="display: flex;justify-content: space-around;margin-bottom: 10px;margin-top: 5px;"> <label id="label`+item.id_pregunta+`-1" class="radios `+check1+`"><input type="radio" id="radio`+item.id_pregunta+`-1" onclick="validaradios(this.id,3);" `+check1+`> Bueno </label>  <label id="label`+item.id_pregunta+`-2" class="radios `+check2+`"><input type="radio" id="radio`+item.id_pregunta+`-2" onclick="validaradios(this.id,3);" `+check2+`> Malo </label></div><div style="margin-bottom: 10px;"><span style="color: #ff0000;font-style: italic;" id="span-`+item.id_pregunta+`">`+comentarios+`</span></div><hr>`);
+                                $("#datos_form").append(`<div style="display: flex;margin-top: 5px;"><span class="span-pregunta span FWM-span-form">`+item.id_fase+`.`+item.no_pregunta+`</span>&emsp; <span class="span-pregunta span FWM-span-form">`+item.revision+`</span> </div> <div style="display: flex;justify-content: space-around;margin-bottom: 10px;margin-top: 5px;"> <label id="label`+item.id_pregunta+`-1" class="radios `+check1+`"><input type="radio" id="radio`+item.id_pregunta+`-1" onclick="validaradios_limp(this.id,3);" `+check1+`> Bueno </label>  <label id="label`+item.id_pregunta+`-2" class="radios `+check2+`"><input type="radio" id="radio`+item.id_pregunta+`-2" onclick="validaradios_limp(this.id,3);" `+check2+`> Malo </label></div><div style="margin-bottom: 10px;"><span style="color: #ff0000;font-style: italic;" id="span-`+item.id_pregunta+`">`+comentarios+`</span></div><hr>`);
                             }
                             $("#datos_form").append(`<div class="block grid-resizable-demo" style="top: 25px;margin-bottom: 80px;"></div>`);
                             if (fase){
@@ -107,7 +105,7 @@ return {
                                 databaseHandler.db.transaction(
                                     function(tx){
                                         tx.executeSql(
-                                            "Select * from datos_generales_checklist where id_cedula= ?",
+                                            "Select * from datos_generales_revlimp where id_cedula= ?",
                                             [id_cedula],
                                             function(tx, results){
                                                 var item3 = results.rows.item(0);

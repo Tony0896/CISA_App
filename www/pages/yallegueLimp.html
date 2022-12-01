@@ -5,14 +5,14 @@
             <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
                 <i class="icon material-icons md-only" style="font-weight: 900;">arrow_back</i>
             </a>
-            <div class="title">Revisión de Imagen</div>
+            <div class="title">Revisión de Limpieza</div>
             <a style="margin-right: 10px;">
                 <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
             </a>
         </nav>
         <div class="toolbar tabbar toolbar-bottom">
             <div class="toolbar-inner" style="background-color: #005D99;">
-                <a href="#" onclick="IniciaCheckList();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Iniciar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+                <a href="#" onclick="IniciaCheckListLimp();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Iniciar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
             </div>
         </div>
         <div class="page-content">
@@ -88,7 +88,7 @@
                         }
                         autocomplete.preloaderShow();
                         app.request({
-                            url: cordova.file.dataDirectory + "jsons/"+NomJson+".json", 
+                            url: cordova.file.dataDirectory + "jsons_limp/"+NomJson+".json", 
                             method: 'GET',
                             dataType: 'json',
                             data: {
@@ -107,7 +107,7 @@
                 $('#autocomplete-dropdown-ajax').change(function () {
                     var unidad = $("#autocomplete-dropdown-ajax").val();
                     var encontro = false;
-                    app.request.get(cordova.file.dataDirectory + "jsons/"+NomDescCli+".json", function (data) {
+                    app.request.get(cordova.file.dataDirectory + "jsons_limp/"+NomDescCli+".json", function (data) {
                         var content2 = JSON.parse(data);
                         for(var x = 0; x < content2.length; x++) {
                             if(content2[x].id_unidad == unidad){

@@ -79,10 +79,14 @@
             pageInit: function (e, page) {
                 var IdU = localStorage.getItem("Usuario");
                 var id_empresa = localStorage.getItem("empresa");
-                
+                if(localStorage.getItem("Modulos") == 'Imagen'){
+                    var tipo = "checklist";
+                } else if(localStorage.getItem("Modulos") == 'Limpieza'){
+                    var tipo = "Limpieza";
+                }
                 //Consultas para lista
                 function cargar(){
-                    app.request.get('http://189.254.4.243/CISAApp/Archivos/App/historial.php', { IdUsuario: IdU}, function (data) {
+                    app.request.get('http://189.254.4.243/CISAApp/Archivos/App/historial.php', { IdUsuario: IdU, tipo:tipo}, function (data) {
                         var content = JSON.parse(data);
                         if(content == 0){
                             $("#cedul").html(`<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`);
