@@ -770,7 +770,6 @@ background: transparent;
 }
 .sheet-modal.modal-in{
   height: 80%;
-  z-index: 9999;
 }
 .label_modal{
   font-weight: bold;
@@ -815,4 +814,10 @@ td.respuesta_mala{
 td.respuesta_buena{
   color: #2ECC71;
   font-weight: 600;
+}
+.swal-modal{
+  z-index: auto;
+}
+.swal-overlay--show-modal{
+  z-index: 100000;
 }
