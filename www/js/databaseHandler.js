@@ -25,8 +25,7 @@ var databaseHandler = {
                         console.error("Error al crear la tabla de cedulas_general: " + error.message);
                     }
                 );
-                var empresa = localStorage.getItem("nombre_empresa");
-                //if(empresa == "MANTTO"){
+                if(localStorage.getItem("Modulos") == 'Imagen' || localStorage.getItem("Modulos") == 'Checklist' || localStorage.getItem("Modulos") == 'Limpieza'){
                     tx.executeSql(
                         "create table if not exists checklist(id_check integer primary key, id_cedula integer, id_pregunta integer, revision text, nombre_fase text, int_ext text, id_fase int, obligatorio int, no_pregunta int, respuesta int, modelo int, comentarios text, multiple int)",
                         [],
@@ -67,7 +66,7 @@ var databaseHandler = {
                             console.error("Error al crear la tabla de levantamiento_smc: " + error.message);
                         }
                     );
-                //}
+                }
             },
             function(error){
                 console.error("Error al crear la base de datos: " + error.message);

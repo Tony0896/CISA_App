@@ -89,7 +89,7 @@
                               <li class="container_info">
                                 <div class="item-content">
                                   <i class="material-icons md-light panel-cerrar" style="color: #005D99;">share</i>
-                                  <div class="item-title"><a class="panel-text">Versión 1.1.5</a></div>
+                                  <div class="item-title"><a class="panel-text">Versión 1.1.6</a></div>
                                 </div>
                               </li>
                               <li class="container_info" onclick="logaout();">
@@ -201,6 +201,8 @@
     window.localStorage.removeItem("fase");
     window.localStorage.removeItem("IdCed");
     window.localStorage.removeItem("TipoC");
+    window.localStorage.removeItem("actualizacion");
+    window.localStorage.removeItem("mensajeError");
 
     var modulos =localStorage.getItem("Modulo").split(",");
     for(i=0;i < modulos.length; i++){
@@ -239,6 +241,8 @@
 
     $("#nombre_usuario").html(localStorage.getItem("nombre"));
     function updateData(){
+      window.localStorage.removeItem("actualizacion");
+      window.localStorage.removeItem("mensajeError");
       if(localStorage.getItem("Modulos")){
         if(localStorage.getItem("Modulos") == 'Limpieza'){
           var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_limp/";
@@ -310,58 +314,66 @@
                   });
                   jsonHijos.Get(RutaJSONS + valor.jsonName);
                   function DownloaderError(err) {
+                    localStorage.setItem("actualizacion",1);
                     console.error("Error al descargar: " + valor.jsonName + " " + err);
                     $("#processclick").html('<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>');
-                    app.dialog.alert('Error al actualizar datos', 'Error');
                   }
                   function DownloaderSuccess() {
-                    count++;
-                    progress += 1;
-                    var interval = setInterval(function () {
-                      dialog.setProgress((progress * 100) / nameJson.length);
-                      dialog.setText('Archivo ' + progress + ' de ' + nameJson.length);
-                      if (progress === nameJson.length) {
-                        clearInterval(interval);
+                    if(localStorage.getItem("actualizacion")){
+                      if(!localStorage.getItem("mensajeError")){
+                        localStorage.setItem("mensajeError",1);
                         dialog.close();
+                        app.dialog.alert('Error al actualizar datos', 'Error');
                       }
-                    }, 300)
-                    if(count == nameJson.length){
-                      app.ptr.done();
-                      $("#process").hide();
-                      var fecha = new Date();
-                      var fFinal = fecha.getFullYear()+"-"+(fecha.getMonth()+1)+"-"+fecha.getDate()+" "+fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
-                      databaseHandler.db.transaction(
-                        function(tx5){
-                          tx5.executeSql(
-                            "INSERT INTO Actualizaciones (IdUsuario, Fecha) VALUES (?,?)",
-                            [IdUsuario, fFinal,],
-                            function(tx5, results){
-                              databaseHandler.db.transaction(
-                                function(tx5){
-                                  tx5.executeSql(
-                                    "SELECT * FROM Actualizaciones ORDER BY idActualizacion DESC LIMIT 1",
-                                    [],
-                                    function(tx5, results){
-                                      var length = results.rows.length;
-                                      var item1 = results.rows.item(0);
-                                      $("#Fecha").html(item1.Fecha);
-                                      $("#Fecha2").html(item1.Fecha);
-                                      // $("#Fecha").css("color","#1e90ff");
-                                      $("#Fecha").css("color","#FFFFFF");
-                                      $("#Fecha2").css("color","#00A7B5");
-                                    }
-                                  );
-                                },
-                                function(error){},
-                                function(){}
-                              );
-                            }
-                          );
-                        },
-                        function(error){},
-                        function(){}
-                      );
-                      $("#processclick").html('<i class="material-icons md-light" style="color: #1D4F91;margin-right: 22.84px;">cloud_done</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>');
+                    }else{
+                      count++;
+                      progress += 1;
+                      var interval = setInterval(function () {
+                        dialog.setProgress((progress * 100) / nameJson.length);
+                        dialog.setText('Archivo ' + progress + ' de ' + nameJson.length);
+                        if (progress === nameJson.length) {
+                          clearInterval(interval);
+                          dialog.close();
+                        }
+                      }, 300)
+                      if(count == nameJson.length){
+                        app.ptr.done();
+                        $("#process").hide();
+                        var fecha = new Date();
+                        var fFinal = fecha.getFullYear()+"-"+(fecha.getMonth()+1)+"-"+fecha.getDate()+" "+fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
+                        databaseHandler.db.transaction(
+                          function(tx5){
+                            tx5.executeSql(
+                              "INSERT INTO Actualizaciones (IdUsuario, Fecha) VALUES (?,?)",
+                              [IdUsuario, fFinal,],
+                              function(tx5, results){
+                                databaseHandler.db.transaction(
+                                  function(tx5){
+                                    tx5.executeSql(
+                                      "SELECT * FROM Actualizaciones ORDER BY idActualizacion DESC LIMIT 1",
+                                      [],
+                                      function(tx5, results){
+                                        var length = results.rows.length;
+                                        var item1 = results.rows.item(0);
+                                        $("#Fecha").html(item1.Fecha);
+                                        $("#Fecha2").html(item1.Fecha);
+                                        // $("#Fecha").css("color","#1e90ff");
+                                        $("#Fecha").css("color","#FFFFFF");
+                                        $("#Fecha2").css("color","#00A7B5");
+                                      }
+                                    );
+                                  },
+                                  function(error){},
+                                  function(){}
+                                );
+                              }
+                            );
+                          },
+                          function(error){},
+                          function(){}
+                        );
+                        $("#processclick").html('<i class="material-icons md-light" style="color: #1D4F91;margin-right: 22.84px;">cloud_done</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>');
+                      }
                     }
                   }
                 });
