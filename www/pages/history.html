@@ -67,6 +67,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div style="margin-bottom: 100px;"></div>
                     </div>
                 </div>
             </div>
@@ -86,7 +87,7 @@
                 }
                 //Consultas para lista
                 function cargar(){
-                    app.request.get('http://189.254.4.243/CISAApp/Archivos/App/historial.php', { IdUsuario: IdU, tipo:tipo}, function (data) {
+                    app.request.get('http://189.254.4.243/CISAApp/Archivos/App/historial.php', { IdUsuario: IdU, tipo:tipo, empresa:id_empresa}, function (data) {
                         var content = JSON.parse(data);
                         if(content == 0){
                             $("#cedul").html(`<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`);
