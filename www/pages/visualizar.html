@@ -2,7 +2,7 @@
   <div class="page">
     <nav class="left top-left" style="justify-content: space-between;">
       <a class="link back" style="margin-left: 10px; display: inline-flex;align-items: center;">
-        <i class="icon material-icons md-only" style="font-weight: 900;">arrow_back</i>
+        <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
       </a>
       <div class="title">Historial</div>
       <a style="margin-right: 10px;">
@@ -45,7 +45,10 @@
         var cedula = localStorage.getItem("IdCed");
         var TipoCed = localStorage.getItem("TipoC");
         app.preloader.show('red');
-        app.request.get('http://189.254.4.243/CISAApp/Archivos/App/datageneral.php', { Id: cedula, TipoCed:TipoCed }, function (data) {
+        
+        var url = localStorage.getItem("url");
+
+        app.request.get(url+'/datageneral.php', { Id: cedula, TipoCed:TipoCed }, function (data) {
           $('.sentencia1').remove();
           var content = JSON.parse(data);
           if (TipoCed == 'checklist') {

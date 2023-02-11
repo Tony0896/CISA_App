@@ -21,7 +21,7 @@
          <!-- Navsbars -->
         <nav class="left top-left" style="justify-content: space-between;">
             <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
-                <i class="icon material-icons md-only" style="font-weight: 900;">arrow_back</i>
+                <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
             </a>
             <div class="title">Historial</div>
             <a style="margin-right: 10px;">
@@ -85,9 +85,10 @@
                 } else if(localStorage.getItem("Modulos") == 'Limpieza'){
                     var tipo = "Limpieza";
                 }
+                var url = localStorage.getItem("url");
                 //Consultas para lista
                 function cargar(){
-                    app.request.get('http://189.254.4.243/CISAApp/Archivos/App/historial.php', { IdUsuario: IdU, tipo:tipo, empresa:id_empresa}, function (data) {
+                    app.request.get(url+'/historial.php', { IdUsuario: IdU, tipo:tipo, empresa:id_empresa}, function (data) {
                         var content = JSON.parse(data);
                         if(content == 0){
                             $("#cedul").html(`<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`);

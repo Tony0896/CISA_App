@@ -80,6 +80,38 @@ var routes = [
     componentUrl: './pages/formCheck3.html',
   },
   //fin de checklist 
+  //Inicio Desincorporacion
+  {
+    name: 'formDesin1',
+    path: '/formDesin1/',
+    componentUrl: './pages/formDesin1.html',
+  },
+  {
+    name: 'formDesin2',
+    path: '/formDesin2/',
+    componentUrl: './pages/formDesin2.html',
+  },
+  {
+    name: 'formDesin3',
+    path: '/formDesin3/',
+    componentUrl: './pages/formDesin3.html',
+  },
+  {
+    name: 'formDesin4',
+    path: '/formDesin4/',
+    componentUrl: './pages/formDesin4.html',
+  },
+  {
+    name: 'formDesin5',
+    path: '/formDesin5/',
+    componentUrl: './pages/formDesin5.html',
+  },
+  {
+    name: 'yallegue_desin',
+    path: '/yallegue_desin/',
+    componentUrl: './pages/yallegue_desin.html',
+  },
+  //Fin Desincorporacion
   {
     name: 'visualizar',
     path: '/visualizar/',

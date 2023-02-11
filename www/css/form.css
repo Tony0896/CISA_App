@@ -148,14 +148,14 @@ select:focus{
 }
 
 h2{
-  color: #063E7F;
+  color: #005D99;
   font-size: 20px;
   font-family: 'ITC Avant Garde Gothic', sans-serif;
   margin-top: 35px;
 }
 .tabla-levantamiento-{
   text-align: center;
-  background-color: #063E7F;
+  background-color: #005D99;
 
 }
 .global-dates{
@@ -237,6 +237,9 @@ i.icon{
 }
 .FWM-input:focus {
   border: 2px solid #3498db !important;
+}
+.epmty_input {
+  border: 2px solid #FF0037 !important;
 }
 input[type="radio"]{
   transform: scale(1.3);

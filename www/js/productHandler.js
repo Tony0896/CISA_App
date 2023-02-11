@@ -115,4 +115,138 @@ var productHandler={
         function () {}
       );
   },
+  addDesincorHeader: function (id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario, estatus_servidor, id_servidor){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "insert into desincorporaciones(id_cedula, empresa, fecha, estatus, userApertura, estatus_servidor, id_servidor) values(?, ?, ?, ?, ?, ?, ?)",
+            [id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario,estatus_servidor, id_servidor],
+            function (tx, results) { },
+            function (tx, error) { console.error("Error registrar:" + error.message); }
+          );
+        },
+        function (error) {},
+        function () {}
+      );
+  },
+  addDesincorHeader2: function (id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario, estatus_servidor, id_servidor, usuarioCierre){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "insert into desincorporaciones(id_cedula, empresa, fecha, estatus, userApertura, estatus_servidor, id_servidor, userCierre) values(?, ?, ?, ?, ?, ?, ?, ?)",
+            [id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario,estatus_servidor, id_servidor, usuarioCierre],
+            function (tx, results) { },
+            function (tx, error) { console.error("Error registrar:" + error.message); }
+          );
+        },
+        function (error) {},
+        function () {}
+      );
+  },
+  addDetailsDes: function (ID, IDCabecero, Apoyo, JornadasNoIncorporadas, HoraD, HoraI, UnidadDID, UnidadD, UnidadIID, UnidadI, Itinerario, Motivo, Falla, SentidoD, SentidoI, UbicacionD, Incumplimiento, OperadorD, OperadorI, KmD, KmI, KmPerdidos, FolioD, FolioI, UsuarioI, UsuarioD, HoraCapturaD, HoraCapturaI, Origen, UbicacionI, x, length, id_cedula){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "SELECT COUNT(id_cedula) as cont from desincorporacionesD WHERE id_servidor = ?",
+            [ID],
+            function (tx, results) {
+              var item = results.rows.item(0);
+              if(item.cont == 0){
+                databaseHandler.db.transaction(
+                  function (tx) {
+                    if(UnidadI){
+                      var estatus_servidor = 4;
+                    } else {
+                      var estatus_servidor = 2;
+                    }
+                    tx.executeSql(//
+                      "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, HoraInc, UnidadIncID, UnidadInc, SentidoInc, Inclumplimiento, OperadorInc, KmInc, KmPerdidos, FolioInc, Usuarioinc, HoraIncR, UbicacionInc) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                      [id_cedula, Apoyo, JornadasNoIncorporadas, HoraD, UnidadDID, UnidadD, Itinerario, Motivo, Falla, SentidoD, UbicacionD, OperadorD, KmD, FolioD, UsuarioD,estatus_servidor, ID, HoraCapturaD, HoraI, UnidadIID, UnidadI, SentidoI, Incumplimiento, OperadorI, KmI, KmPerdidos, FolioI, UsuarioI, HoraCapturaI, UbicacionI],
+                      function (tx, results) {
+                        console.log("inserta")
+                      },
+                      function (tx, error) { }
+                    );
+                  },
+                  function (error) { },
+                  function (error ) { }
+                );
+              } else{
+                databaseHandler.db.transaction(
+                  function (tx) {
+                    if(UnidadI){
+                      var estatus_servidor = 4;
+                    } else {
+                      var estatus_servidor = 2;
+                    }
+                    tx.executeSql(
+                      "UPDATE desincorporacionesD SET apoyo = ?, jornadas = ?, HoraDes = ?, UnidadDesinID = ?, UnidadDesin = ?, Itinerario = ?, Falla = ?, DetalleFalla = ?, SentidoDes = ?, UbicacionDes = ?, OperadorDes = ?, KmDes = ?, FolioDes = ?, UsuarioDes = ?,estatus_servidor = ?, HoraDesR = ?, HoraInc = ?, UnidadIncID = ?, UnidadInc = ?, SentidoInc = ?, Inclumplimiento = ?, OperadorInc = ?, KmInc = ?, KmPerdidos = ?, FolioInc = ?, Usuarioinc = ?, HoraIncR = ?, UbicacionInc = ? WHERE id_servidor = ?",
+                      [Apoyo, JornadasNoIncorporadas, HoraD, UnidadDID, UnidadD, Itinerario, Motivo, Falla, SentidoD, UbicacionD, OperadorD, KmD, FolioD, UsuarioD,estatus_servidor, HoraCapturaD, HoraI, UnidadIID, UnidadI, SentidoI, Incumplimiento, OperadorI, KmI, KmPerdidos, FolioI, UsuarioI, HoraCapturaI, UbicacionI, ID],
+                      function (tx, results) {
+                          console.log("actualiza")
+                      },
+                      function (tx, error) { }
+                    );
+                  },
+                  function (error) { },
+                  function (error) { }
+                ); 
+              }
+             },
+            function (tx, error) {  }
+          );
+        },
+        function (error) {},
+        function () {}
+      );
+  },
+  addDetailsApoyo: function (ID, IDCabecero, Apoyo, TipoUnidad, Hora, UnidadID,Unidad,Ubicacion,Itinerario,TramoDeApoyo,Sentido,kilometrajeUnidad,kilometrajeApoyo,Operador,Usuario,HoraCaptura,Origen, x, length, id_cedula){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "SELECT COUNT(id_cedula) as cont from TRFapoyo WHERE id_servidor = ?",
+            [ID],
+            function (tx, results) {
+              var item = results.rows.item(0);
+              if(item.cont == 0){
+                databaseHandler.db.transaction(
+                  function (tx) {
+                    var estatus_servidor = 4;
+                    tx.executeSql(//
+                      "insert into TRFapoyo(id_cedula,estatus_servidor, id_servidor, Apoyo, TipoUnidad, Hora, UnidadID,Unidad,Ubicacion,Itinerario,TramoDeApoyo,Sentido,kilometrajeUnidad,kilometrajeApoyo,Operador,Usuario,HoraCaptura) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                      [id_cedula, estatus_servidor, ID, Apoyo, TipoUnidad, Hora, UnidadID,Unidad,Ubicacion,Itinerario,TramoDeApoyo,Sentido,kilometrajeUnidad,kilometrajeApoyo,Operador,Usuario,HoraCaptura],
+                      function (tx, results) {
+                        console.log("inserta")
+                      },
+                      function (tx, error) { }
+                    );
+                  },
+                  function (error) { },
+                  function (error ) { }
+                );
+              } else{
+                databaseHandler.db.transaction(
+                  function (tx) {
+                    var estatus_servidor = 4;
+                    tx.executeSql(
+                      "UPDATE TRFapoyo SET estatus_servidor = ?, Apoyo = ?, TipoUnidad = ?, Hora = ?, UnidadID = ?,Unidad = ?,Ubicacion = ?,Itinerario = ?,TramoDeApoyo = ?,Sentido = ?,kilometrajeUnidad = ?,kilometrajeApoyo = ?,Operador = ?,Usuario = ?,HoraCaptura = ? WHERE id_servidor = ?",
+                      [estatus_servidor, Apoyo, TipoUnidad, Hora, UnidadID,Unidad,Ubicacion,Itinerario,TramoDeApoyo,Sentido,kilometrajeUnidad,kilometrajeApoyo,Operador,Usuario,HoraCaptura, ID],
+                      function (tx, results) {
+                          console.log("actualiza")
+                      },
+                      function (tx, error) { }
+                    );
+                  },
+                  function (error) { },
+                  function (error) { }
+                ); 
+              }
+             },
+            function (tx, error) {  }
+          );
+        },
+        function (error) {},
+        function () {}
+      );
+  },
 };
