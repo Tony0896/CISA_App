@@ -2165,3 +2165,16 @@ function sincronizaDatos(){
     });
     console.log("Sincroniza datos")
 }
+function CheckApoyoTipo(val){
+    if(val == 0){
+        var valCheck = document.getElementById("TipoUnidad").checked;
+        if(valCheck == true){
+            document.getElementById("Apoyo").checked = false;
+        }
+    }else {
+        var valCheck = document.getElementById("Apoyo").checked;
+        if(valCheck ==true){
+            document.getElementById("TipoUnidad").checked = false;
+        }
+    }
+}
