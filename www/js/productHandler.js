@@ -143,7 +143,7 @@ var productHandler={
         function () {}
       );
   },
-  addDetailsDes: function (ID, IDCabecero, Apoyo, JornadasNoIncorporadas, HoraD, HoraI, UnidadDID, UnidadD, UnidadIID, UnidadI, Itinerario, Motivo, Falla, SentidoD, SentidoI, UbicacionD, Incumplimiento, OperadorD, OperadorI, KmD, KmI, KmPerdidos, FolioD, FolioI, UsuarioI, UsuarioD, HoraCapturaD, HoraCapturaI, Origen, UbicacionI, x, length, id_cedula){
+  addDetailsDes: function (ID, IDCabecero, Apoyo, JornadasNoIncorporadas, HoraD, HoraI, UnidadDID, UnidadD, UnidadIID, UnidadI, Itinerario, Motivo, Falla, SentidoD, SentidoI, UbicacionD, Incumplimiento, OperadorD, OperadorI, KmD, KmI, KmPerdidos, FolioD, FolioI, UsuarioI, UsuarioD, HoraCapturaD, HoraCapturaI, Origen, UbicacionI, JornadaSinIncorporacion, x, length, id_cedula){
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
@@ -160,8 +160,8 @@ var productHandler={
                       var estatus_servidor = 2;
                     }
                     tx.executeSql(//
-                      "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, HoraInc, UnidadIncID, UnidadInc, SentidoInc, Inclumplimiento, OperadorInc, KmInc, KmPerdidos, FolioInc, Usuarioinc, HoraIncR, UbicacionInc) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                      [id_cedula, Apoyo, JornadasNoIncorporadas, HoraD, UnidadDID, UnidadD, Itinerario, Motivo, Falla, SentidoD, UbicacionD, OperadorD, KmD, FolioD, UsuarioD,estatus_servidor, ID, HoraCapturaD, HoraI, UnidadIID, UnidadI, SentidoI, Incumplimiento, OperadorI, KmI, KmPerdidos, FolioI, UsuarioI, HoraCapturaI, UbicacionI],
+                      "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, HoraInc, UnidadIncID, UnidadInc, SentidoInc, Inclumplimiento, OperadorInc, KmInc, KmPerdidos, FolioInc, Usuarioinc, HoraIncR, UbicacionInc, jornadaSIncorporacion) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                      [id_cedula, Apoyo, JornadasNoIncorporadas, HoraD, UnidadDID, UnidadD, Itinerario, Motivo, Falla, SentidoD, UbicacionD, OperadorD, KmD, FolioD, UsuarioD,estatus_servidor, ID, HoraCapturaD, HoraI, UnidadIID, UnidadI, SentidoI, Incumplimiento, OperadorI, KmI, KmPerdidos, FolioI, UsuarioI, HoraCapturaI, UbicacionI, JornadaSinIncorporacion],
                       function (tx, results) {
                         console.log("inserta")
                       },
@@ -180,8 +180,8 @@ var productHandler={
                       var estatus_servidor = 2;
                     }
                     tx.executeSql(
-                      "UPDATE desincorporacionesD SET apoyo = ?, jornadas = ?, HoraDes = ?, UnidadDesinID = ?, UnidadDesin = ?, Itinerario = ?, Falla = ?, DetalleFalla = ?, SentidoDes = ?, UbicacionDes = ?, OperadorDes = ?, KmDes = ?, FolioDes = ?, UsuarioDes = ?,estatus_servidor = ?, HoraDesR = ?, HoraInc = ?, UnidadIncID = ?, UnidadInc = ?, SentidoInc = ?, Inclumplimiento = ?, OperadorInc = ?, KmInc = ?, KmPerdidos = ?, FolioInc = ?, Usuarioinc = ?, HoraIncR = ?, UbicacionInc = ? WHERE id_servidor = ?",
-                      [Apoyo, JornadasNoIncorporadas, HoraD, UnidadDID, UnidadD, Itinerario, Motivo, Falla, SentidoD, UbicacionD, OperadorD, KmD, FolioD, UsuarioD,estatus_servidor, HoraCapturaD, HoraI, UnidadIID, UnidadI, SentidoI, Incumplimiento, OperadorI, KmI, KmPerdidos, FolioI, UsuarioI, HoraCapturaI, UbicacionI, ID],
+                      "UPDATE desincorporacionesD SET apoyo = ?, jornadas = ?, HoraDes = ?, UnidadDesinID = ?, UnidadDesin = ?, Itinerario = ?, Falla = ?, DetalleFalla = ?, SentidoDes = ?, UbicacionDes = ?, OperadorDes = ?, KmDes = ?, FolioDes = ?, UsuarioDes = ?,estatus_servidor = ?, HoraDesR = ?, HoraInc = ?, UnidadIncID = ?, UnidadInc = ?, SentidoInc = ?, Inclumplimiento = ?, OperadorInc = ?, KmInc = ?, KmPerdidos = ?, FolioInc = ?, Usuarioinc = ?, HoraIncR = ?, UbicacionInc = ?, jornadaSIncorporacion = ? WHERE id_servidor = ?",
+                      [Apoyo, JornadasNoIncorporadas, HoraD, UnidadDID, UnidadD, Itinerario, Motivo, Falla, SentidoD, UbicacionD, OperadorD, KmD, FolioD, UsuarioD,estatus_servidor, HoraCapturaD, HoraI, UnidadIID, UnidadI, SentidoI, Incumplimiento, OperadorI, KmI, KmPerdidos, FolioI, UsuarioI, HoraCapturaI, UbicacionI, JornadaSinIncorporacion, ID],
                       function (tx, results) {
                           console.log("actualiza")
                       },
