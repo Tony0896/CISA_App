@@ -27,7 +27,7 @@ function llevarTodo(id_cedula,tipo_cedula){
     var id_usuario = localStorage.getItem("Usuario");
     var id_empresa = localStorage.getItem("empresa");
     var url = localStorage.getItem("url");
-    var versionapp = '1.2.2';
+    var versionapp = localStorage.getItem("version");
     datos[0] = {'id_usuario':id_usuario,'id_empresa':id_empresa,'tipo_cedula':tipo_cedula,'versionapp':versionapp};
     $.ajax({
         type: "POST",
