@@ -49,7 +49,7 @@
                         <input class="FWM-input obligatorio" type="text" id="unidad_des" name="Unidad"/>
 
                         <span class="span FWM-span-form" name="">Itinerario</span>
-                        <input class="FWM-input obligatorio" type="text" id="itinerario" name="Itinerario"/>
+                        <input class="FWM-input obligatorio" type="text" id="itinerario" name="Itinerario" maxlength="20"/>
 
                         <span class="span FWM-span-form" name="">Operador</span>
                         <input class="FWM-input obligatorio" type="text" id="operador_des" name="Operador"/>
@@ -58,7 +58,7 @@
                         <input class="FWM-input obligatorio" type="text" id="falla" name="Falla"/>
 
                         <span class="span FWM-span-form" name="">Detalle de la Falla</span>
-                        <textarea class="FWM-input obligatorio" id="detalle_falla" cols="30" rows="10" name="Detalle de la Falla"></textarea>
+                        <textarea class="FWM-input obligatorio" id="detalle_falla" cols="30" rows="10" name="Detalle de la Falla" maxlength="255"></textarea>
 
                         <span class="span FWM-span-form" name="">Ubicación</span>
                         <input class="FWM-input obligatorio" type="text" id="ubicacion" name="Ubicación"/>
@@ -77,7 +77,7 @@
                         <input class="FWM-input obligatorio" type="number" id="km_unidad" name="Kilometraje Unidad"/>
 
                         <span class="span FWM-span-form" name="">Folio inicial</span>
-                        <input class="FWM-input" type="text" id="folio_inicial" name="Folio inicial"/>
+                        <input class="FWM-input" type="text" id="folio_inicial" name="Folio inicial" maxlength="25"/>
 
                         <br>
 
@@ -99,7 +99,7 @@ return {
             var self = this;
             var app = self.$app;
             var carpeta = 'jsons_desin';
-
+            var empresaID = localStorage.getItem("empresaID");
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////                       UNIDADES                       //////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +128,9 @@ return {
                                 query: query,
                             },success: function (data) {
                                 for (var i = 0; i < data.length; i++) {
-                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                    if(data[i].empresa == empresaID){
+                                        if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                    }
                                 }
                                 autocomplete.preloaderHide();
                                 render(results); 
