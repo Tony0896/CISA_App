@@ -1,0 +1,247 @@
+<template>
+    <div class="page">
+        <!-- Navsbars -->
+        <!-- <nav class="left top-left" style="justify-content: space-between;">
+            <a onclick="regresaRecaudo(2);" style="margin-left: 10px; display: inline-flex;align-items: center;">
+                <i class="icon material-icons md-only" style="font-weight: 900;">arrow_back</i>
+            </a>
+            <div class="title">Recaudo</div>
+            <a style="margin-right: 10px;">
+                <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+            </a>
+        </nav> -->
+
+        <div class="navbar" style="background-color: #005D99;height: 5px;">
+            <div class="left top-left" style="justify-content: space-between;">
+                <a onclick="regresaRecaudo(2);" style="margin-left: 10px; display: inline-flex;align-items: center;">
+                    <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+                </a>
+                <div class="title" style="font-size: 18px;">Recaudo</div>
+                <a style="margin-right: 10px;">
+                    <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+                </a>
+            </div>
+        </div>
+
+        <div class="toolbar tabbar toolbar-bottom" >
+            <div class="toolbar-inner" style="background-color: #239B56;">
+                <a href="#" onclick="finRecaudo();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Finalizar Recaudo<i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+            </div>
+        </div>
+        <!-- Contenido Page -->
+        <div class="page-content" style="border-radius: 0;">
+            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 30px;">
+                <div style="text-align: left;">
+                    <h2 style="text-align: center;font-size: 1.5em;margin-bottom: 30px;">Últimos datos</h2>
+                    <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px;">
+                        <span class="span FWM-span-form" name="">¿Hay cacharpa por enviar?</span>
+                        <div style="display: flex;justify-content: space-between;">
+                            <label for="" class="span FWM-span-form" style="font-size: 1em;color: #505050;text-align: center;">SI<input type="radio" id="radio-bolsas-1" onclick="validarRadio(this.id)"></label>
+                            <label for="" class="span FWM-span-form" style="font-size: 1em;color: #505050;text-align: center;">NO<input type="radio" id="radio-bolsas-2" onclick="validarRadio(this.id)" checked></label>
+                        </div>
+                        <div id="div_bolsas" style="display: none;">
+                            
+                            <input type="hidden" id="Acumulado1" value="0">
+                            <input type="hidden" id="recaudo_sin_billetes">
+                            <span class="span FWM-span-form" id="Acumulado1_text" style="text-align: center;color: #FF0037;">Acumulado: $0.00</span>
+
+                            <div style="display: flex;padding-top: 20px;">
+                                <span class="span FWM-span-form" name="" style="margin: auto !important;">Bolsas de 10c</span>
+                                <div style="width: 100%; text-align: center;">
+                                    <div class="stepper stepper-fill stepper-round stepper-init" style="vertical-align: center;">
+                                        <div class="stepper-button-minus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                            <div class="stepper-input-wrap" style="border-top: 2px solid #005D99;border-bottom: 2px solid #005D99;">
+                                                <input type="text" value="0" min="0" max="100" step="1" readonly style="color: #FF0037;font-size: 20px;" onchange="CalculaBolsa(10)" id="bolsaCacharpa10"/>
+                                            </div>
+                                        <div class="stepper-button-plus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex;padding-top: 20px;">
+                                <span class="span FWM-span-form" name="" style="margin: auto !important;">Bolsas de 20c</span>
+                                <div style="width: 100%; text-align: center;">
+                                    <div class="stepper stepper-fill stepper-round stepper-init" style="vertical-align: center;">
+                                        <div class="stepper-button-minus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                            <div class="stepper-input-wrap" style="border-top: 2px solid #005D99;border-bottom: 2px solid #005D99;">
+                                                <input type="text" value="0" min="0" max="100" step="1" readonly style="color: #FF0037;font-size: 20px;" onchange="CalculaBolsa(20)" id="bolsaCacharpa20"/>
+                                            </div>
+                                        <div class="stepper-button-plus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex;padding-top: 20px;">
+                                <span class="span FWM-span-form" name="" style="margin: auto !important;">Bolsas de 50c</span>
+                                <div style="width: 100%; text-align: center;">
+                                    <div class="stepper stepper-fill stepper-round stepper-init" style="vertical-align: center;">
+                                        <div class="stepper-button-minus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                            <div class="stepper-input-wrap" style="border-top: 2px solid #005D99;border-bottom: 2px solid #005D99;">
+                                                <input type="text" value="0" min="0" max="100" step="1" readonly style="color: #FF0037;font-size: 20px;" onchange="CalculaBolsa(50)" id="bolsaCacharpa50"/>
+                                            </div>
+                                        <div class="stepper-button-plus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <span class="span FWM-span-form" name="">¿Hay monto adicional?</span>
+                        <div style="display: flex;justify-content: space-between;">
+                            <label for="" class="span FWM-span-form" style="font-size: 1em;color: #505050;text-align: center;">SI<input type="radio" onclick="validarRadio(this.id)" id="radio-monto-1"></label>
+                            <label for="" class="span FWM-span-form" style="font-size: 1em;color: #505050;text-align: center;">NO<input type="radio" onclick="validarRadio(this.id)" id="radio-monto-2" checked></label>
+                        </div>
+
+                        <div id="div_monto" style="display: none;">
+                            <span class="span FWM-span-form" name="">¿Cual sería el monto?</span>
+                            <input type="number" class="FWM-input" id="monto" onchange="ingresarBolsasMonto()">
+                            <div style="display: flex;">
+                                <span class="span FWM-span-form" id="Acumulado3_text" style="margin-top: 25px !important;margin-bottom: 10px !important;text-align: center;color: #FF0037;width: fit-content;white-space: nowrap;">Monto: $0.00</span>
+                                <span class="span FWM-span-form" id="Acumulado2_text" style="margin-top: 25px !important;margin-bottom: 10px !important;text-align: center;color: #FF0037;width: fit-content;white-space: nowrap;">Acumulado: $0.00</span>
+                            </div>
+                        </div>
+
+                        <div id="div_cacharpa" style="display: none;">
+                            <input type="hidden" id="Acumulado2">
+                            
+                            <div style="display: flex;padding-top: 20px;">
+                                <span class="span FWM-span-form" name="" style="margin: auto !important;">Bolsas de $50c</span>
+                                <div style="width: 100%; text-align: center;">
+                                    <div class="stepper stepper-fill stepper-round stepper-init" style="vertical-align: center;" id="steper0">
+                                        <div class="stepper-button-minus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                            <div class="stepper-input-wrap" style="border-top: 2px solid #005D99;border-bottom: 2px solid #005D99;">
+                                                <input type="text" value="0" min="0" max="100" step="1" readonly style="color: #FF0037;font-size: 20px;" onchange="CalculaBolsa2(0)" id="step_moneda0"/>
+                                            </div>
+                                        <div class="stepper-button-plus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex;padding-top: 20px;">
+                                <span class="span FWM-span-form" name="" style="margin: auto !important;">Bolsas de $1.00</span>
+                                <div style="width: 100%; text-align: center;">
+                                    <div class="stepper stepper-fill stepper-round stepper-init" style="vertical-align: center;" id="steper1">
+                                        <div class="stepper-button-minus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                            <div class="stepper-input-wrap" style="border-top: 2px solid #005D99;border-bottom: 2px solid #005D99;">
+                                                <input type="text" value="0" min="0" max="100" step="1" readonly style="color: #FF0037;font-size: 20px;" onchange="CalculaBolsa2(1)" id="step_moneda1"/>
+                                            </div>
+                                        <div class="stepper-button-plus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex;padding-top: 20px;">
+                                <span class="span FWM-span-form" name="" style="margin: auto !important;">Bolsas de $2.00</span>
+                                <div style="width: 100%; text-align: center;">
+                                    <div class="stepper stepper-fill stepper-round stepper-init" style="vertical-align: center;" id="steper2">
+                                        <div class="stepper-button-minus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                            <div class="stepper-input-wrap" style="border-top: 2px solid #005D99;border-bottom: 2px solid #005D99;">
+                                                <input type="text" value="0" min="0" max="100" step="1" readonly style="color: #FF0037;font-size: 20px;" onchange="CalculaBolsa2(2)" id="step_moneda2"/>
+                                            </div>
+                                        <div class="stepper-button-plus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex;padding-top: 20px;">
+                                <span class="span FWM-span-form" name="" style="margin: auto !important;">Bolsas de $5.00</span>
+                                <div style="width: 100%; text-align: center;">
+                                    <div class="stepper stepper-fill stepper-round stepper-init" style="vertical-align: center;" id="steper5">
+                                        <div class="stepper-button-minus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                            <div class="stepper-input-wrap" style="border-top: 2px solid #005D99;border-bottom: 2px solid #005D99;">
+                                                <input type="text" value="0" min="0" max="100" step="1" readonly style="color: #FF0037;font-size: 20px;" onchange="CalculaBolsa2(5)" id="step_moneda5"/>
+                                            </div>
+                                        <div class="stepper-button-plus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex;padding-top: 20px;">
+                                <span class="span FWM-span-form" name="" style="margin: auto !important;">Bolsas de $10.00</span>
+                                <div style="width: 100%; text-align: center;">
+                                    <div class="stepper stepper-fill stepper-round stepper-init" style="vertical-align: center;" id="steper10">
+                                        <div class="stepper-button-minus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                            <div class="stepper-input-wrap" style="border-top: 2px solid #005D99;border-bottom: 2px solid #005D99;">
+                                                <input type="text" value="0" min="0" max="100" step="1" readonly style="color: #FF0037;font-size: 20px;" onchange="CalculaBolsa2(10)" id="step_moneda10"/>
+                                            </div>
+                                        <div class="stepper-button-plus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div style="display: flex;padding-top: 20px;">
+                            <span class="span FWM-span-form" name="" style="margin: auto !important;">Folio de traslado 1</span>
+                            <input type="text" class="FWM-input" style="margin: auto !important;" id="folio">
+                        </div>
+
+                        <div style="display: none;padding-top: 20px;" id="div_folio2">
+                            <span class="span FWM-span-form" name="" style="margin: auto !important;">Folio de traslado 2</span>
+                            <input type="text" class="FWM-input" style="margin: auto !important;" id="folio2">
+                        </div>
+                        
+                        <div style="display: flex;padding-top: 20px;">
+                            <span class="span FWM-span-form" name="" style="margin: auto !important;">Plomo</span>
+                            <input type="text" class="FWM-input" style="margin: auto !important;" id="plomo">
+                        </div>
+                        
+                        <span class="span FWM-span-form" name="" style="margin-top: 50px !important;">Observaciones generales</span>
+                            <textarea class="FWM-input" id="obs_recaudo" cols="30" rows="10"></textarea>
+
+                        <div style="margin-bottom: 100px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+return {
+    on: {
+        pageInit: function () {
+            app.preloader.show('red');
+            
+            $("#monto").on('keydown', function(e) {
+                if (e.key == "Enter"){
+                    console.log("enter");
+                } else if(e.key == "0"){
+                    if(this.value){
+                    }else{
+                        $("#monto").on('input', function (e) {
+                            $(this).val($(this).val().replace(/^0/, ""));
+                            $("#Acumulado3_text").html(`Monto: $0.00`);
+                        });
+                    }
+                } else {
+                    $("#monto").on('input', function (e) {
+                        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+                        $("#Acumulado3_text").html(`Monto: $${numberWithCommas(this.value)}`);
+                        if(this.value){
+                        }else{
+                            $("#Acumulado3_text").html(`Monto: $0.00`);
+                        }
+                    });
+                }
+            });
+
+            var id_cedula = localStorage.getItem("IdCedula");
+            databaseHandler.db.transaction(
+                function(tx5){
+                    tx5.executeSql("SELECT DATE(fecha) as fecha,recaudo_sin_billetes FROM datos_generales_recaudo WHERE id_cedula = ?",
+                        [id_cedula],
+                        function(tx5, results){
+                            var item2 = results.rows.item(0);
+                            $(".title").html("Recaudo | "+item2.fecha);
+                            $("#recaudo_sin_billetes").val(item2.recaudo_sin_billetes);
+                            app.preloader.hide();
+                        },
+                        function(tx5, error){
+                            app.preloader.hide();
+                            console.error("Error al consultar bandeja de salida: " + error.message);
+                        }
+                    );  
+                },
+                function(error){},
+                function(){}
+            );
+            
+            document.addEventListener('backbutton', function (e) {
+                regresaRecaudo(2);
+            });
+        }
+    }
+}
+</script>

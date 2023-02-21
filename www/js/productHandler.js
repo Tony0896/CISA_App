@@ -249,4 +249,44 @@ var productHandler={
         function () {}
       );
   },
+  addDatosGenerales_Recaudo: function (id_cedula, fecha, id_usuario, id_empresa){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "insert into datos_generales_recaudo(id_cedula, fecha, id_usuario, id_empresa) values(?, ?, ?, ?)",
+            [id_cedula, fecha, id_usuario, id_empresa],
+            function (tx, results) {
+              //console.log("Frio correcto");
+            },
+            function (tx, error) {
+              console.error("Error registrar:" + error.message);
+            }
+          );
+        },
+        function (error) {
+            console.log(error)
+        },
+        function () {}
+      );
+  },
+  addDetalle_Recaudo: function (id_cedula, eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "insert into detalle_recaudo(id_cedula, eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [id_cedula, eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total],
+            function (tx, results) {
+              //console.log("Frio correcto");
+            },
+            function (tx, error) {
+              console.error("Error registrar:" + error.message);
+            }
+          );
+        },
+        function (error) {
+            console.log(error)
+        },
+        function () {}
+      );
+  },
 };

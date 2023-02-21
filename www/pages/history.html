@@ -84,6 +84,8 @@
                     var tipo = "checklist";
                 } else if(localStorage.getItem("Modulos") == 'Limpieza'){
                     var tipo = "Limpieza";
+                } else {
+                    var tipo = localStorage.getItem("Modulos");
                 }
                 var url = localStorage.getItem("url");
                 //Consultas para lista
