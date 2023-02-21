@@ -229,6 +229,18 @@
             app.views.main.router.navigate({ name: 'yallegue'});
         } else if(Modulos == "Desincorporaciones"){
             iniciarDesincorporaciones();
+        } else if(Modulos == "Recaudo"){
+            swal({
+                title: "Aviso",
+                text: "¿Estas seguro de querer empezar un nuevo registro para recaudar?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((RESP) => {
+                if (RESP == true) {
+                    iniciarRecaudo();
+                }
+            });
         }
     }
     function EliminarActualizacionesAntiguas(){
@@ -438,14 +450,14 @@
     }
 
 function verpdf(IdCte, IdCed, TipoC) {
-    if (TipoC == "checklist" || TipoC == "Limpieza") {
+    if(TipoC){
         localStorage.setItem("IdCed", IdCed);
         localStorage.setItem("TipoC", TipoC);
         app.views.main.router.navigate({
             name: "visualizar",
         });
     }
-  }
+}
 function clientSelected(clientName){
     var mes = $("#month").val();
     localStorage.setItem("id_cliente",clientName);
@@ -571,7 +583,10 @@ function recarga_history(mes_pdfs,year_pdfs){
         var tipo = "checklist";
     } else if(localStorage.getItem("Modulos") == 'Limpieza'){
         var tipo = "Limpieza";
+    } else {
+        var tipo = localStorage.getItem("Modulos");
     }
+
     var url = localStorage.getItem("url");
     app.request.get(url+'/historial.php', { IdUsuario: IdU, mes_pdfs : mes_pdfs, year_pdfs: year_pdfs, tipo:tipo}, function (data) {
         var content = JSON.parse(data);
@@ -622,6 +637,10 @@ function recargacedulas(){
                             $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Rev. Imagen</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,1);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                         } else if(item2.tipo_cedula == 'Limpieza'){
                             $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Rev. Limpieza</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,2);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
+                        } else if(item2.tipo_cedula == 'Desincorporaciones'){
+                            $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>");
+                        } else if(item2.tipo_cedula == 'Recaudo'){
+                            $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Recaudo</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,4);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                         }
                     }
                 },
@@ -645,6 +664,8 @@ function continuarCed(id_cedula,tipo){
         app.views.main.router.back('/formLimp1/', {force: true, ignoreCache: true, reload: true});
     } else if(tipo == 3){
         app.views.main.router.back('/yallegue_desin/', {force: true, ignoreCache: true, reload: true});
+    } else if(tipo == 4){
+        app.views.main.router.back('/yallegueRecaudo/', {force: true, ignoreCache: true, reload: true});
     }
 }
 
@@ -2178,3 +2199,662 @@ function CheckApoyoTipo(val){
         }
     }
 }
+//Inicio Recaudo
+function iniciarRecaudo(){
+    var id_usuario = localStorage.getItem("Usuario");
+    var nombre_usuario = localStorage.getItem("nombre");
+    var fecha_llegada =  getDateWhitZeros();
+    var horario_programado = fecha_llegada;
+    var nombre_cliente = "Recaudo";
+    var estatus = 0;
+    var geolocation = '';
+    var id_cliente = localStorage.getItem("empresa");
+    var tipo_cedula = 'Recaudo';
+    productHandler.addCedulayb(id_usuario,nombre_usuario,fecha_llegada,geolocation,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula);
+    databaseHandler.db.transaction(
+        function (tx) {
+            tx.executeSql(
+            "Select MAX(id_cedula) as Id from cedulas_general",
+            [],
+            function (tx, results) {
+                var item = results.rows.item(0);
+                localStorage.setItem("IdCedula", item.Id);
+                var id_cedula = item.Id;
+                productHandler.addDatosGenerales_Recaudo(id_cedula, fecha_llegada, id_usuario, id_cliente);
+                app.views.main.router.navigate({ name: 'yallegueRecaudo'});
+            },
+            function (tx, error) {
+                console.log("Error al guardar cedula: " + error.message);
+            }
+            );
+        },
+        function (error) {},
+        function () {}
+    );
+}
+function recaudarUnidad(){
+    if($("#id_unidad").val()){
+        var id_cedula = localStorage.getItem("IdCedula");
+        var eco = $("#autocomplete-dropdown-ajax").val();
+        databaseHandler.db.transaction(
+            function (tx) {
+                tx.executeSql(
+                "Select id_cedula from detalle_recaudo Where id_cedula = ? AND eco = ?",
+                [id_cedula, eco],
+                function (tx, results) {
+                    var item = results.rows.item(0);
+                    if(item.id_cedula){
+                        swal("","Esta unidad ya se encuentra en este recaudo.","warning");
+                    }
+                },
+                function (tx, error) {console.log("Error al guardar cedula: 2" + error.message);}
+                );
+            },
+            function (error) {
+                productHandler.addDetalle_Recaudo(id_cedula, eco, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                databaseHandler.db.transaction(
+                    function (tx) {
+                        tx.executeSql(
+                        "Select MAX(id_detalle) as Id from detalle_recaudo Where id_cedula = ?",
+                        [id_cedula],
+                        function (tx, results) {
+                            var item = results.rows.item(0);
+                            localStorage.setItem("IdDetalle", item.Id);
+                            app.views.main.router.back('/formRecaudo1/', {force: true, ignoreCache: true, reload: true});
+                        },
+                        function (tx, error) {
+                            console.log("Error al guardar cedula: 1" + error.message);
+                        }
+                        );
+                    },
+                    function (error) {},
+                    function () {}
+                );
+            },
+            function (error) {console.log("Error al guardar cedula: 4" + error.message);}
+        );
+    }else {
+        swal("","No haz seleccionado una unidad","warning");
+    }
+}
+function FinalizarRecaudo(){
+    swal({
+        title: "Aviso",
+        text: "¿Estas seguro de querer finalizar el recaudo?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((RESP) => {
+        if (RESP == true) {
+            var bolsa1 = $("#fin_recaudo").data("bolsa1"); //cuantas bolsa de $1
+            var bolsa2 = $("#fin_recaudo").data("bolsa2"); //cuantas bolsa de $2
+            var bolsa5 = $("#fin_recaudo").data("bolsa5"); //cuantas bolsa de $5
+            var bolsa10 = $("#fin_recaudo").data("bolsa10"); //cuantas bolsa de $10
+            var bolsa50c = $("#fin_recaudo").data("bolsa50c"); //cuantas bolsa de $50c
+            var bolsas_totales = $("#fin_recaudo").data("bolsas_totales"); //cuantas bolsas totales
+            
+            var monto1 = $("#fin_recaudo").data("monto1"); //suma sin cacharpa
+            var total_unidades = $("#fin_recaudo").data("total_unidades");//
+            var unidades_recaudads = $("#fin_recaudo").data("unidades_recaudads"); //
+
+            var pico1 = $("#fin_recaudo").data("pico1");  //pico de monedas de $1
+            var pico2 = $("#fin_recaudo").data("pico2");  //pico de monedas de $2
+            var pico5 = $("#fin_recaudo").data("pico5");  //pico de monedas de $5
+            var pico10 = $("#fin_recaudo").data("pico10");  //pico de monedas de $10
+            var pico50c = $("#fin_recaudo").data("pico50c");  //pico de monedas de $50c
+
+            var promedio = $("#fin_recaudo").data("promedio"); //promedio de recaudo
+            var recaudo_sin_billetes = $("#fin_recaudo").data("recaudo_sin_billetes"); //total sin billetes
+            var recaudo_total = $("#fin_recaudo").data("recaudo_total"); // recaudo total + total cacharpa si hay
+            var total_billetes = $("#fin_recaudo").data("total_billetes"); //suma de los billetes
+
+            var id_cedula = localStorage.getItem("IdCedula");
+
+            databaseHandler.db.transaction(
+                function(tx){
+                    tx.executeSql("UPDATE datos_generales_recaudo SET bolsa1 = ?, bolsa2 = ?, bolsa5 = ?, bolsa10 = ?, bolsa50c = ?, bolsas_totales = ?, monto1 = ?, total_unidades = ?, unidades_recaudads = ?, pico1 = ?, pico2 = ?, pico5 = ?, pico10 = ?, pico50c = ?, promedio = ?, recaudo_sin_billetes = ?, recaudo_total = ?, total_billetes = ? WHERE id_cedula = ?",
+                        [bolsa1,bolsa2,bolsa5,bolsa10,bolsa50c,bolsas_totales,monto1,total_unidades,unidades_recaudads,pico1,pico2,pico5,pico10,pico50c,promedio,recaudo_sin_billetes,recaudo_total,total_billetes,id_cedula],
+                        function(tx, results){
+                            app.views.main.router.back('/formRecaudo2/', {force: true, ignoreCache: true, reload: true});
+                        },
+                        function(tx, error){
+                            console.error("Error al guardar cierre: " + error.message);
+                        }
+                    );
+                },
+                function(error){},
+                function(){}
+            );
+        }
+    });
+}
+function editarUnidadRecaudo(id){
+    localStorage.setItem("IdDetalle", id);
+    app.views.main.router.back('/formRecaudo1/', {force: true, ignoreCache: true, reload: true});
+}
+
+function editarMonedaRecaudo(id_detalle, monedabd){
+    modalCantidad(monedabd)
+}
+function modalCantidad(val){
+    var ruta = '';
+    var clase= '';
+    var texto = '';
+    var valor = 0;
+    if(val == 0){
+        ruta = 'img/currency/50c.png';
+        clase = 'moneda_mx';
+        texto = 'monedas';
+        valor = .5;
+    } else if(val == 1){
+        ruta = 'img/currency/1.png';
+        clase = 'moneda_mx';
+        texto = 'monedas';
+        valor = 1;
+    } else if(val == 2){
+        ruta = 'img/currency/2.png';
+        clase = 'moneda_mx';
+        texto = 'monedas';
+        valor = 2;
+    } else if(val == 5){
+        ruta = 'img/currency/5.png';
+        clase = 'moneda_mx';
+        texto = 'monedas';
+        valor = 5;
+    } else if(val == 10){
+        ruta = 'img/currency/10.png';
+        clase = 'moneda_mx';
+        texto = 'monedas';
+        valor = 10;
+    } else if(val == 20){
+        ruta = 'img/currency/20.png';
+        clase = 'billete_mx';
+        texto = 'billetes';
+        valor = 20;
+    } else if(val == 50){
+        ruta = 'img/currency/50.png';
+        clase = 'billete_mx';
+        texto = 'billetes';
+        valor = 50;
+    } else if(val == 100){
+        ruta = 'img/currency/100.png';
+        clase = 'billete_mx';
+        texto = 'billetes';
+        valor = 100;
+    } else if(val == 200){
+        ruta = 'img/currency/200.png';
+        clase = 'billete_mx';
+        texto = 'billetes';
+        valor = 200;
+    } else if(val == 500){
+        ruta = 'img/currency/500.png';
+        clase = 'billete_mx';
+        texto = 'billetes';
+        valor = 500;
+    } 
+    var popEvidencia = app.popup.create({
+        content: `
+        <div class="sheet-modal my-sheet" id="sheet-modal" name="sheet" style="height: 90%;">
+        <div class="toolbar">
+            <div class="toolbar-inner">
+                <div class="left"></div>
+                <div class="right"><a class="link" id="close_sheet" href="#">Cerrar</a></div>
+            </div>
+        </div>
+        <div class="sheet-modal-inner" style="overflow-y: scroll;">
+            <div class="block">
+                <div class="FWM-photo-container">
+                    <a>
+                        <img src="`+ruta+`" alt="" class="`+clase+`">
+                    </a>
+                </div>
+
+                <div class="list FWM-fixing-form" id="div_cboxs" style="margin-top: 25px;"> 
+                    <span class="span FWM-span-form" style="color: #005D99;">Ingresa la cantidad de pzas.</span>
+                    <input type="text" class="FWM-input" id="recuento" readonly>
+                    <input type="hidden" id="valor" value="`+valor+`">
+                    <input type="hidden" id="importe2">
+                    <span class="span FWM-span-form" style="color: #FF0037;" id="importe">0 `+texto+` es = $0.00</span>
+                    
+                    <div style="display: flex;justify-content: space-around;">
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora(1)">1</button>
+                        </div>
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora(2)">2</button>
+                        </div>
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora(3)">3</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex;justify-content: space-around;">
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora(4)">4</button>
+                        </div>
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora(5)">5</button>
+                        </div>
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora(6)">6</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex;justify-content: space-around;">
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora(7)">7</button>
+                        </div>
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora(8)">8</button>
+                        </div>
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora(9)">9</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex;justify-content: space-around;">
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora('borra')"><i class="material-icons md-light" style="color: #FF0037;vertical-align: middle;font-size: 30px;">backspace</i></button>
+                        </div>
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora" onclick="calculadora(0)">0</button>
+                        </div>
+                        <div>
+                            <button class="col button button-large button-fill btn-calculadora"  onclick="calculadora('termina')"><i class="material-icons md-light" style="color: #2ECC71;vertical-align: middle;font-size: 30px;">check_circle</i></button>
+                        </div>
+                    </div>
+
+                    <div class="block grid-resizable-demo" style="margin-bottom: 70px;">
+                        <div class="row align-items-stretch" style="text-align: center;">
+                            <div class="col-100 medium-50" style="min-width: 50px; border-style: none;">
+                                <span class="resize-handler"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`,
+    swipeToClose:false,
+    closeByOutsideClick:false,
+    closeByBackdropClick:false,
+    closeOnEscape:false,
+            on: {
+                open: function (popup) {
+                    $('#close_sheet').click(function () {
+                        if($('#pasa').val()!=0){
+                            app.sheet.close('#sheet-modal');
+                        }else{
+                            swal({
+                                title: "Aviso",
+                                text: "Aún no seleccionas o guardas una opción, ¿Estas seguro que deseas regresar?",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: false,
+                            }).then((willGoBack) => {
+                                if (willGoBack){
+                                    var otherCheck = "radio"+ id + "-2";
+                                    document.getElementById(otherCheck).checked = false;
+                                    var Check = "radio"+ id + "-1";
+                                    document.getElementById(Check).checked = true;
+                                    var labels1 = Check.replace('radio','label');
+                                    var labels2 = otherCheck.replace('radio','label');
+                                    $("#"+labels1).addClass("checked");
+                                    $("#"+labels2).removeClass("checked");
+                                    actualizacheck(Check);
+                                    app.sheet.close('#sheet-modal');
+                                }
+                            });
+                        }
+                    });
+                },
+            }
+    });
+   
+    popEvidencia.open();
+}
+function finRecaudoUnidad(){
+    app.views.main.router.back('/yallegueRecaudo/', {force: true, ignoreCache: true, reload: true});
+}
+
+function regresaRecaudo(val){
+    if(val == 1){
+        app.views.main.router.back('/yallegueRecaudo/', {force: true, ignoreCache: true, reload: true});
+    } else if(val == 2){
+        app.views.main.router.back('/yallegueRecaudo/', {force: true, ignoreCache: true, reload: true});
+    }
+}
+
+function calculadora(valor){
+    var cuenta = $("#recuento").val();
+    if(valor == 'borra'){
+        cuenta = cuenta.substring(0, cuenta.length - 1);
+    } else if(valor == 'termina'){
+        if($("#recuento").val()){
+            guardarMoneda($("#recuento").val(),$("#importe2").val(),$("#valor").val());
+        }else{
+            swal("","No haz ingresado la cantidad de piezas","warning");
+        }
+    } else if(valor == 0){
+        if ($("#recuento").val()){
+            cuenta = cuenta + valor; 
+        }
+    } else {
+        cuenta = cuenta + valor; 
+    }
+    $("#recuento").val(cuenta);
+    var moneda = parseFloat($("#valor").val());
+    var importe = parseFloat(cuenta)* moneda;
+    if(!isNaN(importe)){
+        if($("#valor").val() == '0.5' || $("#valor").val() == '1' || $("#valor").val() == '2' || $("#valor").val() == '5' || $("#valor").val() == '10'){
+            $("#importe").html(numberWithCommas(cuenta) +" monedas es = $"+numberWithCommas(importe));
+            $("#importe2").val(importe);
+        } else if($("#valor").val() == '20' || $("#valor").val() == '50' || $("#valor").val() == '100' || $("#valor").val() == '200' || $("#valor").val() == '500'){
+            $("#importe").html(numberWithCommas(cuenta) +" billetes es = $"+numberWithCommas(importe));
+            $("#importe2").val(importe);
+        }
+    }else{
+        if($("#valor").val() == '.5' || $("#valor").val() == '1' || $("#valor").val() == '2' || $("#valor").val() == '5' || $("#valor").val() == '10'){
+            $("#importe").html(0 +" monedas es = $0.00");
+            $("#importe2").val(0);
+        } else if($("#valor").val() == '20' || $("#valor").val() == '50' || $("#valor").val() == '100' || $("#valor").val() == '200' || $("#valor").val() == '500'){
+            $("#importe").html(0 +" billetes es = $0.00");
+            $("#importe2").val(0);
+        }
+    }
+}
+
+function guardarMoneda(piezas, importe, moneda){
+    var id_detalle = localStorage.getItem("IdDetalle");
+    var id_cedula = localStorage.getItem("IdCedula");
+    if(moneda == "0.5"){
+        var modedabd  = 'Moneda50c';
+        var importebd = 'importe50c';
+    }else{
+        var modedabd = 'Moneda'+moneda;
+        var importebd = 'importe'+moneda;
+    }
+
+    databaseHandler.db.transaction(
+        function(tx){
+            tx.executeSql("UPDATE detalle_recaudo SET "+modedabd+" = ?, "+importebd+" = ? WHERE id_cedula = ? AND id_detalle = ?",
+                [piezas,importe,id_cedula,id_detalle],
+                function(tx, results){
+                    app.sheet.close('#sheet-modal');
+                    swal("","Guardado correctamente.","success");
+                    $("#tb_recaudo").empty();
+                    databaseHandler.db.transaction(
+                        function(tx5){
+                            tx5.executeSql("SELECT * FROM detalle_recaudo WHERE id_detalle = ? AND id_cedula = ?",
+                                [id_detalle, id_cedula],
+                                function(tx5, results){
+                                    var length = results.rows.length;
+                                    if(length == 0){
+                                        $("#message-nr").css("display", "block");
+                                    }else{
+                                        $("#message-nr").css("display", "none");
+                                        for(var i = 0; i< length; i++){
+                                            var item2 = results.rows.item(i);
+                                            $("#tb_recaudo").append("<tr><td>$0.5</td><td>"+item2.Moneda50c+"</td><td>"+item2.importe50c+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",0);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>");
+                                            $("#tb_recaudo").append("<tr><td>$1</td><td>"+item2.Moneda1+"</td><td>"+item2.importe1+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",1);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>");
+                                            $("#tb_recaudo").append("<tr><td>$2</td><td>"+item2.Moneda2+"</td><td>"+item2.importe2+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",2);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>");
+                                            $("#tb_recaudo").append("<tr><td>$5</td><td>"+item2.Moneda5+"</td><td>"+item2.importe5+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",5);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>");
+                                            $("#tb_recaudo").append("<tr><td>$10</td><td>"+item2.Moneda10+"</td><td>"+item2.importe10+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",10);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>");
+                                            $("#tb_recaudo").append("<tr><td>$20</td><td>"+item2.Moneda20+"</td><td>"+item2.importe20+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",20);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>");
+                                            $("#tb_recaudo").append("<tr><td>$50</td><td>"+item2.Moneda50+"</td><td>"+item2.importe50+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",50);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>");
+                                            $("#tb_recaudo").append("<tr><td>$100</td><td>"+item2.Moneda100+"</td><td>"+item2.importe100+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",100);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>");
+                                            $("#tb_recaudo").append("<tr><td>$200</td><td>"+item2.Moneda200+"</td><td>"+item2.importe200+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",200);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>");
+                                            $("#tb_recaudo").append("<tr><td>$500</td><td>"+item2.Moneda500+"</td><td>"+item2.importe500+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",500);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>");
+
+                                            var piezastotales = parseInt(item2.Moneda50c)+parseInt(item2.Moneda1)+parseInt(item2.Moneda2)+parseInt(item2.Moneda5)+parseInt(item2.Moneda10)+parseInt(item2.Moneda20)+parseInt(item2.Moneda50)+parseInt(item2.Moneda100)+parseInt(item2.Moneda200)+parseInt(item2.Moneda500);
+                                            var importetotal = parseFloat(item2.importe50c)+parseFloat(item2.importe1)+parseFloat(item2.importe2)+parseFloat(item2.importe5)+parseFloat(item2.importe10)+parseFloat(item2.importe20)+parseFloat(item2.importe50)+parseFloat(item2.importe100)+parseFloat(item2.importe200)+parseFloat(item2.importe500);
+                                            
+                                            databaseHandler.db.transaction(
+                                                function(tx){
+                                                    tx.executeSql("UPDATE detalle_recaudo SET piezas_totales = ?, importe_total = ? WHERE id_cedula = ? AND id_detalle = ?",
+                                                        [piezastotales,importetotal,id_cedula,id_detalle],
+                                                        function(tx, results){
+                                                            $("#tb_recaudo").append("<tr style='text-align: center;background-color: #005D99;color: white;''><td>Totales</td><td>"+numberWithCommas(piezastotales)+"</td><td>$"+numberWithCommas(importetotal)+"</td><td>&nbsp;</td></tr>");
+                                                        },
+                                                        function(tx, error){
+                                                            console.error("Error al guardar cierre: " + error.message);
+                                                        }
+                                                    );
+                                                },
+                                                function(error){},
+                                                function(){}
+                                            );
+
+                                        }
+                                    }
+                                },
+                                function(tx5, error){
+                                    console.error("Error al consultar bandeja de salida: " + error.message);
+                                }
+                            );  
+                        },
+                    function(error){},
+                    function(){}
+                    );
+                },
+                function(tx, error){
+                    console.error("Error al guardar cierre: " + error.message);
+                }
+            );
+        },
+        function(error){},
+        function(){}
+    );
+}
+function validarRadio(id){
+    var ids = id.split("-");
+    var apartado = ids[1];
+    var check = ids[2];
+    var valCheck = document.getElementById(ids[0]+"-"+ids[1]+"-"+ids[2]).checked;
+    if(check.includes('1')){
+        if(valCheck ==true){
+            var otherCheck = ids[0] + "-"+ids[1]+"-2";
+            document.getElementById(otherCheck).checked = false;
+            $("#div_"+apartado).css("display","block");
+            if(apartado == 'monto'){
+                $("#div_folio2").css("display","flex");
+            }
+        }
+    }else{
+        if(valCheck ==true){
+            var otherCheck = ids[0] + "-"+ids[1]+"-1";
+            document.getElementById(otherCheck).checked = false;
+            $("#div_"+apartado).css("display","none");
+            if(apartado == 'monto'){
+                $("#div_cacharpa").css("display","none");
+                $("#div_folio2").css("display","none");
+            }
+        }
+    }
+}
+function CalculaBolsa(bolsa){
+    var cuenta = $("#Acumulado1").val();
+    cuenta = parseInt(cuenta);
+    if(bolsa == 10){
+        cuenta = parseInt(cuenta+1000);
+    } else if(bolsa == 20){
+        cuenta = parseInt(cuenta+1500);
+    } else if(bolsa == 50){
+        cuenta = parseInt(cuenta+2000);
+    }
+    $("#Acumulado1").val(cuenta);
+    $("#Acumulado1_text").html(`Acumulado: $${numberWithCommas(cuenta.toFixed(2))}`);
+}
+function ingresarBolsasMonto(){
+    if(parseInt($("#monto").val()) > parseInt($("#recaudo_sin_billetes").val())){
+        swal("","El monto no puede ser mayor a lo recaudado.","warning");
+        $("#monto").val("");
+        $("#Acumulado3_text").text("Monto: $0.00");
+        $("#div_cacharpa").css("display", "none");
+    } else{
+        $("#div_cacharpa").css("display", "block");
+    }
+}
+function CalculaBolsa2(bolsa){
+    $("#monto").prop("disabled", true);
+    $("#monto").css("background-color", "#F4F4F4");
+    var bolsas50c = $("#step_moneda0").val();
+    var bolsas1 = $("#step_moneda1").val();
+    var bolsas2 = $("#step_moneda2").val();
+    var bolsas5 = $("#step_moneda5").val();
+    var bolsas10 = $("#step_moneda10").val();
+
+    var monto0 = parseInt(bolsas50c*1000);
+    var monto1 = parseInt(bolsas1*2000);
+    var monto2 = parseInt(bolsas2*4000);
+    var monto5 = parseInt(bolsas5*6000);
+    var monto10 = parseInt(bolsas10*5000);
+
+    var Acumulado2 = monto0+monto1+monto2+monto5+monto10;
+    
+    if(Acumulado2 > $("#monto").val()){
+        swal("","Agregando esta bolsa el monto acumulado sería mayor.","warning");
+        if(bolsa == 0){
+            var stepper = app.stepper.get('#steper0');
+            stepper.decrement();
+        } else if(bolsa == 1){
+            $("#step_moneda1").val($("#step_moneda1").val()-1);
+            var stepper = app.stepper.get('#steper1');
+            stepper.decrement();
+        } else if(bolsa == 2){
+            $("#step_moneda2").val($("#step_moneda2").val()-1);
+            var stepper = app.stepper.get('#steper2');
+            stepper.decrement();
+        } else if(bolsa == 5){
+            $("#step_moneda5").val($("#step_moneda5").val()-1);
+            var stepper = app.stepper.get('#steper5');
+            stepper.decrement();
+        } else if(bolsa == 10){
+            $("#step_moneda10").val($("#step_moneda10").val()-1);
+            var stepper = app.stepper.get('#steper10');
+            stepper.decrement();
+        }
+        return false;
+    }
+    $("#Acumulado2_text").html(`Acumulado: $${numberWithCommas(Acumulado2.toFixed(2))}`);
+    $("#Acumulado2").val(Acumulado2);
+}
+function finRecaudo(){
+    var id_cedula = localStorage.getItem("IdCedula");
+    if($("#radio-bolsas-2").prop("checked")){
+        var opc_cacharpa = '0';
+        var bolsaCacharpa10 = 0  //cuantas bolsas se van a mandar de $10C
+        var bolsaCacharpa20 = 0  //cuantas bolsas se van a mandar de $20C
+        var bolsaCacharpa50 = 0  //cuantas bolsas se van a mandar de $50C
+        var total_cacharpa = 0 //suma de cacharpa monto adicional
+    }else{
+        var opc_cacharpa = '1';
+        var bolsaCacharpa10 = $("#bolsaCacharpa10").val();
+        var bolsaCacharpa20 = $("#bolsaCacharpa20").val();
+        var bolsaCacharpa50 = $("#bolsaCacharpa50").val();
+
+        var total_cacharpa = parseInt(bolsaCacharpa10)+parseInt(bolsaCacharpa20)+parseInt(bolsaCacharpa50)
+    }
+
+    if(!$("#folio").val()){
+        swal("","Favor de indicar el folio de traslado.","warning");
+        return false;
+    }else{
+        var folio = $("#folio").val();
+    }
+
+    if($("#radio-monto-2").prop("checked")){
+        var opc_adicional = '0';
+        var monto_adicional = 0;
+        var bolsaAdd50c = 0;
+        var bolsaAdd1 = 0;
+        var bolsaAdd2 = 0;
+        var bolsaAdd5 = 0;
+        var bolsaAdd10 = 0;
+        var folio2 = "";
+    }else{
+        var opc_adicional = '1';
+        if($("#monto").val() == $("#Acumulado2").val()){
+            if(!$("#folio2").val()){
+                swal("","Favor de indicar el folio 2 de traslado.","warning");
+                return false;
+            }else{
+                var folio2 = $("#folio2").val();        
+            }
+        }else{
+            swal("","El monto adicional y el acumulado no coinciden.","warning");
+            return false;
+        }
+        var monto_adicional = $("#monto").val();
+        var bolsaAdd50c = $("#step_moneda0").val();
+        var bolsaAdd1 = $("#step_moneda1").val();
+        var bolsaAdd2 = $("#step_moneda2").val();
+        var bolsaAdd5 = $("#step_moneda5").val();
+        var bolsaAdd10 = $("#step_moneda10").val();
+    }
+    
+    if(!$("#plomo").val()){
+        var plomo = "Sin plomo";
+    }else{
+        var plomo = $("#plomo").val();
+    }
+
+    if(!$("#obs_recaudo").val()){
+        var observaciones = "Sin comentarios";
+    }else {
+        var observaciones = $("#obs_recaudo").val();
+    }
+    var importe_cacharpa = $("#Acumulado1").val();
+
+    var recaudo_sin_billetes = $("#recaudo_sin_billetes").val();
+    var monto1 = parseInt(recaudo_sin_billetes)+parseInt(importe_cacharpa);
+
+    databaseHandler.db.transaction(
+        function(tx){
+            tx.executeSql("UPDATE datos_generales_recaudo SET opc_cacharpa = ?, monto1 = ?, bolsaCacharpa10 = ?, bolsaCacharpa20 = ?, bolsaCacharpa50 = ?, total_cacharpa = ?, opc_adicional = ?, monto_adicional = ?, bolsaAdd50c = ?, bolsaAdd1 = ?, bolsaAdd2 = ?, bolsaAdd5 = ?, bolsaAdd10 = ?, folio2 = ?, folio = ?, plomo = ?, observaciones = ?, importe_cacharpa = ? WHERE id_cedula = ?",
+                [opc_cacharpa, monto1, bolsaCacharpa10, bolsaCacharpa20, bolsaCacharpa50, total_cacharpa, opc_adicional, monto_adicional, bolsaAdd50c, bolsaAdd1, bolsaAdd2, bolsaAdd5, bolsaAdd10, folio2, folio, plomo, observaciones, importe_cacharpa, id_cedula],
+                function(tx, results){
+                    swal("","Guardado correctamente.","success");
+                    EnviarRecaudo();
+                },
+                function(tx, error){
+                    console.error("Error al guardar cierre: " + error.message);
+                }
+            );
+        },
+        function(error){},
+        function(){}
+    );
+}
+function EnviarRecaudo(){
+    swal({
+        title: "Aviso",
+        text: "¿Estas seguro de querer finalizar el Recaudo del día?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((RESP) => {
+        if (RESP == true) {
+            var id_cedula = localStorage.getItem("IdCedula");
+            var fecha = new Date();
+            var fecha_salida = fecha.getFullYear()+"-"+(fecha.getMonth()+1)+"-"+fecha.getDate()+" "+fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
+            var estatus = 1;
+            databaseHandler.db.transaction(
+                function(tx){
+                    tx.executeSql("UPDATE cedulas_general SET fecha_salida  = ?,estatus = ? WHERE id_cedula = ?",
+                        [fecha_salida,estatus,id_cedula],
+                        function(tx, results){
+                            window.location.href = "./menu.html";
+                        },
+                        function(tx, error){
+                            swal("Error al guardar",error.message,"error");
+                        }
+                    );
+                },
+                function(error){},
+                function(){}
+            );              
+        }
+    });
+}
+//Fin Recaudo
