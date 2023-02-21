@@ -280,6 +280,21 @@
                     function () {}
                 );
 
+                var id_cedula = localStorage.getItem("IdCedula");
+                databaseHandler.db.transaction(
+                    function(tx5){
+                        tx5.executeSql("SELECT empresa FROM desincorporaciones WHERE id_cedula = ?",
+                            [id_cedula],
+                            function(tx5, results){
+                                var item2 = results.rows.item(0);
+                                var empresaID = getIDEmpresa(item2.empresa);
+                                localStorage.setItem("empresaID", empresaID);
+                            },
+                            function(tx5, error){}
+                        );  
+                    }, function(error){}, function(){}
+                );
+
                 document.addEventListener("online", onOnlines, false);
                 function onOnlines(){
                     if(localStorage.getItem('sendFlag') == 0){
