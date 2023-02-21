@@ -382,7 +382,7 @@ function EliminarRegistrosAntiguos(){
     var fecha = new Date();
     var fecha_ingreso = fecha.getFullYear()+"-"+(fecha.getMonth()+1)+"-"+fecha.getDate();
     fecha_eliminar = editar_fecha(fecha_ingreso, "-11", "d","-");
-    console.log(fecha_eliminar);
+    //console.log(fecha_eliminar);
     databaseHandler.db.transaction(
         function(tx5){
             tx5.executeSql("SELECT * FROM cedulas_general WHERE fecha_entrada > ? AND (estatus = 1 OR estatus = 2)",
@@ -428,7 +428,7 @@ function EliminarReg(id_cedula,tipo_cedula){
     .then((willGoBack) => {
         if (willGoBack){
             var empresa = localStorage.getItem("nombre_empresa");               
-            console.log(empresa,id_cedula,tipo_cedula);
+            // console.log(empresa,id_cedula,tipo_cedula);
             databaseHandler.db.transaction(
                 function(tx){
                     tx.executeSql("DELETE FROM cedulas_general WHERE id_cedula = ?",
@@ -594,7 +594,7 @@ function EnvioDatosTrafico(){
 }
 
 function llevarDatosTrafico(id_cedula,tipo,id_servidor){
-    console.log("llevar datos trafico", id_cedula, tipo, id_servidor);
+    // console.log("llevar datos trafico", id_cedula, tipo, id_servidor);
     var desincorporaciones = new Array();
     var desincorporacionesd = new Array();
     var id_empresa =  localStorage.getItem("empresa");
@@ -713,7 +713,7 @@ function llevarDatosTrafico(id_cedula,tipo,id_servidor){
                         desincorporacionesd[0] = {'id_servidor':id_servidor,'Apoyo': item2.apoyo, 'JornadasNoIncorporadas': item2.jornadas, 'HoraD': item2.HoraDes, 'HoraI': item2.HoraInc, 'UnidadDID': item2.UnidadDesinID, 'UnidadD': item2.UnidadDesin, 'UnidadIID': item2.UnidadIncID, 'UnidadI': item2.UnidadInc, 'Itinerario': item2.Itinerario, 'Motivo': item2.Falla, 'Falla': item2.DetalleFalla, 'SentidoD': item2.SentidoDes, 'SentidoI': item2.SentidoInc, 'UbicacionD': item2.UbicacionDes, 'UbicacionI': item2.UbicacionInc, 'Incumplimiento': item2.Inclumplimiento, 'OperadorD': item2.id_operador_des, 'OperadorI': item2.id_operador_inc, 'KmD': item2.KmDes, 'KmI': item2.KmInc, 'FolioD': item2.FolioDes, 'FolioI': item2.FolioInc, 'UsuarioI': item2.Usuarioinc, 'UsuarioD': item2.UsuarioDes, 'KmPerdidos': item2.KmPerdidos, 'estatus_servidor': item2.estatus_servidor, 'HoraCapturaI': horas2, 'HoraCapturaD': horas, 'id_servidord': item2.id_servidor, 'jornadaSIncorporacion': item2.jornadaSIncorporacion};
                         var estatus = item2.estatus_servidor;
                         var urlphp = url+"/guardarTrafico_d.php?tipo="+estatus;
-                        console.log(desincorporacionesd);
+                        // console.log(desincorporacionesd);
                         $.ajax({
                             type: "POST",
                             async : true,
@@ -797,7 +797,7 @@ function llevarDatosTrafico(id_cedula,tipo,id_servidor){
                     [id_cedula],
                     function(tx, results){     
                         var item2 = results.rows.item(0);
-                        console.log(item2);
+                        //console.log(item2);
                         if(item2.HoraCaptura){
                             var horas = item2.HoraCaptura.replace(" ", "T");
                         } else {

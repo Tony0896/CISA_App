@@ -1894,6 +1894,18 @@ function RefreshDataSustitucion(){
     }
 }
 function CerrarReporte(){
+    var MyDate = new Date();
+    var time1 = ('0' + MyDate.getHours()).slice(-2)+":"+('0' + MyDate.getMinutes()).slice(-2)+":"+('0' + MyDate.getSeconds()).slice(-2);
+
+    const date1 = new Date('2023-01-01 ' + time1);
+    const date2 = new Date('2023-01-01 18:00');
+    const date3 = new Date('2023-01-01 03:00');
+
+    if (date1.getTime() < date2.getTime() && date1.getTime() > date3.getTime()) {
+        swal("", "Este botón solo estará activo después de las 18 horas", "warning");
+        return false;
+    } 
+
     var id_cedula = localStorage.getItem("IdCedula");
     databaseHandler.db.transaction(
         function(tx5){
@@ -1903,6 +1915,7 @@ function CerrarReporte(){
                     var length = results.rows.length;
                     if(length == 0){} else {
                         swal("", "Aún tienes jornadas que no se han incorporado, debes cerrarlas para poder finalizar el reporte.", "warning");
+                        return false;
                     }
                 },
                 function(tx5, error){
@@ -2163,7 +2176,7 @@ function sincronizaDatos(){
     fetch(url2)
         .then((response) => {
     });
-    console.log("Sincroniza datos")
+    // console.log("Sincroniza datos")
 }
 function CheckApoyoTipo(val){
     if(val == 0){
@@ -2176,5 +2189,60 @@ function CheckApoyoTipo(val){
         if(valCheck ==true){
             document.getElementById("TipoUnidad").checked = false;
         }
+    }
+}
+function getIDEmpresa(val){
+    if(val == "ACHSA"){
+        return 1;
+    }else if(val == "AMTM"){
+        return 35;
+    }else if(val == "ATROL"){
+        return 2;
+    }else if(val == "AULSA"){
+        return 37;
+    }else if(val == "BUSSI"){
+        return 20;
+    }else if(val == "CCA"){
+        return 3;
+    }else if(val == "CISA"){
+        return 4;
+    }else if(val == "COAVE"){
+        return 5;
+    }else if(val == "CODIV"){
+        return 41;
+    }else if(val == "COPE"){
+        return 6;
+    }else if(val == "CORENSA"){
+        return 7;
+    }else if(val == "COREV"){
+        return 8;
+    }else if(val == "COTAN"){
+        return 9;
+    }else if(val == "COTOBUSA"){
+        return 10;
+    }else if(val == "COTXS"){
+        return 39;
+    }else if(val == "ESASA"){
+        return 22;
+    }else if(val == "MIHSA"){
+        return 11;
+    }else if(val == "RECSA"){
+        return 12;
+    }else if(val == "SIMES"){
+        return 13;
+    }else if(val == "SKYBUS"){
+        return 14;
+    }else if(val == "STMP"){
+        return 15;
+    }else if(val == "TCGSA"){
+        return 16;
+    }else if(val == "TREPSA"){
+        return 17;
+    }else if(val == "TUZOBUS"){
+        return 19;
+    }else if(val == "VYCSA"){
+        return 18;
+    }else if(val == "logo1"){
+        return 0;
     }
 }

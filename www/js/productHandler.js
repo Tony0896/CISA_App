@@ -163,7 +163,7 @@ var productHandler={
                       "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, HoraInc, UnidadIncID, UnidadInc, SentidoInc, Inclumplimiento, OperadorInc, KmInc, KmPerdidos, FolioInc, Usuarioinc, HoraIncR, UbicacionInc, jornadaSIncorporacion) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                       [id_cedula, Apoyo, JornadasNoIncorporadas, HoraD, UnidadDID, UnidadD, Itinerario, Motivo, Falla, SentidoD, UbicacionD, OperadorD, KmD, FolioD, UsuarioD,estatus_servidor, ID, HoraCapturaD, HoraI, UnidadIID, UnidadI, SentidoI, Incumplimiento, OperadorI, KmI, KmPerdidos, FolioI, UsuarioI, HoraCapturaI, UbicacionI, JornadaSinIncorporacion],
                       function (tx, results) {
-                        console.log("inserta")
+                        // console.log("inserta")
                       },
                       function (tx, error) { }
                     );
@@ -183,7 +183,7 @@ var productHandler={
                       "UPDATE desincorporacionesD SET apoyo = ?, jornadas = ?, HoraDes = ?, UnidadDesinID = ?, UnidadDesin = ?, Itinerario = ?, Falla = ?, DetalleFalla = ?, SentidoDes = ?, UbicacionDes = ?, OperadorDes = ?, KmDes = ?, FolioDes = ?, UsuarioDes = ?,estatus_servidor = ?, HoraDesR = ?, HoraInc = ?, UnidadIncID = ?, UnidadInc = ?, SentidoInc = ?, Inclumplimiento = ?, OperadorInc = ?, KmInc = ?, KmPerdidos = ?, FolioInc = ?, Usuarioinc = ?, HoraIncR = ?, UbicacionInc = ?, jornadaSIncorporacion = ? WHERE id_servidor = ?",
                       [Apoyo, JornadasNoIncorporadas, HoraD, UnidadDID, UnidadD, Itinerario, Motivo, Falla, SentidoD, UbicacionD, OperadorD, KmD, FolioD, UsuarioD,estatus_servidor, HoraCapturaD, HoraI, UnidadIID, UnidadI, SentidoI, Incumplimiento, OperadorI, KmI, KmPerdidos, FolioI, UsuarioI, HoraCapturaI, UbicacionI, JornadaSinIncorporacion, ID],
                       function (tx, results) {
-                          console.log("actualiza")
+                          // console.log("actualiza")
                       },
                       function (tx, error) { }
                     );
@@ -216,7 +216,7 @@ var productHandler={
                       "insert into TRFapoyo(id_cedula,estatus_servidor, id_servidor, Apoyo, TipoUnidad, Hora, UnidadID,Unidad,Ubicacion,Itinerario,TramoDeApoyo,Sentido,kilometrajeUnidad,kilometrajeApoyo,Operador,Usuario,HoraCaptura) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                       [id_cedula, estatus_servidor, ID, Apoyo, TipoUnidad, Hora, UnidadID,Unidad,Ubicacion,Itinerario,TramoDeApoyo,Sentido,kilometrajeUnidad,kilometrajeApoyo,Operador,Usuario,HoraCaptura],
                       function (tx, results) {
-                        console.log("inserta")
+                        // console.log("inserta")
                       },
                       function (tx, error) { }
                     );
@@ -232,7 +232,7 @@ var productHandler={
                       "UPDATE TRFapoyo SET estatus_servidor = ?, Apoyo = ?, TipoUnidad = ?, Hora = ?, UnidadID = ?,Unidad = ?,Ubicacion = ?,Itinerario = ?,TramoDeApoyo = ?,Sentido = ?,kilometrajeUnidad = ?,kilometrajeApoyo = ?,Operador = ?,Usuario = ?,HoraCaptura = ? WHERE id_servidor = ?",
                       [estatus_servidor, Apoyo, TipoUnidad, Hora, UnidadID,Unidad,Ubicacion,Itinerario,TramoDeApoyo,Sentido,kilometrajeUnidad,kilometrajeApoyo,Operador,Usuario,HoraCaptura, ID],
                       function (tx, results) {
-                          console.log("actualiza")
+                          // console.log("actualiza")
                       },
                       function (tx, error) { }
                     );
