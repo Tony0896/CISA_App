@@ -150,6 +150,7 @@ return {
             var self = this;
             var app = self.$app;
             var carpeta = 'jsons_desin';
+            var empresaID = localStorage.getItem("empresaID");
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////////////                       UNIDADES                       //////////////////////////////////////////////////////////////
@@ -179,7 +180,9 @@ return {
                                 query: query,
                             },success: function (data) {
                                 for (var i = 0; i < data.length; i++) {
-                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                    if(data[i].empresa == empresaID){
+                                        if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                    }
                                 }
                                 autocomplete.preloaderHide();
                                 render(results); 

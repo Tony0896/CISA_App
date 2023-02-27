@@ -1898,11 +1898,11 @@ function CerrarReporte(){
     var time1 = ('0' + MyDate.getHours()).slice(-2)+":"+('0' + MyDate.getMinutes()).slice(-2)+":"+('0' + MyDate.getSeconds()).slice(-2);
 
     const date1 = new Date('2023-01-01 ' + time1);
-    const date2 = new Date('2023-01-01 18:00');
+    const date2 = new Date('2023-01-01 23:00');
     const date3 = new Date('2023-01-01 03:00');
 
     if (date1.getTime() < date2.getTime() && date1.getTime() > date3.getTime()) {
-        swal("", "Este botón solo estará activo después de las 18 horas", "warning");
+        swal("", "Este botón solo estará activo después de las 23 horas", "warning");
         return false;
     } 
 
