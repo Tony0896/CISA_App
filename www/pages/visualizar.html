@@ -46,125 +46,272 @@
         var TipoCed = localStorage.getItem("TipoC");
         app.preloader.show('red');
         
-        var url = localStorage.getItem("url");
+        //var url = localStorage.getItem("url");
+        var url = "http://192.168.30.237/Desarrollo/CISAApp/Archivos/App_dev";
 
         app.request.get(url+'/datageneral.php', { Id: cedula, TipoCed:TipoCed }, function (data) {
           $('.sentencia1').remove();
-          var content = JSON.parse(data);
-          if (TipoCed == 'checklist') {
+          if(data){
+            var content = JSON.parse(data);
+            if (TipoCed == 'checklist') {
             $("#titulo_reporte").css("display", "none");
             var datosGenerales = new Array;
-            datosGenerales = content[0];
-            var Checklist = new Array;
-            Checklist = content[1];
-            if (datosGenerales == null) {
-              $("#message-despues").css("display", "block");
-              app.preloader.hide();
-            } else {
-              $('#historyContainer').append(`<table id = "imyal" cellpadding="10" >
-                    <tbody id="imya">
-                      <tr>
-                        <th colspan="2" style="background-color:#FFF"><h2 class="titulo" style="margin-top: 15px;">Check-list de Imagen</h2></th>
-                      </tr>
-                      <tr>
-                        <th colspan="2" style="background-color:#FFF"><h2 class="subtitulo">Dirección Corporativa de Mantenimiento</h2></th>
-                      </tr>
-                      <tr>
-                        <th>Empresa:</th>
-                        <td><span>${datosGenerales[0].empresa}</span></td>
-                      </tr>
-                      <tr>
-                        <th>Unidad:</th>
-                        <td><span>${datosGenerales[0].Unidad}</span></td>
-                      </tr>
-                      <tr>
-                        <th>Fecha:</th>
-                        <td><span>${datosGenerales[0].fecha_revision}</span></td>
-                      </tr>
-                      <tr>
-                        <th>Formato:</th>
-                        <td><span>${datosGenerales[0].nombre}</span></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div>  
-                    <div class="card data-table"> 
-                      <div class="infinite-scroll-content">
-                        <table style='text-align:center;'>
-                          <tbody id="tb_check">
-                            <tr>
-                              <th>Item</th>
-                              <th>Revisión</th>
-                              <th>Estado</th>
-                              <th>Comentarios</th>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div id="message-despues" style="width: 100%;text-align: center;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 16px;" style="display: none;">
-                          <p>Sin registros</p>
+              datosGenerales = content[0];
+              var Checklist = new Array;
+              Checklist = content[1];
+              if (datosGenerales == null) {
+                $("#message-despues").css("display", "block");
+                app.preloader.hide();
+              } else {
+                $('#historyContainer').append(`<table id = "imyal" cellpadding="10" >
+                      <tbody id="imya">
+                        <tr>
+                          <th colspan="2" style="background-color:#FFF"><h2 class="titulo" style="margin-top: 15px;">Check-list de Imagen</h2></th>
+                        </tr>
+                        <tr>
+                          <th colspan="2" style="background-color:#FFF"><h2 class="subtitulo">Dirección Corporativa de Mantenimiento</h2></th>
+                        </tr>
+                        <tr>
+                          <th>Empresa:</th>
+                          <td><span>${datosGenerales[0].empresa}</span></td>
+                        </tr>
+                        <tr>
+                          <th>Unidad:</th>
+                          <td><span>${datosGenerales[0].Unidad}</span></td>
+                        </tr>
+                        <tr>
+                          <th>Fecha:</th>
+                          <td><span>${datosGenerales[0].fecha_revision}</span></td>
+                        </tr>
+                        <tr>
+                          <th>Formato:</th>
+                          <td><span>${datosGenerales[0].nombre}</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div>  
+                      <div class="card data-table"> 
+                        <div class="infinite-scroll-content">
+                          <table style='text-align:center;'>
+                            <tbody id="tb_check">
+                              <tr>
+                                <th>Item</th>
+                                <th>Revisión</th>
+                                <th>Estado</th>
+                                <th>Comentarios</th>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <div id="message-despues" style="width: 100%;text-align: center;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 16px;" style="display: none;">
+                            <p>Sin registros</p>
+                          </div>
+                          <br><br>
+                          <table id = "imya2" cellpadding="10" >
+                            <tbody id="imya2">
+                              <tr>
+                                <th>Observaciones Adicionales:</th>
+                              </tr>
+                              <tr>
+                                <td><span>${datosGenerales[0].comentarios_generales}</span></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                          <div class='sentencia2 preloader color-blue infinite-scroll-preloader'></div>
                         </div>
-                        <br><br>
-                        <table id = "imya2" cellpadding="10" >
-                          <tbody id="imya2">
-                            <tr>
-                              <th>Observaciones Adicionales:</th>
-                            </tr>
-                            <tr>
-                              <td><span>${datosGenerales[0].comentarios_generales}</span></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        
-                        <div class='sentencia2 preloader color-blue infinite-scroll-preloader'></div>
+                      </div>
+                    </div>
+                    <br><br>
+                  </div>
+                  <br>
+                `);
+              }
+
+              if (Checklist.length === 0) {
+                $("#message-despues").css("display", "block");
+                app.preloader.hide();
+              } else {
+                var seccion = '';
+                var parte = '';
+                var html = '';
+                for (let i = 0; i < Checklist.length; i++) {
+                  if (!seccion) {//titulo de exterior o interior
+                    seccion = Checklist[i].int_ext;
+                    $("#tb_check").append(`<tr><td colspan='4' class='titulo_ext_int'>${Checklist[i].int_ext}</td></tr>`);
+                  } else {
+                    if (seccion != Checklist[i].int_ext) {
+                      $("#tb_check").append(`<tr><td colspan='4' class='titulo_ext_int'>${Checklist[i].int_ext}</td></tr>`);
+                    }
+                    seccion = Checklist[i].int_ext;
+                  }
+
+                  if (!parte) {//nombres de las partes
+                    parte = Checklist[i].nombre_fase;
+                    $("#tb_check").append(`<tr><td class='titulo_fases'>${Checklist[i].id_fase}</td><td class='titulo_fases'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`);
+                  } else {
+                    if (parte != Checklist[i].nombre_fase) {
+                      $("#tb_check").append(`<tr><td class='titulo_fases'>${Checklist[i].id_fase}</td><td class='titulo_fases'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`);
+                    }
+                    parte = Checklist[i].nombre_fase;
+                  }
+                  $("#tb_check").append(`<tr>`);
+                  $("#tb_check").append(`<td style='min-width: 50px;'>${Checklist[i].id_fase}.${Checklist[i].no_pregunta}</td>`);
+                  $("#tb_check").append(`<td>${Checklist[i].revision}</td>`);
+                  if (Checklist[i].respuesta == 2) {
+                    $("#tb_check").append(`<td class='respuesta_mala'>Malo</td>`);
+                  } else {
+                    $("#tb_check").append(`<td class='respuesta_buena'>Bueno</td>`);
+                  }
+                  $("#tb_check").append(`<td>${Checklist[i].comentarios}</td>`);
+                  $("#tb_check").append(`</tr>`);
+                }
+                $("#message-despues").css("display", "none");
+                app.preloader.hide();
+              }
+            } else if (TipoCed == 'Recaudo') {
+              var datosGenerales = new Array;
+              datosGenerales = content[0];
+              $('#historyContainer').append(`<table id = "imyal" cellpadding="10" class="table_boleta">
+                      <tbody id="imya">
+                        <tr>
+                          <th colspan="2" style="background-color:#FFF"><h2 class="titulo" style="margin-bottom: 20px;">Datos Generales de Boleta</h2></th>
+                        </tr>
+                        <tr>
+                          <th class="th_boleta">Fecha:</th>
+                          <td><span>${datosGenerales[0].fecha}</span></td>
+                        </tr>
+                        <tr>
+                          <th class="th_boleta">Nombre:</th>
+                          <td><span>${datosGenerales[0].Nombre}</span></td>
+                        </tr>
+                        <tr>
+                          <th class="th_boleta">Dirección:</th>
+                          <td><span>${datosGenerales[0].direccion}</span></td>
+                        </tr>
+                        <tr>
+                          <th class="th_boleta">Bolsas:</th>
+                          <td><span>${datosGenerales[0].bolsas_totales}</span></td>
+                        </tr>
+                        <tr>
+                          <th class="th_boleta">Bolsas con letra:</th>
+                          <td><span>${datosGenerales[0].bolsas_totales}</span></td>
+                        </tr>
+                        <tr>
+                          <th class="th_boleta">Importe Total:</th>
+                          <td><span>${datosGenerales[0].recaudo_total}</span></td>
+                        </tr>
+                        <tr>
+                          <th class="th_boleta">Importe Total con letra:</th>
+                          <td><span>${datosGenerales[0].recaudo_total}</span></td>
+                        </tr>
+                        <tr>
+                          <th class="th_boleta">Plomo:</th>
+                          <td><span>${datosGenerales[0].plomo}</span></td>
+                        </tr>
+                        <tr>
+                          <th class="th_boleta">Folio 1:</th>
+                          <td><span>${datosGenerales[0].folio}</span></td>
+                        </tr>
+                        <tr>
+                          <th class="th_boleta">Folio 2:</th>
+                          <td><span>${datosGenerales[0].folio2}</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div>  
+                      <div class="card data-table"> 
+                        <div class="infinite-scroll-content">
+                          <table style='text-align:center;'>
+                            <thead>
+                              <tr>
+                                <th class="th_boleta">Denominación</th>
+                                <th class="th_boleta">Importe</th>
+                                <th class="th_boleta">Bolsas</th>
+                                <th class="th_boleta">Pico</th>
+                                <th class="th_boleta">Bolsa Pico</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th class="th_boleta">$50c:</th>
+                                <td><span>${datosGenerales[0].bolsa50c*1000}</span></td>
+                                <td><span>${datosGenerales[0].bolsa50c}</span></td>
+                                <td><span>${datosGenerales[0].pico50c}</span></td>
+                                <td><span id="bolsa_pico50c"></span></td>
+                              </tr>
+                              <tr>
+                                <th class="th_boleta">$1.00:</th>
+                                <td><span>${datosGenerales[0].bolsa1*2000}</span></td>
+                                <td><span>${datosGenerales[0].bolsa1}</span></td>
+                                <td><span>${datosGenerales[0].pico1}</span></td>
+                                <td><span id="bolsa_pico1"></span></td>
+                              </tr>
+                              <tr>
+                                <th class="th_boleta">$2.00:</th>
+                                <td><span>${datosGenerales[0].bolsa2*4000}</span></td>
+                                <td><span>${datosGenerales[0].bolsa2}</span></td>
+                                <td><span>${datosGenerales[0].pico2}</span></td>
+                                <td><span id="bolsa_pico2"></span></td>
+                              </tr>
+                              <tr>
+                                <th class="th_boleta">$5.00:</th>
+                                <td><span>${datosGenerales[0].bolsa5*6000}</span></td>
+                                <td><span>${datosGenerales[0].bolsa5}</span></td>
+                                <td><span>${datosGenerales[0].pico5}</span></td>
+                                <td><span id="bolsa_pico5"></span></td>
+                              </tr>
+                              <tr>
+                                <th class="th_boleta">$10.00:</th>
+                                <td><span>${datosGenerales[0].bolsa10*5000}</span></td>
+                                <td><span>${datosGenerales[0].bolsa10}</span></td>
+                                <td><span>${datosGenerales[0].pico10}</span></td>
+                                <td><span id="bolsa_pico10"></span></td>
+                              </tr>
+                              <tr>
+                                <td>&nbsp;</td>
+                                <td><span>&nbsp;</span></td>
+                                <td><span id="bolsas_totales"></span></td>
+                                <td><span>&nbsp;</span></td>
+                                <td><span id="bolsa_totales_pico"></span></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <br><br>
+                  <br>
+                <div class="card data-table" style="margin-bottom: 100px;">
+                  <div class="infinite-scroll-content">
+                    <table cellpadding="10">
+                      <tbody>
+                        <tr>
+                          <th>Envío a:</th>
+                          <td><span>Empaques y procesos</span></td>
+                        </tr>
+                        <tr>
+                          <th>Dirección envío:</th>
+                          <td><span>Congreso</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <br>
-              `);
-            }
+                `);
 
-            if (Checklist.length === 0) {
-              $("#message-despues").css("display", "block");
-              app.preloader.hide();
+                datosGenerales[0].pico50c ? datosGenerales[0].pico50c > 0 ? $("#bolsa_pico50c").text("1") : $("#bolsa_pico50c").text("0") : $("#bolsa_pico50c").text("0");
+                datosGenerales[0].pico1 ? datosGenerales[0].pico1 > 0 ? $("#bolsa_pico1").text("1") : $("#bolsa_pico1").text("0") : $("#bolsa_pico1").text("0");
+                datosGenerales[0].pico2 ? datosGenerales[0].pico2 > 0 ? $("#bolsa_pico2").text("1") : $("#bolsa_pico2").text("0") : $("#bolsa_pico2").text("0");
+                datosGenerales[0].pico5 ? datosGenerales[0].pico5 > 0 ? $("#bolsa_pico5").text("1") : $("#bolsa_pico5").text("0") : $("#bolsa_pico5").text("0");
+                datosGenerales[0].pico10 ? datosGenerales[0].pico10 > 0 ? $("#bolsa_pico10").text("1") : $("#bolsa_pico10").text("0") : $("#bolsa_pico10").text("0");
+                
+                $("#bolsas_totales").text(datosGenerales[0].bolsa50c + datosGenerales[0].bolsa1+ datosGenerales[0].bolsa2 + datosGenerales[0].bolsa5 + datosGenerales[0].bolsa10);
+                $("#bolsa_totales_pico").text(parseInt($("#bolsa_pico50c").text()) + parseInt($("#bolsa_pico1").text()) + parseInt($("#bolsa_pico2").text()) + parseInt($("#bolsa_pico5").text()) + parseInt($("#bolsa_pico10").text()));
+
+                app.preloader.hide();
             } else {
-              var seccion = '';
-              var parte = '';
-              var html = '';
-              for (let i = 0; i < Checklist.length; i++) {
-                if (!seccion) {//titulo de exterior o interior
-                  seccion = Checklist[i].int_ext;
-                  $("#tb_check").append(`<tr><td colspan='4' class='titulo_ext_int'>${Checklist[i].int_ext}</td></tr>`);
-                } else {
-                  if (seccion != Checklist[i].int_ext) {
-                    $("#tb_check").append(`<tr><td colspan='4' class='titulo_ext_int'>${Checklist[i].int_ext}</td></tr>`);
-                  }
-                  seccion = Checklist[i].int_ext;
-                }
-
-                if (!parte) {//nombres de las partes
-                  parte = Checklist[i].nombre_fase;
-                  $("#tb_check").append(`<tr><td class='titulo_fases'>${Checklist[i].id_fase}</td><td class='titulo_fases'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`);
-                } else {
-                  if (parte != Checklist[i].nombre_fase) {
-                    $("#tb_check").append(`<tr><td class='titulo_fases'>${Checklist[i].id_fase}</td><td class='titulo_fases'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`);
-                  }
-                  parte = Checklist[i].nombre_fase;
-                }
-                $("#tb_check").append(`<tr>`);
-                $("#tb_check").append(`<td style='min-width: 50px;'>${Checklist[i].id_fase}.${Checklist[i].no_pregunta}</td>`);
-                $("#tb_check").append(`<td>${Checklist[i].revision}</td>`);
-                if (Checklist[i].respuesta == 2) {
-                  $("#tb_check").append(`<td class='respuesta_mala'>Malo</td>`);
-                } else {
-                  $("#tb_check").append(`<td class='respuesta_buena'>Bueno</td>`);
-                }
-                $("#tb_check").append(`<td>${Checklist[i].comentarios}</td>`);
-                $("#tb_check").append(`</tr>`);
-              }
-              $("#message-despues").css("display", "none");
               app.preloader.hide();
+              swal("", "Información no dsiponible.", "warning");
             }
           } else {
             app.preloader.hide();

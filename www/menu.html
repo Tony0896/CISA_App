@@ -140,6 +140,18 @@
                                 </div>
                               </td>
                             </tr>
+                            <tr class="menu_recaudo menus">
+                              <td>
+                                <div>
+                                  <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();"><img src="img/iconsMenu/portapapeles2.svg" height="60px"><p style="color: #000000;font-size: 19px;">Nuevo Recaudo</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr class="menu_recaudo menus">
+                              <td>
+                                <a class="item-content item-link entrar principalButton" href="/history/" onclick="" ><img src="img/iconsMenu/history.svg" height="60px"><p style="color: #000000;">Historial</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
+                              </td>
+                            </tr>
                           </table>
                         </div>
                     </div>
@@ -214,9 +226,11 @@
         $("#menu_activo").append(`<option value="Imagen">Revisión Imagen</option>`);
       }else if(modulos[i]=="Limpieza"){
         $("#menu_activo").append(`<option value="Limpieza">Revisión Limpieza</option>`);
+      } else if(modulos[i]=="Recaudo"){
+        $("#menu_activo").append(`<option value="Recaudo">Recaudo</option>`);
       } else {
         $("#menu_activo").append(`<option value="${modulos[i]}">${modulos[i]}</option>`);
-      }
+      } 
     }
 
     if(!localStorage.getItem("Modulos")){
@@ -232,18 +246,23 @@
       }
     }
 
+    $(".menu_imagen").css("display", "none");
+    $(".menu_limpieza").css("display", "none");
+    $(".menu_recaudo").css("display", "none");
+    $(".menu_desincorporaciones").css("display", "none");
+
     if(localStorage.getItem("Modulos") == 'Imagen' || localStorage.getItem("Modulos") == 'Checklist'){
       $(".menu_imagen").css("display", "grid");
-      $(".menu_limpieza").css("display", "none");
-      $("#menu_activo").val(localStorage.getItem("Modulos"));
     } else if(localStorage.getItem("Modulos") == 'Limpieza'){
-      $(".menu_imagen").css("display", "none");
       $(".menu_limpieza").css("display", "grid");
-      $("#menu_activo").val(localStorage.getItem("Modulos"));
     } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
       $(".menu_desincorporaciones").css("display", "grid");
+    } else if(localStorage.getItem("Modulos") == 'Recaudo'){
+      $(".menu_recaudo").css("display", "grid");
       $("#menu_activo").val(localStorage.getItem("Modulos"));
     }
+
+    $("#menu_activo").val(localStorage.getItem("Modulos"));
 
     $("#version_app").text("Versión "+localStorage.getItem("version"));
 
@@ -259,6 +278,9 @@
         } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
           var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_desin/";
           var carpeta = "jsons_desin";
+        } else if(localStorage.getItem("Modulos") == 'Recaudo'){
+          var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_recaudo/";
+          var carpeta = "jsons_recaudo";
         }
         
         $("#processclick").show();
@@ -361,7 +383,9 @@
                                       function(tx5, results){
                                         var length = results.rows.length;
                                         var item1 = results.rows.item(0);
-                                        RevisaHeaders();
+                                        if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
+                                          RevisaHeaders();
+                                        }
                                       }
                                     );
                                   },
@@ -396,6 +420,8 @@
         $(".menu_limpieza").css("display", "grid");
       } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
         $(".menu_desincorporaciones").css("display", "grid");
+      } else if(localStorage.getItem("Modulos") == 'Recaudo'){
+        $(".menu_recaudo").css("display", "grid");
       }
       updateData();
       recargacedulas();
@@ -428,6 +454,8 @@
           var tipo = "Limpieza";
         } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
           var tipo = "Desincorporaciones";
+        } else if(localStorage.getItem("Modulos") == 'Recaudo'){
+          var tipo = "Recaudo";
         }
         
         var estatus = 0;
@@ -446,6 +474,8 @@
                               $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Rev. Limpieza</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,2);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                             } else if(item2.tipo_cedula == 'Desincorporaciones'){
                               $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>");
+                            } else if(item2.tipo_cedula == 'Recaudo'){
+                              $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Recaudo</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,4);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                             }
                         }
                     },

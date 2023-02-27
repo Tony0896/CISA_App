@@ -112,6 +112,23 @@ var routes = [
     componentUrl: './pages/yallegue_desin.html',
   },
   //Fin Desincorporacion
+  //inicio Recaudo
+  {
+    name: 'yallegueRecaudo',
+    path: '/yallegueRecaudo/',
+    componentUrl: './pages/yallegueRecaudo.html',
+  },
+  {
+    name: 'formRecaudo1',
+    path: '/formRecaudo1/',
+    componentUrl: './pages/formRecaudo1.html',
+  },
+  {
+    name: 'formRecaudo2',
+    path: '/formRecaudo2/',
+    componentUrl: './pages/formRecaudo2.html',
+  },
+  //fin Recaudo
   {
     name: 'visualizar',
     path: '/visualizar/',

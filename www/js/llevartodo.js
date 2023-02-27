@@ -367,6 +367,85 @@ function llevarTodo(id_cedula,tipo_cedula){
                             function(error){},
                             function(){}
                         );
+                    } else if (tipo == "Recaudo"){
+                        var detalle_recaudo = new Array();
+                        var datos_generales_recaudo = new Array();
+                        databaseHandler.db.transaction(
+                            function(tx){
+                                tx.executeSql("SELECT * FROM datos_generales_recaudo WHERE id_cedula = ?",
+                                    [id_cedula],
+                                    function(tx, results){
+                                        var length = results.rows.length;
+                                        for(var i = 0; i< length; i++){
+                                            var item1 = results.rows.item(i);
+                                            datos_generales_recaudo[i] = {'Valor':i,'fecha':item1.fecha, 'id_usuario':item1.id_usuario, 'id_empresa':item1.id_empresa, 'observaciones':item1.observaciones, 'folio':item1.folio, 'folio2':item1.folio2, 'recaudo_total':item1.recaudo_total, 'recaudo_sin_billetes':item1.recaudo_sin_billetes, 'total_billetes':item1.total_billetes, 'total_cacharpa':item1.total_cacharpa, 'bolsas_totales':item1.bolsas_totales, 'plomo':item1.plomo, 'monto1':item1.monto1, 'total_unidades':item1.total_unidades, 'unidades_recaudads':item1.unidades_recaudads, 'promedio':item1.promedio, 'bolsa50c':item1.bolsa50c, 'bolsa1':item1.bolsa1, 'bolsa2':item1.bolsa2, 'bolsa5':item1.bolsa5, 'bolsa10':item1.bolsa10, 'pico50c':item1.pico50c, 'pico1':item1.pico1, 'pico2':item1.pico2, 'pico5':item1.pico5, 'pico10':item1.pico10, 'opc_cacharpa':item1.opc_cacharpa, 'opc_adicional':item1.opc_adicional, 'bolsaCacharpa10':item1.bolsaCacharpa10, 'bolsaCacharpa20':item1.bolsaCacharpa20, 'bolsaCacharpa50':item1.bolsaCacharpa50, 'monto_adicional':item1.monto_adicional, 'bolsaAdd50c':item1.bolsaAdd50c, 'bolsaAdd1':item1.bolsaAdd1, 'bolsaAdd2':item1.bolsaAdd2, 'bolsaAdd5':item1.bolsaAdd5, 'bolsaAdd10':item1.bolsaAdd10, 'importe_cacharpa':item1.importe_cacharpa};
+                                        }
+                                        databaseHandler.db.transaction(
+                                            function(tx){
+                                                tx.executeSql("SELECT * FROM detalle_recaudo WHERE id_cedula = ?",
+                                                    [id_cedula],
+                                                    function(tx, results){
+                                                        var length = results.rows.length;
+                                                        for(var i = 0; i< length; i++){
+                                                            var item2 = results.rows.item(i);
+                                                            detalle_recaudo[i] = {'Valor':i, 'Moneda1':item2.Moneda1, 'Moneda2':item2.Moneda2, 'Moneda5':item2.Moneda5, 'Moneda10':item2.Moneda10, 'Moneda20':item2.Moneda20, 'Moneda50':item2.Moneda50, 'Moneda50c':item2.Moneda50c, 'Moneda100':item2.Moneda100, 'Moneda200':item2.Moneda200, 'Moneda500':item2.Moneda500, 'eco':item2.eco, 'id_cedula':item2.id_cedula, 'id_detalle':item2.id_detalle, 'importe1':item2.importe1, 'importe2':item2.importe2, 'importe5':item2.importe5, 'importe10':item2.importe10, 'importe20':item2.importe20, 'importe50':item2.importe50, 'importe50c':item2.importe50c, 'importe100':item2.importe100, 'importe200':item2.importe200, 'importe500':item2.importe500, 'importe_total':item2.importe_total, 'piezas_totales':item2.piezas_totales};
+                                                        }
+                                                        console.log(datos_generales_recaudo);
+                                                        console.log(detalle_recaudo);
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            async : true,
+                                                            url: url+"/guardarRecaudo.php",
+                                                            dataType: 'html',
+                                                            data: {'datosCedulaGeneral': JSON.stringify(datosCedulaGeneral),
+                                                            'datos_generales_recaudo': JSON.stringify(datos_generales_recaudo),
+                                                            'detalle_recaudo': JSON.stringify(detalle_recaudo)},
+                                                            success: function(respuesta){
+                                                                var respu1 = respuesta.split("._.");
+                                                                var dat1 = respu1[0];
+                                                                var dat2 = respu1[1];
+                                                                if(dat1 == "CEDULA"){
+                                                                    if(dat2 > 0){
+                                                                        databaseHandler.db.transaction(
+                                                                            function(tx7){
+                                                                                tx7.executeSql(
+                                                                                    "UPDATE cedulas_general SET estatus = 3 WHERE id_cedula = ?",
+                                                                                    [id_cedula],
+                                                                                    function(tx7, results){
+                                                                                        localStorage.setItem("sendFlag", 0);
+                                                                                        $("#li-"+item.id_cedula).remove();
+                                                                                        swal("Enviado!", "", "success");
+                                                                                    }
+                                                                                );
+                                                                            }
+                                                                        );
+                                                                    }
+                                                                } else {
+                                                                    AlmacenarError(respuesta);
+                                                                }
+                                                            },
+                                                            error: function(){
+                                                                console.log("Error en la comunicacion");
+                                                            }
+                                                        });
+                                                    },
+                                                    function(tx, error){
+                                                        console.log("Error al consultar sanitizacion: " + error.message);
+                                                    }
+                                                );
+                                            },
+                                            function(error){},
+                                            function(){}
+                                        );
+                                    },
+                                    function(tx, error){
+                                        console.log("Error al consultar sanitizacion: " + error.message);
+                                    }
+                                );
+                            },
+                            function(error){},
+                            function(){}
+                        );
                     }
                 },
                 function(tx, error){
