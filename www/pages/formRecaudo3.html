@@ -1,15 +1,6 @@
 <!--suppress JSAnnotator -->
 <template>
     <div class="page">
-        <!-- <nav class="left top-left" style="justify-content: space-between;">
-            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
-                <i class="icon material-icons md-only" style="font-weight: 900;">arrow_back</i>
-            </a>
-            <div class="title">Recaudo | 13-12-2022</div>
-            <a style="margin-right: 10px;">
-                <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
-            </a>
-        </nav> -->
 
         <div class="navbar" style="background-color: #005D99;height: 5px;">
             <div class="left top-left" style="justify-content: space-between;">
@@ -23,6 +14,11 @@
             </div>
         </div>
 
+        <div style="display: none;">
+            <span class="span FWM-span-information" style="text-align: start;"><strong id="span_avance"></strong> de <strong id="span_total"></strong> Unidades</span>
+            <span class="span FWM-span-information" style="text-align: end;"><strong id="span_porcentaje"></strong></span>
+        </div>
+
         <div class="toolbar tabbar toolbar-bottom">
             <div class="toolbar-inner" style="background-color: #005D99;">
                 <a href="#" onclick="FinalizarRecaudo();" id="fin_recaudo" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Finalizar Recaudo <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
@@ -30,79 +26,6 @@
         </div>
         <div class="page-content" style="border-radius: 0;">
             <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 50px;">
-                <div class="list" id="demo-form">
-                    <div class="list no-hairlines-md">
-                        <div class="list FWM-fixing-form">
-                            <span class="span FWM-span-form" name="">Editar fecha</span>
-                            <div style="display: flex;">
-                                <input type="date" id="fecha" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;" onchange="actualiza_fecha();">
-                            </div>
-                            <hr style="margin-top:20px;">
-                            <span class="span FWM-span-form" name="">Unidad</span>
-                            <div style="display: flex;">
-                                <input type="text" placeholder="Escribe el No. de la unidad"id="autocomplete-dropdown-ajax" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;">
-                                <span style="min-width: 20%;padding-left: 10px;">
-                                    <button class="col button button-small button-round button-outline" style="height: 100%;border-color: #FF0037;" onclick="recaudarUnidad();"><i class="material-icons md-light" style="color: #FF0037;vertical-align: middle;font-size: 30px;">play_circle_outline</i></button>
-                                </span>
-                            </div>
-                            <input type="hidden" id="FK_unidad">
-                            <input type="hidden" id="id_unidad">
-                            <input type="hidden" id="FK_unidad_danos_empresa">
-                            <input type="hidden" id="recaudo_momento">
-                            <input type="hidden" id="hora">
-
-                            <div class="list simple-list" slot="margin: 20px 0px;">
-                                <div style="display: flex;">
-                                    <span class="span FWM-span-information" style="text-align: start;"><strong id="span_avance"></strong> de <strong id="span_total"></strong> Unidades</span>
-                                    <span class="span FWM-span-information" style="text-align: end;"><strong id="span_porcentaje"></strong></span>
-                                </div>
-                                <ul>
-                                    <li style="padding: 0;" id="li_progress">
-                                        <div class="progressbar color-blue" data-progress="0" style="height: 10px;border-radius: 10px;"></div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="block-title FWM-subtitulo" style="color: #000;margin-top: -10px;">Unidades Recaudadas</div>
-                <div class="card data-table" style="margin-bottom: 50px;">
-                    <div class="infinite-scroll-content">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Unidad</th>
-                                    <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Recaudo</th>
-                                    <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Editar</th>
-                                </tr>
-                            </thead>
-                                <tbody id="tb_recaudo"></tbody>
-                        </table>
-                        <div id="message-nr" style="width: 100%;text-align: center;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 16px;" style="display: none;">
-                            <p>Sin registros</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="block-title FWM-subtitulo" style="color: #000;">Resumen totales</div>
-                <div class="card data-table" style="margin-bottom: 50px;">
-                    <div class="infinite-scroll-content">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Moneda</th>
-                                    <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Piezas</th>
-                                    <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Importe</th>
-                                </tr>
-                            </thead>
-                                <tbody id="tb_resumen1"></tbody>
-                        </table>
-                        <div id="message-nr1" style="width: 100%;text-align: center;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 16px;">
-                            <p>Sin registros</p>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="block-title FWM-subtitulo" style="color: #000;">Resumen bolsas y picos</div>
                 <div class="card data-table" style="margin-bottom: 50px;">
@@ -149,7 +72,6 @@
     return {
         on: {      
             pageInit: function () {
-                fecha.max = new Date().toISOString().split("T")[0];
                 var empresa = localStorage.getItem("empresa");
                 var self = this;
                 var app = self.$app; 
@@ -161,69 +83,6 @@
                 localStorage.removeItem("IdDetalle");
                 app.preloader.show('red');
 
-                self.autocompleteDropdownAjax = app.autocomplete.create({
-                    inputEl: '#autocomplete-dropdown-ajax',
-                    openIn: 'dropdown',
-                    preloader: true, //enable preloader
-                    valueProperty: 'id_unidad', //object's "value" property name
-                    textProperty:  'buscador', //object's "text" property name
-                    limit: 10, //limit to [number] results
-                    dropdownPlaceholderText: 'Selecciona una Unidad...',
-                    source: function (query, render) {
-                        var autocomplete = this;
-                        var results = [];
-                        if (query.length === 0) {
-                            render(results);
-                            return;
-                        }
-                        autocomplete.preloaderShow();
-                        app.request({
-                            url: cordova.file.dataDirectory + "jsons_recaudo/"+NomJson+".json", 
-                            method: 'GET',
-                            dataType: 'json',
-                            data: {
-                                query: query,
-                            },success: function (data) {
-                                for (var i = 0; i < data.length; i++) {
-                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
-                                }
-                                autocomplete.preloaderHide();
-                                render(results); 
-                            }
-                        }); 
-                    }
-                });
-
-                $('#autocomplete-dropdown-ajax').change(function () {
-                    var unidad = $("#autocomplete-dropdown-ajax").val();
-                    var encontro = false;
-                    app.request.get(cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli+".json", function (data) {
-                        var content2 = JSON.parse(data);
-                        for(var x = 0; x < content2.length; x++) {
-                            if(content2[x].id_unidad == unidad){
-                                $("#autocomplete-dropdown-ajax").val(content2[x].Unidad);
-
-                                $("#FK_unidad").val(content2[x].FK_unidad);
-                                $("#id_unidad").val(content2[x].id_unidad);
-                                $("#FK_unidad_danos_empresa").val(content2[x].FK_unidad_danos_empresa);
-                                encontro = true;
-                            }         
-                        }
-                        if(encontro){
-                            $("#btn_cheklist").css("display","block")
-                        }else{
-                            $("#btn_cheklist").css("display","none")
-                            $("#autocomplete-dropdown-ajax").val("");
-
-                            $("#FK_unidad").val("");
-                            $("#id_unidad").val("");
-                            $("#FK_unidad_danos_empresa").val("");
-                            $("#modelo_check").val("");
-                        }
-                    });
-                });  
-
-
                 app.request.get(cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli+".json", function (data) {
                     var content2 = JSON.parse(data);
                     $("#span_total").html(content2.length);
@@ -232,15 +91,13 @@
                 var id_cedula = localStorage.getItem("IdCedula");
                 databaseHandler.db.transaction(
                     function(tx5){
-                        tx5.executeSql("SELECT DATE(fecha) as fecha, TIME(fecha) as hora FROM datos_generales_recaudo WHERE id_cedula = ?",
+                        tx5.executeSql("SELECT DATE(fecha) as fecha FROM datos_generales_recaudo WHERE id_cedula = ?",
                             [id_cedula],
                             function(tx5, results){
                                 var item2 = results.rows.item(0);
                                 var MyDate = item2.fecha.split("-");
                                 var MyDateString = MyDate[2]+"-"+MyDate[1]+"-"+MyDate[0];
                                 $(".title").html("Recaudo | "+MyDateString);
-                                $("#fecha").val(MyDate[0]+"-"+MyDate[1]+"-"+MyDate[2])
-                                $("#hora").val(item2.hora);
                             },
                             function(tx5, error){
                                 console.error("Error al consultar bandeja de salida: " + error.message);
@@ -277,10 +134,8 @@
                                     span_porcentaje = span_porcentaje.toFixed(2);
                                     app.progressbar.set(".progressbar", span_porcentaje);
                                     var unidades_reales = 0;
-                                    $("#span_porcentaje").html(span_porcentaje+"%");
                                     for(var i = 0; i< length; i++){
                                         var item2 = results.rows.item(i);
-                                        $("#tb_recaudo").append("<tr id='fila"+ item2.id_detalle +"'><td style='text-align: center;'>"+item2.eco+"</td><td style='text-align: center;'>$"+numberWithCommas(item2.importe_total.toFixed(2))+"</td><td id='tdaccion'><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarUnidadRecaudo("+ item2.id_detalle +");'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
                                         pzaz50c = parseInt(pzaz50c)+parseInt(item2.Moneda50c);
                                         pzaz1 = parseInt(pzaz1)+parseInt(item2.Moneda1);
                                         pzaz2 = parseInt(pzaz2)+parseInt(item2.Moneda2);
@@ -313,18 +168,6 @@
                                     var totalpzas = parseInt(pzaz50c)+parseInt(pzaz1)+parseInt(pzaz2)+parseInt(pzaz5)+parseInt(pzaz10)+parseInt(pzaz20)+parseInt(pzaz50)+parseInt(pzaz100)+parseInt(pzaz200)+parseInt(pzaz500);
                                     var totalimporte = parseFloat(importe50c)+parseFloat(importe1)+parseFloat(importe2)+parseFloat(importe5)+parseFloat(importe10)+parseFloat(importe20)+parseFloat(importe50)+parseFloat(importe100)+parseFloat(importe200)+parseFloat(importe500);
                                     
-                                    $("#tb_resumen1").append(`<tr><td style='text-align: center;'>$0.50</td><td style='text-align: center;'>${numberWithCommas(pzaz50c)}</td><td>$${numberWithCommas(importe50c.toFixed(2))}</td></tr>
-                                    <tr><td style='text-align: center;'>$1.00</td><td style='text-align: center;'>${numberWithCommas(pzaz1)}</td><td>$${numberWithCommas(importe1.toFixed(2))}</td></tr>
-                                    <tr><td style='text-align: center;'>$2.00</td><td style='text-align: center;'>${numberWithCommas(pzaz2)}</td><td>$${numberWithCommas(importe2.toFixed(2))}</td></tr>
-                                    <tr><td style='text-align: center;'>$5.00</td><td style='text-align: center;'>${numberWithCommas(pzaz5)}</td><td>$${numberWithCommas(importe5.toFixed(2))}</td></tr>
-                                    <tr><td style='text-align: center;'>$10.00</td><td style='text-align: center;'>${numberWithCommas(pzaz10)}</td><td>$${numberWithCommas(importe10.toFixed(2))}</td></tr>
-                                    <tr><td style='text-align: center;'>$20.00</td><td style='text-align: center;'>${numberWithCommas(pzaz20)}</td><td>$${numberWithCommas(importe20.toFixed(2))}</td></tr>
-                                    <tr><td style='text-align: center;'>$50.00</td><td style='text-align: center;'>${numberWithCommas(pzaz50)}</td><td>$${numberWithCommas(importe50.toFixed(2))}</td></tr>
-                                    <tr><td style='text-align: center;'>$100.00</td><td style='text-align: center;'>${numberWithCommas(pzaz100)}</td><td>$${numberWithCommas(importe100.toFixed(2))}</td></tr>
-                                    <tr><td style='text-align: center;'>$200.00</td><td style='text-align: center;'>${numberWithCommas(pzaz200)}</td><td>$${numberWithCommas(importe200.toFixed(2))}</td></tr>
-                                    <tr><td style='text-align: center;'>$500.00</td><td style='text-align: center;'>${numberWithCommas(pzaz500)}</td><td>$${numberWithCommas(importe500.toFixed(2))}</td></tr>
-                                    <tr style='text-align: center;background-color: #005D99;color: white;'><th>Totales</th><td>${numberWithCommas(totalpzas)}</td><td>$${numberWithCommas(totalimporte.toFixed(2))}</td></tr>`);
-
                                     var bolsas = pzaz50c/2000;
                                     bolsas =  parseInt(bolsas);
                                     var pzasbolsas = 2000*bolsas;
@@ -451,7 +294,7 @@
                                         recaudo_total: recaudototal.toFixed(2),
                                         total_billetes: totalBilletes.toFixed(2)
                                     });
-                                    
+
                                     var bolsasbilletes = 0;
                                     totalBilletes ? totalBilletes > 0 ? bolsasbilletes = 1 : null : null;
                                     $("#recaudo_momento").val(recaudototal);

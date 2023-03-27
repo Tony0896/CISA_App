@@ -32,7 +32,11 @@
         <div class="page-content" style="border-radius: 0;">
             <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 30px;">
                 <div style="text-align: left;">
-                    <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px;margin-left: 0;margin-right: 0;width: 100%;">
+                    <div class="list FWM-fixing-form" id="datos_form" style="margin-bottom: 25px;">
+
+                        <span class="span FWM-span-form">Editar Unidad</span>
+                        <input type="text" placeholder="Escribe el No. de la unidad"id="autocomplete-dropdown-ajax" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;margin-bottom: 20px;">
+                        <input type="hidden" id="id_unidad">
                         <div class="FWM-photo-container">
                             <a onclick="modalCantidad(0)">
                                 <img src="img/currency/50c.png" alt="" class="moneda_mx">
@@ -83,24 +87,24 @@
                                 <img src="img/currency/500.png" alt="" class="billete_mx">
                             </a>
                         </div>
-                        <div class="block-title FWM-subtitulo" style="color: #000;">Resumen</div>
-                        <div class="card data-table" style="margin-bottom: 80px;">
-                            <div class="infinite-scroll-content">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Moneda</th>
-                                            <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Pzas.</th>
-                                            <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Importe</th>
-                                            <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Editar</th>
-                                        </tr>
-                                    </thead>
-                                        <tbody id="tb_recaudo">
-                                        </tbody>
-                                </table>
-                                <div id="message-nr" style="width: 100%;text-align: center;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 16px;" style="display: none;">
-                                    <p>Sin registros</p>
-                                </div>
+                    </div>
+                    <div class="block-title FWM-subtitulo" style="color: #000;">Resumen</div>
+                    <div class="card data-table" style="margin-bottom: 80px;">
+                        <div class="infinite-scroll-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Moneda</th>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Pzas.</th>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Importe</th>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Editar</th>
+                                    </tr>
+                                </thead>
+                                    <tbody id="tb_recaudo">
+                                    </tbody>
+                            </table>
+                            <div id="message-nr" style="width: 100%;text-align: center;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 16px;" style="display: none;">
+                                <p>Sin registros</p>
                             </div>
                         </div>
                     </div>
@@ -114,7 +118,7 @@ return {
     on: {      
         pageInit: function () {
             app.preloader.show('red');
-            
+            //autocomplete-dropdown-ajax;
             var id_detalle = localStorage.getItem("IdDetalle");
             var id_cedula = localStorage.getItem("IdCedula");
             databaseHandler.db.transaction(
@@ -130,6 +134,7 @@ return {
                                 $("#message-nr").css("display", "none");
                                 for(var i = 0; i< length; i++){
                                     var item2 = results.rows.item(i);
+                                    $("#autocomplete-dropdown-ajax").val(item2.eco);
                                     $("#tb_recaudo").append("<tr><td>$0.5</td><td>"+numberWithCommas(item2.Moneda50c)+"</td><td>$"+numberWithCommas(item2.importe50c)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",0);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
                                     $("#tb_recaudo").append("<tr><td>$1</td><td>"+numberWithCommas(item2.Moneda1)+"</td><td>$"+numberWithCommas(item2.importe1)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",1);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
                                     $("#tb_recaudo").append("<tr><td>$2</td><td>"+numberWithCommas(item2.Moneda2)+"</td><td>$"+numberWithCommas(item2.importe2)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",2);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
@@ -143,8 +148,9 @@ return {
                                     
                                     $("#tb_recaudo").append("<tr style='text-align: center;background-color: #005D99;color: white;''><td>Totales</td><td>"+numberWithCommas(item2.piezas_totales)+"</td><td>$"+numberWithCommas(item2.importe_total)+"</td><td>&nbsp;</td></tr>");
                                 }
-                                $(".title").html("Recaudo | "+item2.eco);
+                                $(".title").html("Recaudo | "+item2.eco+" - $"+numberWithCommas(item2.importe_total));
                                 app.preloader.hide();
+                                modalCantidad(0)
                             }
                         },
                         function(tx5, error){
@@ -159,6 +165,62 @@ return {
             document.addEventListener('backbutton', function (e) {
                 regresaRecaudo(1);
             });
+
+            var empresa = localStorage.getItem("empresa");
+            var NomJson = 'Unidades_empresa'+empresa;
+            var NomDescCli = "Unidades_desc_empresa"+empresa;
+            
+            self.autocompleteDropdownAjax = app.autocomplete.create({
+                    inputEl: '#autocomplete-dropdown-ajax',
+                    openIn: 'dropdown',
+                    preloader: true, //enable preloader
+                    valueProperty: 'id_unidad', //object's "value" property name
+                    textProperty:  'buscador', //object's "text" property name
+                    limit: 10, //limit to [number] results
+                    dropdownPlaceholderText: 'Selecciona una Unidad...',
+                    source: function (query, render) {
+                        var autocomplete = this;
+                        var results = [];
+                        if (query.length === 0) {
+                            render(results);
+                            return;
+                        }
+                        autocomplete.preloaderShow();
+                        app.request({
+                            url: cordova.file.dataDirectory + "jsons_recaudo/"+NomJson+".json", 
+                            method: 'GET',
+                            dataType: 'json',
+                            data: {
+                                query: query,
+                            },success: function (data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                }
+                                autocomplete.preloaderHide();
+                                render(results); 
+                            }
+                        }); 
+                    }
+                });
+
+                $('#autocomplete-dropdown-ajax').change(function () {
+                    var unidad = $("#autocomplete-dropdown-ajax").val();
+                    var encontro = false;
+                    app.request.get(cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli+".json", function (data) {
+                        var content2 = JSON.parse(data);
+                        for(var x = 0; x < content2.length; x++) {
+                            if(content2[x].id_unidad == unidad){
+                                $("#autocomplete-dropdown-ajax").val(content2[x].Unidad);
+                                $("#id_unidad").val(content2[x].id_unidad);
+                                encontro = true;
+                            }         
+                        }
+                        if(encontro){}else{
+                            $("#autocomplete-dropdown-ajax").val("");
+                            $("#id_unidad").val("");
+                        }
+                    });
+                });
         }
     }
 }

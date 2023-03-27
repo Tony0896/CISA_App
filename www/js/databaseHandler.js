@@ -93,23 +93,23 @@ var databaseHandler = {
                     );
                 } else if(localStorage.getItem("Modulos") == 'Recaudo'){
                     tx.executeSql(
-                        "create table if not exists datos_generales_recaudo(id_dato integer primary key, id_cedula integer, fecha text, id_usuario text, id_empresa integer, observaciones text, folio text, folio2 text, recaudo_total float, recaudo_sin_billetes float, total_billetes float, total_cacharpa float, bolsas_totales integer, plomo text, monto1 float, total_unidades integer, unidades_recaudads integer, promedio float, bolsa50c integer, bolsa1 integer, bolsa2 integer, bolsa5 integer, bolsa10 integer, pico50c integer, pico1 integer, pico2 integer, pico5 integer, pico10 integer, opc_cacharpa integer, opc_adicional integer, bolsaCacharpa10 integer, bolsaCacharpa20 integer, bolsaCacharpa50 integer, monto_adicional integer, bolsaAdd50c integer, bolsaAdd1 integer, bolsaAdd2 integer, bolsaAdd5 integer, bolsaAdd10 integer, importe_cacharpa integer)",
+                        "create table if not exists datos_generales_recaudo(id_dato integer primary key, id_cedula integer, fecha text, id_usuario text, id_empresa integer, observaciones text, folio text, folio2 text, recaudo_total float, recaudo_sin_billetes float, total_billetes float, total_cacharpa float, bolsas_totales integer, plomo text, monto1 float, total_unidades integer, unidades_recaudads integer, promedio float, bolsa50c integer, bolsa1 integer, bolsa2 integer, bolsa5 integer, bolsa10 integer, pico50c integer, pico1 integer, pico2 integer, pico5 integer, pico10 integer, opc_cacharpa integer, opc_adicional integer, bolsaCacharpa10 integer, bolsaCacharpa20 integer, bolsaCacharpa50 integer, monto_adicional integer, bolsaAdd50c integer, bolsaAdd1 integer, bolsaAdd2 integer, bolsaAdd5 integer, bolsaAdd10 integer, importe_cacharpa integer, plomo2 text, plomo3 text, plomo4 text, plomo5 text, peso_cacharpa float, origen int, id_servidor int, estatus int)",
                         [],
                         function(tx, results){
                             // console.log("Se creo Servicio tecnico DIPREC correctamente!");
                         },
                         function(tx, error){
-                            console.error("Error al crear la tabla de levantamiento_smc: " + error.message);
+                            console.error("Error al crear la tabla de datos_generales_recaudo: " + error.message);
                         }
                     );
                     tx.executeSql(
-                        "create table if not exists detalle_recaudo(id_detalle integer primary key, id_cedula integer, eco text, Moneda50c integer, Moneda1 integer, Moneda2 integer, Moneda5 integer, Moneda10 integer, Moneda20 integer, Moneda50 integer, Moneda100 integer, Moneda200 integer, Moneda500 integer, importe50c float, importe1 float, importe2 float, importe5 float, importe10 float, importe20 float, importe50 float, importe100 float, importe200 float, importe500 float, piezas_totales integer, importe_total float)",
+                        "create table if not exists detalle_recaudo(id_detalle integer primary key, id_cedula integer, id_unidad integer, eco text, Moneda50c integer, Moneda1 integer, Moneda2 integer, Moneda5 integer, Moneda10 integer, Moneda20 integer, Moneda50 integer, Moneda100 integer, Moneda200 integer, Moneda500 integer, importe50c float, importe1 float, importe2 float, importe5 float, importe10 float, importe20 float, importe50 float, importe100 float, importe200 float, importe500 float, piezas_totales integer, importe_total float, fecha text, origen int, id_servidor int)",
                         [],
                         function(tx, results){
                             // console.log("Se creo Servicio tecnico DIPREC correctamente!");
                         },
                         function(tx, error){
-                            console.error("Error al crear la tabla de levantamiento_smc: " + error.message);
+                            console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
                         }
                     );
                 }

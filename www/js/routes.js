@@ -128,6 +128,11 @@ var routes = [
     path: '/formRecaudo2/',
     componentUrl: './pages/formRecaudo2.html',
   },
+  {
+    name: 'formRecaudo3',
+    path: '/formRecaudo3/',
+    componentUrl: './pages/formRecaudo3.html',
+  },
   //fin Recaudo
   {
     name: 'visualizar',

@@ -861,8 +861,7 @@ td.respuesta_buena{
   background-color: #D6EAF8;
 }
 table th {
-  font-family: 'ITC Avant Garde Gothic', sans-serif;
-  font-weight: bold;
+  font-size: 14px !important;
 }
 .th_boleta{
   background-color: #005D99;

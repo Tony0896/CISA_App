@@ -269,12 +269,12 @@ var productHandler={
         function () {}
       );
   },
-  addDetalle_Recaudo: function (id_cedula, eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total){
+  addDetalle_Recaudo: function (id_cedula, id_unidad, eco, fecha, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total){
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
-            "insert into detalle_recaudo(id_cedula, eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [id_cedula, eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total],
+            "insert into detalle_recaudo(id_cedula, id_unidad, eco, fecha, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [id_cedula, id_unidad, eco, fecha, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total],
             function (tx, results) {
               //console.log("Frio correcto");
             },
@@ -286,6 +286,95 @@ var productHandler={
         function (error) {
             console.log(error)
         },
+        function () {}
+      );
+  },
+  addDesincorHeaderRecaudo: function(id_cedula, empresa, fecha, id_usuario, id_empresa, observaciones, folio, folio2, recaudo_total, recaudo_sin_billetes, total_billetes, total_cacharpa, bolsas_totales, plomo, monto1, total_unidades, unidades_recaudads, promedio, bolsa50c, bolsa1, bolsa2, bolsa5, bolsa10, pico50c, pico1, pico2, pico5, pico10, opc_cacharpa, opc_adicional, bolsaCacharpa10, bolsaCacharpa20, bolsaCacharpa50, monto_adicional, bolsaAdd50c, bolsaAdd1, bolsaAdd2, bolsaAdd5, bolsaAdd10, importe_cacharpa, plomo2, plomo3, plomo4, plomo5, peso_cacharpa, estatus, origen, id){
+  databaseHandler.db.transaction(
+    function (tx) {
+      tx.executeSql(
+        "insert into datos_generales_recaudo(id_cedula, fecha, id_usuario, id_empresa, observaciones, folio, folio2, recaudo_total, recaudo_sin_billetes, total_billetes, total_cacharpa, bolsas_totales, plomo, monto1, total_unidades, unidades_recaudads, promedio, bolsa50c, bolsa1, bolsa2, bolsa5, bolsa10, pico50c, pico1, pico2, pico5, pico10, opc_cacharpa, opc_adicional, bolsaCacharpa10, bolsaCacharpa20, bolsaCacharpa50, monto_adicional, bolsaAdd50c, bolsaAdd1, bolsaAdd2, bolsaAdd5, bolsaAdd10, importe_cacharpa, plomo2, plomo3, plomo4, plomo5, peso_cacharpa, estatus, origen, id_servidor) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [id_cedula, fecha, id_usuario, id_empresa, observaciones, folio, folio2, recaudo_total, recaudo_sin_billetes, total_billetes, total_cacharpa, bolsas_totales, plomo, monto1, total_unidades, unidades_recaudads, promedio, bolsa50c, bolsa1, bolsa2, bolsa5, bolsa10, pico50c, pico1, pico2, pico5, pico10, opc_cacharpa, opc_adicional, bolsaCacharpa10, bolsaCacharpa20, bolsaCacharpa50, monto_adicional, bolsaAdd50c, bolsaAdd1, bolsaAdd2, bolsaAdd5, bolsaAdd10, importe_cacharpa, plomo2, plomo3, plomo4, plomo5, peso_cacharpa, estatus, origen, id],
+        function (tx, results) {
+          //console.log("Frio correcto");
+        },
+        function (tx, error) {
+          console.error("Error registrar:" + error.message);
+        }
+      );
+    },
+    function (error) {
+        console.log(error)
+    },
+    function () {}
+  );
+  },
+  addDetailsDesRecaudo: function (ID, id_cedula, eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total, id_unidad){
+    Moneda50c ? null : Moneda50c = 0;
+    Moneda1 ? null : Moneda1 = 0;
+    Moneda2 ? null : Moneda2 = 0;
+    Moneda5 ? null : Moneda5 = 0;
+    Moneda10 ? null : Moneda10 = 0;
+    Moneda20 ? null : Moneda20 = 0;
+    Moneda50 ? null : Moneda50 = 0;
+    Moneda100 ? null : Moneda100 = 0;
+    Moneda200 ? null : Moneda200 = 0;
+    Moneda500 ? null : Moneda500 = 0;
+    importe50c ? null : importe50c = 0;
+    importe1 ? null : importe1 = 0;
+    importe2 ? null : importe2 = 0;
+    importe5 ? null : importe5 = 0;
+    importe10 ? null : importe10 = 0;
+    importe20 ? null : importe20 = 0;
+    importe50 ? null : importe50 = 0;
+    importe100 ? null : importe100 = 0;
+    importe200 ? null : importe200 = 0;
+    importe500 ? null : importe500 = 0;
+    piezas_totales ? null : piezas_totales = 0;
+    importe_total ? null : importe_total = 0;
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "SELECT COUNT(id_cedula) as cont from detalle_recaudo WHERE id_servidor = ?",
+            [ID],
+            function (tx, results) {
+              var item = results.rows.item(0);
+              if(item.cont == 0){
+                databaseHandler.db.transaction(
+                  function (tx) {
+                    tx.executeSql(//
+                      "insert into detalle_recaudo(id_cedula,id_unidad,id_servidor,eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total) values(?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                      [id_cedula,id_unidad, ID, eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total],
+                      function (tx, results) {
+                        // console.log("inserta")
+                      },
+                      function (tx, error) { }
+                    );
+                  },
+                  function (error) { },
+                  function (error ) { }
+                );
+              } else{
+                databaseHandler.db.transaction(
+                  function (tx) {
+                    tx.executeSql(
+                      "UPDATE detalle_recaudo SET eco = ?, id_unidad = ? Moneda50c = ?, Moneda1 = ?, Moneda2 = ?, Moneda5 = ?, Moneda10 = ?, Moneda20 = ?, Moneda50 = ?, Moneda100 = ?, Moneda200 = ?, Moneda500 = ?, importe50c = ?, importe1 = ?, importe2 = ?, importe5 = ?, importe10 = ?, importe20 = ?, importe50 = ?, importe100 = ?, importe200 = ?, importe500 = ?, piezas_totales = ?, importe_total = ?, fecha WHERE id_servidor = ?",
+                      [eco, id_unidad, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total, fecha, ID],
+                      function (tx, results) {
+                          // console.log("actualiza")
+                      },
+                      function (tx, error) { }
+                    );
+                  },
+                  function (error) { },
+                  function (error) { }
+                ); 
+              }
+             },
+            function (tx, error) {  }
+          );
+        },
+        function (error) {},
         function () {}
       );
   },

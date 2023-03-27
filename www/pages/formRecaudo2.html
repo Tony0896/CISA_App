@@ -174,12 +174,59 @@
                         </div>
                         
                         <div style="display: flex;padding-top: 20px;">
-                            <span class="span FWM-span-form" name="" style="margin: auto !important;">Plomo</span>
+                            <span class="span FWM-span-form" name="" style="margin: auto !important;">¿Cuantos plomos se van a enviar?</span>
+                            <div style="width: 100%; text-align: center;">
+                                <div class="stepper stepper-fill stepper-round stepper-init" style="vertical-align: center;" id="steperpb">
+                                    <div class="stepper-button-minus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                        <div class="stepper-input-wrap" style="border-top: 2px solid #005D99;border-bottom: 2px solid #005D99;">
+                                            <input type="text" value="0" min="0" max="5" step="1" readonly style="color: #FF0037;font-size: 20px;" onchange="showPlomos()" id="CountPlomos"/>
+                                        </div>
+                                    <div class="stepper-button-plus" style="background-color: #005D99;border: 2px solid #005D99;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex;padding-top: 20px;" id="div_plomo1">
+                            <span class="span FWM-span-form" name="" style="margin: auto !important;">Plomo 1</span>
                             <input type="text" class="FWM-input" style="margin: auto !important;" id="plomo">
                         </div>
-                        
+
+                        <div style="display: none;padding-top: 20px;" id="div_plomo2">
+                            <span class="span FWM-span-form" name="" style="margin: auto !important;">Plomo 2</span>
+                            <input type="text" class="FWM-input" style="margin: auto !important;" id="plomo2">
+                        </div>
+
+                        <div style="display: none;padding-top: 20px;" id="div_plomo3">
+                            <span class="span FWM-span-form" name="" style="margin: auto !important;">Plomo 3</span>
+                            <input type="text" class="FWM-input" style="margin: auto !important;" id="plomo3">
+                        </div>
+
+                        <div style="display: none;padding-top: 20px;" id="div_plomo4">
+                            <span class="span FWM-span-form" name="" style="margin: auto !important;">Plomo 4</span>
+                            <input type="text" class="FWM-input" style="margin: auto !important;" id="plomo4">
+                        </div>
+
+                        <div style="display: none;padding-top: 20px;" id="div_plomo5">
+                            <span class="span FWM-span-form" name="" style="margin: auto !important;">Plomo 5</span>
+                            <input type="text" class="FWM-input" style="margin: auto !important;" id="plomo5">
+                        </div>
+                        <br>
+                        <hr>
+                        <div style="display: flex;padding-top: 20px;">
+                            <span class="span FWM-span-form" name="" style="margin: auto !important;">Peso cacharpa</span>
+                            <input type="number" class="FWM-input" style="margin: auto !important;" id="peso_cacharpa">
+                        </div>
+
                         <span class="span FWM-span-form" name="" style="margin-top: 50px !important;">Observaciones generales</span>
                             <textarea class="FWM-input" id="obs_recaudo" cols="30" rows="10"></textarea>
+
+                        <input type="hidden" id="max_bolsa1">
+                        <input type="hidden" id="max_bolsa2">
+                        <input type="hidden" id="max_bolsa5">
+                        <input type="hidden" id="max_bolsa10">
+                        <input type="hidden" id="max_bolsa50c">
+                        <input type="hidden" id="bolsas_50co">
+                        <input type="hidden" id="total_billetes">
 
                         <div style="margin-bottom: 100px;"></div>
                     </div>
@@ -220,12 +267,27 @@ return {
             var id_cedula = localStorage.getItem("IdCedula");
             databaseHandler.db.transaction(
                 function(tx5){
-                    tx5.executeSql("SELECT DATE(fecha) as fecha,recaudo_sin_billetes FROM datos_generales_recaudo WHERE id_cedula = ?",
+                    tx5.executeSql("SELECT DATE(fecha) as fecha,recaudo_sin_billetes,total_billetes,bolsa1, bolsa2, bolsa5, bolsa10, bolsa50c FROM datos_generales_recaudo WHERE id_cedula = ?",
                         [id_cedula],
                         function(tx5, results){
                             var item2 = results.rows.item(0);
                             $(".title").html("Recaudo | "+item2.fecha);
                             $("#recaudo_sin_billetes").val(item2.recaudo_sin_billetes);
+                            $("#max_bolsa1").val(item2.bolsa1);
+                            $("#max_bolsa2").val(item2.bolsa2);
+                            $("#max_bolsa5").val(item2.bolsa5);
+                            $("#max_bolsa10").val(item2.bolsa10);
+                            $("#max_bolsa50c").val(item2.bolsa50c);
+                            $("#bolsas_50co").val(item2.bolsa50c);
+                            $("#total_billetes").val(item2.total_billetes);
+                            if(item2.total_billetes == 0){
+                                $("#CountPlomos").val(0);
+                                $("#div_plomo1").css("display", "none");
+                            } else {
+                                $("#CountPlomos").val(1);
+                                var stepper = app.stepper.get('#steperpb');
+                                stepper.increment();
+                            }
                             app.preloader.hide();
                         },
                         function(tx5, error){
