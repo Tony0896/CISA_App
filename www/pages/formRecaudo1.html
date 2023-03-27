@@ -1,0 +1,227 @@
+<template>
+    <div class="page">
+        <!-- Navsbars -->
+        <!-- <nav class="left top-left" style="justify-content: space-between;">
+            <a onclick="regresaRecaudo(1);" style="margin-left: 10px; display: inline-flex;align-items: center;">
+                <i class="icon material-icons md-only" style="font-weight: 900;">arrow_back</i>
+            </a>
+            <div class="title">Recaudo</div>
+            <a style="margin-right: 10px;">
+                <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+            </a>
+        </nav> -->
+
+        <div class="navbar" style="background-color: #005D99;height: 5px;">
+            <div class="left top-left" style="justify-content: space-between;">
+                <a onclick="regresaRecaudo(1);" style="margin-left: 10px; display: inline-flex;align-items: center;">
+                    <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+                </a>
+                <div class="title" style="font-size: 18px;">Recaudo</div>
+                <a style="margin-right: 10px;">
+                    <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+                </a>
+            </div>
+        </div>
+
+        <div class="toolbar tabbar toolbar-bottom" >
+            <div class="toolbar-inner" style="background-color: #005D99;">
+                <a href="#" onclick="finRecaudoUnidad();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Guardar Unidad <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+            </div>
+        </div>
+        <!-- Contenido Page -->
+        <div class="page-content" style="border-radius: 0;">
+            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 30px;">
+                <div style="text-align: left;">
+                    <div class="list FWM-fixing-form" id="datos_form" style="margin-bottom: 25px;">
+
+                        <span class="span FWM-span-form">Editar Unidad</span>
+                        <input type="text" placeholder="Escribe el No. de la unidad"id="autocomplete-dropdown-ajax" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;margin-bottom: 20px;">
+                        <input type="hidden" id="id_unidad">
+                        <div class="FWM-photo-container">
+                            <a onclick="modalCantidad(0)">
+                                <img src="img/currency/50c.png" alt="" class="moneda_mx">
+                            </a>
+                        </div>
+                        <div class="FWM-photo-container">
+                            <a onclick="modalCantidad(1)">
+                                <img src="img/currency/1.png" alt="" class="moneda_mx">
+                            </a>
+                        </div>
+                        <div class="FWM-photo-container">
+                            <a onclick="modalCantidad(2)">
+                                <img src="img/currency/2.png" alt="" class="moneda_mx">
+                            </a>
+                        </div>
+                        <div class="FWM-photo-container">
+                            <a onclick="modalCantidad(5)">
+                                <img src="img/currency/5.png" alt="" class="moneda_mx">
+                            </a>
+                        </div>
+                        <div class="FWM-photo-container">
+                            <a onclick="modalCantidad(10)">
+                                <img src="img/currency/10.png" alt="" class="moneda_mx">
+                            </a>
+                        </div>
+                        <div class="FWM-photo-container">
+                            <a onclick="modalCantidad(20)">
+                                <img src="img/currency/20.png" alt="" class="billete_mx">
+                            </a>
+                        </div>
+                        <div class="FWM-photo-container">
+                            <a onclick="modalCantidad(50)">
+                                <img src="img/currency/50.png" alt="" class="billete_mx">
+                            </a>
+                        </div>
+                        <div class="FWM-photo-container">
+                            <a onclick="modalCantidad(100)">
+                                <img src="img/currency/100.png" alt="" class="billete_mx">
+                            </a>
+                        </div>
+                        <div class="FWM-photo-container">
+                            <a onclick="modalCantidad(200)">
+                                <img src="img/currency/200.png" alt="" class="billete_mx">
+                            </a>
+                        </div>
+                        <div class="FWM-photo-container">
+                            <a onclick="modalCantidad(500)">
+                                <img src="img/currency/500.png" alt="" class="billete_mx">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="block-title FWM-subtitulo" style="color: #000;">Resumen</div>
+                    <div class="card data-table" style="margin-bottom: 80px;">
+                        <div class="infinite-scroll-content">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Moneda</th>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Pzas.</th>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Importe</th>
+                                        <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;" id="thtema">Editar</th>
+                                    </tr>
+                                </thead>
+                                    <tbody id="tb_recaudo">
+                                    </tbody>
+                            </table>
+                            <div id="message-nr" style="width: 100%;text-align: center;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 16px;" style="display: none;">
+                                <p>Sin registros</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+return {
+    on: {      
+        pageInit: function () {
+            app.preloader.show('red');
+            //autocomplete-dropdown-ajax;
+            var id_detalle = localStorage.getItem("IdDetalle");
+            var id_cedula = localStorage.getItem("IdCedula");
+            databaseHandler.db.transaction(
+                function(tx5){
+                    tx5.executeSql("SELECT * FROM detalle_recaudo WHERE id_detalle = ? AND id_cedula = ?",
+                        [id_detalle, id_cedula],
+                        function(tx5, results){
+                            var length = results.rows.length;
+                            if(length == 0){
+                                $("#message-nr").css("display", "block");
+                                app.preloader.hide();
+                            }else{
+                                $("#message-nr").css("display", "none");
+                                for(var i = 0; i< length; i++){
+                                    var item2 = results.rows.item(i);
+                                    $("#autocomplete-dropdown-ajax").val(item2.eco);
+                                    $("#tb_recaudo").append("<tr><td>$0.5</td><td>"+numberWithCommas(item2.Moneda50c)+"</td><td>$"+numberWithCommas(item2.importe50c)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",0);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
+                                    $("#tb_recaudo").append("<tr><td>$1</td><td>"+numberWithCommas(item2.Moneda1)+"</td><td>$"+numberWithCommas(item2.importe1)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",1);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
+                                    $("#tb_recaudo").append("<tr><td>$2</td><td>"+numberWithCommas(item2.Moneda2)+"</td><td>$"+numberWithCommas(item2.importe2)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",2);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
+                                    $("#tb_recaudo").append("<tr><td>$5</td><td>"+numberWithCommas(item2.Moneda5)+"</td><td>$"+numberWithCommas(item2.importe5)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",5);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
+                                    $("#tb_recaudo").append("<tr><td>$10</td><td>"+numberWithCommas(item2.Moneda10)+"</td><td>$"+numberWithCommas(item2.importe10)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",10);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
+                                    $("#tb_recaudo").append("<tr><td>$20</td><td>"+numberWithCommas(item2.Moneda20)+"</td><td>$"+numberWithCommas(item2.importe20)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",20);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
+                                    $("#tb_recaudo").append("<tr><td>$50</td><td>"+numberWithCommas(item2.Moneda50)+"</td><td>$"+numberWithCommas(item2.importe50)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",50);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
+                                    $("#tb_recaudo").append("<tr><td>$100</td><td>"+numberWithCommas(item2.Moneda100)+"</td><td>$"+numberWithCommas(item2.importe100)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",100);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
+                                    $("#tb_recaudo").append("<tr><td>$200</td><td>"+numberWithCommas(item2.Moneda200)+"</td><td>$"+numberWithCommas(item2.importe200)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",200);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
+                                    $("#tb_recaudo").append("<tr><td>$500</td><td>"+numberWithCommas(item2.Moneda500)+"</td><td>$"+numberWithCommas(item2.importe500)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",500);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
+                                    
+                                    $("#tb_recaudo").append("<tr style='text-align: center;background-color: #005D99;color: white;''><td>Totales</td><td>"+numberWithCommas(item2.piezas_totales)+"</td><td>$"+numberWithCommas(item2.importe_total)+"</td><td>&nbsp;</td></tr>");
+                                }
+                                $(".title").html("Recaudo | "+item2.eco+" - $"+numberWithCommas(item2.importe_total));
+                                app.preloader.hide();
+                                modalCantidad(0)
+                            }
+                        },
+                        function(tx5, error){
+                            console.error("Error al consultar bandeja de salida: " + error.message);
+                        }
+                    );  
+                },
+                function(error){},
+                function(){}
+            );
+
+            document.addEventListener('backbutton', function (e) {
+                regresaRecaudo(1);
+            });
+
+            var empresa = localStorage.getItem("empresa");
+            var NomJson = 'Unidades_empresa'+empresa;
+            var NomDescCli = "Unidades_desc_empresa"+empresa;
+            
+            self.autocompleteDropdownAjax = app.autocomplete.create({
+                    inputEl: '#autocomplete-dropdown-ajax',
+                    openIn: 'dropdown',
+                    preloader: true, //enable preloader
+                    valueProperty: 'id_unidad', //object's "value" property name
+                    textProperty:  'buscador', //object's "text" property name
+                    limit: 10, //limit to [number] results
+                    dropdownPlaceholderText: 'Selecciona una Unidad...',
+                    source: function (query, render) {
+                        var autocomplete = this;
+                        var results = [];
+                        if (query.length === 0) {
+                            render(results);
+                            return;
+                        }
+                        autocomplete.preloaderShow();
+                        app.request({
+                            url: cordova.file.dataDirectory + "jsons_recaudo/"+NomJson+".json", 
+                            method: 'GET',
+                            dataType: 'json',
+                            data: {
+                                query: query,
+                            },success: function (data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                }
+                                autocomplete.preloaderHide();
+                                render(results); 
+                            }
+                        }); 
+                    }
+                });
+
+                $('#autocomplete-dropdown-ajax').change(function () {
+                    var unidad = $("#autocomplete-dropdown-ajax").val();
+                    var encontro = false;
+                    app.request.get(cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli+".json", function (data) {
+                        var content2 = JSON.parse(data);
+                        for(var x = 0; x < content2.length; x++) {
+                            if(content2[x].id_unidad == unidad){
+                                $("#autocomplete-dropdown-ajax").val(content2[x].Unidad);
+                                $("#id_unidad").val(content2[x].id_unidad);
+                                encontro = true;
+                            }         
+                        }
+                        if(encontro){}else{
+                            $("#autocomplete-dropdown-ajax").val("");
+                            $("#id_unidad").val("");
+                        }
+                    });
+                });
+        }
+    }
+}
+</script>
