@@ -48,7 +48,7 @@
     return {
         on: {      
             pageInit: function () {
-                var empresa = localStorage.getItem("empresa");;
+                var empresa = localStorage.getItem("empresa");
                 var self = this;
                 var app = self.$app; 
                 var OPCV = localStorage.getItem("Opcion");       
@@ -58,7 +58,7 @@
 
                 var fecha = new Date();
                 var mes = fecha.getMonth()+1;
-                var day = fecha.getDate();;
+                var day = fecha.getDate();
 
                 if(mes<10 && mes>=0){
                     mes = '0'+mes;

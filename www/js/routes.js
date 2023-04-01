@@ -134,6 +134,22 @@ var routes = [
     componentUrl: './pages/formRecaudo3.html',
   },
   //fin Recaudo
+  //Inicio tecnologiasHmo
+  {
+    name: 'yallegueTecnologiasHMO',
+    path: '/yallegueTecnologiasHMO/',
+    componentUrl: './pages/yallegueTecnologiasHMO.html',
+  },
+  {
+    name: 'formtecnologiasHmo1',
+    path: '/formtecnologiasHmo1/',
+    componentUrl: './pages/formtecnologiasHmo1.html',
+  },{
+    name: 'formtecnologiasHmo2',
+    path: '/formtecnologiasHmo2/',
+    componentUrl: './pages/formtecnologiasHmo2.html',
+  },
+  //Fin tecnologiasHmo
   {
     name: 'visualizar',
     path: '/visualizar/',

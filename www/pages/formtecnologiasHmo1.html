@@ -1,0 +1,113 @@
+<template>
+    <div class="page">
+        <!-- Navsbars -->
+        <nav class="left top-left" style="justify-content: space-between;">
+            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
+                <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+            </a>
+            <div class="title">Control de Tecnología</div>
+            <a style="margin-right: 10px;">
+                <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+            </a>
+        </nav>
+        <div class="toolbar tabbar toolbar-bottom" >
+            <div class="toolbar-inner" style="background-color: #005D99;" id="toolbar_down">
+                <a href="#" onclick="TerminarCheckListHMO();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Guardar <i class="icon material-icons md-only" style="display: inline-block;">check</i></a>
+            </div>
+        </div>
+        <!-- Contenido Page -->
+        <div class="page-content" style="height: 98%;">
+            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 30px;">
+                <h2 class="FWN-titulo-2" style="margin-bottom: 0px;margin-top: 10px;" id="fase_titulo"></h2>
+                <hr style="width: 90%;">
+                <div style="text-align: left;">
+                    <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+return {
+    on: {      
+        pageInit: function () {
+            app.preloader.show('red');
+            
+            var id_cedula = localStorage.getItem("IdCedula");
+            databaseHandler.db.transaction(
+                function(tx5){
+                    tx5.executeSql("SELECT * FROM DesTechDetails WHERE id_cedula = ? ORDER BY abs(no_pregunta) ASC",
+                        [id_cedula],
+                        function(tx5, results){
+                            var length = results.rows.length;
+                            var comentarios = '', falla = '';
+                            for(var i = 0; i< length; i++){
+                                var item = results.rows.item(i);
+                                if(item.respuesta == 1){
+                                    var check1 = 'checked';
+                                    var check2 = '';
+                                }else if(item.respuesta == 2){
+                                    var check1 = '';
+                                    var check2 = 'checked';
+                                } else {
+                                    var check1 = '';
+                                    var check2 = '';
+                                }
+                                comentarios = '';
+                                falla = '';
+                                if(item.comentarios){
+                                    comentarios = item.comentarios;
+                                }
+                                if(item.falla){
+                                    falla = item.falla;
+                                }
+
+                                $("#datos_form").append(`<div style="display: flex;margin-top: 5px;">
+                                    <span class="span-pregunta span FWM-span-form">${item.no_pregunta}.</span>&emsp;<span class="span-pregunta span FWM-span-form">${item.pregunta}</span> 
+                                </div> 
+                                <div style="display: flex;justify-content: space-around;margin-bottom: 10px;margin-top: 5px;"> 
+                                    <label id="label${item.Fk_pregunta}-1" class="radios ${check1}"><input type="radio" id="radio${item.Fk_pregunta}-1" onclick="validaradios(this.id,4);" ${check1}> SI </label>  
+                                    <label id="label${item.Fk_pregunta}-2" class="radios ${check2}"><input type="radio" id="radio${item.Fk_pregunta}-2" onclick="validaradios(this.id,4);" ${check2}> No </label>
+                                </div>
+                                <div style="margin-bottom: 10px;display:flex;flex-direction: column;">
+                                    <span style="color: #ff0000;font-style: italic;" id="span-${item.Fk_pregunta}">${falla}</span>
+                                    <span style="color: #ff0000;font-style: italic;" id="spanComentarios-${item.Fk_pregunta}">${comentarios}</span>
+                                </div> <hr>`);
+
+                            }
+                            $("#datos_form").append(`<div class="block grid-resizable-demo" style="top: 25px;margin-bottom: 80px;"></div>`);
+                            app.preloader.hide();
+                        },
+                        function(tx5, error){
+                            console.error("Error al consultar bandeja de salida: " + error.message);
+                            app.preloader.hide();
+                        }
+                    );  
+                },
+                function(error){},
+                function(){}
+            );
+            
+            databaseHandler.db.transaction(
+                function(tx5){
+                    tx5.executeSql("SELECT unidad FROM DesTechHeader WHERE id_cedula = ?",
+                        [id_cedula],
+                        function(tx5, results){
+                            var length = results.rows.length;
+                            var item2 = results.rows.item(0);
+                            $("#fase_titulo").html("Revisión Unidad "+item2.unidad);
+                        },
+                        function(tx5, error){
+                            console.error("Error al consultar bandeja de salida: " + error.message);
+                        }
+                    );  
+                },
+                function(error){},
+                function(){}
+            );
+        }
+    }
+}
+</script>

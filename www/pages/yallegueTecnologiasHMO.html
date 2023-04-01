@@ -5,14 +5,14 @@
             <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
                 <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
             </a>
-            <div class="title">Revisión de Imagen</div>
+            <div class="title">Control de Tecnología</div>
             <a style="margin-right: 10px;">
                 <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
             </a>
         </nav>
         <div class="toolbar tabbar toolbar-bottom">
             <div class="toolbar-inner" style="background-color: #005D99;">
-                <a href="#" onclick="IniciaCheckList();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Iniciar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+                <a href="#" onclick="IniciaCheckListHMO();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Iniciar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
             </div>
         </div>
         <div class="page-content">
@@ -20,6 +20,8 @@
                 <div class="list" id="demo-form">
                     <div class="list no-hairlines-md">
                         <div class="list FWM-fixing-form">
+                            <span class="span FWM-span-form" name="">Operador que se llevará la unidad</span>
+                                <input type="text" placeholder="Escribe el nombre o credencial de un operador"id="operadores" class="FWM-input autocomplete-dropdown item-title" >
                             <span class="span FWM-span-form" name="">Unidad</span>
                                 <input type="text" placeholder="Escribe el No. de la unidad"id="autocomplete-dropdown-ajax" class="FWM-input autocomplete-dropdown item-title" >
                             <span class="span FWM-span-form" name="">Chasis</span>
@@ -35,6 +37,7 @@
 
                             <input type="hidden" id="FK_unidad">
                             <input type="hidden" id="id_unidad">
+                            <input type="hidden" id="id_ope">
                             <input type="hidden" id="FK_unidad_danos_empresa">
                             <input type="hidden" id="modelo_check">
                         </div>
@@ -88,7 +91,7 @@
                         }
                         autocomplete.preloaderShow();
                         app.request({
-                            url: cordova.file.dataDirectory + "jsons/"+NomJson+".json", 
+                            url: cordova.file.dataDirectory + "jsons_tecnologiasHmo/"+NomJson+".json", 
                             method: 'GET',
                             dataType: 'json',
                             data: {
@@ -107,7 +110,7 @@
                 $('#autocomplete-dropdown-ajax').change(function () {
                     var unidad = $("#autocomplete-dropdown-ajax").val();
                     var encontro = false;
-                    app.request.get(cordova.file.dataDirectory + "jsons/"+NomDescCli+".json", function (data) {
+                    app.request.get(cordova.file.dataDirectory + "jsons_tecnologiasHmo/"+NomDescCli+".json", function (data) {
                         var content2 = JSON.parse(data);
                         for(var x = 0; x < content2.length; x++) {
                             if(content2[x].id_unidad == unidad){
@@ -140,7 +143,64 @@
                             $("#modelo_check").val("");
                         }
                     });
-                });  
+                });
+
+
+                var NomJson2 = 'personal_'+empresa;
+                var NomDescCli2 = "personal_"+empresa;
+
+                self.autocompleteDropdownAjax = app.autocomplete.create({
+                    inputEl: '#operadores',
+                    openIn: 'dropdown',
+                    preloader: true, //enable preloader
+                    valueProperty: 'id_ope', //object's "value" property name
+                    textProperty:  'buscador', //object's "text" property name
+                    limit: 10, //limit to [number] results
+                    dropdownPlaceholderText: 'Selecciona una Unidad...',
+                    source: function (query, render) {
+                        var autocomplete = this;
+                        var results = [];
+                        if (query.length === 0) {
+                            render(results);
+                            return;
+                        }
+                        autocomplete.preloaderShow();
+                        app.request({
+                            url: cordova.file.dataDirectory + "jsons_tecnologiasHmo/"+NomJson2+".json", 
+                            method: 'GET',
+                            dataType: 'json',
+                            data: {
+                                query: query,
+                            },success: function (data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                }
+                                autocomplete.preloaderHide();
+                                render(results); 
+                            }
+                        }); 
+                    }
+                });
+
+                $('#operadores').change(function () {
+                    var unidad = $("#operadores").val();
+                    var encontro = false;
+                    app.request.get(cordova.file.dataDirectory + "jsons_tecnologiasHmo/"+NomDescCli2+".json", function (data) {
+                        var content2 = JSON.parse(data);
+                        for(var x = 0; x < content2.length; x++) {
+                            if(content2[x].id_ope == unidad){
+                                $("#id_ope").val(content2[x].id_ope);
+                                $("#operadores").val(content2[x].buscador);
+                                encontro = true;
+                            }         
+                        }
+                        if(!encontro){
+                            $("#operadores").val("");
+                            $("#id_ope").val("");
+                        }
+                    });
+                });
+
             }
         }
     }

@@ -461,6 +461,91 @@ function llevarTodo(id_cedula,tipo_cedula){
                             function(error){},
                             function(){}
                         );
+                    } else if (tipo == "tecnologiasHmo"){
+                        var DesTechDetails = new Array();
+                        var DesTechHeader = new Array();
+                        databaseHandler.db.transaction(
+                            function(tx){
+                                tx.executeSql("SELECT * FROM DesTechHeader WHERE id_cedula = ?",
+                                    [id_cedula],
+                                    function(tx, results){
+                                        var length = results.rows.length;
+                                        for(var i = 0; i< length; i++){
+                                            var item1 = results.rows.item(i);
+                                            var fecha = item1.fecha_inicio.replace(" ", "T");
+                                            var fecha2 = item1.fecha_fin.replace(" ", "T");
+                                            DesTechHeader[i] = {'Valor':i,'id_header':item1.id_header, 'id_cedula':item1.id_cedula, 'calificacion':item1.calificacion, 'id_empresa':item1.id_empresa, 'empresa':item1.empresa, 'id_unidad':item1.id_unidad, 'unidad':item1.unidad, 'id_usuario_ti':item1.id_usuario_ti, 'usuario_ti':item1.usuario_ti, 'id_usuario_operador':item1.id_usuario_operador, 'usuario_operador':item1.usuario_operador, 'firma':item1.firma, 'fecha':item1.fecha, 'fecha_inicio':fecha, 'fecha_fin':fecha2, 'obs_generales':item1.obs_generales, 'puntos_malos':item1.puntos_malos, 'total_puntos':item1.total_puntos};
+                                        }
+                                        databaseHandler.db.transaction(
+                                            function(tx){
+                                                tx.executeSql("SELECT * FROM DesTechDetails WHERE id_cedula = ?",
+                                                    [id_cedula],
+                                                    function(tx, results){
+                                                        var length = results.rows.length;
+                                                        for(var i = 0; i< length; i++){
+                                                            var item2 = results.rows.item(i);
+                                                            DesTechDetails[i] = {'Valor':i, 'id_cedula':item2.id_cedula, 'Fk_pregunta':item2.Fk_pregunta, 'respuesta':item2.respuesta, 'falla':item2.falla, 'comentarios':item2.comentarios, 'no_pregunta':item2.no_pregunta, 'pregunta':item2.pregunta, 'multiple':item2.multiple, 'id_formato':item2.id_formato};
+                                                        }
+                                                        console.log(DesTechHeader);
+                                                        console.log(DesTechDetails);
+
+                                                        // $.ajax({
+                                                        //     type: "POST",
+                                                        //     async : true,
+                                                        //     url: url+"/guardarCtrTech.php",
+                                                        //     dataType: 'html',
+                                                        //     data: {'datosCedulaGeneral': JSON.stringify(datosCedulaGeneral),
+                                                        //     'DesTechHeader': JSON.stringify(DesTechHeader),
+                                                        //     'DesTechDetails': JSON.stringify(DesTechDetails)},
+                                                        //     success: function(respuesta){
+                                                        //         var respu1 = respuesta.split("._.");
+                                                        //         var dat1 = respu1[0];
+                                                        //         var dat2 = respu1[1];
+                                                        //         if(dat1 == "CEDULA"){
+                                                        //             if(dat2 > 0){
+                                                        //                 databaseHandler.db.transaction(
+                                                        //                     function(tx7){
+                                                        //                         tx7.executeSql(
+                                                        //                             "UPDATE cedulas_general SET estatus = 3 WHERE id_cedula = ?",
+                                                        //                             [id_cedula],
+                                                        //                             function(tx7, results){
+                                                        //                                 $(".send-ced").css("pointer-events", "all");
+                                                        //                                 localStorage.setItem("sendFlag", 0);
+                                                        //                                 $("#li-"+item.id_cedula).remove();
+                                                        //                                 swal("Enviado!", "", "success");
+                                                        //                             }
+                                                        //                         );
+                                                        //                     }
+                                                        //                 );
+                                                        //             }
+                                                        //         } else {
+                                                        //             AlmacenarError(respuesta);
+                                                        //         }
+                                                        //     },
+                                                        //     error: function(){
+                                                        //         console.log("Error en la comunicacion");
+                                                        //         swal("Fallo el envío, por conexión!", "", "error");
+                                                        //         $(".send-ced").css("pointer-events", "all")
+                                                        //     }
+                                                        // });
+                                                    },
+                                                    function(tx, error){
+                                                        console.log("Error al consultar sanitizacion: " + error.message);
+                                                    }
+                                                );
+                                            },
+                                            function(error){},
+                                            function(){}
+                                        );
+                                    },
+                                    function(tx, error){
+                                        console.log("Error al consultar sanitizacion: " + error.message);
+                                    }
+                                );
+                            },
+                            function(error){},
+                            function(){}
+                        );
                     }
                 },
                 function(tx, error){
@@ -475,7 +560,7 @@ function llevarTodo(id_cedula,tipo_cedula){
 function EliminarRegistrosAntiguos(){
     var fecha = new Date();
     var fecha_ingreso = fecha.getFullYear()+"-"+(fecha.getMonth()+1)+"-"+fecha.getDate();
-    fecha_eliminar = editar_fecha(fecha_ingreso, "-11", "d","-");
+    fecha_eliminar = editar_fecha(fecha_ingreso, "-21", "d","-");
     //console.log(fecha_eliminar);
     databaseHandler.db.transaction(
         function(tx5){
@@ -486,11 +571,13 @@ function EliminarRegistrosAntiguos(){
                     for(var i = 0; i< length; i++){
                         var item2 = results.rows.item(i);
                         var id_eliminar = item2.IdCedula;
+                        var tipo_cedula = item2.tipo_cedula;
                         databaseHandler.db.transaction(
                             function(tx4){
                                 tx4.executeSql("DELETE FROM cedulas_general WHERE id_cedula = ?",
                                     [id_eliminar],
                                     function(tx4, results){
+                                        EliminarReg(id_eliminar,tipo_cedula);
                                     },
                                     function(tx4, error){
                                         console.error("Error al eliminar cedula_general: " + error.message);
@@ -591,6 +678,31 @@ function EliminarReg(id_cedula,tipo_cedula){
                                 databaseHandler.db.transaction(
                                     function(tx){
                                         tx.executeSql("DELETE FROM detalle_recaudo WHERE id_cedula = ?",
+                                            [id_cedula],
+                                            function(tx, results){
+                                                $("#conc" + id_cedula).remove();
+                                                swal("","Eliminado correctamente","success");
+                                            },
+                                            function(tx, error){
+                                                // swal("Error al eliminar",error.message,"error");
+                                            }
+                                        );
+                                    },function(error){},function(){}
+                                );
+                            },
+                            function(tx, error){console.log("Error al eliminar" +error.message);}
+                        );
+                    },function(error){},function(){}
+                );
+            } else if(tipo_cedula == "tecnologiasHmo"){
+                databaseHandler.db.transaction(
+                    function(tx){
+                        tx.executeSql("DELETE FROM DesTechHeader WHERE id_cedula = ?",
+                            [id_cedula],
+                            function(tx, results){
+                                databaseHandler.db.transaction(
+                                    function(tx){
+                                        tx.executeSql("DELETE FROM DesTechDetails WHERE id_cedula = ?",
                                             [id_cedula],
                                             function(tx, results){
                                                 $("#conc" + id_cedula).remove();

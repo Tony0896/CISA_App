@@ -112,6 +112,27 @@ var databaseHandler = {
                             console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
                         }
                     );
+                } else if(localStorage.getItem("Modulos") == 'tecnologiasHmo'){
+                    tx.executeSql(  
+                        "create table if not exists DesTechHeader(id_header integer primary key, id_cedula integer, calificacion integer, id_empresa integer, empresa text, id_unidad integer, unidad text, id_usuario_ti text, usuario_ti text, id_usuario_operador text, usuario_operador text, firma blob,fecha text, fecha_inicio text, fecha_fin text, obs_generales text, puntos_malos integer, total_puntos integer)",
+                        [],
+                        function(tx, results){
+                            // console.log("Se creo Servicio tecnico DIPREC correctamente!");
+                        },
+                        function(tx, error){
+                            console.error("Error al crear la tabla de datos_generales_recaudo: " + error.message);
+                        }
+                    );
+                    tx.executeSql(
+                        "create table if not exists DesTechDetails(id_detalle integer primary key, id_cedula integer, Fk_pregunta integer, respuesta integer, falla text, comentarios text, no_pregunta text, pregunta text, multiple bit, id_formato int)",
+                        [],
+                        function(tx, results){
+                            // console.log("Se creo Servicio tecnico DIPREC correctamente!");
+                        },
+                        function(tx, error){
+                            console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
+                        }
+                    );
                 }
             },
             function(error){

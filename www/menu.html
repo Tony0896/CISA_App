@@ -152,6 +152,13 @@
                                 <a class="item-content item-link entrar principalButton" href="/history/" onclick="" ><img src="img/iconsMenu/history.svg" height="60px"><p style="color: #000000;">Historial</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
                               </td>
                             </tr>
+                            <tr class="menu_tecnologiasHmo menus" style="display: none;">
+                              <td>
+                                <div>
+                                  <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();"><img src="img/iconsMenu/bus_tech.svg" height="60px"><p style="color: #000000;font-size: 19px;">Nueva Revisión</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
+                                </div>
+                              </td>
+                            </tr>
                           </table>
                         </div>
                     </div>
@@ -208,6 +215,8 @@
   <!--<script src="js/signature/jSignature.min.noconflict.js"></script> -->
   <script src="js/SimpleStarRating.js"></script>
   <script type="text/javascript" charset="utf-8">
+    screen.orientation.lock('portrait') ? null : null ;
+
     app.tab.show('#tab-2');
     if(localStorage.getItem("nombre") == null || localStorage.getItem("Usuario") == null){
       window.localStorage.removeItem("id_usuario");
@@ -228,6 +237,7 @@
         $("#menu_activo").append(`<option value="Limpieza">Revisión Limpieza</option>`);
       } else if(modulos[i]=="Recaudo"){
         $("#menu_activo").append(`<option value="Recaudo">Recaudo</option>`);
+        $("#menu_activo").append(`<option value="tecnologiasHmo">Control de Tecnología HMO</option>`);
       } else {
         $("#menu_activo").append(`<option value="${modulos[i]}">${modulos[i]}</option>`);
       } 
@@ -250,6 +260,7 @@
     $(".menu_limpieza").css("display", "none");
     $(".menu_recaudo").css("display", "none");
     $(".menu_desincorporaciones").css("display", "none");
+    $(".menu_tecnologiasHmo").css("display", "none");
 
     if(localStorage.getItem("Modulos") == 'Imagen' || localStorage.getItem("Modulos") == 'Checklist'){
       $(".menu_imagen").css("display", "grid");
@@ -259,7 +270,8 @@
       $(".menu_desincorporaciones").css("display", "grid");
     } else if(localStorage.getItem("Modulos") == 'Recaudo'){
       $(".menu_recaudo").css("display", "grid");
-      $("#menu_activo").val(localStorage.getItem("Modulos"));
+    } else if(localStorage.getItem("Modulos") == 'tecnologiasHmo'){
+      $(".menu_tecnologiasHmo").css("display", "grid");
     }
 
     $("#menu_activo").val(localStorage.getItem("Modulos"));
@@ -270,21 +282,25 @@
     function updateData(){
       if(localStorage.getItem("Modulos")){
         if(localStorage.getItem("Modulos") == 'Limpieza'){
-          var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_limp/"; // ===> SERVIDOR
+          var RutaJSONS = "https://mantto.ci-sa.com.mx/www.CISAApp.com/Archivos/JSON_limp/"; // ===> SERVIDOR
           // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON_limp/";
           var carpeta = "jsons_limp";
         } else if(localStorage.getItem("Modulos") == 'Imagen'){
-          var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON/"; // ===> SERVIDOR
+          var RutaJSONS = "https://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/JSON/"; // ===> SERVIDOR
           // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON/";
           var carpeta = "jsons";
         } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
-          var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_desin/"; // ===> SERVIDOR
+          var RutaJSONS = "https://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/JSON_desin/"; // ===> SERVIDOR
           // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON_desin/";
           var carpeta = "jsons_desin";
         } else if(localStorage.getItem("Modulos") == 'Recaudo'){
-          var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_recaudo/"; // ===> SERVIDOR
+          var RutaJSONS = "https://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/JSON_recaudo/"; // ===> SERVIDOR
           // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON_recaudo/";
           var carpeta = "jsons_recaudo";
+        } else if(localStorage.getItem("Modulos") == 'tecnologiasHmo'){
+          //var RutaJSONS = "https://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/JSON_controlTechHmo/"; // ===> SERVIDOR
+          var RutaJSONS = "http://192.168.30.237/Desarrollo/CISAApp/Archivos/JSON_controlTechHmo/";
+          var carpeta = "jsons_tecnologiasHmo";
         }
         
         $("#processclick").show();
@@ -428,6 +444,8 @@
         $(".menu_desincorporaciones").css("display", "grid");
       } else if(localStorage.getItem("Modulos") == 'Recaudo'){
         $(".menu_recaudo").css("display", "grid");
+      } else if(localStorage.getItem("Modulos") == 'tecnologiasHmo'){
+        $(".menu_tecnologiasHmo").css("display", "grid");
       }
       updateData();
       recargacedulas();
@@ -462,6 +480,8 @@
           var tipo = "Desincorporaciones";
         } else if(localStorage.getItem("Modulos") == 'Recaudo'){
           var tipo = "Recaudo";
+        } else if(localStorage.getItem("Modulos") == 'tecnologiasHmo'){
+          var tipo = "tecnologiasHmo";
         }
         
         var estatus = 0;
@@ -482,6 +502,8 @@
                               $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>");
                             } else if(item2.tipo_cedula == 'Recaudo'){
                               $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Recaudo</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,4);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
+                            } else if(item2.tipo_cedula == 'tecnologiasHmo'){
+                              $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Recaudo</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,5);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                             }
                         }
                     },

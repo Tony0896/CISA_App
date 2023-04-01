@@ -24,7 +24,6 @@ var productHandler={
                 "insert into datos_generales_checklist(id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 [id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision],
                 function (tx, results) {
-                  //console.log("Frio correcto");
                 },
                 function (tx, error) {
                   console.error("Error registrar:" + error.message);
@@ -73,7 +72,6 @@ var productHandler={
             "insert into datos_generales_revlimp(id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision],
             function (tx, results) {
-              //console.log("Frio correcto");
             },
             function (tx, error) {
               console.error("Error registrar:" + error.message);
@@ -256,7 +254,6 @@ var productHandler={
             "insert into datos_generales_recaudo(id_cedula, fecha, id_usuario, id_empresa) values(?, ?, ?, ?)",
             [id_cedula, fecha, id_usuario, id_empresa],
             function (tx, results) {
-              //console.log("Frio correcto");
             },
             function (tx, error) {
               console.error("Error registrar:" + error.message);
@@ -276,7 +273,6 @@ var productHandler={
             "insert into detalle_recaudo(id_cedula, id_unidad, eco, fecha, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [id_cedula, id_unidad, eco, fecha, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total],
             function (tx, results) {
-              //console.log("Frio correcto");
             },
             function (tx, error) {
               console.error("Error registrar:" + error.message);
@@ -296,7 +292,6 @@ var productHandler={
         "insert into datos_generales_recaudo(id_cedula, fecha, id_usuario, id_empresa, observaciones, folio, folio2, recaudo_total, recaudo_sin_billetes, total_billetes, total_cacharpa, bolsas_totales, plomo, monto1, total_unidades, unidades_recaudads, promedio, bolsa50c, bolsa1, bolsa2, bolsa5, bolsa10, pico50c, pico1, pico2, pico5, pico10, opc_cacharpa, opc_adicional, bolsaCacharpa10, bolsaCacharpa20, bolsaCacharpa50, monto_adicional, bolsaAdd50c, bolsaAdd1, bolsaAdd2, bolsaAdd5, bolsaAdd10, importe_cacharpa, plomo2, plomo3, plomo4, plomo5, peso_cacharpa, estatus, origen, id_servidor) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [id_cedula, fecha, id_usuario, id_empresa, observaciones, folio, folio2, recaudo_total, recaudo_sin_billetes, total_billetes, total_cacharpa, bolsas_totales, plomo, monto1, total_unidades, unidades_recaudads, promedio, bolsa50c, bolsa1, bolsa2, bolsa5, bolsa10, pico50c, pico1, pico2, pico5, pico10, opc_cacharpa, opc_adicional, bolsaCacharpa10, bolsaCacharpa20, bolsaCacharpa50, monto_adicional, bolsaAdd50c, bolsaAdd1, bolsaAdd2, bolsaAdd5, bolsaAdd10, importe_cacharpa, plomo2, plomo3, plomo4, plomo5, peso_cacharpa, estatus, origen, id],
         function (tx, results) {
-          //console.log("Frio correcto");
         },
         function (tx, error) {
           console.error("Error registrar:" + error.message);
@@ -343,7 +338,7 @@ var productHandler={
                 databaseHandler.db.transaction(
                   function (tx) {
                     tx.executeSql(//
-                      "insert into detalle_recaudo(id_cedula,id_unidad,id_servidor,eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total) values(?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                      "insert into detalle_recaudo(id_cedula,id_unidad,id_servidor,eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total) values(? ,? ,? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)",
                       [id_cedula,id_unidad, ID, eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total],
                       function (tx, results) {
                         // console.log("inserta")
@@ -378,4 +373,38 @@ var productHandler={
         function () {}
       );
   },
+  //! Inicio Control Tecnologías
+  addDesTechHmoHeader: function(id_cedula, id_empresa, empresa, id_unidad, unidad, id_usuario_ti, usuario_ti, fecha_revision, fecha_inicio,id_usuario_operador, usuario_operador){
+    databaseHandler.db.transaction(
+      function (tx) {
+        tx.executeSql(
+          "insert into DesTechHeader(id_cedula, id_empresa, empresa, id_unidad, unidad, id_usuario_ti, usuario_ti, fecha, fecha_inicio,id_usuario_operador, usuario_operador) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [id_cedula, id_empresa, empresa, id_unidad, unidad, id_usuario_ti, usuario_ti, fecha_revision, fecha_inicio,id_usuario_operador, usuario_operador],
+          function (tx, results) { },
+          function (tx, error) { console.error("Error registrar:" + error.message); }
+        );
+      }, function (error) { console.log(error) }, function () {}
+    );
+  },
+  addDesTechHmoDetails: function (id_cedula, Fk_pregunta, no_pregunta, pregunta, multiple, Fk_id_formato, aux, aux2){
+    databaseHandler.db.transaction(
+      function (tx) {
+        tx.executeSql(
+          "insert into DesTechDetails(id_cedula, Fk_pregunta, no_pregunta, pregunta, multiple,id_formato) values(?, ?, ?, ?, ?, ?)",
+          [id_cedula, Fk_pregunta, no_pregunta, pregunta, multiple, Fk_id_formato],
+          function (tx, results) {
+            if(aux == aux2){
+              app.dialog.close();
+              app.views.main.router.navigate({ name: 'formtecnologiasHmo1'});
+            }else{
+              var dialog = app.dialog.get();
+              dialog.setProgress((aux2 * 100) / aux);
+              dialog.setText(aux2+' de '+aux);
+            }
+          }, function (tx, error) { console.error("Error registrar:" + error.message); }
+        );
+      }, function (error) { console.log(error) }, function () {}
+    );
+  },
+  //! Fin Control Tecnologías
 };

@@ -231,7 +231,9 @@
             iniciarDesincorporaciones();
         } else if(Modulos == "Recaudo"){
             preingresoRecaudo();
-        }
+        } else if(Modulos == "tecnologiasHmo"){
+            app.views.main.router.navigate({ name: 'yallegueTecnologiasHMO'});
+        } 
     }
     function EliminarActualizacionesAntiguas(){
         var IdUsuario = localStorage.getItem("Usuario");
@@ -656,6 +658,8 @@ function continuarCed(id_cedula,tipo){
         app.views.main.router.back('/yallegue_desin/', {force: true, ignoreCache: true, reload: true});
     } else if(tipo == 4){
         app.views.main.router.back('/yallegueRecaudo/', {force: true, ignoreCache: true, reload: true});
+    } else if(tipo == 5){
+        app.views.main.router.back('/formtecnologiasHmo1/', {force: true, ignoreCache: true, reload: true});
     }
 }
 
@@ -765,6 +769,33 @@ function validaradios(id, numero){
             }
         }       
         actualizacheck(id);
+    } else if(numero == 4){
+        var ids = id.split("-");
+        var check = ids[1];
+        if(check.includes('1')){
+            var valCheck = document.getElementById(ids[0]+"-"+ids[1]).checked;
+            if(valCheck ==true){
+                var otherCheck = ids[0] + "-2";
+                document.getElementById(otherCheck).checked = false;
+                var labels1 = ids[0].replace('radio','label') +"-1";
+                var labels2 = ids[0].replace('radio','label') +"-2";
+                $("#"+labels1).addClass("checked");
+                $("#"+labels2).removeClass("checked");
+            }
+        }else if(check.includes('2')){
+            var valCheck = document.getElementById(ids[0]+"-"+ids[1]).checked;
+            if(valCheck ==true){
+                var otherCheck = ids[0] + "-1";
+                document.getElementById(otherCheck).checked = false;
+                var labels1 = ids[0].replace('radio','label') +"-1";
+                var labels2 = ids[0].replace('radio','label') +"-2";
+                $("#"+labels2).addClass("checked");
+                $("#"+labels1).removeClass("checked");
+                var id_pregunta = ids[0].replace('radio','');
+                SeleccionarDanosControlTec(id_pregunta);
+            }
+        }
+        actualizacheckControlTec(id);
     }
 }
 
@@ -2201,8 +2232,8 @@ function edit_apoyo(val, estatus){
 }
 function sincronizaDatos(){
     var EmpresaID = localStorage.getItem("empresa");
-    var url = "http://189.254.4.243/CISAApp/Exec/datos_desin.php?empresa="+EmpresaID;
-    var url2 = "http://189.254.4.243/CISAApp/Exec/datos_desin_H.php?empresa="+EmpresaID;
+    var url = "https://mantto.ci-sa.com.mx/www.CISAAPP.com/Exec/datos_desin.php?empresa="+EmpresaID;
+    var url2 = "https://mantto.ci-sa.com.mx/www.CISAAPP.com/Exec/datos_desin_H.php?empresa="+EmpresaID;
 
     fetch(url)
         .then((response) => {
@@ -3297,3 +3328,429 @@ function InsertaDetailsRecaudo(id_cedula, id_servidor){
     });
 }
 //Fin Recaudo
+
+//Inicio tecnologiasHmo
+function IniciaCheckListHMO(){
+    if($("#autocomplete-dropdown-ajax").val() && $("#id_ope").val()){
+        var unidad = $("#autocomplete-dropdown-ajax").val();
+        var id_unidad = $("#FK_unidad").val();
+        var id_unidad = $("#id_unidad").val();
+        var fecha_revision =  $("#fecha_revision").val();
+        var id_usuario_ti = localStorage.getItem("Usuario");
+        var usuario_ti = localStorage.getItem("nombre");
+        var fecha_llegada = getDateWhitZeros();
+        var horario_programado = fecha_llegada;
+        var fecha_inicio = fecha_llegada;
+        var nombre_cliente = unidad;
+        var estatus = 0;
+        var geolocation = '';
+        var id_cliente = localStorage.getItem("empresa");
+        var tipo_cedula = 'tecnologiasHmo';
+        var id_usuario_operador = $("#id_ope").val();
+        var usuario_operador = $("#operadores").val();
+        productHandler.addCedulayb(id_usuario_ti,usuario_ti,fecha_llegada,geolocation,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula);
+        databaseHandler.db.transaction(
+            function (tx) {
+              tx.executeSql(
+                "Select MAX(id_cedula) as Id from cedulas_general",
+                [],
+                function (tx, results) {
+                    var progress = 0;
+                    var dialog = app.dialog.progress('Trabajando... ', progress, 'red');
+                    var id_empresa = localStorage.getItem("empresa");
+                    var item = results.rows.item(0);
+                    localStorage.setItem("IdCedula", item.Id);
+                    var id_cedula = item.Id;
+                    var empresaname =  NombreEmpresa(id_empresa);
+                    productHandler.addDesTechHmoHeader(id_cedula, id_empresa, empresaname, id_unidad, unidad, id_usuario_ti, usuario_ti, fecha_revision, fecha_inicio, id_usuario_operador, usuario_operador);
+                    var NomJson = 'datos_check'+id_empresa;
+                    app.request({
+                        url: cordova.file.dataDirectory + "jsons_tecnologiasHmo/"+NomJson+".json",
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            var aux = data.length;
+                            var aux2=0;
+                            if(aux == 0){
+                                app.dialog.close();
+                                swal("","Algo salió mal.","warning");
+                            }else{
+                                dialog.setText('1 de ' + aux);
+                                for (var j = 0; j < data.length; j++) {
+                                    aux2++;
+                                    productHandler.addDesTechHmoDetails(id_cedula, data[j].ID_check, data[j].No_pregunta, data[j].Pregunta, data[j].Multiple, data[j].Fk_id_formato, aux, aux2);
+                                }
+                            }
+                        }
+                    });
+                },
+                function (tx, error) {
+                  console.log("Error al guardar cedula: " + error.message);
+                }
+              );
+            },
+            function (error) {},
+            function () {}
+          );
+    }else{
+        swal("","Selecciona una unidad y un operador para poder continuar.","warning");
+    }
+}
+
+function TerminarCheckListHMO(){
+    var id_cedula = localStorage.getItem("IdCedula");
+    databaseHandler.db.transaction(
+        function(tx5){
+            tx5.executeSql("SELECT id_cedula FROM DesTechDetails WHERE id_cedula = ? AND respuesta is null",
+                [id_cedula],
+                function(tx5, results){
+                    var length = results.rows.length;
+                    if(length == 0){
+                        app.views.main.router.back('/formtecnologiasHmo2/', {force: true, ignoreCache: true, reload: true});
+                    } else {
+                        swal("", "Debes responder a todos los conceptos para poder continuar", "warning");
+                    }
+                },
+                function(tx5, error){
+                    console.error("Error al consultar bandeja de salida: " + error.message);
+                }
+            );  
+        },
+        function(error){},
+        function(){}
+    );
+}
+
+function moveControlTec(){
+    app.views.main.router.back('/formtecnologiasHmo1/', {force: true, ignoreCache: true, reload: true});
+}
+
+function gfirma(val){
+    var signaturePad = testFirma;
+    var data = signaturePad.toDataURL('data:image/jpeg;base64,');
+    screen.orientation.lock('portrait');
+    screen.orientation.unlock();
+    $("#signate").val(data);
+    $('#ImagenFirmaView').attr('src', data);
+    $('#VolverFirmar').html("Evidencia");
+    $("#VolverAFirmar").html("Volver a Firmar <i class='icon material-icons md-only' style='display: inline-block;margin-left: 12px;'>border_color</i>");
+    if(val){
+        var element = document.querySelector(".page-content");
+        element.scrollTop = element.scrollHeight;
+    }
+}
+
+function SeleccionarDanosControlTec(id){
+    var id_cedula = localStorage.getItem("IdCedula");
+    databaseHandler.db.transaction(
+        function(tx5){
+            tx5.executeSql("SELECT * FROM DesTechDetails WHERE Fk_pregunta = ? AND id_cedula = ?",
+                [id,id_cedula],
+                function(tx5, results){
+                    var item2 = results.rows.item(0);
+                    if(item2.multiple == 1){
+                        var text = item2.pregunta;
+                        let result = text.includes("(");
+                        if(result){
+                            var resultados = text.split("(");
+                            var titulo_modal = resultados[0].trim();
+                            var divididos = resultados[1].split(",");
+                            var opciones = '<select class="FWM-input" id="opts_modal" multiple>';
+                            var quitapar = '';
+                            for(i=0; i<divididos.length; i++){
+                                quitapar = divididos[i].replace("(","");
+                                quitapar = quitapar.replace(")","");
+                                quitapar = capitalizarPrimeraLetra(quitapar);
+                                opciones = opciones +`<option value=`+quitapar.trim()+`>`+quitapar.trim()+`</option>`;
+                            }
+                            opciones = opciones+'</select>';
+                            CreaModalOptionCtlTec(id,opciones,1,titulo_modal);
+                        }else{
+                            var titulo_modal = "";
+                            var divididos = text.split(",");
+                            var opciones = '<select class="FWM-input" id="opts_modal" multiple>';
+                            var quitapar = '';
+                            for(i=0; i<divididos.length; i++){
+                                quitapar = divididos[i].replace("(","");
+                                quitapar = quitapar.replace(")","");
+                                quitapar = capitalizarPrimeraLetra(quitapar);
+                                opciones = opciones +`<option value=`+quitapar.trim()+`>`+quitapar.trim()+`</option>`;
+                            }
+                            opciones = opciones+'</select>';
+                            var titulo_modal = "";    
+                            CreaModalOptionCtlTec(id,opciones,2,titulo_modal);
+                        }
+                        
+                    }else{
+                        var opciones = false;
+                        var titulo_modal = "";
+                        CreaModalOptionCtlTec(id,opciones,3,titulo_modal);
+                    }
+                }
+            )
+        }
+    );
+}
+
+function actualizacheckControlTec(id){
+    var id_cedula = localStorage.getItem("IdCedula");
+    var ids = id.split("-");
+    var check = ids[1];
+    if(check.includes('1')){
+        var respuesta = 1;
+        var comentarios = '';
+        var id_pregunta = ids[0].replace('radio','');
+        $("#span-"+id_pregunta).html(comentarios);
+        $("#spanComentarios-"+id_pregunta).html(comentarios);
+        databaseHandler.db.transaction(
+            function(tx){
+                tx.executeSql("UPDATE DesTechDetails SET respuesta = ?,comentarios = ?, falla = ? WHERE id_cedula = ? AND Fk_pregunta = ?",
+                    [respuesta,comentarios,comentarios,id_cedula,id_pregunta],
+                    function(tx, results){
+                    },
+                    function(tx, error){
+                        console.error("Error al guardar cierre: " + error.message);
+                    }
+                );
+            },
+            function(error){},
+            function(){}
+        );
+    }else if(check.includes('2')){
+        var respuesta = 2;
+        var id_pregunta = ids[0].replace('radio','');
+        databaseHandler.db.transaction(
+            function(tx){
+                tx.executeSql("UPDATE DesTechDetails SET respuesta = ? WHERE id_cedula = ? AND Fk_pregunta = ?",
+                    [respuesta,id_cedula,id_pregunta],
+                    function(tx, results){
+                    },
+                    function(tx, error){
+                        console.error("Error al guardar cierre: " + error.message);
+                    }
+                );
+            },
+            function(error){},
+            function(){}
+        );
+    }
+}
+
+function agregaComentariosCtlTec(id_pregunta,mul){
+    if(mul == 1 || mul == 2){
+        var seleccionados = $("#opts_modal").val();
+        if(seleccionados.length == 0){
+            swal("","Selecciona al menos una opción del desplegable.","warning");
+            return false;
+        }else{
+            var opts = '';
+            $("#opts_modal option").each(function(){
+                if(this.selected){
+                    opts = opts +", "+ capitalizarPrimeraLetra($(this).text());
+                }
+            });
+            opts = opts.slice(1);
+            opts = opts+":";
+        }
+    }else{
+        var opts = '';
+    }
+    var campos;
+    var comentarios = '';
+    
+    campos = document.querySelectorAll('#div_cboxs .obligatorio');
+    var valido = false;
+
+    [].slice.call(campos).forEach(function(campo) {
+        if (campo.checked == true) {
+            valido = true;
+            comentarios = comentarios+", "+campo.value;
+        }
+    });
+
+    if (valido) {
+        var str = comentarios;
+        var name = str.slice(1);
+        name = opts+""+name;
+        name = name.trim();
+        name = capitalizarPrimeraLetra(name);
+        var id_cedula = localStorage.getItem("IdCedula");
+        var obs_generales = $("#obs_generales").val();
+
+        databaseHandler.db.transaction(
+            function(tx){
+                tx.executeSql("UPDATE DesTechDetails SET falla = ?, comentarios = ? WHERE id_cedula = ? AND Fk_pregunta = ?",
+                    [name,obs_generales,id_cedula,id_pregunta],
+                    function(tx, results){
+                        $("#span-"+id_pregunta).html(name);
+                        $("#spanComentarios-"+id_pregunta).html(obs_generales);
+                        app.sheet.close('#sheet-modal');
+                        swal("","Comentario guardado correctamente","success");
+                    },
+                    function(tx, error){
+                        console.error("Error al guardar cierre: " + error.message);
+                    }
+                );
+            },
+            function(error){},
+            function(){}
+        );
+
+    } else {
+        swal("","Selecciona almenos un daño para poder guardar","warning");
+    }
+}
+
+function FinalizarCheckListHMO(){
+    if($("#signate").val()){
+        swal({
+            title: "Aviso",
+            text: "¿Estas seguro de querer finalizar la revisión?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((RESP) => {
+            if (RESP == true) {
+                var fecha_salida = getDateWhitZeros();
+                var id_cedula = localStorage.getItem("IdCedula");
+                var estatus = 0;
+                var fecha_fin = fecha_salida;
+                var firma = $("#signate").val()
+                var obs_generales = $("#comentarios_generales").val();
+                var puntos_malos = Number($("#puntos_malos").val());
+                var total_puntos = Number($("#total_puntos").val());
+                var calificacion = (((total_puntos - puntos_malos)*100)/total_puntos).toFixed(2);
+
+                databaseHandler.db.transaction(
+                    function(tx){
+                        tx.executeSql("UPDATE DesTechHeader SET calificacion = ?, fecha_fin = ?,firma = ?, obs_generales = ?, puntos_malos = ?, total_puntos = ? WHERE id_cedula = ?",
+                            [calificacion, fecha_fin, firma, obs_generales, puntos_malos, total_puntos, id_cedula],
+                            function(tx, results){
+                                databaseHandler.db.transaction(
+                                    function(tx){
+                                        tx.executeSql("UPDATE cedulas_general SET fecha_salida  = ?,estatus = ? WHERE id_cedula = ?",
+                                            [fecha_salida,estatus,id_cedula],
+                                            function(tx, results){
+                                                window.location.href = "./menu.html";
+                                            },
+                                            function(tx, error){
+                                                swal("Error al guardar",error.message,"error");
+                                            }
+                                        );
+                                    },
+                                    function(error){},
+                                    function(){}
+                                );    
+                            },
+                            function(tx, error){
+                                console.error("Error al guardar cierre: " + error.message);
+                            }
+                        );
+                    },
+                    function(error){},
+                    function(){}
+                );
+                          
+            }
+        });
+    } else {
+        swal("", "Aún no se ha ingresado la firma del colaborador.", "warning")
+    }
+}
+
+function CreaModalOptionCtlTec(id,opciones,mul,titulo_modal){
+    if(mul==3){
+        var display = "none";//div_opt
+        var display1 = "none";//titulo_modal
+    }else if(mul == 2){
+        var display = "block";//div_opt
+        var display1 = "none";//titulo_modal
+    }else if(mul == 1){
+        var display = "block";//div_opt
+        var display1 = "block";//titulo_modal
+    }
+
+    var NomDescCli = "fallos";
+    var html = '';
+
+    app.request.get(cordova.file.dataDirectory + "jsons_tecnologiasHmo/"+NomDescCli+".json", function (data) {
+        var content2 = JSON.parse(data);
+        for(var x = 0; x < content2.length; x++) {
+            html = html + `<label class="label_modal"><input class="cbox_modal obligatorio" type="checkbox" id="cbox${content2[x].id_danio}" value="${content2[x].tipo_danio}">${content2[x].tipo_danio}</label><br>`;
+        }
+        var popEvidencia = app.popup.create({
+            content: `
+            <div class="sheet-modal my-sheet" id="sheet-modal" name="sheet">
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <div class="left"></div>
+                    <div class="right"><a class="link" id="close_sheet" href="#">Cerrar</a></div>
+                </div>
+            </div>
+            <div class="sheet-modal-inner" style="overflow-y: scroll;">
+                <div class="block">
+                    <h3 class="FWN-titulo-2">¿Que tipo de daño es?</h3><hr>
+                    <span id="titulo_modal" style="display:${display1};color: #FF0037;" class="span FWM-span-form">${titulo_modal}</span>
+                    <div id="div_opt" style="display:${display}; padding-top: 10px;margin-bottom: 20px;">
+                    ${opciones}
+                    </div>
+                    <div class="list FWM-fixing-form" id="div_cboxs" style="margin-top: 25px;"> 
+                        <input type="hidden" id="inputEvidencia" value=${id}>
+                        <input type="hidden" id="pasa" value="0">
+                            ${html}
+                        <div>
+                            <span style="color: #005D99;" class="span FWM-span-form">Comentarios adicionales</span>
+                            <textarea class="FWM-input" style="font-family: 'ITC Avant Garde Gothic', sans-serif;" id="obs_generales" cols="30" rows="10" maxlength="255"></textarea>
+                        </div>
+                        <div class="block grid-resizable-demo" style="margin-bottom: 70px;padding-top: 35px;">
+                            <div class="row align-items-stretch" style="text-align: center;">
+                                <div class="col-100 medium-50" style="min-width: 50px; border-style: none;">
+                                    <span class="resize-handler"></span>
+                                    <a href="#" onclick="agregaComentariosCtlTec(${id},${mul});" style="background-color: #FF0037;padding-left: 50px;padding-right: 50px;" class="boton-equipo">Guardar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`,
+        swipeToClose:false,
+        closeByOutsideClick:false,
+        closeByBackdropClick:false,
+        closeOnEscape:false,
+                on: {
+                    open: function (popup) {
+    
+                        $('#close_sheet').click(function () {
+                            if($('#pasa').val()!=0){
+                                app.sheet.close('#sheet-modal');
+                            }else{
+                                swal({
+                                    title: "Aviso",
+                                    text: "Aún no seleccionas o guardas una opción, ¿Estas seguro que deseas regresar?",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: false,
+                                }).then((willGoBack) => {
+                                    if (willGoBack){
+                                        var otherCheck = "radio"+ id + "-2";
+                                        document.getElementById(otherCheck).checked = false;
+                                        var Check = "radio"+ id + "-1";
+                                        document.getElementById(Check).checked = true;
+                                        var labels1 = Check.replace('radio','label');
+                                        var labels2 = otherCheck.replace('radio','label');
+                                        $("#"+labels1).addClass("checked");
+                                        $("#"+labels2).removeClass("checked");
+                                        actualizacheckControlTec(Check);
+                                        app.sheet.close('#sheet-modal');
+                                    } 
+                                });
+                            }
+                        });
+                    },
+                }
+        });
+        popEvidencia.open();
+    });
+}
+//FIN tecnologiasHmo
