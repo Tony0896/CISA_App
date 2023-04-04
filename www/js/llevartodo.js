@@ -474,7 +474,9 @@ function llevarTodo(id_cedula,tipo_cedula){
                                             var item1 = results.rows.item(i);
                                             var fecha = item1.fecha_inicio.replace(" ", "T");
                                             var fecha2 = item1.fecha_fin.replace(" ", "T");
-                                            DesTechHeader[i] = {'Valor':i,'id_header':item1.id_header, 'id_cedula':item1.id_cedula, 'calificacion':item1.calificacion, 'id_empresa':item1.id_empresa, 'empresa':item1.empresa, 'id_unidad':item1.id_unidad, 'unidad':item1.unidad, 'id_usuario_ti':item1.id_usuario_ti, 'usuario_ti':item1.usuario_ti, 'id_usuario_operador':item1.id_usuario_operador, 'usuario_operador':item1.usuario_operador, 'firma':item1.firma, 'fecha':item1.fecha, 'fecha_inicio':fecha, 'fecha_fin':fecha2, 'obs_generales':item1.obs_generales, 'puntos_malos':item1.puntos_malos, 'total_puntos':item1.total_puntos};
+                                            var fecha_envio = getDateWhitZeros();
+                                            fecha_envio = fecha_envio.replace(" ", "T");
+                                            DesTechHeader[i] = {'Valor':i,'id_header':item1.id_header, 'id_cedula':item1.id_cedula, 'calificacion':item1.calificacion, 'id_empresa':item1.id_empresa, 'empresa':item1.empresa, 'id_unidad':item1.id_unidad, 'unidad':item1.unidad, 'id_usuario_ti':item1.id_usuario_ti, 'usuario_ti':item1.usuario_ti, 'id_usuario_operador':item1.id_usuario_operador, 'usuario_operador':item1.usuario_operador, 'firma':item1.firma, 'fecha':item1.fecha, 'fecha_inicio':fecha, 'fecha_fin':fecha2, 'obs_generales':item1.obs_generales, 'puntos_malos':item1.puntos_malos, 'total_puntos':item1.total_puntos, 'fecha_envio':fecha_envio};
                                         }
                                         databaseHandler.db.transaction(
                                             function(tx){
@@ -489,45 +491,45 @@ function llevarTodo(id_cedula,tipo_cedula){
                                                         console.log(DesTechHeader);
                                                         console.log(DesTechDetails);
 
-                                                        // $.ajax({
-                                                        //     type: "POST",
-                                                        //     async : true,
-                                                        //     url: url+"/guardarCtrTech.php",
-                                                        //     dataType: 'html',
-                                                        //     data: {'datosCedulaGeneral': JSON.stringify(datosCedulaGeneral),
-                                                        //     'DesTechHeader': JSON.stringify(DesTechHeader),
-                                                        //     'DesTechDetails': JSON.stringify(DesTechDetails)},
-                                                        //     success: function(respuesta){
-                                                        //         var respu1 = respuesta.split("._.");
-                                                        //         var dat1 = respu1[0];
-                                                        //         var dat2 = respu1[1];
-                                                        //         if(dat1 == "CEDULA"){
-                                                        //             if(dat2 > 0){
-                                                        //                 databaseHandler.db.transaction(
-                                                        //                     function(tx7){
-                                                        //                         tx7.executeSql(
-                                                        //                             "UPDATE cedulas_general SET estatus = 3 WHERE id_cedula = ?",
-                                                        //                             [id_cedula],
-                                                        //                             function(tx7, results){
-                                                        //                                 $(".send-ced").css("pointer-events", "all");
-                                                        //                                 localStorage.setItem("sendFlag", 0);
-                                                        //                                 $("#li-"+item.id_cedula).remove();
-                                                        //                                 swal("Enviado!", "", "success");
-                                                        //                             }
-                                                        //                         );
-                                                        //                     }
-                                                        //                 );
-                                                        //             }
-                                                        //         } else {
-                                                        //             AlmacenarError(respuesta);
-                                                        //         }
-                                                        //     },
-                                                        //     error: function(){
-                                                        //         console.log("Error en la comunicacion");
-                                                        //         swal("Fallo el envío, por conexión!", "", "error");
-                                                        //         $(".send-ced").css("pointer-events", "all")
-                                                        //     }
-                                                        // });
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            async : true,
+                                                            url: url+"/guardarCtrTech.php",
+                                                            dataType: 'html',
+                                                            data: {'datosCedulaGeneral': JSON.stringify(datosCedulaGeneral),
+                                                            'CtrTechHeader': JSON.stringify(DesTechHeader),
+                                                            'CtrTechDetails': JSON.stringify(DesTechDetails)},
+                                                            success: function(respuesta){
+                                                                var respu1 = respuesta.split("._.");
+                                                                var dat1 = respu1[0];
+                                                                var dat2 = respu1[1];
+                                                                if(dat1 == "CEDULA"){
+                                                                    if(dat2 > 0){
+                                                                        databaseHandler.db.transaction(
+                                                                            function(tx7){
+                                                                                tx7.executeSql(
+                                                                                    "UPDATE cedulas_general SET estatus = 3 WHERE id_cedula = ?",
+                                                                                    [id_cedula],
+                                                                                    function(tx7, results){
+                                                                                        $(".send-ced").css("pointer-events", "all");
+                                                                                        localStorage.setItem("sendFlag", 0);
+                                                                                        $("#li-"+item.id_cedula).remove();
+                                                                                        swal("Enviado!", "", "success");
+                                                                                    }
+                                                                                );
+                                                                            }
+                                                                        );
+                                                                    }
+                                                                } else {
+                                                                    AlmacenarError(respuesta);
+                                                                }
+                                                            },
+                                                            error: function(){
+                                                                console.log("Error en la comunicacion");
+                                                                swal("Fallo el envío, por conexión!", "", "error");
+                                                                $(".send-ced").css("pointer-events", "all")
+                                                            }
+                                                        });
                                                     },
                                                     function(tx, error){
                                                         console.log("Error al consultar sanitizacion: " + error.message);
