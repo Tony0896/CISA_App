@@ -343,7 +343,7 @@ var productHandler={
                 databaseHandler.db.transaction(
                   function (tx) {
                     tx.executeSql(//
-                      "insert into detalle_recaudo(id_cedula,id_unidad,id_servidor,eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total) values(?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "insert into detalle_recaudo(id_cedula,id_unidad,id_servidor,eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total) values(? ,? ,? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)",
                       [id_cedula,id_unidad, ID, eco, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total],
                       function (tx, results) {
                         // console.log("inserta")
