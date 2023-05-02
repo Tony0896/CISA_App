@@ -2277,6 +2277,8 @@ function getIDEmpresa(val){
         return 19;
     }else if(val == "VYCSA"){
         return 18;
+    }else if(val == "REFORMA"){
+        return 40;
     }else if(val == "logo1"){
         return 0;
     }
