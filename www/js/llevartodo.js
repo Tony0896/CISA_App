@@ -4,7 +4,8 @@ function AlmacenarError(respuesta){
     var id_usuario = localStorage.getItem("Usuario");
     var id_empresa = localStorage.getItem("empresa");
     var url = localStorage.getItem("url");
-    datos[0] = {'id_usario':id_usuario,'id_empresa':id_empresa,'respuesta':respuesta};
+    var versionapp = localStorage.getItem("version");
+    datos[0] = {'id_usario':id_usuario,'id_empresa':id_empresa,'respuesta':respuesta,'versionapp':versionapp};
     $.ajax({
         type: "POST",
         async : true,
