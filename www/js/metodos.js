@@ -231,6 +231,8 @@
             iniciarDesincorporaciones();
         } else if(Modulos == "Recaudo"){
             preingresoRecaudo();
+        } else if(Modulos == "Diesel"){
+            preingresoDiesel();
         }
     }
     function EliminarActualizacionesAntiguas(){
@@ -611,6 +613,12 @@ function recargacedulas(){
         var tipo = "checklist";
     } else if(localStorage.getItem("Modulos") == 'Limpieza'){
         var tipo = "Limpieza";
+    } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
+        var tipo = "Desincorporaciones";
+    } else if(localStorage.getItem("Modulos") == 'Recaudo'){
+        var tipo = "Recaudo";
+    } else if(localStorage.getItem("Modulos") == 'Diesel'){
+        var tipo = "Diesel";
     }
       
     var estatus = 0;
@@ -631,6 +639,8 @@ function recargacedulas(){
                             $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>");
                         } else if(item2.tipo_cedula == 'Recaudo'){
                             $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Recaudo</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,4);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
+                        } else if(item2.tipo_cedula == 'Diesel'){
+                            $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Rev. Imagen</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,5);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                         }
                     }
                 },
@@ -656,6 +666,8 @@ function continuarCed(id_cedula,tipo){
         app.views.main.router.back('/yallegue_desin/', {force: true, ignoreCache: true, reload: true});
     } else if(tipo == 4){
         app.views.main.router.back('/yallegueRecaudo/', {force: true, ignoreCache: true, reload: true});
+    } else if(tipo == 5){
+        app.views.main.router.back('/yallegueDiesel/', {force: true, ignoreCache: true, reload: true});
     }
 }
 
@@ -1384,11 +1396,11 @@ function GuardaDesincorporacion(){
                                 app.views.main.router.back('/yallegue_desin/', {force: true, ignoreCache: true, reload: true});
                             }, 1500);  
                         },
-                        function (tx, error) {console.error("Error al consultar bandeja de salida: " + error.message);}
+                        function (tx, error) {console.error("Error: " + error.message);}
                       );
                     },
-                    function (error) {console.error("Error al consultar bandeja de salida: " + error.message);},
-                    function (error) {console.error("Error al consultar bandeja de salida: " + error.message);}
+                    function (error) {console.error("Error: " + error.message);},
+                    function (error) {console.error("Error: " + error.message);}
                 );           
             }
         });
@@ -1747,7 +1759,7 @@ function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura
                     }
                 },
                 function(tx5, error){
-                    console.error("Error al consultar bandeja de salida: " + error.message);
+                    console.error("Error: " + error.message);
                 }
             );  
         },
@@ -1773,7 +1785,7 @@ function PintaCedulas(estatus, tipo){
                         $("#pendientes").html(html);
                     },
                     function(tx5, error){
-                        console.error("Error al consultar bandeja de salida: " + error.message);
+                        console.error("Error: " + error.message);
                     }
                 );  
             },
@@ -1796,12 +1808,12 @@ function PintaCedulas(estatus, tipo){
                         $("#pendientes").html(html);
                     },
                     function(tx5, error){
-                        console.error("Error al consultar bandeja de salida: " + error.message);
+                        console.error("Error: " + error.message);
                     }
                 );  
             },
-          function(error){console.error("Error al consultar bandeja de salida: " + error.message);},
-          function(error){console.error("Error al consultar bandeja de salida: " + error.message);}
+          function(error){console.error("Error: " + error.message);},
+          function(error){console.error("Error: " + error.message);}
         );
     }
 }
@@ -1954,7 +1966,7 @@ function CerrarReporte(){
                     }
                 },
                 function(tx5, error){
-                    console.error("Error al consultar bandeja de salida: " + error.message);
+                    console.error("Error: " + error.message);
                 }
             );  
         },
@@ -2159,11 +2171,11 @@ function GuardarTRFApoyos(){
                                     app.views.main.router.back('/yallegue_desin/', {force: true, ignoreCache: true, reload: true});
                                 }, 1500);  
                             },
-                            function (tx, error) {console.error("Error al consultar bandeja de salida: " + error.message);}
+                            function (tx, error) {console.error("Error: " + error.message);}
                           );
                         },
-                        function (error) {console.error("Error al consultar bandeja de salida: " + error.message);},
-                        function (error) {console.error("Error al consultar bandeja de salida: " + error.message);}
+                        function (error) {console.error("Error: " + error.message);},
+                        function (error) {console.error("Error: " + error.message);}
                     );
                 } else {
                     databaseHandler.db.transaction(
@@ -2178,11 +2190,11 @@ function GuardarTRFApoyos(){
                                     app.views.main.router.back('/yallegue_desin/', {force: true, ignoreCache: true, reload: true});
                                 }, 1500);  
                             },
-                            function (tx, error) {console.error("Error al consultar bandeja de salida: " + error.message);}
+                            function (tx, error) {console.error("Error: " + error.message);}
                           );
                         },
-                        function (error) {console.error("Error al consultar bandeja de salida: " + error.message);},
-                        function (error) {console.error("Error al consultar bandeja de salida: " + error.message);}
+                        function (error) {console.error("Error: " + error.message);},
+                        function (error) {console.error("Error: " + error.message);}
                     );  
                 }         
             }
@@ -2690,7 +2702,7 @@ function finRecaudoUnidad(){
                         }
                     },
                     function(tx5, error){
-                        console.error("Error al consultar bandeja de salida: " + error.message);
+                        console.error("Error: " + error.message);
                     }
                 );  
             },
@@ -2851,7 +2863,7 @@ function guardarMoneda(piezas, importe, moneda){
                                     }
                                 },
                                 function(tx5, error){
-                                    console.error("Error al consultar bandeja de salida: " + error.message);
+                                    console.error("Error: " + error.message);
                                 }
                             );  
                         },
@@ -3276,7 +3288,7 @@ function guardaHeaderRecaudo(fecha,id,id_dato,id_usuario,id_empresa,observacione
                     } 
                 },
                 function(tx5, error){
-                    console.error("Error al consultar bandeja de salida: " + error.message);
+                    console.error("Error: " + error.message);
                 }
             );  
         },
@@ -3299,3 +3311,380 @@ function InsertaDetailsRecaudo(id_cedula, id_servidor){
     });
 }
 //Fin Recaudo
+//Inicio Diesel
+function preingresoDiesel(){
+    swal({
+        title: "Aviso",
+        text: "¿Estas seguro de querer empezar un nuevo registro para Cargas de Diesel?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((RESP) => {
+        if (RESP == true) {
+            iniciarCargasDiesel();
+        }
+    });
+}
+function iniciarCargasDiesel(){
+    var id_usuario = localStorage.getItem("Usuario");
+    var nombre_usuario = localStorage.getItem("nombre");
+    var fecha_llegada =  getDateWhitZeros();
+    var horario_programado = fecha_llegada;
+    var nombre_cliente = NombreEmpresa(localStorage.getItem("empresa"));
+    var estatus = 0;
+    var geolocation = '';
+    var id_cliente = localStorage.getItem("empresa");
+    var tipo_cedula = 'Diesel';
+    var origen = 'Mobile';
+    productHandler.addCedulayb(id_usuario,nombre_usuario,fecha_llegada,geolocation,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula);
+    databaseHandler.db.transaction(
+        function (tx) {
+            tx.executeSql(
+            "Select MAX(id_cedula) as Id from cedulas_general",
+            [],
+            function (tx, results) {
+                var item = results.rows.item(0);
+                localStorage.setItem("IdCedula", item.Id);
+                var id_cedula = item.Id;
+                productHandler.addDatosGenerales_Diesel(id_cedula, fecha_llegada, id_usuario, id_cliente, estatus, origen, nombre_usuario);
+                app.views.main.router.navigate({ name: 'yallegueDiesel'});
+            },
+            function (tx, error) {
+                console.log("Error al guardar cedula: " + error.message);
+            }
+            );
+        },
+        function (error) {},
+        function () {}
+    );
+}
+function llamarUnidadDiesel(){
+    var id_unidad = $("#btn_llamarUnidad").data('id_unidad');
+    var eco = $("#btn_llamarUnidad").data('Unidad');
+    if(id_unidad){
+        app.sheet.open('#sheet-modal');
+        $("#id_unidad").val("");
+        $("#eco").val("");
+        $("#bomba_c").val("0");
+        $("#almacen").val("Diesel");
+        $("#id_operador").val("");
+        $("#operador2").val("");
+        $("#operador").val("");
+        $("#jornada").val("");
+        $("#vueltas").val("");
+        $("#odometro").val("");
+        $("#h_inicio").val("");
+        $("#h_fin").val("");
+        $("#carga").val("");
+        
+        var tiempoactual = getDateWhitZeros().split(" ");
+        $("#id_unidad").val(id_unidad);
+        $("#eco").val(eco);
+        $("#title_unidad").html(`Unidad: ${eco}`);
+        $("#h_inicio").val(tiempoactual[1])
+        $("#h_fin").val(tiempoactual[1])
+        $('#close_sheet').click(function () {
+            if($('#pasa').val()!=0){
+                app.sheet.close('#sheet-modal');
+            }else{
+                swal({
+                    title: "Aviso",
+                    text: "Aún no haz guardado información, ¿Estas seguro que deseas regresar?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: false,
+                }).then((willGoBack) => {
+                    if (willGoBack){
+                        app.sheet.close('#sheet-modal');
+                    }
+                });
+            }
+        });
+    } else {
+        swal("", "Debes seleccionar primero una unidad para poder continuar", "warning");
+    }
+}
+function agregaCarga(){
+    if($("#carga").val() && $("#odometro").val()){
+        var id_cedula = localStorage.getItem("IdCedula");
+        var carga_total = Number($("#carga").val()).toFixed(2);
+        var odometro = Number($("#odometro").val()).toFixed(2);
+        var fecha_carga = getDateWhitZeros();
+        var no_bomba = $("#bomba_c").val();
+        var tipo_carga = $("#tipo_carga").val();
+        var almacen = $("#almacen").val();
+        var operador = $("#operador").val();
+        var id_operador = $("#id_operador").val();
+        var jornada = $("#jornada").val();
+        var vueltas = $("#vueltas").val();
+        var h_inicio = $("#h_inicio").val();
+        var h_fin = $("#h_fin").val();
+        var operador2 = $("#operador2").val();
+
+        var id_unidad = $("#id_unidad").val();
+        var eco = $("#eco").val();
+
+        databaseHandler.db.transaction(
+            function (tx) {
+              tx.executeSql(
+                "insert into detalle_diesel (id_cedula, id_unidad, eco, carga_total, odometro, fecha_carga, no_bomba, almacen, operador, id_operador, jornada, vueltas, h_inicio, h_fin, tipo_carga, operador2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [id_cedula, id_unidad, eco, carga_total, odometro, fecha_carga, no_bomba, almacen, operador, id_operador, jornada, vueltas, h_inicio, h_fin, tipo_carga, operador2],
+                function (tx, results) {
+                    swal("","Guardado correctamente","success");
+                    $("#row_totales").remove();
+                    databaseHandler.db.transaction(
+                        function(tx5){
+                            tx5.executeSql("SELECT * FROM detalle_diesel WHERE id_cedula = ? ORDER BY id_detalle DESC LIMIT 1",
+                                [id_cedula],
+                                function(tx5, results){
+                                    var item2 = results.rows.item(0);
+                                    $("#message-nr").css("display", "none");
+                                    var no_bomba = '';
+                                    item2.no_bomba ? no_bomba = item2.no_bomba: no_bomba = 0;
+                                    $("#tb_diesel").append(`<tr><td>${item2.eco}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(item2.odometro)}</td><td>${no_bomba}</td><td>${item2.tipo_carga}</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${item2.id_detalle}','${item2.id_unidad}','${item2.eco}','${item2.carga_total}','${item2.odometro}','${item2.no_bomba}','${item2.almacen}','${item2.h_fin}','${item2.h_inicio}','${item2.jornada}','${item2.operador}','${item2.id_operador}','${item2.vueltas}','${item2.tipo_carga}','${item2.operador2}','2');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`);
+                                    databaseHandler.db.transaction(
+                                        function(tx5){
+                                            tx5.executeSql("SELECT SUM(carga_total) as carga_totales, COUNT(id_cedula) as cuentas FROM detalle_diesel WHERE id_cedula = ?",
+                                                [id_cedula],
+                                                function(tx5, results){
+                                                    var item3 = results.rows.item(0);
+                                                    $("#total_litros").html(`${numberWithCommas(Number(item3.carga_totales).toFixed(2))}`);
+                                                    $("#unidades_cargadas").html(`${item3.cuentas}`);
+                                                    $("#tb_diesel").append(`<tr id="row_totales" style="text-align: center;background-color: #005D99;color: white;font-weight: bold;"><th>Totales</th><th>${numberWithCommas(Number(item3.carga_totales).toFixed(2))}</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>`);
+                                                    $("#autocomplete").val("");
+                                                    app.sheet.close('#sheet-modal');
+                                                },
+                                                function(tx5, error){
+                                                    console.error("Error: " + error.message);
+                                                }
+                                            );  
+                                        },
+                                        function(error){console.error("Error: " + error.message);},
+                                        function(error){console.error("Error: " + error.message);}
+                                    );
+                                },
+                                function(tx5, error){
+                                    console.error("Error: " + error.message);
+                                }
+                            );  
+                        },
+                        function(error){console.error("Error: " + error.message);},
+                        function(error){console.error("Error: " + error.message);}
+                    );
+                },
+                function (tx, error) {console.error("Error: " + error.message);}
+              );
+            },
+            function (error) {console.error("Error: " + error.message);},
+            function (error) {console.error("Error: " + error.message);}
+        );
+    } else {
+        swal("", "Debes llenar los campos de litros cargados y el odometro para poder guardar", "warning")
+    }
+}
+
+function editarCargaDiesel(id_detalle,id_unidad,eco,carga_total,odometro,no_bomba,almacen,h_fin,h_inicio,jornada,operador,id_operador,vueltas,tipo_carga,operador2){
+    app.sheet.open('#sheet-modal-u');
+    $("#h_inicio_u").val(h_inicio);
+    $("#h_fin_u").val(h_fin);
+    $("#id_unidad_u").val(id_unidad);
+    $("#id_detalle_u").val(id_detalle);
+    $("#title_unidad_u").html(`Unidad: ${eco}`);
+    $("#carga_u").val(carga_total);
+    $("#odometro_u").val(odometro);
+    $("#bomba_u").val(no_bomba);
+    $("#almacen_u").val(almacen);
+    $("#jornada_u").val(jornada);
+    $("#operador_u").val(operador);
+    $("#id_operador_u").val(id_operador);
+    $("#vueltas_u").val(vueltas);
+    $("#tipo_carga_u").val(tipo_carga);
+    $("#operador2_u").val(operador2);
+
+    $('#close_sheet_u').click(function () {
+        if($('#pasa_u').val()!=0){
+            app.sheet.close('#sheet-modal-u');
+        }else{
+            swal({
+                title: "Aviso",
+                text: "Aún no haz actualizado información, ¿Estas seguro que deseas regresar?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: false,
+            }).then((willGoBack) => {
+                if (willGoBack){
+                    app.sheet.close('#sheet-modal-u');
+                }
+            });
+        }
+    });
+}
+function actualizaCargaDiesel(){
+    var id_cedula = localStorage.getItem("IdCedula");
+
+    var h_inicio = $("#h_inicio_u").val();
+    var h_fin = $("#h_fin_u").val();
+    var id_carga = $("#id_detalle_u").val();
+    var carga = Number($("#carga_u").val()).toFixed(2);
+    var odometro = Number($("#odometro_u").val()).toFixed(2);
+    var bomba = $("#bomba_u").val();
+    var almacen = $("#almacen_u").val();
+    var jornada = $("#jornada_u").val();
+    var operador = $("#operador_u").val();
+    var id_operador = $("#id_operador_u").val();
+    var vueltas = $("#vueltas_u").val();
+    var tipo_carga = $("#tipo_carga_u").val();
+    var operador2 = $("#operador2").val();
+
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "Update detalle_diesel SET carga_total = ?, odometro = ?, no_bomba = ?, h_inicio = ?, h_fin = ?, almacen = ?, jornada = ?, operador = ?, id_operador = ?, vueltas = ?, tipo_carga = ?, operador2 = ? WHERE id_cedula = ? AND id_detalle = ?",
+            [carga, odometro, bomba, h_inicio, h_fin, almacen, jornada, operador, id_operador, vueltas, tipo_carga, operador2, id_cedula, id_carga],
+            function (tx, results) {
+                $("#tb_diesel").html(``);
+                swal("","Actualizado correctamente","success");
+                databaseHandler.db.transaction(
+                    function(tx5){
+                        tx5.executeSql("SELECT * FROM detalle_diesel WHERE id_cedula = ?",
+                            [id_cedula],
+                            function(tx5, results){
+                                var length = results.rows.length;
+                                if(length == 0){
+                                    $("#message-nr").css("display", "block");
+                                    $("#total_litros").html(`${numberWithCommas(0)}`);
+                                }else{
+                                    $("#message-nr").css("display", "none");
+                                    for(var i = 0; i< length; i++){
+                                        var item2 = results.rows.item(i);
+                                        var no_bomba = '';
+                                        item2.no_bomba ? no_bomba = item2.no_bomba: no_bomba = 0;
+                                        $("#tb_diesel").append(`<tr><td>${item2.eco}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(item2.odometro)}</td><td>${no_bomba}</td><td>${item2.tipo_carga}</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${item2.id_detalle}','${item2.id_unidad}','${item2.eco}','${item2.carga_total}','${item2.odometro}','${item2.no_bomba}','${item2.almacen}','${item2.h_fin}','${item2.h_inicio}','${item2.jornada}','${item2.operador}','${item2.id_operador}','${item2.vueltas}','${item2.tipo_carga}','${item2.operador2}','2');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`);
+                                    }
+                                    databaseHandler.db.transaction(
+                                        function(tx5){
+                                            tx5.executeSql("SELECT SUM(carga_total) as carga_totales, COUNT(id_cedula) as cuentas FROM detalle_diesel WHERE id_cedula = ?",
+                                                [id_cedula],
+                                                function(tx5, results){
+                                                    var item3 = results.rows.item(0);
+                                                    $("#total_litros").html(`${numberWithCommas(Number(item3.carga_totales).toFixed(2))}`);
+                                                    $("#unidades_cargadas").html(`${item3.cuentas}`);
+                                                    $("#tb_diesel").append(`<tr id="row_totales" style="text-align: center;background-color: #005D99;color: white;font-weight: bold;"><th>Totales</th><th>${numberWithCommas(Number(item3.carga_totales).toFixed(2))}</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>`);
+                                                    $("#autocomplete").val("");
+                                                    app.preloader.hide();
+                                                    app.sheet.close('#sheet-modal-u');
+                                                },
+                                                function(tx5, error){
+                                                    console.error("Error: " + error.message);
+                                                }
+                                            );  
+                                        },
+                                        function(error){console.error("Error: " + error.message);},
+                                        function(error){console.error("Error: " + error.message);}
+                                    );
+                                }
+                            },
+                            function(tx5, error){
+                                console.error("Error: " + error.message);
+                            }
+                        );  
+                    },
+                    function(error){console.error("Error: " + error.message);},
+                    function(error){console.error("Error: " + error.message);}
+                );
+            },
+            function (tx, error) {console.error("Error: " + error.message);}
+          );
+        },
+        function (error) {console.error("Error: " + error.message);},
+        function (error) {console.error("Error: " + error.message);}
+    );
+}
+function FinalizarCargaDiesel(){
+    swal({
+        title: "Aviso",
+        text: "¿Estas seguro de querer finalizar la carga de Diesel?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((RESP) => {
+        if (RESP == true) {
+            var id_cedula = localStorage.getItem("IdCedula");
+            var fecha = new Date();
+            var fecha_salida = fecha.getFullYear()+"-"+(fecha.getMonth()+1)+"-"+fecha.getDate()+" "+fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
+            var estatus = 1;
+            databaseHandler.db.transaction(
+                function(tx){
+                    tx.executeSql("UPDATE cedulas_general SET fecha_salida  = ?,estatus = ? WHERE id_cedula = ?",
+                        [fecha_salida,estatus,id_cedula],
+                        function(tx, results){
+                            databaseHandler.db.transaction(
+                                function(tx5){
+                                    tx5.executeSql("SELECT SUM(carga_total) as carga_totales, COUNT(id_cedula) as cuentas FROM detalle_diesel WHERE id_cedula = ?",
+                                        [id_cedula],
+                                        function(tx5, results){
+                                            var item3 = results.rows.item(0);
+                                            var fecha_fin = getDateWhitZeros();
+                                            var promedio = Number(item3.carga_totales/item3.cuentas).toFixed(2);
+                                            databaseHandler.db.transaction(
+                                                function(tx){
+                                                    tx.executeSql("UPDATE datos_generales_diesel  SET carga_total  = ?,total_unidades = ?,unidades_cargadas = ?,promedio = ?, fecha_fin = ? WHERE id_cedula = ?",
+                                                        [Number(item3.carga_totales).toFixed(2), item3.cuentas, item3.cuentas, promedio, fecha_fin,id_cedula],
+                                                        function(tx, results){
+                                                            window.location.href = "./menu.html";
+                                                        },
+                                                        function(tx, error){
+                                                            swal("Error al guardar",error.message,"error");
+                                                        }
+                                                    );
+                                                },
+                                                function(error){},
+                                                function(){}
+                                            );   
+                                        },
+                                        function(tx5, error){
+                                            console.error("Error: " + error.message);
+                                        }
+                                    );  
+                                },
+                                function(error){console.error("Error: " + error.message);},
+                                function(error){console.error("Error: " + error.message);}
+                            );  
+                        },
+                        function(tx, error){
+                            swal("Error al guardar",error.message,"error");
+                        }
+                    );
+                },
+                function(error){},
+                function(){}
+            );
+        }
+    });
+}
+function check_hours_menores(hora1, hora2){
+    var horas1 = $("#"+hora1).val();
+    var horas2 = $("#"+hora2).val();
+    if (horas2 > horas1) {}else{
+        swal("","La hora fin no puede ser menor a la hora de inicio de carga.","warning");
+        $("#"+hora2).val("");
+    } 
+}
+function corresponderRegistrosDiesel(IdCte, IdCedula, FechaCaptura){
+    // console.log('Correspondencia', IdCte, IdCedula, FechaCaptura);
+    var ID_interno = IdCte;
+    var Evento = "Unión de cargas"
+    var Fecha = getDateWhitZeros() 
+    var ID_Usuario = localStorage.getItem("Usuario");
+    var Nombre_Usuario = localStorage.getItem("nombre");
+    var Origen = 'Mobile' 
+    var Version_App = localStorage.getItem("version");
+    var ID_cabeceros = IdCte;
+}
+function reprocesarIntelisis(IdCte, IdCedula, id_intelesis){
+    console.log('Reprocesa', IdCte, IdCedula, id_intelesis);
+}
+function procesarIntelesis(IdCte, IdCedula, id_interno){
+    console.log('Procesa', IdCte, IdCedula, id_interno);
+}
+//Fin Diesel
