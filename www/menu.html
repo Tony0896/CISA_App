@@ -140,6 +140,20 @@
                                 </div>
                               </td>
                             </tr>
+                            <tr class="menu_master menus" style="display: none;">
+                              <td>
+                                <div style="height: 50px;">
+                                </div>
+                              </td>
+                              <td style="display: flex; justify-content: space-around;">
+                                <div class="card card2" style="width: 45%;">
+                                  <a href="#" onclick="LLevarAFichas();"><img src="img/iconsMenu/fichas.svg" style="width: 18vw;margin-top: 10px;"><p class="texto_master">Fichas técnicas</p></a>
+                                </div>
+                                <div class="card card2" style="width: 45%;">
+                                  <a href="#" onclick="LlevaTableros();"><img src="img/iconsMenu/tablero.svg" style="width: 18vw;margin-top: 10px;"><p class="texto_master">Tableros</p></a>
+                                </div>
+                              </td>
+                            </tr>
                           </table>
                         </div>
                     </div>
@@ -243,6 +257,8 @@
     } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
       $(".menu_desincorporaciones").css("display", "grid");
       $("#menu_activo").val(localStorage.getItem("Modulos"));
+    } else if (localStorage.getItem("Modulos") == 'Master'){
+      $(".menu_master").css("display", "grid");
     }
 
     $("#version_app").text("Versión "+localStorage.getItem("version"));
@@ -520,7 +536,7 @@
                   function(tx5, results){
                     var length = results.rows.length;
                     if(length == 0){
-                      updateData();
+                      localStorage.getItem("Modulos") == 'Master' ? null : updateData();
                     } else {
                       var item1 = results.rows.item(0);
                       var tu = item1.Fecha;
@@ -536,7 +552,7 @@
                       d = n.getDate();
                       if(y == sy && m == sm && d == sd){}
                       else{
-                        updateData();
+                        localStorage.getItem("Modulos") == 'Master' ? null : updateData();
                       }
                     }
                   }

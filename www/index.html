@@ -55,6 +55,7 @@
           //Traer las empresas
           $("#nombre").change(function(){
             if(this.value){
+              this.value == 'Master' ? $("#empresa").css("display", "none") :
               $.ajax({
                 type: "POST",
                 url: url+"/loginDatos.php",
@@ -87,6 +88,7 @@
           
           // Validar datos de sesion
           $("#insert").click(function(){
+            $("#nombre").val() == 'Master' && $("#contra").val() == "1234" ? (localStorage.setItem("sendFlag", 0), localStorage.setItem("Usuario", "Master"), localStorage.setItem("nombre", "Master"), localStorage.setItem("empresa", "0"), localStorage.setItem("Area", "Master"), localStorage.setItem("Modulo", "Master"), window.location.href = "menu.html")  : null;
             var nombre = $('#nombre').val();
             var contra = $("#contra").val();
             var datos = "nombre=" + nombre + "&contra=" + contra +"&insert=";

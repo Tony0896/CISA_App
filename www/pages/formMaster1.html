@@ -1,0 +1,161 @@
+<!--suppress JSAnnotator -->
+<template>
+    <div class="page">
+        <nav class="left top-left" style="justify-content: space-between;">
+            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
+                <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+            </a>
+            <div class="title">Fichas Técnicas</div>
+            <a style="margin-right: 10px;">
+                <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+            </a>
+        </nav>
+        <!-- <div class="toolbar tabbar toolbar-bottom">
+            <div class="toolbar-inner" style="background-color: #005D99;">
+                <a href="#" onclick="IniciaCheckList();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Iniciar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+            </div>
+        </div> -->
+        <div class="page-content">
+            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 50px;">
+                <div class="list FWM-fixing-form" id="demo-form">
+                    <!-- <input class="FWM-input" type="text" id="Chasis" /> -->
+                    <span class="span FWM-span-form">Tipo de Empresa</span>
+                    <select id="empresas" class="FWM-input" onchange="muestraEmpresasFichas(this.value)">
+                        <option value="0">TODOS</option>
+                        <option value="BRT">BRT</option>
+                        <option value="CONVENCIONAL">CONVENCIONAL</option>
+                        <option value="FORANEAS">FORÁNEAS</option>
+                    </select>
+
+                    <div class="container-empresas BRT">
+                        <h2 style="text-align: left;">BRT</h2>
+                        <div class="row">
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_4"><img src="img/CISA.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">CISA</p>
+                                </a>
+                            </div>
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/VYCSA.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">VYCSA</p>
+                                </a>
+                            </div>
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/CCA.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">CCA</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/SKYBUS.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">SKYBUS</p>
+                                </a>
+                            </div>
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/CORENSA.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">CORENSA</p>
+                                </a>
+                            </div>
+                            <div class="card3">
+                                
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                    </div>
+
+                    <div class="container-empresas CONVENCIONAL">
+                        <h2 style="text-align: left;">CONVENCIONALES</h2>
+                        <div class="row">
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/COPE.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">COPESA</p>
+                                </a>
+                            </div>
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/SIMES.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">SIMESA</p>
+                                </a>
+                            </div>
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/ATROL.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">ATROLSA</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/COAVE.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">COAVEO</p>
+                                </a>
+                            </div>
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/COREV.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">COREVSA</p>
+                                </a>
+                            </div>
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_9"><img src="img/COTAN.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">COTANSA</p>
+                                </a>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                    </div>
+
+                    <div class="container-empresas FORANEAS">
+                        <h2 style="text-align: left;">FORÁNEAS</h2>
+                        <div class="row">
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_15"><img src="img/STMP.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">STMP</p>
+                                </a>
+                            </div>
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/MIHSA.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">MIHSA</p>
+                                </a>
+                            </div>
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/ACHSA.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">ACHSA</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/TCGSA.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">TCGSA</p>
+                                </a>
+                            </div>
+                            <div class="card card3">
+                                <a href="#" onclick="LLamarEmpresaFichas(this.id);" id="empresa_0"><img src="img/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                                    <p class="texto_master">MTY</p>
+                                </a>
+                            </div>
+                            <div class="card3">
+                                
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                    </div>
+
+                    <div style="margin-bottom: 100px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    return {
+        on: {      
+            pageInit: function () {
+               
+               
+            }
+        }
+    }
+</script>

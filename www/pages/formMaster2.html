@@ -1,0 +1,701 @@
+<!--suppress JSAnnotator -->
+<template>
+    <div class="page">
+        <nav class="left top-left" style="justify-content: space-between;">
+            <a onclick="regresaFichas()" style="margin-left: 10px; display: inline-flex;align-items: center;">
+                <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+            </a>
+            <div class="title">Fichas Técnicas</div>
+            <a style="margin-right: 10px;">
+                <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+            </a>
+        </nav>
+        <!-- <div class="toolbar tabbar toolbar-bottom">
+            <div class="toolbar-inner" style="background-color: #005D99;">
+                <a href="#" onclick="IniciaCheckList();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Iniciar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+            </div>
+        </div> -->
+        <div class="page-content">
+            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 10px;">
+                <div class="list FWM-fixing-form" id="demo-form" style="width: 100%;margin: auto;">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    return {
+        on: {      
+            pageInit: function () {
+               var empresa = localStorage.getItem("empresa_consulta");
+               //console.log(empresa);
+               app.preloader.show('red');
+                setTimeout(function () {
+                    if(empresa == 9){
+                        $("#demo-form").html(`<div class="container">
+                                <div class="row">
+                                    <div class="card card-full">
+                                        <div class="title">
+                                            <h2 style="text-align: center;">Corredor Toreo Alameda Naranja , S. A. de C. V.</h2>
+                                        </div>
+                                        
+                                        <div class="ficha_contenido">    
+                                            <div class="ficha_img">
+                                                <img src="img/COTAN.png" style="width: 15vw;">
+                                            </div>
+                                            <div class="ficha_texto">
+                                                <table style="margin: 0px 15px 20px 15px;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Consesión</td>
+                                                            <td class="ficha_text">SEMOVI/CORREDORES/001/2017</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Arranque Operación</td>
+                                                            <td class="ficha_text">marzo de 2017</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Ciudad Operación</td>
+                                                            <td class="ficha_text">Ciudad de México</td>
+                                                        </tr>    
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Unidades Sustituidas</td>
+                                                            <td class="ficha_text">248 microbuses por 72 autobuses, se programan 32 unidades de 33 autobuses y 5 vagonetas disponibles</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Competencia</td>
+                                                            <td class="ficha_text">RTP, L 7 del METRO, STE, Rutas 117 y 111</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Patio</td>
+                                                            <td class="ficha_text">En la naranja (Rubén Bouches y Francisco Sánchez)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Oficinas</td>
+                                                            <td class="ficha_text">Avenida Ahuizotla N° 24, Col. Ahuizotla, Naucalpan de Juárez, Estado de México</td>    
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="card card2">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Flota</h2>
+                                    </div>
+
+                                    <div class="ficha_contenido">
+                                        <div class="ficha_texto">
+                                            <table style="margin: 0px 15px 20px 15px;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Inicial</td>
+                                                        <td class="ficha_text">61, Adquirida 61; Actual 38; 47 Boxer, 6 Zafiro y 5 Camionetas. 29 en operación. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Fecha término Credito</td>
+                                                        <td class="ficha_text"> 01-01-2028 </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card card2" style="width: 50% !important;">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Operación</h2>
+                                    </div>
+
+                                    <div class="ficha_contenido">
+                                        <div class="ficha_texto">
+                                            <table style="margin: 0px 15px 20px 15px;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Derroteros </td>
+                                                        <td class="ficha_text">Toreo – Alameda y Cuitláhuac – Lomas Verdes. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Demanda día hábil</td>
+                                                        <td class="ficha_text"> 16,083 Usuarios </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Promedio pasajeros por unidad</td>
+                                                        <td class="ficha_text"> N/A </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="card card-full">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Finanzas</h2>
+                                    </div>
+                                    
+                                    <div class="card data-table" style="margin-bottom: 35px; width: 94%; margin-left: auto; margin-right: auto;">
+                                        <div class="infinite-scroll-content"> 
+                                            <table class="table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Año</th>
+                                                        <th class="ficha_subtitle">2018</th>
+                                                        <th class="ficha_subtitle">2019</th>
+                                                        <th class="ficha_subtitle">2020</th>
+                                                        <th class="ficha_subtitle">2021</th>
+                                                        <th class="ficha_subtitle">2022 (nov)</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Ingresos</th>
+                                                        <td class="ficha_text">70,133,393</td>
+                                                        <td class="ficha_text">73,900,368</td>
+                                                        <td class="ficha_text">43,053,609</td>
+                                                        <td class="ficha_text">42,044,662</td>
+                                                        <td class="ficha_text">43,424,057</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Egresos</th>
+                                                        <td class="ficha_text">74,015,052</td>
+                                                        <td class="ficha_text">78,830,356</td>
+                                                        <td class="ficha_text">40,505,284</td>
+                                                        <td class="ficha_text">44,087,586</td>
+                                                        <td class="ficha_text">43,572,060</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Resultado</th>
+                                                        <td class="ficha_text" style="color: #FF0037;">-3,881,659</td>
+                                                        <td class="ficha_text" style="color: #FF0037;">-4,929,988</td>
+                                                        <td class="ficha_text">2,548,325</td>
+                                                        <td class="ficha_text" style="color: #FF0037;">-2,042,924</td>
+                                                        <td class="ficha_text" style="color: #FF0037;">-148,003</td>
+                                                    </tr>    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="card card2" style="width: 40% !important;">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Finanzas 2</h2>
+                                    </div>
+                                    
+                                    <div class="card data-table" style="margin-bottom: 20px; width: 94%; margin-left: auto; margin-right: auto;">
+                                        <div class="infinite-scroll-content"> 
+                                            <table class="table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Noviembre</th>
+                                                        <th class="ficha_subtitle">Ene mdp</th>
+                                                        <th class="ficha_subtitle">Nov mdp</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Proveedores</th>
+                                                        <td class="ficha_text">2.83</td>
+                                                        <td class="ficha_text">1.12</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th rowspan="3" class="ficha_subtitle">Intercompañias</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text">Por cobrar</td>
+                                                        <td class="ficha_text">4.09</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text">Por pagar</td>
+                                                        <td class="ficha_text">8.35</td>
+                                                    </tr>    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card card2" style="width: 55% !important;">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Observaciones</h2>
+                                    </div>
+                                    
+                                    <div class="card data-table" style="margin-bottom: 20px; width: 94%; margin-left: auto; margin-right: auto;">
+                                        <div class="infinite-scroll-content"> 
+                                            <table class="table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Pago de dividendos a los Socios; en 2021 0.47 MDP; en lo que va del año 2022 no se han pagado dividendos.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">34 Unidades en operación aumenta 2, se debe considerar las vagonetas.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Se requiere revisar la estructura administrativa.</td>
+                                                    </tr>  
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Considerar posible retiro de autobuses.</td>
+                                                    </tr>  
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 100px;"></div>`);
+                    } else if(empresa == 4){
+                        $("#demo-form").html(`<div class="container">
+                                <div class="row">
+                                    <div class="card card-full">
+                                        <div class="title">
+                                            <h2 style="text-align: center;">Corredor Insurgentes, S. A. de C. V.</h2>
+                                        </div>
+                                        
+                                        <div class="ficha_contenido">    
+                                            <div class="ficha_img">
+                                                <img src="img/CISA.png" style="width: 15vw;">
+                                            </div>
+                                            <div class="ficha_texto">
+                                                <table style="margin: 0px 15px 20px 15px;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Consesión</td>
+                                                            <td class="ficha_text">STV/METROBÚS/01/2005 (PRORROGA).</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Arranque Operación</td>
+                                                            <td class="ficha_text">19 de junio del 2005.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Ciudad Operación</td>
+                                                            <td class="ficha_text">Ciudad de México, CDMX, pago por kilómetro.</td>
+                                                        </tr>    
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Unidades Sustituidas</td>
+                                                            <td class="ficha_text">286 microbuses por 60 autobuses B12 Articulados.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Competencia</td>
+                                                            <td class="ficha_text">Comparte el corredor con la RTP.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Patio</td>
+                                                            <td class="ficha_text">Patio Norte, Av. de los Insurgentes Norte s/n, Col. Residencial Zacatenco, Alcaldía Gustavo A.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Oficinas</td>
+                                                            <td class="ficha_text">Calle Ignacio Manuel Altamirano, No. 27-A Col. San Rafael, CP 06470, Alcaldía Cuauhtémoc, Ciudad de México.</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="card card2">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Flota</h2>
+                                    </div>
+
+                                    <div class="ficha_contenido">
+                                        <div class="ficha_texto">
+                                            <table style="margin: 0px 15px 20px 15px;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Inicial</td>
+                                                        <td class="ficha_text">60 B12, Adquirida 60 B12, Actual 24 Art 80 BI 97 en crédito.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Mensualidad</td>
+                                                        <td class="ficha_text">$ 191.5 MDP + nuevos</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Fecha término Credito</td>
+                                                        <td class="ficha_text"> 2022 - 2027 </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Tarifa</td>
+                                                        <td class="ficha_text"> $74.78 Biart, $58.88 Art </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card card2" style="width: 50% !important;">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Operación</h2>
+                                    </div>
+
+                                    <div class="ficha_contenido">
+                                        <div class="ficha_texto">
+                                            <table style="margin: 0px 15px 20px 15px;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Derroteros </td>
+                                                        <td class="ficha_text"> Corredor Insurgentes: Indios Verdes - El Caminero. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Kilometraje día hábil</td>
+                                                        <td class="ficha_text"> 16,840 Km; (1,145 ART, 15,964 BI) </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Ingreso día hábil</td>
+                                                        <td class="ficha_text"> $1.26 mdp </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="card card-full">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Finanzas</h2>
+                                    </div>
+                                    
+                                    <div class="card data-table" style="margin-bottom: 35px; width: 94%; margin-left: auto; margin-right: auto;">
+                                        <div class="infinite-scroll-content"> 
+                                            <table class="table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Año</th>
+                                                        <th class="ficha_subtitle">2020</th>
+                                                        <th class="ficha_subtitle">2021</th>
+                                                        <th class="ficha_subtitle">2022 (nov)</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Ingresos</th>
+                                                        <td class="ficha_text">498,867,455</td>
+                                                        <td class="ficha_text">535,975,411</td>
+                                                        <td class="ficha_text">491,399,866</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Egresos</th>
+                                                        <td class="ficha_text">461,817,665</td>
+                                                        <td class="ficha_text">513,628,718</td>
+                                                        <td class="ficha_text">523,202,106</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Resultado</th>
+                                                        <td class="ficha_text">37,049,790</td>
+                                                        <td class="ficha_text">22,346,693</td>
+                                                        <td class="ficha_text" style="color: #FF0037;">-31,802,240</td>
+                                                    </tr>    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="card card2" style="width: 40% !important;">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Finanzas 2</h2>
+                                    </div>
+                                    
+                                    <div class="card data-table" style="margin-bottom: 20px; width: 94%; margin-left: auto; margin-right: auto;">
+                                        <div class="infinite-scroll-content"> 
+                                            <table class="table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Noviembre</th>
+                                                        <th class="ficha_subtitle">Ene mdp</th>
+                                                        <th class="ficha_subtitle">Nov mdp</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Proveedores</th>
+                                                        <td class="ficha_text">60.91</td>
+                                                        <td class="ficha_text">57.31</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th rowspan="3" class="ficha_subtitle">Intercompañias</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text">Por cobrar</td>
+                                                        <td class="ficha_text">189.1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text">Por pagar</td>
+                                                        <td class="ficha_text">55.9</td>
+                                                    </tr>    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card card2" style="width: 55% !important;">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Observaciones</h2>
+                                    </div>
+                                    
+                                    <div class="card data-table" style="margin-bottom: 20px; width: 94%; margin-left: auto; margin-right: auto;">
+                                        <div class="infinite-scroll-content"> 
+                                            <table class="table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">En proceso de baja anticipada de los DINA Brighter y sustituirlos por unidades Biarticuladas, se entregaron 6 autobuses biarticulados listos para operar.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Se implementaron nuevas Reglas de Operación de Metrobús cuyos principales temas son: Incremento en el monto de las deductivas; Supervisión de aspectos a la operación, tramites, infraestructura y mantenimiento de mayor detalle.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Se requiere la habilitación de las oficinas en patio norte que permita optimizar el espacio disponible.</td>
+                                                    </tr>  
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Se vislumbra que la flota para la nueva concesión será eléctrica, este cambio implicará inversión para el suministro de energía por CFE, inversión en el patio y adecuaciones para esta nueva flota y una inversión para los autobuses.</td>
+                                                    </tr>  
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">CISA tiene en su gasto los que corresponden a servicios corporativos y ello es lo que ha afectado para el resultado negativo.</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 100px;"></div>
+                        `);
+                    } else if(empresa == 15){
+                        $("#demo-form").html(`<div class="container">
+                                <div class="row">
+                                    <div class="card card-full">
+                                        <div class="title">
+                                            <h2 style="text-align: center;">Sistema de Transporte Masivo de Puebla</h2>
+                                        </div>
+                                        
+                                        <div class="ficha_contenido">    
+                                            <div class="ficha_img">
+                                                <img src="img/STMP.png" style="width: 15vw;">
+                                            </div>
+                                            <div class="ficha_texto">
+                                                <table style="margin: 0px 15px 20px 15px;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Consesión</td>
+                                                            <td class="ficha_text">Línea 1 y alimentadoras, Se realizó un relevo ya que el concesionario anterior tuvo problemas y la flota se recibió con alto deterioro.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Arranque Operación</td>
+                                                            <td class="ficha_text">Agosto 2016.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Ciudad Operación</td>
+                                                            <td class="ficha_text">Ciudad de Puebla; Pago por kilómetro.</td>
+                                                        </tr>    
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Competencia</td>
+                                                            <td class="ficha_text">No tiene.</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="ficha_subtitle">Patio</td>
+                                                            <td class="ficha_text">Patios Chachapa y Tlaxcalancingo.</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="card card2">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Flota</h2>
+                                    </div>
+
+                                    <div class="ficha_contenido">
+                                        <div class="ficha_texto">
+                                            <table style="margin: 0px 15px 20px 15px;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Inicial</td>
+                                                        <td class="ficha_text">119, 35 Adquirida, 134 Actual, 119 disponibles en operación 97, existen canibalizadas.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Mensualidad</td>
+                                                        <td class="ficha_text">$ 1,820,116.73 MDP</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Fecha término Credito</td>
+                                                        <td class="ficha_text"> Noviembre de 2024 </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card card2" style="width: 50% !important;">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Operación</h2>
+                                    </div>
+
+                                    <div class="ficha_contenido">
+                                        <div class="ficha_texto">
+                                            <table style="margin: 0px 15px 20px 15px;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Red de Transporte</td>
+                                                        <td class="ficha_text"> Sistema de Transporte Masivo de Puebla: Línea 1 corredor Chachapa – Tlaxcalancingo más Alimentadoras. </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Kilometraje día hábil</td>
+                                                        <td class="ficha_text"> 21,190 Km </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_subtitle">Ingreso día hábil</td>
+                                                        <td class="ficha_text"> $ 595,624 </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="card card-full">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Finanzas</h2>
+                                    </div>
+                                    
+                                    <div class="card data-table" style="margin-bottom: 35px; width: 94%; margin-left: auto; margin-right: auto;">
+                                        <div class="infinite-scroll-content"> 
+                                            <table class="table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Año</th>
+                                                        <th class="ficha_subtitle">2018</th>
+                                                        <th class="ficha_subtitle">2019</th>
+                                                        <th class="ficha_subtitle">2020</th>
+                                                        <th class="ficha_subtitle">2021</th>
+                                                        <th class="ficha_subtitle">2022 (ene - nov)</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Ingresos</th>
+                                                        <td class="ficha_text">157,556,604</td>
+                                                        <td class="ficha_text">225,821,503</td>
+                                                        <td class="ficha_text">223,931,418</td>
+                                                        <td class="ficha_text">225,988,368</td>
+                                                        <td class="ficha_text">198,938,446</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Egresos</th>
+                                                        <td class="ficha_text">169,383,879</td>
+                                                        <td class="ficha_text">219,970,140</td>
+                                                        <td class="ficha_text">168,780,229</td>
+                                                        <td class="ficha_text">223,001,575</td>
+                                                        <td class="ficha_text">205,581,828</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Resultado</th>
+                                                        <td class="ficha_text" style="color: #FF0037;">- 11,827,275</td>
+                                                        <td class="ficha_text">5,851,363</td>
+                                                        <td class="ficha_text">55,151,189</td>
+                                                        <td class="ficha_text">2,986,793</td>
+                                                        <td class="ficha_text" style="color: #FF0037;">- 6,643,382</td>
+                                                    </tr>    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="card card2" style="width: 40% !important;">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Finanzas 2</h2>
+                                    </div>
+                                    
+                                    <div class="card data-table" style="margin-bottom: 20px; width: 94%; margin-left: auto; margin-right: auto;">
+                                        <div class="infinite-scroll-content"> 
+                                            <table class="table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Noviembre</th>
+                                                        <th class="ficha_subtitle">Ene mdp</th>
+                                                        <th class="ficha_subtitle">Nov mdp</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="ficha_subtitle">Proveedores</th>
+                                                        <td class="ficha_text">17.44</td>
+                                                        <td class="ficha_text">22.75</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th rowspan="3" class="ficha_subtitle">Intercompañias</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text">Por cobrar</td>
+                                                        <td class="ficha_text">5.02</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text">Por pagar</td>
+                                                        <td class="ficha_text">1.11</td>
+                                                    </tr>    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card card2" style="width: 55% !important;">
+                                    <div class="title">
+                                        <h2 style="text-align: center;">Observaciones</h2>
+                                    </div>
+                                    
+                                    <div class="card data-table" style="margin-bottom: 20px; width: 94%; margin-left: auto; margin-right: auto;">
+                                        <div class="infinite-scroll-content"> 
+                                            <table class="table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Se sustituyeron 20 unidades (3 articulados, 7 padrón Zafiros, 10 midibus) pendientes 1art, 3 padron y 7 midibus todas trabajando a partir del 12 de enero del presente.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">En espera del aumento esta ofrecido un 11.36% que resulta insuficiente y más complicado por el incremento de la tasa de interés.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Un cumplimiento promedio de 90% en el año.</td>
+                                                    </tr>  
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Puebla no tiene especificaciones técnicas para la compra de unidades, particulares si considerar las padrón que son puertas de ambos lados.</td>
+                                                    </tr>  
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Hay unidades T27 Torino que se esta pagando a Mifel, aclarar con Sergio Sevilla el crédito y plazo restante.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="ficha_text observaciones">Se tiene solicitadas 3 articuladas que sobraron del Proyecto Peribus de Jalisco, 7 zafiros que se esta buscando crédito, las articuladas de Línea 5 se tomaron para CISA, se pagan por CISA a través de STMP</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom: 100px;"></div>
+                            `);
+                    }
+                    app.preloader.hide();
+                }, 1000);
+            }
+        }
+    }
+</script>

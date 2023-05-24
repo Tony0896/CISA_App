@@ -112,6 +112,23 @@ var routes = [
     componentUrl: './pages/yallegue_desin.html',
   },
   //Fin Desincorporacion
+  //Inicio Master 
+  {
+    name: 'formMaster1',
+    path: '/formMaster1/',
+    componentUrl: './pages/formMaster1.html',
+  },
+  {
+    name: 'formMaster2',
+    path: '/formMaster2/',
+    componentUrl: './pages/formMaster2.html',
+  },
+  {
+    name: 'formMaster3',
+    path: '/formMaster3/',
+    componentUrl: './pages/formMaster3.html',
+  },
+  //FIN MASTER
   {
     name: 'visualizar',
     path: '/visualizar/',

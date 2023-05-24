@@ -1,0 +1,135 @@
+<!--suppress JSAnnotator -->
+<template>
+    <div class="page">
+        <nav class="left top-left" style="justify-content: space-between;">
+            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
+                <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+            </a>
+            <div class="title">Tableros</div>
+            <a style="margin-right: 10px;">
+                <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+            </a>
+        </nav>
+        <!-- <div class="toolbar tabbar toolbar-bottom">
+            <div class="toolbar-inner" style="background-color: #005D99;">
+                <a href="#" onclick="IniciaCheckList();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Iniciar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+            </div>
+        </div> -->
+        <div class="page-content">
+            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 0px;">
+                <div class="page-content">
+                    <div id="nointernet-page" style="display:none;text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                        <!-- <img src="img/nosignal.svg" width="60%" style="margin-top: 140px;"> -->
+                        <div style="text-align: left;">
+                            <h2 style="margin: 50px 0 0 15px;text-align: left;"><b>¡VAYA!</b></h2>
+                            <h2 style="margin: 0 0 0 15px;text-align: left;"><b>No tienes internet.</b></h2>
+                            <h4 style="margin: 0 0 0 15px;text-align: left;">Para realizar esta consulta es necesario tener una conexion.</h>
+                        </div>
+                    </div>
+                    <div id="content-page" style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                        <br><br>
+                        <h2 style="font-size: 24px;margin-top: 0px;">Tablero de ejemplo</h2>
+                        <div class = "row" style="margin-top: 30px;">
+                            <div class="col-md-6">
+                                <div class="preloader infinite-scroll-preloader"></div>
+                                <div id="mysecondchart2" style="height: 250px;display: none;" >
+                                    <center><span style="color:#a1a1a1;font-size: 9pt;text-align: justify;">Tabla de Ejemplo 1</span></center>
+                                </div>
+                                <br><br><br><br>
+                                <div id="mysecondchart" style="height: 250px;display: none;" >
+                                    <center><span style="color:#a1a1a1;font-size: 9pt;text-align: justify;">Tabla de Ejemplo 2</span></center>
+                                </div>
+
+                                <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                                    <br><br>
+                                    <!-- <h2 id="calificacion-text" style="display:none;color:#063E7F;font-size: 24px;margin-top: 27px;">Ejemplos: <span id="calificacion-cedulas-tablero" style="color: #00A7B5;"></span></h2> -->
+                                </div>
+        
+                                <script type="text/javascript">
+                                    
+                                    // var uno = 5;
+                                    // var dos = 3;
+                                    // var tres = 5;
+                                    // var cuatro = 4;
+                                    // var cinco = 2;
+                                    $('.preloader').remove();
+                                    $('#mysecondchart').css('display','block');
+                                    $('#mysecondchart2').css('display','block');
+                                    // var total = (parseInt(uno) + parseInt(dos) + parseInt(tres) + parseInt(cuatro) + parseInt(cinco));
+                                    // var granTotal = total * 5;
+                                    // var unoTotal = uno * 1;
+                                    // var dosTotal = dos * 2;
+                                    // var tresTotal = tres * 3;
+                                    // var cuatroTotal = cuatro * 4;
+                                    // var cincoTotal = cinco * 5;
+                                    // var calificacion = ((unoTotal + dosTotal + tresTotal + cuatroTotal + cincoTotal) / granTotal ) * 10;
+                                    // var completa = calificacion.toFixed(20);
+                                    // document.getElementById("calificacion-text").style.display="block";
+                                    // document.getElementById("calificacion-cedulas-tablero").innerText = completa.slice(0, -18);
+                                    // var score = 
+                                    // Morris.Bar({
+                                    //     element: 'mysecondchart',
+                                    //     data: [
+                                    //         { Cedulas: '1 estrella', Evaluacion: uno},
+                                    //         { Cedulas: '2 estrellas', Evaluacion: dos},
+                                    //         { Cedulas: '3 estrellas', Evaluacion: tres},
+                                    //         { Cedulas: '4 estrellas', Evaluacion: cuatro},
+                                    //         { Cedulas: '5 estrellas', Evaluacion: cinco}
+                                    //     ],
+                                    //     xkey: 'Cedulas',
+                                    //     ykeys: ['Evaluacion'],
+                                    //     labels: ['Cedulas'],
+                                    //     xLabelMargin: 0,
+                                    //     barShape: 'soft',
+                                    // });
+                                    // $('.preloader').remove();
+                                    // $("#content-page").css('display','bloc');
+                                    // $("#nointernet-page").css('display','none');
+
+                                    new Morris.Line({
+                                        // ID of the element in which to draw the chart.
+                                        element: 'mysecondchart',
+                                        // Chart data records -- each entry in this array corresponds to a point on
+                                        // the chart.
+                                        data: [
+                                            { year: '2008', value: 20, value2: 10 },
+                                            { year: '2009', value: 10, value2: 20 },
+                                            { year: '2010', value: 5, value2: 20  },
+                                            { year: '2011', value: 5, value2: 10  },
+                                            { year: '2012', value: 20, value2: 15  }
+                                        ],
+                                        // The name of the data record attribute that contains x-values.
+                                        xkey: 'year',
+                                        // A list of names of data record attributes that contain y-values.
+                                        ykeys: ['value', 'value2'],
+                                        // Labels for the ykeys -- will be displayed when you hover over the
+                                        // chart.
+                                        labels: ['Value', 'Value2']
+                                    });
+
+                                    Morris.Bar({
+                                        element: 'mysecondchart2',
+                                        data: [
+                                            {x: '2011 Q2', y: 1},
+                                            {x: '2011 Q3', y: 2},
+                                            {x: '2011 Q4', y: 3},
+                                            {x: '2012 Q1', y: 4},
+                                            {x: '2012 Q2', y: 5},
+                                            {x: '2012 Q3', y: 6},
+                                            {x: '2012 Q4', y: 7},
+                                            {x: '2013 Q1', y: 8}
+                                        ],
+                                        xkey: 'x',
+                                        ykeys: ['y'],
+                                        labels: ['Y']
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
