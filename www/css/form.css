@@ -244,3 +244,170 @@ i.icon{
 input[type="radio"]{
   transform: scale(1.3);
 }
+.card2{
+  border-radius: 15px !important;
+  background-color: white;
+  box-shadow: 0pt 3pt 8pt 0px #00000057 !important;
+  width: 45% !important;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+.texto_master{
+  color: #000000;
+  font-size: 25px;
+  margin: 15px 0px;
+  font-family: 'ITC Avant Garde Gothic', sans-serif;
+  font-weight: bold;
+}
+.card3{
+  border-radius: 15px !important;
+  background-color: white;
+  box-shadow: 0pt 3pt 8pt 0px #00000057 !important;
+  width: 30% !important;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.card3 > a > p.texto_master {
+  font-size: 20px;    
+}
+
+.card-full{
+  border-radius: 15px !important;
+  background-color: white;
+  box-shadow: 0pt 3pt 8pt 0px #00000057 !important;
+  width: 100% !important;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.ficha_subtitle{
+  text-align: left;
+  font-weight: bold;
+  padding: 8px 0px;
+}
+
+.ficha_text{
+  text-align: left;
+}
+
+.table-striped > tbody > tr > th{
+  background-color: #005D99;
+  color: #FFF;
+  padding: 0px 10px;
+}
+
+.table-striped> tbody > tr > td{  
+  padding: 0px 10px;
+}
+
+.title > h2 {
+  margin: 20px auto 10px auto;
+}
+
+.row > .card > .title{
+  background-color: #e0f0fe;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+}
+
+.ficha_text.observaciones{
+  background-color: aliceblue;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-weight: bold;
+}
+@media only screen and (max-width: 600px) {
+  .space_top{
+    display: none;
+  }
+  .fichas_tecnicas_div{
+    width: 95% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .card_movil{
+    width: 100% !important;
+  }
+  .card3 {
+    width: 28% !important;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .space_top{
+    display: none;
+  }
+  .fichas_tecnicas_div{
+    width: 95% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .card_movil{
+    width: 100% !important;
+  }
+  .card3 {
+    width: 28% !important;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .space_top{
+    display: none;
+  }
+  .fichas_tecnicas_div{
+    width: 95% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .card_movil{
+    width: 100% !important;
+  }
+  .card3 {
+    width: 28% !important;
+  }
+  .card_50{
+    width:  50% !important;
+  }
+  .card_40{
+    width:  40% !important;
+  }
+  .card_55{
+    width:  55% !important;
+  }
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .space_top{
+    display: block;
+  }
+  .card_50{
+    width:  50% !important;
+  }
+  .card_40{
+    width:  40% !important;
+  }
+  .card_55{
+    width:  55% !important;
+  }
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .space_top{
+    display: block;
+  }
+  .card_50{
+    width:  50% !important;
+  }
+  .card_40{
+    width:  40% !important;
+  }
+  .card_55{
+    width:  55% !important;
+  }
+}
+

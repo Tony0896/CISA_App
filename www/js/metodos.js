@@ -3299,3 +3299,35 @@ function InsertaDetailsRecaudo(id_cedula, id_servidor){
     });
 }
 //Fin Recaudo
+// INICIO MASTER
+function LLevarAFichas(){
+    app.views.main.router.back('/formMaster1/', {force: true, ignoreCache: true, reload: true});
+}
+
+function muestraEmpresasFichas(val){
+    $(".container-empresas").css("display", "none");
+    if(val == 0){
+        $(".container-empresas").css("display", "block");
+    } else {
+        $("."+val).css("display", "block");
+    }
+}
+
+function LLamarEmpresaFichas(value){
+    localStorage.removeItem("empresa_consulta");
+    var empresa = value.split("_");
+    if(empresa[1] == 0){
+    } else {
+        localStorage.setItem("empresa_consulta", empresa[1]);
+        app.views.main.router.back('/formMaster2/', {force: true, ignoreCache: true, reload: true});
+    }
+}
+
+function regresaFichas(){
+    app.views.main.router.back('/formMaster1/', {force: true, ignoreCache: true, reload: true});
+}
+
+function LlevaTableros(){
+    app.views.main.router.back('/formMaster3/', {force: true, ignoreCache: true, reload: true});
+}
+// FIN MASTER
