@@ -150,6 +150,11 @@ var routes = [
     path: '/formMaster3/',
     componentUrl: './pages/formMaster3.html',
   },
+  {
+    name: 'formMaster4',
+    path: '/formMaster4/',
+    componentUrl: './pages/formMaster4.html',
+  },
   //FIN MASTER
   {
     name: 'visualizar',

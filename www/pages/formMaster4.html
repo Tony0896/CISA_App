@@ -1,0 +1,53 @@
+<!--suppress JSAnnotator -->
+<template>
+    <div class="page">
+        <nav class="left top-left" style="justify-content: space-between;">
+            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
+                <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+            </a>
+            <div class="title">Uso de Aplicativos</div>
+            <a style="margin-right: 10px;">
+                <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+            </a>
+        </nav>
+        <div class="page-content" style="border-radius: 0;">
+            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 50px;">
+                <div class="list FWM-fixing-form fichas_tecnicas_div" id="demo-form">
+
+                    <h2 style="text-align: left;">BRT</h2>
+                    <div class="row">
+                        <div class="card card3">
+                            <a href="#" onclick="LLevarUsoApp(this.id);" id="empresa_1"><img src="img/CISA.png" style="width: 18vw;margin-top: 10px;">
+                                <p class="texto_master">Gestión Sustitución de Unidades</p>
+                            </a>
+                        </div>
+                        <div class="card card3">
+                            <a href="#" onclick="LLevarUsoApp(this.id);" id="empresa_2"><img src="img/VYCSA.png" style="width: 18vw;margin-top: 10px;">
+                                <p class="texto_master">Matriz Despacho</p>
+                            </a>
+                        </div>
+                        <div class="card card3">
+                            <a href="#" onclick="LLevarUsoApp(this.id);" id="empresa_3"><img src="img/VYCSA.png" style="width: 18vw;margin-top: 10px;">
+                                <p class="texto_master">Mantenimientos preventivos</p>
+                            </a>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+
+                    <div style="margin-bottom: 100px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    return {
+        on: {      
+            pageInit: function () {
+               
+               
+            }
+        }
+    }
+</script>

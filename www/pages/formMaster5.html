@@ -1,0 +1,51 @@
+<!--suppress JSAnnotator -->
+<template>
+    <div class="page">
+        <nav class="left top-left" style="justify-content: space-between;">
+            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
+                <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+            </a>
+            <div class="title">Tableros</div>
+            <a style="margin-right: 10px;">
+                <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+            </a>
+        </nav>
+
+        <div class="page-content" style="border-radius: 0;">
+            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 0px;">
+                <div class="page-content">
+                    <div id="nointernet-page" style="display:none;text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                        <!-- <img src="img/nosignal.svg" width="60%" style="margin-top: 140px;"> -->
+                        <div style="text-align: left;">
+                            <h2 style="margin: 50px 0 0 15px;text-align: left;"><b>¡VAYA!</b></h2>
+                            <h2 style="margin: 0 0 0 15px;text-align: left;"><b>No tienes internet.</b></h2>
+                            <h4 style="margin: 0 0 0 15px;text-align: left;">Para realizar esta consulta es necesario tener una conexion.</h>
+                        </div>
+                    </div>
+                    <div id="content-page" style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                        <br><br>
+                        <h2 style="font-size: 24px;margin-top: 0px;">Incidencias de falta de uso de la herramienta.</h2>
+                        <h2 class="title_2" style="font-size: 24px;margin-top: 0px;"> </h2>
+                        <span class="span FWM-span-form"><strong>Objetivo:</strong> Registrar las incidencias de desincorporación de las unidades en tiempo real para proveer a la DG del porcentaje de cumplimiento al POS durante todo el día. </span>
+                        <span class="span FWM-span-form"><strong>Líder Funcional:</strong> Arturo Guzmán - Operación. </span>
+                        <span class="span FWM-span-form"><strong>Arranque:</strong> Arturo Guzmán - Operación. </span>
+
+                        <div class="row notas" style="margin-top: 30px;">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    return {
+        on: {      
+            pageInit: function () {
+               
+               
+            }
+        }
+    }
+</script>
