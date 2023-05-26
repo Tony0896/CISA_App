@@ -411,3 +411,40 @@ input[type="radio"]{
   }
 }
 
+.notas_container{
+  margin-top: 80px;
+  display: flex;
+  justify-content: space-around;
+}
+.notas_div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.notas_icon{
+  display: block;
+}
+.notas_text{
+  display: block;
+  margin-left: 20px;
+  font-weight: bold;
+  color: #005D99;
+}
+.container_text_uso {
+  padding: 0px 20px 20px 20px;
+}
+
+.title_uso_app {
+  background-color: #e0f0fe;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+}
+
+.card.card4 {
+  width: 20% !important;
+}
+.th_table{
+  background-color: #005D99;
+  color: #fff;
+  font-weight: bold;
+}

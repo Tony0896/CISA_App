@@ -2,7 +2,7 @@
 <template>
     <div class="page">
         <nav class="left top-left" style="justify-content: space-between;">
-            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
+            <a onclick="LlevarUsoApp()" style="margin-left: 10px; display: inline-flex;align-items: center;">
                 <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
             </a>
             <div class="title">Tableros</div>
@@ -25,14 +25,380 @@
                     <div id="content-page" style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
                         <br><br>
                         <h2 style="font-size: 24px;margin-top: 0px;">Incidencias de falta de uso de la herramienta.</h2>
-                        <h2 class="title_2" style="font-size: 24px;margin-top: 0px;"> </h2>
-                        <span class="span FWM-span-form"><strong>Objetivo:</strong> Registrar las incidencias de desincorporación de las unidades en tiempo real para proveer a la DG del porcentaje de cumplimiento al POS durante todo el día. </span>
-                        <span class="span FWM-span-form"><strong>Líder Funcional:</strong> Arturo Guzmán - Operación. </span>
-                        <span class="span FWM-span-form"><strong>Arranque:</strong> Arturo Guzmán - Operación. </span>
-
-                        <div class="row notas" style="margin-top: 30px;">
-                            
+                        <h2 class="title_2" style="font-size: 24px;margin-top: 0px;"> App - Matriz de Despacho </h2>
+                        <span class="span FWM-span-form" style="font-weight: normal;"><strong>Objetivo:</strong> Registrar los kilómetros recorridos de las unidades, operador, hora inicio y fin, fallas, kilómetros perdidos, km perdidos por afectación.  </span>
+                        <span class="span FWM-span-form" style="font-weight: normal;"><strong>Líder Funcional:</strong> Arturo Guzmán - Operación. </span>
+                        <span class="span FWM-span-form" style="font-weight: normal;color: #FF0037"><strong>Arranque:</strong> 01/09/2022. </span>
+                        <hr>
+                        <div class="notas_container" style="margin-top: 20px;">
+                            <div class="notas_div">
+                                <span class="notas_icon">
+                                    <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                </span>
+                                <span class="notas_text">Uso aceptable</span>
+                            </div>
+                            <div class="notas_div">
+                                <span class="notas_icon">
+                                    <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                </span>
+                                <span class="notas_text">Uso deficiente</span>
+                            </div>
+                            <div class="notas_div">
+                                <span class="notas_icon">
+                                    <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                </span>
+                                <span class="notas_text">Sin uso</span>
+                            </div>
                         </div>
+                        <hr>
+                        <div class="list FWM-fixing-form fichas_tecnicas_div" id="demo-form" style="width: 100%;margin: auto;">
+                            <div class="container-empresas BRT">
+                                <div class="container-empresas BRT">
+                                    <h2 style="text-align: left;">BRT</h2>
+                                </div>
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <h2 style="text-align: center;">CISA</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>17/05/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Carlos Munguía</span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <h2 style="text-align: center;">VYCSA</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>16/05/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Carlos Munguía</span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div>
+                                             <div class="title_uso_app title">
+                                                 <h2 style="text-align: center;">CCA</h2>
+                                             </div>
+                                             <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                             </div>
+                                         </div>
+                                         <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Captura fuera de tiempo</strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>30/04/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Francisco Córdova</span>
+                                         </div>
+                                     </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <h2 style="text-align: center;">SKYBUS</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                                <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Captura fuera de tiempo</strong></span>
+                                                <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>18/05/2023</span>
+                                                <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Omar Fragoso</span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">CORENSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Captura fuera de tiempo</strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>18/05/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Roberto Ávila</span>
+                                        </div>
+                                    </div>
+                                    <div class="card3"></div>
+                                </div>
+                                
+                                <br>
+                                <hr>
+
+                                <div class="container-empresas CONVENCIONALES">
+                                    <h2 style="text-align: left;">CONVENCIONALES</h2>
+                                </div>
+
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">ATROLSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">AULSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>18/05/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Fernando Fernández</span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">COAVEO</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Rafael Martínez</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">COPESA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>17/05/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Cesar Peralta</span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">COREVSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>12/05/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Omar Fragoso</span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">CODIVERSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>18/05/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Omar Fragoso</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">COTANSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>17/05/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Leonardo Corona</span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">COTOBUSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>18/05/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Fabian López</span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">NATIVITAS</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">SIMESA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">TREPSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">REFORMA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No implementada </strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+                                
+                                <div class="container-empresas FORANEAS">
+                                    <h2 style="text-align: left;">FORÁNEAS</h2>
+                                </div>
+
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <h2 style="text-align: center;">ACHSA</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Captura fuera de tiempo</strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>05/03/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Cesar Saborí</span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">MIHSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Captura fuera de tiempo</strong></span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Fecha última captura </strong>05/03/2023</span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Responsable </strong>Cesar Saborí</span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">STMP</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">TCGSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card3"></div>
+                                    <div class="card3"></div>
+                                </div>
+
+                                <br>
+                                <hr>
+
+                            </div>
+                        </div>
+    
+                        <div style="margin-bottom: 100px;"></div>
                     </div>
                 </div>
             </div>
@@ -43,8 +409,485 @@
     return {
         on: {      
             pageInit: function () {
-               
-               
+                var app = localStorage.getItem("empresa_consulta");
+               //console.log(empresa);
+                if(app == 1){
+                    $("#content-page").html(`<br><br>
+                        <h2 style="font-size: 24px;margin-top: 0px;">Incidencias de falta de uso de la herramienta.</h2>
+                        <h2 class="title_2" style="font-size: 24px;margin-top: 0px;"> App - Gestión de la Sustitución de Unidades </h2>
+                        <span class="span FWM-span-form" style="font-weight: normal;"><strong>Objetivo:</strong> Registrar las incidencias de desincorporación de las unidades en tiempo real para proveer a la DG del porcentaje de cumplimiento al P.O.S. durante todo el día. </span>
+                        <span class="span FWM-span-form" style="font-weight: normal;"><strong>Líder Funcional:</strong> Arturo Guzmán - Operación. </span>
+                        <span class="span FWM-span-form" style="font-weight: normal;"><strong>Implementación:</strong> Empresas BRT. </span>
+                        <span class="span FWM-span-form" style="font-weight: normal;color: #FF0037"><strong>Arranque:</strong> 20/02/2023. </span>
+                        <hr>
+                        <div class="notas_container" style="margin-top: 20px;">
+                            <div class="notas_div">
+                                <span class="notas_icon">
+                                    <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                </span>
+                                <span class="notas_text">Uso aceptable</span>
+                            </div>
+                            <div class="notas_div">
+                                <span class="notas_icon">
+                                    <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                </span>
+                                <span class="notas_text">Uso deficiente</span>
+                            </div>
+                            <div class="notas_div">
+                                <span class="notas_icon">
+                                    <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                </span>
+                                <span class="notas_text">Sin uso</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="list FWM-fixing-form fichas_tecnicas_div" id="demo-form" style="width: 100%;margin: auto;">
+                            <div class="container-empresas BRT">
+                                <div class="row">
+                                    <div class="card card2">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <!-- <a href="#" onclick=""id="empresa_4"><img src="img/CISA.png" style="width: 18vw;margin-top: 10px;"></a> -->
+                                                <h2 style="text-align: center;">CISA</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Tiempo promedio de incidencia vs captura:</strong> 03:00 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Total de incidencias registradas:</strong> 56 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Km perdidos registrados en la App:</strong> 1,033.31 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Responsable:</strong> Carlos Munguía </span>
+                                        </div>
+                                    </div>
+                                    <div class="card card2">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <!-- <a href="#" onclick=""id="empresa_0"><img src="img/VYCSA.png" style="width: 18vw;margin-top: 10px;"></a> -->
+                                                <h2 style="text-align: center;">VYCSA</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Tiempo promedio de incidencia vs captura:</strong> 03:00 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Total de incidencias registradas:</strong> 56 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Km perdidos registrados en la App:</strong> 1,033.31 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Responsable:</strong> Carlos Munguía </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="card card2">
+                                       <div>
+                                            <div class="title_uso_app title">
+                                                <!-- <a href="#" onclick=""id="empresa_0"><img src="img/CCA.png" style="width: 18vw;margin-top: 10px;"></a> -->
+                                                <h2 style="text-align: center;">CCA</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Tiempo promedio de incidencia vs captura:</strong> 03:00 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Total de incidencias registradas:</strong> 56 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Km perdidos registrados en la App:</strong> 1,033.31 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Responsable:</strong> Carlos Munguía </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="card card2">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <!-- <a href="#" onclick=""id="empresa_0"><img src="img/SKYBUS.png" style="width: 18vw;margin-top: 10px;"></a> -->
+                                                <h2 style="text-align: center;">SKYBUS</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Tiempo promedio de incidencia vs captura:</strong> 03:00 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Total de incidencias registradas:</strong> 56 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Km perdidos registrados en la App:</strong> 1,033.31 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Responsable:</strong> Carlos Munguía </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="card card2">
+                                        <div class="title_uso_app title">
+                                            <!-- <a href="#" onclick=""id="empresa_0"><img src="img/CORENSA.png" style="width: 18vw;margin-top: 10px;"></a> -->
+                                            <h2 style="text-align: center;">CORENSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Tiempo promedio de incidencia vs captura:</strong> 03:00 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Total de incidencias registradas:</strong> 56 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Km perdidos registrados en la App:</strong> 1,033.31 </span>
+                                            <span class="span FWM-span-form" style="font-weight: normal;"><strong>Responsable:</strong> Carlos Munguía </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <hr>
+                            </div>
+                        </div>
+    
+                        <div style="margin-bottom: 100px;"></div>
+                    `);
+                } else if(app == 3){
+                    $("#content-page").html(`<br><br>
+                        <h2 style="font-size: 24px;margin-top: 0px;">Incidencias de falta de uso de la herramienta.</h2>
+                        <h2 class="title_2" style="font-size: 24px;margin-top: 0px;"> App_3.2 - Desarrollo de Mantenimientos Preventivos </h2>
+                        <span class="span FWM-span-form" style="font-weight: normal;"><strong>Objetivo:</strong> Proyectar los mantenimientos preventivos de las unidades, bajo los medidores kilometro, horas motor y tiempo. Esta herramienta esta integrada a intelisis para la generación de la OT, y continuar el proceso de solicitud de refacciones así como el registro del gasto.  </span>
+                        <span class="span FWM-span-form" style="font-weight: normal;"><strong>Líder Funcional:</strong> Víctor Sol - Mantenimiento. </span>
+                        <span class="span FWM-span-form" style="font-weight: normal;color: #FF0037"><strong>Arranque:</strong> 18/10/2022. </span>
+                        <hr>
+                        <div class="notas_container" style="margin-top: 20px;">
+                            <div class="notas_div">
+                                <span class="notas_icon">
+                                    <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                </span>
+                                <span class="notas_text">Uso aceptable</span>
+                            </div>
+                            <div class="notas_div">
+                                <span class="notas_icon">
+                                    <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                </span>
+                                <span class="notas_text">Uso deficiente</span>
+                            </div>
+                            <div class="notas_div">
+                                <span class="notas_icon">
+                                    <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                </span>
+                                <span class="notas_text">Sin uso</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="list FWM-fixing-form fichas_tecnicas_div" id="demo-form" style="width: 100%;margin: auto;">
+                            <div class="container-empresas BRT">
+                                    <h2 style="text-align: left;">BRT</h2>
+                            </div>
+                            <div class="container-empresas BRT">
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <h2 style="text-align: center;">CISA</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Uso deficiente</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <h2 style="text-align: center;">VYCSA</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Uso deficiente</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div>
+                                             <div class="title_uso_app title">
+                                                 <h2 style="text-align: center;">CCA</h2>
+                                             </div>
+                                             <div>
+                                                 <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                             </div>
+                                         </div>
+                                         <div class="container_text_uso">
+                                             <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                         </div>
+                                     </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <h2 style="text-align: center;">SKYBUS</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">CORENSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card3"></div>                                    
+                                </div>
+                                
+                                <div class="container-empresas CONVENCIONALES">
+                                    <h2 style="text-align: left;">CONVENCIONALES</h2>
+                                </div>
+
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">ATROLSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">AULSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">COAVEO</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">COPESA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">COREVSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">CODIVERSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">COTANSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">COTOBUSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Ha adoptado la herramienta </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">NATIVITAS</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">SIMESA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">TREPSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">REFORMA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="container-empresas FORANEAS">
+                                    <h2 style="text-align: left;">FORÁNEAS</h2>
+                                </div>
+
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <h2 style="text-align: center;">ACHSA</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Uso deficiente</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">MIHSA</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Uso deficiente</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card card3">
+                                        <div class="title_uso_app title">
+                                            <h2 style="text-align: center;">STMP</h2>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">report_problem</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>Uso deficiente</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="card card3">
+                                        <div>
+                                            <div class="title_uso_app title">
+                                                <h2 style="text-align: center;">TCGSA</h2>
+                                            </div>
+                                            <div>
+                                                <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">report</i></a>
+                                            </div>
+                                        </div>
+                                        <div class="container_text_uso">
+                                            <span class="span FWM-span-form" style="font-weight: normal;text-align: center;"><strong>No se usa </strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="card3"></div>
+                                    <div class="card3"></div>
+                                </div>
+                                <br>
+                                <hr>
+                            </div>
+                        </div>
+    
+                        <div style="margin-bottom: 100px;"></div>
+                    `);
+                }
             }
         }
     }

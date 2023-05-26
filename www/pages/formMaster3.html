@@ -2,7 +2,7 @@
 <template>
     <div class="page">
         <nav class="left top-left" style="justify-content: space-between;">
-            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex;align-items: center;">
+            <a onclick="LlevaTableros();" style="margin-left: 10px; display: inline-flex;align-items: center;">
                 <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
             </a>
             <div class="title">Tableros</div>
@@ -10,16 +10,11 @@
                 <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
             </a>
         </nav>
-        <!-- <div class="toolbar tabbar toolbar-bottom">
-            <div class="toolbar-inner" style="background-color: #005D99;">
-                <a href="#" onclick="IniciaCheckList();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Iniciar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
-            </div>
-        </div> -->
+
         <div class="page-content" style="border-radius: 0;">
             <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 0px;">
                 <div class="page-content">
-                    <div id="nointernet-page" style="display:none;text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
-                        <!-- <img src="img/nosignal.svg" width="60%" style="margin-top: 140px;"> -->
+                    <div id="nointernet-page" style="display:none;text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">                     
                         <div style="text-align: left;">
                             <h2 style="margin: 50px 0 0 15px;text-align: left;"><b>¡VAYA!</b></h2>
                             <h2 style="margin: 0 0 0 15px;text-align: left;"><b>No tienes internet.</b></h2>
@@ -27,6 +22,336 @@
                         </div>
                     </div>
                     <div id="content-page" style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    return {
+        on: {      
+            pageInit: function () {
+                var app = localStorage.getItem("empresa_consulta");
+               //console.log(empresa);
+                if(app == 1){
+                    $("#content-page").html(`
+                        <br><br>
+                        <h2 style="font-size: 24px;margin-top: 0px;">Tablero de CISA ROE del día: 16/05/2023</h2>
+                        <div class="row">
+                            <div class="card card4" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;">Programadas</span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 35px; margin-left: auto; margin-right: auto;">90</span>
+                            </div>
+                            <div class="card card4" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;">Despachos</span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 35px; margin-left: auto; margin-right: auto;">92</span>
+                            </div>
+                            <div class="card card4" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;">Relevos</span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 35px; margin-left: auto; margin-right: auto;">92</span>
+                            </div>
+                            <div class="card card4" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #2ECC71; margin: auto;">Cumplimiento</span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 35px; margin-left: auto; margin-right: auto;color: #2ECC71">102%</span>
+                            </div>
+                        </div>
+
+                        <div class = "row" style="margin-top: 30px;">
+                            <div class="col-md-6">
+                                <div class="preloader infinite-scroll-preloader"></div>
+                                <div id="mysecondchart2" style="height: 250px;display: none;" >
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    $('.preloader').remove();
+                    $('#mysecondchart2').css('display','block');
+                    Morris.Bar({
+                        element: 'mysecondchart2',
+                        data: [
+                            {x: 'Programadas', y: 90},
+                            {x: 'Despachos', y: 92},
+                            {x: 'Relevos', y: 92}
+                        ],
+                        xkey: 'x',
+                        ykeys: ['y'],
+                        labels: ['Valor'],
+                        barColors: ['#17A589'],
+                    });
+
+                } else if(app == 2){
+                    $("#content-page").html(`
+                        <br><br>
+                        <h2 style="font-size: 24px;margin-top: 0px;">Tablero de Productividad. Empresa CISA (16/05/2023)</h2>
+                        <div class="row">
+                            <div class="card card2" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;"> Km Programado </span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 30px; margin-left: auto; margin-right: auto;">22,159.72</span>
+                            </div>
+                            <div class="card card2" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;"> Conciliado estimado </span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 30px; margin-left: auto; margin-right: auto;">21,707.63</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="card card3" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;"> Ingreso estimado </span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 30px; margin-left: auto; margin-right: auto;">$1,665,759.64</span>
+                            </div>
+                            <div class="card card3" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;"> Monto Perdida estimada </span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 30px; margin-left: auto; margin-right: auto;">$35,108.37</span>
+                            </div>
+                            <div class="card card3" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;"> % cumplimiento </span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 30px; margin-left: auto; margin-right: auto;">97.96</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="card card3" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;"> Km programado apoyo </span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 30px; margin-left: auto; margin-right: auto;">1,036.19</span>
+                            </div>
+                            <div class="card card3" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;"> Km programado + Apoyo </span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 30px; margin-left: auto; margin-right: auto;">23,195.91</span>
+                            </div>
+                            <div class="card card3" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;"> Conciliado Estimado Prog + Apoyo </span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 30px; margin-left: auto; margin-right: auto;">22,291.73</span>
+                            </div>
+                        </div>
+
+                        <div class = "row" style="margin-top: 30px;">
+                            <div class="col-md-6">
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <h2 style="font-size: 24px;margin-top: 24px; color: #FF0037;"> Km Perdido 452.09 </h2>
+                                </div>
+                                <div class="preloader infinite-scroll-preloader"></div>
+                                <div id="mysecondchart2" style="height: 250px;display: none;" >
+                                    
+                                </div>
+
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <h2 style="font-size: 24px;margin-top: 24px; color: #FF0037;"> Comportamiento Operadores Enero-Mayo </h2>
+                                </div>
+                                
+                                <div id="mysecondchart" style="height: 250px;display: none;" >
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    $('.preloader').remove();
+                    $('#mysecondchart2').css('display','block');
+                    $('#mysecondchart').css('display','block');
+                    Morris.Donut({
+                        element: 'mysecondchart2',
+                        data: [
+                            {value: 108.44, label: 'Otros'},
+                            {value: 343.65, label: 'Mantenimiento'}
+                        ],
+                        backgroundColor: '#FFF',
+                        labelColor: '#616A6B',
+                        colors: [
+                            '#F39C12',
+                            '#D35400'
+                        ],
+                        //formatter: function (x) { return x + "%"}
+                    });
+
+                    new Morris.Line({
+                        element: 'mysecondchart',
+                        data: [
+                            { period: '2023-01', value: 202, value2: 171 },
+                            { period: '2023-02', value: 207, value2: 178 },
+                            { period: '2023-03', value: 207, value2: 189 },
+                            { period: '2023-04', value: 207, value2: 198 },
+                            { period: '2023-05', value: 207, value2: 194 }
+                        ],
+                        xkey: 'period',
+                        ykeys: ['value', 'value2'],
+                        labels: ['Ideal', 'Operadores'],
+                        lineColors:['#0B62A4','#616A6B']
+                    });
+
+                } else if(app == 3){
+                    $("#content-page").html(`
+                        <br><br>
+                        <h2 style="font-size: 24px;margin-top: 0px;">Indicadores CIES de CISA del mes de Mayo.</h2>
+                        <div class="row">
+                            <div class="card card3" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;">Daños procesados</span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 35px; margin-left: auto; margin-right: auto;">70</span>
+                            </div>
+                            <div class="card card3" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;">Siniestros</span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 35px; margin-left: auto; margin-right: auto;">0</span>
+                            </div>
+                            <div class="card card3" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;">Acumulado 2023</span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 35px; margin-left: auto; margin-right: auto;">377</span>
+                            </div>
+                        </div>
+
+                        <div class = "row" style="margin-top: 30px;">
+                            <div class="col-md-6">
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <h2 style="font-size: 24px;margin-top: 24px;">Unidades con mayor número de incidencias </h2>
+                                    <span class="notas_text" style="color: #000;">(TOP 5).</span>
+                                </div>
+
+                                <div class="preloader infinite-scroll-preloader"></div>
+                                <div id="mysecondchart2" style="height: 250px;display: none;" >
+                                    
+                                </div>
+
+                                <div style="display: flex; justify-content: center; align-items: center;">
+                                    <h2 style="font-size: 24px;margin-top: 24px;">Operadores con mayor número de incidencias </h2>
+                                    <span class="notas_text" style="color: #000;">(TOP 5).</span>
+                                </div>
+
+                                <div id="mysecondchart" style="height: 250px;display: none;" >
+                                    <center><span style="color:#a1a1a1;font-size: 9pt;text-align: justify;"></span></center>
+                                </div>
+
+                            </div>
+                        </div>
+                    `);
+
+                    $('.preloader').remove();
+                    $('#mysecondchart').css('display','block');
+                    $('#mysecondchart2').css('display','block');
+
+                    Morris.Bar({
+                        element: 'mysecondchart2',
+                        data: [
+                            {x: '1027B', y: 2},
+                            {x: '1023B', y: 2},
+                            {x: '1019B', y: 2},
+                            {x: '1039B', y: 2},
+                            {x: '1048B', y: 2}
+                        ],
+                        xkey: 'x',
+                        ykeys: ['y'],
+                        labels: ['Valor'],
+                        barColors: ['#EC7063'],
+                    });
+                    
+                    Morris.Bar({
+                        element: 'mysecondchart',
+                        data: [
+                            {x: 'Jose Garci ', y: 3},
+                            {x: 'Juan Colin', y: 3},
+                            {x: 'Adan Ramirez', y: 2},
+                            {x: 'Hugo Trujillo', y: 2},
+                            {x: 'Jesus Delgadillo', y: 2}
+                        ],
+                        xkey: 'x',
+                        ykeys: ['y'],
+                        labels: ['Valor'],
+                        barColors: ['#C0392B'],
+                    });
+                } else if(app == 4){
+                    $("#content-page").html(`
+                        <br><br>
+                        <h2 style="font-size: 24px;margin-top: 0px;">Tablero de Disponibilidad de Flota (CISA)</h2>
+                        <div class="row">
+                            <table class="table-general" cellpadding="10" style="width: 100%;margin: 0;padding: 0;">
+                                <tbody id="table-general-conten">
+                                    <tr>
+                                        <th class="FWM-span-form th_table">ECO:</th>
+                                        <th class="FWM-span-form th_table">FALLA REPORTADA:</th>
+                                        <th class="FWM-span-form th_table">REPARACIÖN EN:</th>
+                                        <th class="FWM-span-form th_table">FECHA INGRESO:</th>
+                                        <th class="FWM-span-form th_table">FECHA COMPROMISO:</th>
+                                        <th class="FWM-span-form th_table">DÍAS TALLER:</th>
+                                    </tr>
+                                    <tr>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">140</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">RUIDO EN MOTOR</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">Norte</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">2022-08-01</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">2023-01-31</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">298</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">141</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">MOTOR COMPLETAMENTE DESARMADO</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">Norte</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">2022-01-17</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">2023-04-21</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">494</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">142</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">FUGA DE REFRIGERANTE POR CABEZA DE MOTOR</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">Norte</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">2022-02-21</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">2023-05-03</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">94</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">1140B</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">FALLA EN HOJA7</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">Norte</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">2022-05-17</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">2023-05-31</span></td>
+                                        <td><span style="color: #5d5d5d;font-size: 14px;font-family: 'ITC Avant Garde Gothic', sans-serif;font-weight: bold;">9</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    `);
+                    $('.preloader').remove();
+                   
+
+                } else if(app == 5){
+                    $("#content-page").html(`
+                        <br><br>
+                        <h2 style="font-size: 24px;margin-top: 0px;">Tablero de Revisión Imagen Empresas BRT mes de Enero</h2>
+                        <div class="row">
+                            <div class="card card-full" style="padding-top: 15px;padding-bottom: 15px;">
+                                <span class="notas_text" style="color: #000; margin: auto;">Calificación Minima esperada</span>
+                                <span class="notas_text" style="margin-top: 10px;font-size: 35px; margin-left: auto; margin-right: auto;">9.5</span>
+                            </div>
+                        </div>
+
+                        <div class = "row" style="margin-top: 30px;">
+                            <div class="col-md-6">
+                                <div class="preloader infinite-scroll-preloader"></div>
+                                <div id="mysecondchart2" style="height: 250px;display: none;" >
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    $('.preloader').remove();
+                    $('#mysecondchart2').css('display','block');
+                    Morris.Bar({
+                        element: 'mysecondchart2',
+                        data: [
+                            {x: 'CCA', y: 8.7},
+                            {x: 'CISA', y: 5.8},
+                            {x: 'CORENSA', y: 8.5},
+                            {x: 'RECSA', y: 0.0},
+                            {x: 'SKYBUS', y: 9.4},
+                            {x: 'VYCSA', y: 5.9}
+                        ],
+                        xkey: 'x',
+                        ykeys: ['y'],
+                        labels: ['Valor'],
+                        barColors: ['#3498DB'],
+                    });
+
+                } else {
+                    $("#content-page").html(`
                         <br><br>
                         <h2 style="font-size: 24px;margin-top: 0px;">Tablero de ejemplo</h2>
                         <div class = "row" style="margin-top: 30px;">
@@ -39,98 +364,43 @@
                                 <div id="mysecondchart" style="height: 250px;display: none;" >
                                     <center><span style="color:#a1a1a1;font-size: 9pt;text-align: justify;">Tabla de Ejemplo 2</span></center>
                                 </div>
-
-                                <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;">
-                                    <br><br>
-                                    <!-- <h2 id="calificacion-text" style="display:none;color:#063E7F;font-size: 24px;margin-top: 27px;">Ejemplos: <span id="calificacion-cedulas-tablero" style="color: #00A7B5;"></span></h2> -->
-                                </div>
-        
-                                <script type="text/javascript">
-                                    
-                                    // var uno = 5;
-                                    // var dos = 3;
-                                    // var tres = 5;
-                                    // var cuatro = 4;
-                                    // var cinco = 2;
-                                    $('.preloader').remove();
-                                    $('#mysecondchart').css('display','block');
-                                    $('#mysecondchart2').css('display','block');
-                                    // var total = (parseInt(uno) + parseInt(dos) + parseInt(tres) + parseInt(cuatro) + parseInt(cinco));
-                                    // var granTotal = total * 5;
-                                    // var unoTotal = uno * 1;
-                                    // var dosTotal = dos * 2;
-                                    // var tresTotal = tres * 3;
-                                    // var cuatroTotal = cuatro * 4;
-                                    // var cincoTotal = cinco * 5;
-                                    // var calificacion = ((unoTotal + dosTotal + tresTotal + cuatroTotal + cincoTotal) / granTotal ) * 10;
-                                    // var completa = calificacion.toFixed(20);
-                                    // document.getElementById("calificacion-text").style.display="block";
-                                    // document.getElementById("calificacion-cedulas-tablero").innerText = completa.slice(0, -18);
-                                    // var score = 
-                                    // Morris.Bar({
-                                    //     element: 'mysecondchart',
-                                    //     data: [
-                                    //         { Cedulas: '1 estrella', Evaluacion: uno},
-                                    //         { Cedulas: '2 estrellas', Evaluacion: dos},
-                                    //         { Cedulas: '3 estrellas', Evaluacion: tres},
-                                    //         { Cedulas: '4 estrellas', Evaluacion: cuatro},
-                                    //         { Cedulas: '5 estrellas', Evaluacion: cinco}
-                                    //     ],
-                                    //     xkey: 'Cedulas',
-                                    //     ykeys: ['Evaluacion'],
-                                    //     labels: ['Cedulas'],
-                                    //     xLabelMargin: 0,
-                                    //     barShape: 'soft',
-                                    // });
-                                    // $('.preloader').remove();
-                                    // $("#content-page").css('display','bloc');
-                                    // $("#nointernet-page").css('display','none');
-
-                                    new Morris.Line({
-                                        // ID of the element in which to draw the chart.
-                                        element: 'mysecondchart',
-                                        // Chart data records -- each entry in this array corresponds to a point on
-                                        // the chart.
-                                        data: [
-                                            { year: '2008', value: 20, value2: 10 },
-                                            { year: '2009', value: 10, value2: 20 },
-                                            { year: '2010', value: 5, value2: 20  },
-                                            { year: '2011', value: 5, value2: 10  },
-                                            { year: '2012', value: 20, value2: 15  }
-                                        ],
-                                        // The name of the data record attribute that contains x-values.
-                                        xkey: 'year',
-                                        // A list of names of data record attributes that contain y-values.
-                                        ykeys: ['value', 'value2'],
-                                        // Labels for the ykeys -- will be displayed when you hover over the
-                                        // chart.
-                                        labels: ['Value', 'Value2'],
-                                        lineColors:['#0B62A4','#C0C0C0']
-                                    });
-
-                                    Morris.Bar({
-                                        element: 'mysecondchart2',
-                                        data: [
-                                            {x: '2011 Q2', y: 1},
-                                            {x: '2011 Q3', y: 2},
-                                            {x: '2011 Q4', y: 3},
-                                            {x: '2012 Q1', y: 4},
-                                            {x: '2012 Q2', y: 5},
-                                            {x: '2012 Q3', y: 6},
-                                            {x: '2012 Q4', y: 7},
-                                            {x: '2013 Q1', y: 8}
-                                        ],
-                                        xkey: 'x',
-                                        ykeys: ['y'],
-                                        labels: ['Y'],
-                                    });
-                                </script>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
+                    `);
 
+                    $('.preloader').remove();
+                    $('#mysecondchart').css('display','block');
+                    $('#mysecondchart2').css('display','block');
+                    
+                    new Morris.Line({
+                        element: 'mysecondchart',
+                        data: [
+                            { year: '2008', value: 20, value2: 10 },
+                            { year: '2009', value: 10, value2: 20 },
+                            { year: '2010', value: 5, value2: 20  },
+                            { year: '2011', value: 5, value2: 10  },
+                            { year: '2012', value: 20, value2: 15  }
+                        ],
+                        xkey: 'year',
+                        ykeys: ['value', 'value2'],
+                        labels: ['Value', 'Value2'],
+                        lineColors:['#0B62A4','#C0C0C0']
+                    });
+
+                    Morris.Bar({
+                        element: 'mysecondchart2',
+                        data: [
+                            {x: 'Programadas', y: 90},
+                            {x: 'Despachos', y: 92},
+                            {x: 'Relevos', y: 92}
+                        ],
+                        xkey: 'x',
+                        ykeys: ['y'],
+                        labels: ['Valor'],
+                        barColors: ['#0B62A4', '#FF0037', '#C0C0C0'],
+                    });
+                }
+            }
+        }
+    }
+</script>

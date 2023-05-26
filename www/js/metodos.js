@@ -3328,7 +3328,7 @@ function regresaFichas(){
 }
 
 function LlevaTableros(){
-    app.views.main.router.back('/formMaster3/', {force: true, ignoreCache: true, reload: true});
+    app.views.main.router.back('/formMaster6/', {force: true, ignoreCache: true, reload: true});
 }
 function LlevarUsoApp(){
     app.views.main.router.back('/formMaster4/', {force: true, ignoreCache: true, reload: true});
@@ -3340,6 +3340,15 @@ function LLevarUsoApp(value){
     } else {
         localStorage.setItem("empresa_consulta", empresa[1]);
         app.views.main.router.back('/formMaster5/', {force: true, ignoreCache: true, reload: true});
+    }
+}
+function LLevartableroApp(value){
+    localStorage.removeItem("app_consulta");
+    var empresa = value.split("_");
+    if(empresa[1] == 0){
+    } else {
+        localStorage.setItem("empresa_consulta", empresa[1]);
+        app.views.main.router.back('/formMaster3/', {force: true, ignoreCache: true, reload: true});
     }
 }
 // FIN MASTER
