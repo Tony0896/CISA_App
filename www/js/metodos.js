@@ -2798,13 +2798,13 @@ function guardarMoneda(piezas, importe, moneda){
                 [piezas,importe,id_cedula,id_detalle],
                 function(tx, results){
                     app.sheet.close('#sheet-modal');
-                    swal("","Guardado correctamente.","success");
+                    // swal("","Guardado correctamente.","success");
                     setTimeout(function() {
                         swal.close();
                         if(newMoneda){
                             modalCantidad(newMoneda);
                         }
-                    }, 800)
+                    }, 400)
                     $("#tb_recaudo").empty();
                     databaseHandler.db.transaction(
                         function(tx5){
