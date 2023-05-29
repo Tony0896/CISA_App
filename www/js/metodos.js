@@ -3351,4 +3351,23 @@ function LLevartableroApp(value){
         app.views.main.router.back('/formMaster3/', {force: true, ignoreCache: true, reload: true});
     }
 }
+function abreEnlace(value){
+    localStorage.removeItem("OPEN_WEB")
+    if(value == 1){
+        localStorage.setItem("OPEN_WEB", value);
+        window.open(encodeURI("http://189.254.4.243/CISAIncidenciasRecaudoQA/files_cloud/pdf/CISA_FILES/6GACETA01Oct04_Nº101Ins.pdf"));
+    } else if(value == 2){
+        localStorage.setItem("OPEN_WEB", value);
+        window.open(encodeURI("http://189.254.4.243/CISAIncidenciasRecaudoQA/files_cloud/pdf/CISA_FILES/7GACETA 06Oct04_Nº103OFDEMINS.pdf"));
+    } else if(value == 3){
+        localStorage.setItem("OPEN_WEB", value);
+        window.open(encodeURI("http://189.254.4.243/CISAIncidenciasRecaudoQA/files_cloud/pdf/CISA_FILES/CONCESIÓN-CISAcompleta.PDF"));
+    } else if(value == 4){
+        localStorage.setItem("OPEN_WEB", value);
+        window.open("https://www.facebook.com/");
+    } else if(value == 5){
+        localStorage.setItem("OPEN_WEB", value);
+        window.open("https://twitter.com/?lang=es");
+    }
+}
 // FIN MASTER

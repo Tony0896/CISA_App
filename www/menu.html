@@ -159,7 +159,7 @@
                               </td>
                               <td style="display: flex; justify-content: space-around;">
                                 <div class="card card2" style="width: 45%;">
-                                  <a href="#" onclick="LLevarAFichas();"><img src="img/iconsMenu/fichas.svg" style="width: 18vw;margin-top: 10px;"><p class="texto_master">Fichas técnicas</p></a>
+                                  <a href="#" onclick="LLevarAFichas();"><img src="img/iconsMenu/fichas.svg" style="width: 18vw;margin-top: 10px;"><p class="texto_master">Trazabilidad Maestra</p></a>
                                 </div>
                                 <div class="card card2" style="width: 45%;">
                                   <a href="#" onclick="LlevaTableros();"><img src="img/iconsMenu/tablero.svg" style="width: 18vw;margin-top: 10px;"><p class="texto_master">Tableros Aplicativos</p></a>
@@ -229,6 +229,8 @@
   <!--<script src="js/signature/jSignature.min.noconflict.js"></script> -->
   <script src="js/SimpleStarRating.js"></script>
   <script type="text/javascript" charset="utf-8">
+    localStorage.getItem("OPEN_WEB") == 4 ? app.views.main.router.back('/formMaster2/', {force: true, ignoreCache: true, reload: true}) : localStorage.removeItem("OPEN_WEB");
+    localStorage.getItem("OPEN_WEB") == 5 ? app.views.main.router.back('/formMaster2/', {force: true, ignoreCache: true, reload: true}) : localStorage.removeItem("OPEN_WEB");
     app.tab.show('#tab-2');
     if(localStorage.getItem("nombre") == null || localStorage.getItem("Usuario") == null){
       window.localStorage.removeItem("id_usuario");

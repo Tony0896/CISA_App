@@ -448,3 +448,6 @@ input[type="radio"]{
   color: #fff;
   font-weight: bold;
 }
+.icon_fichas {
+  max-width: 50px;
+}
