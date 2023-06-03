@@ -286,23 +286,23 @@
       if(localStorage.getItem("Modulos")){
         if(localStorage.getItem("Modulos") == 'Limpieza'){
           var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_limp/"; // ===> SERVIDOR
-          // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON_limp/";
+          // var RutaJSONS = "http://192.168.30.237/Desarrollo/CISAApp/Archivos/JSON_limp/";
           var carpeta = "jsons_limp";
         } else if(localStorage.getItem("Modulos") == 'Imagen'){
           var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON/"; // ===> SERVIDOR
-          // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON/";
+          // var RutaJSONS = "http://192.168.30.237/Desarrollo/CISAApp/Archivos/JSON/";
           var carpeta = "jsons";
         } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
           var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_desin/"; // ===> SERVIDOR
-          // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON_desin/";
+          // var RutaJSONS = "http://192.168.30.237/Desarrollo/CISAApp/Archivos/JSON_desin/";
           var carpeta = "jsons_desin";
         } else if(localStorage.getItem("Modulos") == 'Recaudo'){
           var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_recaudo/"; // ===> SERVIDOR
-          // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON_recaudo/";
+          // var RutaJSONS = "http://192.168.30.237/Desarrollo/CISAApp/Archivos/JSON_recaudo/";
           var carpeta = "jsons_recaudo";
         } else if(localStorage.getItem("Modulos") == 'Diesel'){
-          // var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_limp/"; // ===> SERVIDOR
-          var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON_diesel/";
+          var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_diesel/"; // ===> SERVIDOR
+          // var RutaJSONS = "http://192.168.30.237/Desarrollo/CISAApp/Archivos/JSON_diesel/";
           var carpeta = "jsons_diesel";
         }
 
@@ -368,6 +368,8 @@
                   });
                   jsonHijos.Get(RutaJSONS + valor.jsonName);
                   function DownloaderError(err) {
+                    dialog.close()
+                    app.dialog.alert('Error al actualizar datos', 'Error');
                     console.error("Error al descargar: " + valor.jsonName + " " + err);
                     $("#processclick").html('<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>');
                   }

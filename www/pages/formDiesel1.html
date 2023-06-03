@@ -73,13 +73,13 @@
                             <div class="notas_container">
                                 <div class="notas_div">
                                     <span class="notas_icon">
-                                        <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">check_circle</i></a>
+                                        <a href='#' style='color: #FF0037;'><i class="material-icons md-light" style="font-size: 50px;">library_add</i></a>
                                     </span>
                                     <span class="notas_text">Precarga</span>
                                 </div>
                                 <div class="notas_div">
                                     <span class="notas_icon">
-                                        <a href='#' style='color: #FFBC33;'><i class="material-icons md-light" style="font-size: 50px;">tap_and_play</i></a>
+                                        <a href='#' style='color: #F1C40F;'><i class="material-icons md-light" style="font-size: 50px;">tap_and_play</i></a>
                                     </span>
                                     <span class="notas_text">Enviar hacia Intelisis</span>
                                 </div>
@@ -88,6 +88,15 @@
                                         <a href='#' style='color: #2ECC71;'><i class="material-icons md-light" style="font-size: 50px;">backup</i></a>
                                     </span>
                                     <span class="notas_text">Reprocesar a Intelisis</span>
+                                </div>
+                            </div>
+
+                            <div class="notas_container">
+                                <div class="notas_div">
+                                    <span class="notas_icon">
+                                        <a href='#' style='color: #E67E22;'><i class="material-icons md-light" style="font-size: 50px;">backup</i></a>
+                                    </span>
+                                    <span class="notas_text">No se completo el envío a intelesis</span>
                                 </div>
                             </div>
 
@@ -107,45 +116,8 @@
                 var id_empresa = localStorage.getItem("empresa");
                 var tipo = localStorage.getItem("Modulos");
                 var url = localStorage.getItem("url");
-
-                //Consultas para lista
-                function cargar(){
-                    app.request.get(url+'/historial.php', { IdUsuario: IdU, tipo:tipo, empresa:id_empresa}, function (data) {
-                        var content = JSON.parse(data);
-                        if(content == 0){
-                            $("#cedul").html(`<tr><td colspan = "5"><span>No hay datos para mostrar</span></td></tr>`);
-                        }else{
-                            if(data == 'null'){
-                                $("#cedul").html(`<tr><td colspan = "5"><span>No hay datos para mostrar</span></td></tr>`);
-                            } else {
-                                if(content.length > 0){
-                                    var html = '';
-                                    for(var e=0; e < content.length; e++){
-                                        var fecha = content[e].FechaCaptura.split(' ');
-                                        var id_interno = content[e].id_interno;
-                                        var procesado = false;
-                                        content[e].procesado == 1 ? procesado = true : null;
-                                        id_interno 
-                                        ? html = procesado 
-                                        ? html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td> <span> <a href='#' onclick="reprocesarIntelisis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> </span> </td> </tr>` 
-                                        : html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td> <span> <a href='#' onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}')" style='border: none; outline:none;color: #FFBC33;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> </span> </td> </tr>` 
-                                        : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td> <span> <a href='#' onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">check_circle</i></a> </span> </td> </tr>` ;
-                                        
-                                    }
-                                    $("#cedul").html(html);
-                                } else {
-                                    $("#cedul").html(`<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`);
-                                }
-                            }
-                        }
-                    },function (xhr) {
-                        $('.preloader').remove();
-                        $("#content-page").css('display','none');
-                        $("#nointernet-page").css('display','block');
-                    });
-                }
                 
-                cargar();
+                cargarDiesel();
                 //consulta de los meses
                 var d = new Date();
                 var mactual = d.getMonth(); 
@@ -186,13 +158,13 @@
                 $('#month').on('change', function(){
                     var mes_pdfs = $(".mes_pdfs").val();
                     var year_pdfs = $("#year").val();
-                    recarga_history(mes_pdfs,year_pdfs);
+                    recarga_Diesel(mes_pdfs,year_pdfs);
                 });
                 //Consulta por año
                 $('#year').on('change', function(){
                     var mes_pdfs = $(".mes_pdfs").val();
                     var year_pdfs = $("#year").val();
-                    recarga_history(mes_pdfs,year_pdfs);
+                    recarga_Diesel(mes_pdfs,year_pdfs);
                 });
             }
         }
