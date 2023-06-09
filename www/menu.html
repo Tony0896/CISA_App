@@ -351,6 +351,7 @@
                   function DownloaderError(err) {
                     console.error("Error al descargar: " + valor.jsonName + " " + err);
                     $("#processclick").html('<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>');
+                    app.dialog.alert('Error al actualizar datos', 'Error');
                   }
                   function DownloaderSuccess() {
                       count++;
