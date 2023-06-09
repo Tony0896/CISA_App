@@ -158,7 +158,9 @@
                                   <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();"><img src="img/iconsMenu/bomba_carga.svg" height="60px"><p style="color: #000000;font-size: 19px;">Nuevo Registro</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
                                 </div>
                               </td>
-                              <td style="display: none;" id="tdHistoralDiesel">
+                            </tr>
+                            <tr class="menu_diesel menus" id="tdHistoralDiesel" style="display: none;">
+                              <td>
                                 <a class="item-content item-link entrar principalButton" href="/formDiesel1/" onclick="" ><img src="img/iconsMenu/history.svg" height="60px"><p style="color: #000000;">Historial</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
                               </td>
                             </tr>
@@ -238,9 +240,6 @@
         $("#menu_activo").append(`<option value="Limpieza">Revisión Limpieza</option>`);
       } else if(modulos[i]=="Recaudo"){
         $("#menu_activo").append(`<option value="Recaudo">Recaudo</option>`);
-        $("#menu_activo").append(`<option value="Diesel">Diesel</option>`);
-      } else if(modulos[i]=="Diesel"){
-        $("#menu_activo").append(`<option value="Diesel">Diesel</option>`);
       } else {
         $("#menu_activo").append(`<option value="${modulos[i]}">${modulos[i]}</option>`);
       } 
@@ -259,12 +258,7 @@
       }
     }
 
-    $(".menu_imagen").css("display", "none");
-    $(".menu_limpieza").css("display", "none");
-    $(".menu_recaudo").css("display", "none");
-    $(".menu_desincorporaciones").css("display", "none");
-    $(".menu_diesel").css("display", "none");
-    $("#tdHistoralDiesel").css("display", "none");
+    $(".menus").css("display", "none");
 
     if(localStorage.getItem("Modulos") == 'Imagen' || localStorage.getItem("Modulos") == 'Checklist'){
       $(".menu_imagen").css("display", "grid");
