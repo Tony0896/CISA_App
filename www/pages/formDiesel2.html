@@ -47,6 +47,9 @@
 						<p>Sin registros</p>
 					</div>
 					<br>
+                    
+                    <div style="margin-bottom: 100px;"></div>
+                    
 				</div>
 
 				<!-- modal updates -->
@@ -64,13 +67,14 @@
                                 <input type="hidden" id="pasa_u" value="0">
                                 <input type="hidden" id="id_detalle_u">
 								<input type="hidden" id="eco">
+                                <input type="hidden" id="VIN_u">
 								<input type="hidden" id="carga_back">
             
                                 <h3 class="FWN-titulo-2" id="title_unidad_u">Unidad: </h3>
 								<hr>
 
 								<span id="titulo_modal" class="span FWM-span-form">Unidad</span>
-                                <input type="text" id="unidad_u" class="FWM-input" style="padding-right: 5px;" maxlength="255">
+                                <input type="text" id="unidad_u" class="FWM-input" style="padding-right: 5px;" maxlength="20">
             
                                 <span id="titulo_modal" class="span FWM-span-form">Bomba de carga</span>
                                 <select class="FWM-input obligatorio" id="bomba_u">
@@ -83,7 +87,7 @@
                                 </select>
                                 
                                 <span id="titulo_modal" class="span FWM-span-form">Almacen</span>
-                                <input type="text" id="almacen_u" class="FWM-input" style="padding-right: 5px;" maxlength="255">
+                                <input type="text" id="almacen_u" class="FWM-input" style="padding-right: 5px;" maxlength="20">
             
                                 <span id="titulo_modal" class="span FWM-span-form">Tipo de Carga</span>
                                 <select class="FWM-input obligatorio" id="tipo_carga_u">
@@ -104,7 +108,7 @@
                                 <input type="hidden" id="operador2_u">
             
                                 <span id="titulo_modal" class="span FWM-span-form">Jornada</span>
-                                <input type="text" id="jornada_u" class="FWM-input" style="padding-right: 5px;" maxlength="50">
+                                <input type="text" id="jornada_u" class="FWM-input" style="padding-right: 5px;" maxlength="20">
             
                                 <span id="titulo_modal" class="span FWM-span-form">Vueltas</span>
                                 <input type="number" id="vueltas_u" class="FWM-input" style="padding-right: 5px;" maxlength="20">
@@ -145,6 +149,32 @@
                 var self = this;
 
 				app.preloader.show('red');
+
+                function pintaMenu(carga_total, unidades_cargadas, html) {
+                    $('#historyContainer').append(`<table id = "imyal" cellpadding="10" >
+                        <input type="hidden" id="carga_total_diesel" value="${carga_total}">
+                        <tbody>
+                            <tr>
+                                <th style="text-align: center;background-color: #005D99;color: white;font-weight: bold;">Carga Total:</th>
+                                <td><span id="text_carga_Diesel">${numberWithCommas(carga_total)}</span></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center;background-color: #005D99;color: white;font-weight: bold;">Unidades Cargadas:</th>
+                                <td><span>${unidades_cargadas}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table cellpadding="10" >
+                        <tbody>
+                            <tr>
+                                <th colspan="6" style="background-color:#FFF"><h2 class="titulo" style="margin-top: 15px;">Detalle</h2></th>
+                            </tr>
+                            ${html}
+                        </tbody>
+                    </table>
+                        <br><br>
+                    `);
+                }
 
 				var url = localStorage.getItem("url");
 				//var url = "http://192.168.30.237/Desarrollo/CISAApp/Archivos/App_dev";
@@ -187,27 +217,13 @@
 										html = html + `<tr id="trdiesel_${Detail[i].ID}"><td>${Detail[i].eco}</td><td>${numberWithCommas(Detail[i].carga_total)}</td><td>${numberWithCommas(Detail[i].odometro)}</td><td>${no_bomba}</td><td>${Detail[i].tipo_carga}</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${Detail[i].ID}','${Detail[i].id_unidad}','${Detail[i].eco}','${Detail[i].carga_total}','${Detail[i].odometro}','${Detail[i].no_bomba}','${Detail[i].almacen}','${Detail[i].h_fin}','${Detail[i].h_inicio}','${Detail[i].jornada}','${Detail[i].operador}','${Detail[i].id_operador}','${Detail[i].vueltas}','${Detail[i].tipo_carga}','${Detail[i].operador2}','${Detail[i].VIN}','3');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`;
 									}
 									carga_total = carga_total.toFixed(2);
-								}
-							}
-							$('#historyContainer').append(`<table id = "imyal" cellpadding="10" >
-								<input type="hidden" id="carga_total_diesel" value="${carga_total}">
-								<tbody id="imya">
-									<tr>
-										<th colspan="3" style="text-align: center;background-color: #005D99;color: white;font-weight: bold;">Carga Total:</th>
-										<td colspan="3"><span id="text_carga_Diesel">${numberWithCommas(carga_total)}</span></td>
-									</tr>
-									<tr>
-										<th colspan="3" style="text-align: center;background-color: #005D99;color: white;font-weight: bold;">Unidades Cargadas:</th>
-										<td colspan="3"><span>${unidades_cargadas}</span></td>
-									</tr>
-									<tr>
-										<th colspan="6" style="background-color:#FFF"><h2 class="titulo" style="margin-top: 15px;">Detalle</h2></th>
-									</tr>
-									${html}
-								</tbody>
-								</table>
-								<br><br>
-							`);
+                                    pintaMenu(carga_total, unidades_cargadas, html);
+								} else {
+                                    pintaMenu(carga_total, unidades_cargadas, html);
+                                }
+							} else {
+                                pintaMenu(carga_total, unidades_cargadas, html);
+                            }
 						}
 						app.preloader.hide();
 					} else {

@@ -158,7 +158,7 @@
                                   <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();"><img src="img/iconsMenu/bomba_carga.svg" height="60px"><p style="color: #000000;font-size: 19px;">Nuevo Registro</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
                                 </div>
                               </td>
-                              <td>
+                              <td style="display: none;" id="tdHistoralDiesel">
                                 <a class="item-content item-link entrar principalButton" href="/formDiesel1/" onclick="" ><img src="img/iconsMenu/history.svg" height="60px"><p style="color: #000000;">Historial</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
                               </td>
                             </tr>
@@ -264,6 +264,7 @@
     $(".menu_recaudo").css("display", "none");
     $(".menu_desincorporaciones").css("display", "none");
     $(".menu_diesel").css("display", "none");
+    $("#tdHistoralDiesel").css("display", "none");
 
     if(localStorage.getItem("Modulos") == 'Imagen' || localStorage.getItem("Modulos") == 'Checklist'){
       $(".menu_imagen").css("display", "grid");
@@ -275,6 +276,7 @@
       $(".menu_recaudo").css("display", "grid");
     } else if(localStorage.getItem("Modulos") == 'Diesel'){
       $(".menu_diesel").css("display", "grid");
+      localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "table-cell") : $("#tdHistoralDiesel").css("display", "none");
     }
 
     $("#menu_activo").val(localStorage.getItem("Modulos"));
@@ -451,6 +453,7 @@
         $(".menu_recaudo").css("display", "grid");
       } else if(localStorage.getItem("Modulos") == 'Diesel'){
         $(".menu_diesel").css("display", "grid");
+        localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "table-cell") : $("#tdHistoralDiesel").css("display", "none");
       }
       updateData();
       recargacedulas();

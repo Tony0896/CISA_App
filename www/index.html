@@ -4,7 +4,7 @@
     localStorage.setItem("version", "1.3.0");
     //var url = "http://189.254.4.243/CISAApp/Archivos/App_dev"; //===> SERVIDOR
     // w.192.168.30.237 - h.192.168.0.184 -w2.0 192.168.30.237
-    var url = "http://189.254.4.243/Desarrollo/CISAApp/Archivos/App_dev"; // ===>local
+    var url = "http://189.254.4.243/CISAApp/Archivos/App_dev"; // ===>local
     localStorage.setItem("url", url);
     if (Usuario){
         localStorage.setItem("sendFlag", 0);
@@ -120,6 +120,7 @@
                           var AccesoUser = separado[2];
                           var Area = separado[3];
                           var Modulo = separado[4];
+                          var TipoAcceso = separado[5];
                           var AccesosUser = AccesoUser.split(",");
                           var encontro = false;
                           if(AccesosUser.length > 0){
@@ -136,6 +137,7 @@
                               localStorage.setItem("nombre", Nombre);
                               localStorage.setItem("empresa", $("#empresa").val());
                               localStorage.setItem("Area", Area);
+                              localStorage.setItem("TipoAcceso", TipoAcceso);
                               if(Modulo){
                                 localStorage.setItem("Modulo", Modulo);
                               }else{
@@ -152,6 +154,7 @@
                               localStorage.setItem("nombre", Nombre);
                               localStorage.setItem("empresa", $("#empresa").val());
                               localStorage.setItem("Area", Area);
+                              localStorage.setItem("TipoAcceso", TipoAcceso);
                               if(Modulo){
                                 localStorage.setItem("Modulo", Modulo);
                               }else{
@@ -164,6 +167,7 @@
                               localStorage.setItem("nombre", Nombre);
                               localStorage.setItem("empresa", $("#empresa").val());
                               localStorage.setItem("Area", Area);
+                              localStorage.setItem("TipoAcceso", TipoAcceso);
                               if(Modulo){
                                 localStorage.setItem("Modulo", Modulo);
                               }else{
