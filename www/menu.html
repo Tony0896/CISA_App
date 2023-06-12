@@ -270,7 +270,7 @@
       $(".menu_recaudo").css("display", "grid");
     } else if(localStorage.getItem("Modulos") == 'Diesel'){
       $(".menu_diesel").css("display", "grid");
-      localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "table-cell") : $("#tdHistoralDiesel").css("display", "none");
+      localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "grid") : $("#tdHistoralDiesel").css("display", "none");
     }
 
     $("#menu_activo").val(localStorage.getItem("Modulos"));
@@ -447,7 +447,7 @@
         $(".menu_recaudo").css("display", "grid");
       } else if(localStorage.getItem("Modulos") == 'Diesel'){
         $(".menu_diesel").css("display", "grid");
-        localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "table-cell") : $("#tdHistoralDiesel").css("display", "none");
+        localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "grid") : $("#tdHistoralDiesel").css("display", "none");
       }
       updateData();
       recargacedulas();
