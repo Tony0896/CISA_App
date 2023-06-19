@@ -150,6 +150,11 @@ var routes = [
     path: '/formDiesel2/',
     componentUrl: './pages/formDiesel2.html',
   },
+  {
+    name: 'formDiesel3',
+    path: '/formDiesel3/',
+    componentUrl: './pages/formDiesel3.html',
+  },
   //fin diesel
   {
     name: 'visualizar',

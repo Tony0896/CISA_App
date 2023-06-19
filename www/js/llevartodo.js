@@ -1,26 +1,28 @@
 function AlmacenarError(respuesta){
     $(".send-ced").css("pointer-events", "all")
-    var datos = new Array();
-    var id_usuario = localStorage.getItem("Usuario");
-    var id_empresa = localStorage.getItem("empresa");
-    var url = localStorage.getItem("url");
-    var versionapp = localStorage.getItem("version");
-    datos[0] = {'id_usario':id_usuario,'id_empresa':id_empresa,'respuesta':respuesta,'versionapp':versionapp};
-    $.ajax({
-        type: "POST",
-        async : true,
-        url: url+"/guardarErrorRespuesta.php",
-        dataType: 'html',
-        data: {'datos': JSON.stringify(datos)},
-        success: function(respuesta){
-            if(respuesta == 1){
-                //swal("","No se pudo completar el registro","warning");
+    if(respuesta){
+        var datos = new Array();
+        var id_usuario = localStorage.getItem("Usuario");
+        var id_empresa = localStorage.getItem("empresa");
+        var url = localStorage.getItem("url");
+        var versionapp = localStorage.getItem("version");
+        datos[0] = {'id_usario':id_usuario,'id_empresa':id_empresa,'respuesta':respuesta,'versionapp':versionapp};
+        $.ajax({
+            type: "POST",
+            async : true,
+            url: url+"/guardarErrorRespuesta.php",
+            dataType: 'html',
+            data: {'datos': JSON.stringify(datos)},
+            success: function(respuesta){
+                if(respuesta == 1){
+                    //swal("","No se pudo completar el registro","warning");
+                }
+            },
+            error: function(){
+                console.log("Error en la comunicacion con el servidor");
             }
-        },
-        error: function(){
-            console.log("Error en la comunicacion con el servidor");
-        }
-    });
+        });
+    }
 }
 function llevarTodo(id_cedula,tipo_cedula){
     $(".send-ced").css("pointer-events", "none");

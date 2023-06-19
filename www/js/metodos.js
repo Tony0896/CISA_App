@@ -3759,30 +3759,54 @@ function cargarDiesel(){
                         var fecha = content[e].FechaCaptura.split(' ');
                         var id_interno = content[e].id_interno;
                         var id_intelesis = content[e].id_intelesis;
+                        var estatusIntelisis = content[e].estatusIntelisis;
                         var procesado = false;
                         content[e].procesado == 2 || content[e].procesado == 3 ? procesado = true : procesado = false;
 
                         id_interno ?  ids[e] = id_interno : null ;
 
-                        if (ids.length > 0){
-                            if(ids.filter(x => x === id_interno).length > 1){ } else {
+                        if(estatusIntelisis == 2){
+                            if (ids.length > 0){
+                                if(ids.filter(x => x === id_interno).length > 1){ } else {
+                                    id_interno 
+                                    ? procesado
+                                    ? id_intelesis 
+                                    ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].id_interno}','${content[e].id_intelesis}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>` ;
+                                }
+                            } else {
+                                id_interno 
+                                    ? procesado
+                                    ? id_intelesis 
+                                    ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].id_interno}','${content[e].id_intelesis}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>` ;
+                            }
+                        } else {
+                            if (ids.length > 0){
+                                if(ids.filter(x => x === id_interno).length > 1){ } else {
+                                    id_interno 
+                                    ? procesado
+                                    ? id_intelesis 
+                                    ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].id_interno}','${content[e].id_intelesis}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` ;
+                                }
+                            } else {
                                 id_interno 
                                 ? procesado
                                 ? id_intelesis 
-                                ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].id_interno}','${content[e].id_intelesis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
-                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
-                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
-                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` ;
+                                ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` 
+                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
+                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` 
+                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` ;
                             }
-                        } else {
-                            id_interno 
-                            ? procesado
-                            ? id_intelesis 
-                            ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` 
-                            : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
-                            : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` 
-                            : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` ;
                         }
+                        
                     }
                     $("#cedul").html(html);
                     app.dialog.close()
@@ -3821,29 +3845,52 @@ function recarga_Diesel(mes_pdfs,year_pdfs){
                         var fecha = content[e].FechaCaptura.split(' ');
                         var id_interno = content[e].id_interno;
                         var id_intelesis = content[e].id_intelesis;
+                        var estatusIntelisis = content[e].estatusIntelisis;
                         var procesado = false;
                         content[e].procesado == 2 || content[e].procesado == 3 ? procesado = true : procesado = false;
 
                         id_interno ?  ids[e] = id_interno : null ;
 
-                        if (ids.length > 0){
-                            if(ids.filter(x => x === id_interno).length > 1){ } else {
+                        if(estatusIntelisis == 2){
+                            if (ids.length > 0){
+                                if(ids.filter(x => x === id_interno).length > 1){ } else {
+                                    id_interno 
+                                    ? procesado
+                                    ? id_intelesis 
+                                    ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].id_interno}','${content[e].id_intelesis}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>` ;
+                                }
+                            } else {
+                                id_interno 
+                                    ? procesado
+                                    ? id_intelesis 
+                                    ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].id_interno}','${content[e].id_intelesis}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">description</i></a> </span> </td> </tr>` ;
+                            }
+                        } else {
+                            if (ids.length > 0){
+                                if(ids.filter(x => x === id_interno).length > 1){ } else {
+                                    id_interno 
+                                    ? procesado
+                                    ? id_intelesis 
+                                    ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].id_interno}','${content[e].id_intelesis}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
+                                    : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` ;
+                                }
+                            } else {
                                 id_interno 
                                 ? procesado
                                 ? id_intelesis 
-                                ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].id_interno}','${content[e].id_intelesis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
-                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
-                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
-                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` ;
+                                ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` 
+                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
+                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` 
+                                : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}','${content[e].estatusIntelisis}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` ;
                             }
-                        } else {
-                            id_interno 
-                            ? procesado
-                            ? id_intelesis 
-                            ? html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis1('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}')" style='border: none; outline:none;color: #2ECC71;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_intelesis}',1)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` 
-                            : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="reprocesarIntelisis2('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}')" style='border: none; outline:none;color: #E67E22;'><i class="material-icons md-light" style="font-size: 40px;">backup</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>`
-                            : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> ${content[e].id_interno} </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="procesarIntelesis('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}')" style='border: none; outline:none;color: #F1C40F;'><i class="material-icons md-light" style="font-size: 40px;">tap_and_play</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].id_interno}',2)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` 
-                            : html = html + `<tr id="trc_${content[e].IdCte}"> <td><span> N/A </span></td> <td><span>${content[e].Cliente}</span></td> <td><span>${fecha[0]}</span></td> <td><span>${content[e].nombre_usuario}</span></td> <td style="white-space: nowrap;"> <span> <a href='#' class="icons_diesel" onclick="corresponderRegistrosDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}')" style='border: none; outline:none;color: #FF0037'><i class="material-icons md-light" style="font-size: 40px;">library_add</i></a> <a href='#' class="icons_diesel" onclick="viewDetailDiesel('${content[e].IdCte}','${content[e].IdCedula}','${content[e].FechaCaptura}',3)" style='border: none; outline:none;color: #005D99;margin-left: 30px;'><i class="material-icons md-light" style="font-size: 40px;">search</i></a> </span> </td> </tr>` ;
                         }
                     }
                     $("#cedul").html(html);
@@ -3929,6 +3976,18 @@ function viewDetailDiesel(IdCte,IdCedula,id_intelesis,type){
     app.views.main.router.back('/formDiesel2/', {force: true, ignoreCache: true, reload: true});
 }
 
+function viewDetailDiesel2(IdCte,IdCedula,id_intelesis,type){
+    if(type == 3){
+        var ID_consulta = IdCte;
+    } else {
+        var ID_consulta = id_intelesis;
+    }
+    var typeConsulta = type;
+    localStorage.setItem("ID_consulta", ID_consulta);
+    localStorage.setItem("typeConsulta", typeConsulta);
+    app.views.main.router.back('/formDiesel3/', {force: true, ignoreCache: true, reload: true});
+}
+
 function actualizaCargaDiesel2(){
     if($("#id_unidad_u").val()){
         var id_cedula = $("#id_detalle_u").val();
@@ -3998,7 +4057,7 @@ function actualizaCargaDiesel2(){
     }
 }
 
-function reprocesarIntelisis1(IdCte, IdCedula, id_intelesis){
+function reprocesarIntelisis1(IdCte, IdCedula, id_intelesis, estatus_intelesis){
     //Procesa con id de intelesis 
     //console.log('Reprocesa1', IdCte, IdCedula, id_intelesis);
     $(".icons_diesel").css("pointer-events", "none");
@@ -4015,7 +4074,7 @@ function reprocesarIntelisis1(IdCte, IdCedula, id_intelesis){
     var url = localStorage.getItem("url");
 
     var datos = new Array();
-    datos[0] = {'ID_interno' : ID_interno, 'Evento' : Evento, 'Fecha' : Fecha, 'ID_Usuario' : ID_Usuario, 'Nombre_Usuario' : Nombre_Usuario, 'Origen' : Origen, 'Version_App' : Version_App, 'ID_cabeceros' : ID_cabeceros, 'id_empresa' : id_empresa };
+    datos[0] = {'ID_interno' : ID_interno, 'Evento' : Evento, 'Fecha' : Fecha, 'ID_Usuario' : ID_Usuario, 'Nombre_Usuario' : Nombre_Usuario, 'Origen' : Origen, 'Version_App' : Version_App, 'ID_cabeceros' : ID_cabeceros, 'id_empresa' : id_empresa, 'estatus_intelesis': estatus_intelesis};
 
     // console.log(datos);
     $.ajax({
@@ -4031,85 +4090,63 @@ function reprocesarIntelisis1(IdCte, IdCedula, id_intelesis){
                 var dat2 = respu1[1];
                 if(dat1 == "CEDULA"){
                     if(dat2 > 0){
-                        //swal("Aún existe el registro en Intelisis","","warning");
-                        swal({
-                            title: "Aún existe el registro en Intelisis",
-                            text: "¿Deseas duplicar la información?",
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: false,
-                        }).then((willGoBack) => {
-                            if (willGoBack){
-                                swal("Trabajando en el reproceso.","","warning");
-                                $.ajax({
-                                    type: "POST",
-                                    async : true,
-                                    url: url+"/processDiesel.php?proceso=5&subProcess=2",
-                                    dataType: 'html',
-                                    data: {'datos': JSON.stringify(datos)},
-                                    success: function(respuesta){
-                                        if(respuesta){
-                                            var respu1 = respuesta.split("._.");
-                                            var dat1 = respu1[0];
-                                            var dat2 = respu1[1];
-                                            if(dat1 == "CEDULA"){
-                                                if(dat2 > 0){
-                                                    swal("Completado","","success");
-                                                    $(".icons_diesel").css("pointer-events", "all")
-                                                    var mes_pdfs = $(".mes_pdfs").val();
-                                                    var year_pdfs = $("#year").val();
-                                                    recarga_Diesel(mes_pdfs,year_pdfs);
-                                                } else {
-                                                    AlmacenarError(respuesta);
-                                                }
+                        if(dat2 == 2){
+                            swal("Este registro ya no se puede reprocesar","","warning");
+                            $(".icons_diesel").css("pointer-events", "all")
+                            var mes_pdfs = $(".mes_pdfs").val();
+                            var year_pdfs = $("#year").val();
+                            recarga_Diesel(mes_pdfs,year_pdfs);
+                        } else  if(dat2 == 4){
+                            swal("Este registro ya no se puede reprocesar","","warning");
+                            $(".icons_diesel").css("pointer-events", "all")
+                            var mes_pdfs = $(".mes_pdfs").val();
+                            var year_pdfs = $("#year").val();
+                            recarga_Diesel(mes_pdfs,year_pdfs);
+                        } else {
+                            swal("Trabajando en el reproceso...","","warning");
+                            $.ajax({
+                                type: "POST",
+                                async : true,
+                                url: url+"/processDiesel.php?proceso=5&subProcess=2&estatusIntel="+dat2,
+                                dataType: 'html',
+                                data: {'datos': JSON.stringify(datos)},
+                                success: function(respuesta){
+                                    if(respuesta){
+                                        var respu1 = respuesta.split("._.");
+                                        var dat1 = respu1[0];
+                                        var dat2 = respu1[1];
+                                        if(dat1 == "CEDULA"){
+                                            if(dat2 > 0){
+                                                swal("Completado","","success");
+                                                $(".icons_diesel").css("pointer-events", "all")
+                                                var mes_pdfs = $(".mes_pdfs").val();
+                                                var year_pdfs = $("#year").val();
+                                                recarga_Diesel(mes_pdfs,year_pdfs);
                                             } else {
                                                 AlmacenarError(respuesta);
                                             }
-                                        }
-                                    },
-                                    error: function(){
-                                        console.log("Error en la comunicacion con el servidor");
-                                        swal("Error de comunicación a Internet","","error")
-                                        $(".icons_diesel").css("pointer-events", "all")
-                                    }
-                                });
-                            } else {}
-                        });
-                    } else if (dat2 == 0){
-                        swal("Trabajando en el reproceso.","","warning");
-                        $.ajax({
-                            type: "POST",
-                            async : true,
-                            url: url+"/processDiesel.php?proceso=5&subProcess=2",
-                            dataType: 'html',
-                            data: {'datos': JSON.stringify(datos)},
-                            success: function(respuesta){
-                                if(respuesta){
-                                    var respu1 = respuesta.split("._.");
-                                    var dat1 = respu1[0];
-                                    var dat2 = respu1[1];
-                                    if(dat1 == "CEDULA"){
-                                        if(dat2 > 0){
-                                            swal("Completado","","success");
-                                            $(".icons_diesel").css("pointer-events", "all")
-                                            var mes_pdfs = $(".mes_pdfs").val();
-                                            var year_pdfs = $("#year").val();
-                                            recarga_Diesel(mes_pdfs,year_pdfs);
                                         } else {
                                             AlmacenarError(respuesta);
                                         }
-                                    } else {
-                                        AlmacenarError(respuesta);
                                     }
+                                },
+                                error: function(){
+                                    console.log("Error en la comunicacion con el servidor");
+                                    swal("Error de comunicación a Internet","","error")
+                                    $(".icons_diesel").css("pointer-events", "all")
                                 }
-                            },
-                            error: function(){
-                                console.log("Error en la comunicacion con el servidor");
-                                swal("Error de comunicación a Internet","","error")
-                                $(".icons_diesel").css("pointer-events", "all")
-                            }
-                        });
+                            });
+                        }
+                        //swal("Aún existe el registro en Intelisis","","warning");
+                    } else if (dat2 == 0){
+                        AlmacenarError(respuesta);
+                        swal("Algo salió mal intenta más tarde.","","warning");
+                        $(".icons_diesel").css("pointer-events", "all")
                     }
+                } else {
+                    AlmacenarError(respuesta);
+                    swal("Algo salió mal intenta más tarde.","","warning");
+                    $(".icons_diesel").css("pointer-events", "all")
                 }
             }
         },
@@ -4119,7 +4156,7 @@ function reprocesarIntelisis1(IdCte, IdCedula, id_intelesis){
     });
 }
 
-function reprocesarIntelisis2(IdCte, IdCedula, id_intelesis){
+function reprocesarIntelisis2(IdCte, IdCedula, id_intelesis, estatus_intelesis  ){
     //Procesa cuando no se competo la carga
     //console.log('Reprocesa2', IdCte, IdCedula, id_intelesis);
     $(".icons_diesel").css("pointer-events", "none");
@@ -4136,7 +4173,7 @@ function reprocesarIntelisis2(IdCte, IdCedula, id_intelesis){
     var url = localStorage.getItem("url");
 
     var datos = new Array();
-    datos[0] = {'ID_interno' : ID_interno, 'Evento' : Evento, 'Fecha' : Fecha, 'ID_Usuario' : ID_Usuario, 'Nombre_Usuario' : Nombre_Usuario, 'Origen' : Origen, 'Version_App' : Version_App, 'ID_cabeceros' : ID_cabeceros, 'id_empresa' : id_empresa };
+    datos[0] = {'ID_interno' : ID_interno, 'Evento' : Evento, 'Fecha' : Fecha, 'ID_Usuario' : ID_Usuario, 'Nombre_Usuario' : Nombre_Usuario, 'Origen' : Origen, 'Version_App' : Version_App, 'ID_cabeceros' : ID_cabeceros, 'id_empresa' : id_empresa, 'estatus_intelesis': estatus_intelesis };
 
     console.log(datos);
     $.ajax({
@@ -4173,7 +4210,7 @@ function reprocesarIntelisis2(IdCte, IdCedula, id_intelesis){
     });
 }
 
-function procesarIntelesis(IdCte, IdCedula, id_interno){
+function procesarIntelesis(IdCte, IdCedula, id_interno, estatus_intelesis){
     //console.log('Procesa', IdCte, IdCedula, id_interno);
     $(".icons_diesel").css("pointer-events", "none");
     swal("Procesando....","","");
@@ -4189,7 +4226,7 @@ function procesarIntelesis(IdCte, IdCedula, id_interno){
     var url = localStorage.getItem("url");
 
     var datos = new Array();
-    datos[0] = {'ID_interno' : ID_interno, 'Evento' : Evento, 'Fecha' : Fecha, 'ID_Usuario' : ID_Usuario, 'Nombre_Usuario' : Nombre_Usuario, 'Origen' : Origen, 'Version_App' : Version_App, 'ID_cabeceros' : ID_cabeceros, 'id_empresa' : id_empresa };
+    datos[0] = {'ID_interno' : ID_interno, 'Evento' : Evento, 'Fecha' : Fecha, 'ID_Usuario' : ID_Usuario, 'Nombre_Usuario' : Nombre_Usuario, 'Origen' : Origen, 'Version_App' : Version_App, 'ID_cabeceros' : ID_cabeceros, 'id_empresa' : id_empresa, 'estatus_intelesis': estatus_intelesis };
 
     // console.log(datos);
     $.ajax({
