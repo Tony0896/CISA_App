@@ -268,22 +268,20 @@
 
     $("#nombre_usuario").html(localStorage.getItem("nombre"));
     function updateData(){
+      var urlBase2 = "http://www.dev_cisa.com/www.CISAAPP.com";
+      // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
       if(localStorage.getItem("Modulos")){
         if(localStorage.getItem("Modulos") == 'Limpieza'){
-          var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_limp/"; // ===> SERVIDOR
-          // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON_limp/";
+          var RutaJSONS = urlBase2 + "/Archivos/JSON_limp/";
           var carpeta = "jsons_limp";
         } else if(localStorage.getItem("Modulos") == 'Imagen'){
-          var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON/"; // ===> SERVIDOR
-          // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON/";
+          var RutaJSONS = urlBase2 + "/Archivos/JSON/";
           var carpeta = "jsons";
         } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
-          var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_desin/"; // ===> SERVIDOR
-          // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON_desin/";
+          var RutaJSONS = urlBase2 + "/Archivos/JSON_desin/";
           var carpeta = "jsons_desin";
         } else if(localStorage.getItem("Modulos") == 'Recaudo'){
-          var RutaJSONS = "http://189.254.4.243/CISAApp/Archivos/JSON_recaudo/"; // ===> SERVIDOR
-          // var RutaJSONS = "http://192.168.137.1/Desarrollo/CISAApp/Archivos/JSON_recaudo/";
+          var RutaJSONS = urlBase2 + "/Archivos/JSON_recaudo/";
           var carpeta = "jsons_recaudo";
         }
         

@@ -2201,8 +2201,10 @@ function edit_apoyo(val, estatus){
 }
 function sincronizaDatos(){
     var EmpresaID = localStorage.getItem("empresa");
-    var url = "http://189.254.4.243/CISAApp/Exec/datos_desin.php?empresa="+EmpresaID;
-    var url2 = "http://189.254.4.243/CISAApp/Exec/datos_desin_H.php?empresa="+EmpresaID;
+    var urlBase2 = "http://www.dev_cisa.com/www.CISAAPP.com";
+    // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+    var url = urlBase2 + "/Exec/datos_desin.php?empresa="+EmpresaID;
+    var url2 = urlBase2 + "/Exec/datos_desin_H.php?empresa="+EmpresaID;
 
     fetch(url)
         .then((response) => {
