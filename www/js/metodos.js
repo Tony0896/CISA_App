@@ -2802,10 +2802,10 @@ function guardarMoneda(piezas, importe, moneda){
                     app.sheet.close('#sheet-modal');
                     // swal("","Guardado correctamente.","success");
                     setTimeout(function() {
-                        swal.close();
-                        if(newMoneda){
-                            modalCantidad(newMoneda);
-                        }
+                        // swal.close();
+                        // if(newMoneda){
+                             modalCantidad(newMoneda);
+                        // }
                     }, 400)
                     $("#tb_recaudo").empty();
                     databaseHandler.db.transaction(
