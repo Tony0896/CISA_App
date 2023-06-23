@@ -759,10 +759,12 @@ background: transparent;
 .radios.checked{
   color: #005D99;
   background-color: #c4e8ff;
+  font-family: 'ITC Avant Garde Gothic', sans-serif;
 }
 .radios{
   padding: 10px;
   border-radius: 10px;
+  font-family: 'ITC Avant Garde Gothic', sans-serif;
 }
 .danos{
   color: #ff0000;
@@ -869,4 +871,11 @@ table th {
   color: #fff !important;
   font-weight: bold;
   font-size: 14px !important;
+}
+.container_options{
+  margin-top: 12px;
+  margin-bottom: 30px;
+}
+.span-dato{
+  font-weight: 500;
 }

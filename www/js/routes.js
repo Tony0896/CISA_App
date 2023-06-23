@@ -134,6 +134,20 @@ var routes = [
     componentUrl: './pages/formRecaudo3.html',
   },
   //fin Recaudo
+  //Inicio HMO
+  //Inicio Capacitacion 
+  {
+    name: 'formCapacita1',
+    path: '/formCapacita1/',
+    componentUrl: './pages/formCapacita1.html',
+  },
+  {
+    name: 'formCapacita2',
+    path: '/formCapacita2/',
+    componentUrl: './pages/formCapacita2.html',
+  },
+  //fin Capacitacion 
+  //fin HMO
   {
     name: 'visualizar',
     path: '/visualizar/',

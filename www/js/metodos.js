@@ -220,17 +220,27 @@
             }
         }
     }
-    function moveMenu() {
-        var Modulos = localStorage.getItem("Modulos");
-        localStorage.setItem("Opcion", '1');
-        if(Modulos == "Limpieza"){
-            app.views.main.router.navigate({ name: 'yallegueLimp'});
-        }else if(Modulos == "Imagen"){
-            app.views.main.router.navigate({ name: 'yallegue'});
-        } else if(Modulos == "Desincorporaciones"){
-            iniciarDesincorporaciones();
-        } else if(Modulos == "Recaudo"){
-            preingresoRecaudo();
+    function moveMenu(val) {
+        if (val) {
+            val == 1 
+            ? app.views.main.router.navigate({ name: 'formCapacita1'})
+                : val == 2 
+                ? null //app.views.main.router.navigate({ name: 'yallegueLimp'})
+                :  val == 3
+                ? null //app.views.main.router.navigate({ name: 'yallegueLimp'})
+            : false ;
+        } else {
+            var Modulos = localStorage.getItem("Modulos");
+            localStorage.setItem("Opcion", '1');
+            if(Modulos == "Limpieza"){
+                app.views.main.router.navigate({ name: 'yallegueLimp'});
+            }else if(Modulos == "Imagen"){
+                app.views.main.router.navigate({ name: 'yallegue'});
+            } else if(Modulos == "Desincorporaciones"){
+                iniciarDesincorporaciones();
+            } else if(Modulos == "Recaudo"){
+                preingresoRecaudo();
+            }
         }
     }
     function EliminarActualizacionesAntiguas(){
@@ -656,6 +666,8 @@ function continuarCed(id_cedula,tipo){
         app.views.main.router.back('/yallegue_desin/', {force: true, ignoreCache: true, reload: true});
     } else if(tipo == 4){
         app.views.main.router.back('/yallegueRecaudo/', {force: true, ignoreCache: true, reload: true});
+    } else if(tipo == 5){
+        app.views.main.router.back('/formCapacita2/', {force: true, ignoreCache: true, reload: true});
     }
 }
 
@@ -3301,3 +3313,148 @@ function InsertaDetailsRecaudo(id_cedula, id_servidor){
     });
 }
 //Fin Recaudo
+//Inicio HMO
+//Inicio Capacitacion 
+function validarRadioCapa(id,val){
+    var ids = id.split("-");
+    var check = ids[1];
+    var valCheck = document.getElementById(ids[0]+"-"+ids[1]).checked;
+    if(check.includes('1')){
+        if(valCheck ==true){
+            var checkcheck = ids[0] + "-1";
+            var otherCheck = ids[0] + "-0";
+            document.getElementById(otherCheck).checked = false;
+            $("#label-"+checkcheck).addClass("checked");
+            $("#label-"+otherCheck).removeClass("checked");
+        }
+    }else{
+        if(valCheck ==true){
+            var otherCheck = ids[0] + "-1";
+            var checkcheck = ids[0] + "-0";
+            document.getElementById(otherCheck).checked = false;
+            $("#label-"+checkcheck).addClass("checked");
+            $("#label-"+otherCheck).removeClass("checked");
+        }
+    }
+    if(val){
+        if(val==1){
+            actualizaRespuestaCiertoFalso(id);
+        }
+    }
+}
+function actualizaRespuestaCiertoFalso(id){
+    var id_cedula = localStorage.getItem("IdCedula");
+    var ids = id.split("-");
+    var check = ids[1];
+    if(check.includes('1')){
+        var respuesta = 1;
+        var id_pregunta = ids[0].replace('op','');
+        
+    } else if(check.includes('0')){
+        var respuesta = 0;
+        var id_pregunta = ids[0].replace('op','');
+    }
+    databaseHandler.db.transaction(
+        function(tx){
+            tx.executeSql("UPDATE cursoCiertoFalso SET respuesta = ? WHERE id_cedula = ? AND IDPregunta = ?",
+                [respuesta,id_cedula,id_pregunta],
+                function(tx, results){
+                },
+                function(tx, error){
+                    console.error("Error al guardar cierre: " + error.message);
+                }
+            );
+        },
+        function(error){},
+        function(){}
+    );
+}
+function generaEvaluacion(val){
+    if(val == 1){
+        var values = get_datos_completos('datos_form');
+        var quita_coma = values.response;
+        var valido = values.valido;
+        if (valido) {
+            var id_usuario = localStorage.getItem("Usuario");
+            var nombre_usuario = localStorage.getItem("nombre");
+            var fecha_llegada = getDateWhitZeros();
+            var geolocation = '';
+            var id_cliente = localStorage.getItem("empresa");
+            var nombre_cliente = $("#nombreCandidato").val();
+            var horario_programado = fecha_llegada;
+            var estatus = 0;
+            var tipo_cedula = 'Capacitación';
+            var nombre_evalua = 'Prueba Manejo';
+
+            var fecha = $("#fecha").val();
+            var nombreInstructor = $("#nombreInstructor").val();
+            var nombreCandidato = $("#nombreCandidato").val();
+            var edad = $("#edad").val();
+            var telCelular = $("#telCelular").val();
+            var antecedentesManejo = $("#antecedentesManejo").val();
+            var name_course = $("#name_course").val();
+            var id_instructor = localStorage.getItem("id_usuario");
+            var id_candidato = 1; //! dinamic
+            var fecha_captura = getDateWhitZeros();
+            var id_course = 1; //! dinamic
+
+            productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,geolocation,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua);
+            databaseHandler.db.transaction(
+                function (tx) {
+                tx.executeSql(
+                    "Select MAX(id_cedula) as Id from cedulas_general",
+                    [],
+                    function (tx, results) {
+                        //app.dialog.progress('Generando CheckList','red');
+                        var progress = 0;
+                        var dialog = app.dialog.progress('Generando CheckList', progress, 'red');
+                        var empresa = localStorage.getItem("empresa");
+                        var item = results.rows.item(0);
+                        localStorage.setItem("IdCedula", item.Id);
+                        var id_cedula = item.Id;
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
+                        var NomJson = 'CursoCiertoFalso'+empresa;
+                        form = '';
+                        app.request({
+                            url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
+                            method: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                var aux = 0;
+                                var aux2 = 0;
+                                for (var j = 0; j < data.length; j++) {
+                                    if(data[j].IDNombreCurso == 1){
+                                        aux ++;
+                                    }
+                                }
+                                if(aux == 0){
+                                    app.dialog.close();
+                                    swal("","Algo salió mal.","error");
+                                }else{
+                                    dialog.setText('1 de ' + aux);
+                                    for (var j = 0; j < data.length; j++) {
+                                        if(data[j].IDNombreCurso == 1){
+                                            aux2++;
+                                            productHandler.insertPreguntasCiertoFalso(id_cedula,data[j].IDPregunta,data[j].Pregunta,1,aux,aux2);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    function (tx, error) {
+                    console.log("Error al guardar cedula: " + error.message);
+                    }
+                );
+                },
+                function (error) {},
+                function () {}
+            );
+        } else {
+            swal("","Debes llenar estos campos para poder guardar: "+quita_coma,"warning");
+            return false;
+        }
+    }
+}
+//fin Capacitacion 
+//fin HMO
