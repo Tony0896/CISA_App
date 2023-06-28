@@ -1,11 +1,14 @@
-function AlmacenarError(respuesta){
+function AlmacenarError(respuesta, tipo){
     $(".send-ced").css("pointer-events", "all")
     var datos = new Array();
     var id_usuario = localStorage.getItem("Usuario");
     var id_empresa = localStorage.getItem("empresa");
     var url = localStorage.getItem("url");
     var versionapp = localStorage.getItem("version");
-    datos[0] = {'id_usario':id_usuario,'id_empresa':id_empresa,'respuesta':respuesta,'versionapp':versionapp};
+    var fechaApp = getDateWhitZeros();
+    
+    fechaApp = fechaApp.replace(" ", "T");
+    datos[0] = {'id_usario':id_usuario,'id_empresa':id_empresa,'respuesta':respuesta,'versionapp':versionapp, 'fechaApp':fechaApp, 'tipo':tipo};
     $.ajax({
         type: "POST",
         async : true,
@@ -23,35 +26,36 @@ function AlmacenarError(respuesta){
     });
 }
 function llevarTodo(id_cedula,tipo_cedula){
+    localStorage.setItem("sendFlag", 1);
     $(".send-ced").css("pointer-events", "none");
-    console.log(id_cedula, tipo_cedula)
-    //Aqio va el ajax (tipo de cedula,id_usuario y id_empresa)
-    var datos = new Array();
-    var id_usuario = localStorage.getItem("Usuario");
-    var id_empresa = localStorage.getItem("empresa");
     var url = localStorage.getItem("url");
-    var versionapp = localStorage.getItem("version");
-    datos[0] = {'id_usuario':id_usuario,'id_empresa':id_empresa,'tipo_cedula':tipo_cedula,'versionapp':versionapp};
-    $.ajax({
-        type: "POST",
-        async : true,
-        url: url+"/guardarEnvioCedula.php",
-        dataType: 'html',
-        data: {'datos': JSON.stringify(datos)},
-        success: function(respuesta){
-        },
-        error: function(){
-            console.log("Error en la comunicacion con el servidor");
-        }
-    });
+    console.log(id_cedula, tipo_cedula)
+    // var datos = new Array();
+    // var id_usuario = localStorage.getItem("Usuario");
+    // var id_empresa = localStorage.getItem("empresa");
+    // var versionapp = localStorage.getItem("version");
+    // var fechaApp = getDateWhitZeros();
+    // fechaApp = fechaApp.replace(" ", "T");
+    // datos[0] = {'id_usuario':id_usuario,'id_empresa':id_empresa,'tipo_cedula':tipo_cedula,'versionapp':versionapp, 'fechaApp':fechaApp};
+    // $.ajax({
+    //     type: "POST",
+    //     async : true,
+    //     url: url+"/guardarEnvioCedula.php",
+    //     dataType: 'html',
+    //     data: {'datos': JSON.stringify(datos)},
+    //     success: function(respuesta){
+    //     },
+    //     error: function(){
+    //         console.log("Error en la comunicacion con el servidor");
+    //     }
+    // });
     swal("Enviando", "....", "success");
     var empresa = localStorage.getItem("nombre_empresa");
     var datosCedulaGeneral = new Array();
     var checklist = new Array();
     var datos_generales_checklist = new Array();
 
-    var fecha = new Date();
-    var fecha_envio = fecha.getFullYear()+"-"+(fecha.getMonth()+1)+"-"+fecha.getDate()+" "+fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
+    var fecha_envio = getDateWhitZeros();
     databaseHandler.db.transaction(
         function(tx){
             tx.executeSql("SELECT * FROM cedulas_general WHERE id_cedula = ?",
@@ -61,8 +65,12 @@ function llevarTodo(id_cedula,tipo_cedula){
                     for(var i = 0; i< length; i++){
                         var item = results.rows.item(i);
                         tipo = item.tipo_cedula;
-                        //datosCedulaGeneral[i] = {'Valor':i,'id_cedula':item.id_cedula,'tipo_cedula':item.tipo_cedula,'id_usuario':item.id_usuario,'nombre_usuario':item.nombre_usuario,'fecha_entrada':item.fecha_entrada,'geolocalizacion_entrada': item.geolocalizacion_entrada,'id_cliente': item.id_cliente,'nombre_cliente': item.nombre_cliente,'horario_programado': item.horario_programado,'calificacion': item.calificacion,'fecha_salida':item.fecha_salida,'geolocalizacion_salida':item.geolocalizacion_salida,'nombre_evalua':item.nombre_evalua,'comentario_cliente':item.comentario_cliente,'fecha_envio':fecha_envio};
-                        datosCedulaGeneral[i] = {'Valor':i,'id_cedula':item.id_cedula,'tipo_cedula':item.tipo_cedula,'id_usuario':item.id_usuario,'nombre_usuario':item.nombre_usuario,'fecha_entrada':item.fecha_entrada,'geolocalizacion_entrada': item.geolocalizacion_entrada,'id_cliente': item.id_cliente,'nombre_cliente': item.nombre_cliente,'horario_programado': item.horario_programado,'calificacion': 0,'fecha_salida':item.fecha_salida,'geolocalizacion_salida':item.geolocalizacion_salida,'nombre_evalua':item.nombre_evalua,'comentario_cliente':item.comentario_cliente,'fecha_envio':fecha_envio};
+                        fecha_envio =  fecha_envio.replace(" ", "T");
+                        var fecha_entrada = item.fecha_entrada;
+                        fecha_entrada = fecha_entrada.replace(" ", "T");
+                        var fecha_salida = item.fecha_salida;
+                        fecha_salida = fecha_salida.replace(" ", "T");
+                        datosCedulaGeneral[i] = {'Valor':i,'id_cedula':item.id_cedula,'tipo_cedula':item.tipo_cedula,'id_usuario':item.id_usuario,'nombre_usuario':item.nombre_usuario,'fecha_entrada':fecha_entrada,'geolocalizacion_entrada': item.geolocalizacion_entrada,'id_cliente': item.id_cliente,'nombre_cliente': item.nombre_cliente,'horario_programado': item.horario_programado,'calificacion': 0,'fecha_salida':fecha_salida,'geolocalizacion_salida':item.geolocalizacion_salida,'nombre_evalua':item.nombre_evalua,'comentario_cliente':item.comentario_cliente,'fecha_envio':fecha_envio};
                     }
                     if(tipo == "checklist"){
                         databaseHandler.db.transaction(
@@ -462,6 +470,96 @@ function llevarTodo(id_cedula,tipo_cedula){
                             function(error){},
                             function(){}
                         );
+                    } else if (tipo == "Capacitación"){
+                        var datosGeneralesCurso = new Array();
+                        var cursoCiertoFalso = new Array();
+                        if(item.nombre_evalua == 'Prueba Manejo'){
+                            databaseHandler.db.transaction(
+                                function(tx){
+                                    tx.executeSql("SELECT * FROM cursoCiertoFalso WHERE id_cedula = ?",
+                                        [id_cedula],
+                                        function(tx, results){
+                                            var length2 = results.rows.length;
+                                            var correctas = 0;
+                                            for(var i = 0; i< length2; i++){
+                                                var item2 = results.rows.item(i);
+                                                var fechag = item2.fecha;
+                                                item2.OpCorrecta == item2.Respuesta ? correctas = correctas + 1: null;
+                                                fechag = fechag.replace(" ", "T");
+                                                cursoCiertoFalso[i] = {'Valor':i, 'IDCurso': item2.IDCurso, 'IDPregunta': item2.IDPregunta, 'OpCorrecta': item2.OpCorrecta, 'Pregunta': item2.Pregunta, 'Respuesta': item2.Respuesta, 'fecha': fechag};
+                                            }
+                                            var promedio = getPromedio(correctas,length2);
+                                            databaseHandler.db.transaction(
+                                                function(tx){
+                                                    tx.executeSql("SELECT * FROM datosGeneralesCurso WHERE id_cedula = ?",
+                                                        [id_cedula],
+                                                        function(tx, results){
+                                                            var length = results.rows.length;
+                                                            for(var i = 0; i< length; i++){
+                                                                var item1 = results.rows.item(i);
+                                                                var fecha_captura = item1.fecha_captura;
+                                                                fecha_captura = fecha_captura.replace(" ", "T");
+                                                                datosGeneralesCurso[i] = {'Valor':i,'antecedentesManejo': item1.antecedentesManejo, 'apto': item1.apto, 'edad': item1.edad, 'fecha': item1.fecha, 'fecha_captura': fecha_captura, 'firmaInstructor': item1.firmaInstructor, 'id_candidato': item1.id_candidato, 'id_course': item1.id_course, 'id_instructor': item1.id_instructor, 'name_course': item1.name_course, 'nombreCandidato': item1.nombreCandidato, 'nombreInstructor': item1.nombreInstructor, 'observaciones': item1.observaciones, 'telCelular': item1.telCelular, 'promedio':promedio};
+                                                            }
+                                                            $.ajax({
+                                                                type: "POST",
+                                                                async : true,
+                                                                url: url+"/capacitacion/guardarCursoManejo.php",
+                                                                dataType: 'html',
+                                                                data: {'datosCedulaGeneral': JSON.stringify(datosCedulaGeneral),
+                                                                'datosGeneralesCurso': JSON.stringify(datosGeneralesCurso),
+                                                                'cursoCiertoFalso': JSON.stringify(cursoCiertoFalso)},
+                                                                success: function(respuesta){
+                                                                    var respu1 = respuesta.split("._.");
+                                                                    var dat1 = respu1[0];
+                                                                    var dat2 = respu1[1];
+                                                                    if(dat1 == "CEDULA"){
+                                                                        if(dat2 > 0){
+                                                                            databaseHandler.db.transaction(
+                                                                                function(tx7){
+                                                                                    tx7.executeSql(
+                                                                                        "UPDATE cedulas_general SET estatus = 3 WHERE id_cedula = ?",
+                                                                                        [id_cedula],
+                                                                                        function(tx7, results){
+                                                                                            $(".send-ced").css("pointer-events", "all");
+                                                                                            localStorage.setItem("sendFlag", 0);
+                                                                                            $("#li-"+item.id_cedula).remove();
+                                                                                            swal("Enviado!", "", "success");
+                                                                                        }
+                                                                                    );
+                                                                                }
+                                                                            );
+                                                                        }
+                                                                    } else {
+                                                                        AlmacenarError(respuesta);
+                                                                    }
+                                                                },
+                                                                error: function(){
+                                                                    console.log("Error en la comunicacion");
+                                                                    swal("Fallo el envío, por conexión!", "", "error");
+                                                                    $(".send-ced").css("pointer-events", "all")
+                                                                }
+                                                            });
+                                                        },
+                                                        function(tx, error){
+                                                            console.log("Error al consultar: " + error.message);
+                                                        }
+                                                    );
+                                                },
+                                                function(error){},
+                                                function(){}
+                                            );
+                                        },
+                                        function(tx, error){
+                                            console.log("Error al consultar: " + error.message);
+                                        }
+                                    );
+                                },
+                                function(error){},
+                                function(){}
+                            );
+                           
+                        }
                     }
                 },
                 function(tx, error){

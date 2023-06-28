@@ -39,15 +39,16 @@
                         <input class="FWM-input obligatorio" type="text" id="nombreCandidato" name="Nombre Candidato"/>
 
                         <span class="span FWM-span-form">Edad</span>
-                        <input class="FWM-input obligatorio" type="number" id="edad" name="Edad"/>
+                        <input class="FWM-input obligatorio" type="text" inputmode="numeric" pattern="[0-9]+" id="edad" name="Edad" maxlength="2" />
 
                         <span class="span FWM-span-form">Tel. Celular</span>
-                        <input class="FWM-input obligatorio" type="number" id="telCelular" name="Tel. Celular"/>
+                        <input class="FWM-input obligatorio" type="text" inputmode="numeric" pattern="[0-9]+" id="telCelular" name="Tel. Celular" maxlength="15"/>
 
                         <span class="span FWM-span-form">Antecedentes de Manejo</span>
-                        <input class="FWM-input obligatorio" type="text" id="antecedentesManejo" name="Antecedentes de Manejo"/>
+                        <input class="FWM-input obligatorio" type="text" id="antecedentesManejo" name="Antecedentes de Manejo" maxlength="255"/>
 
                         <input type="hidden" id="name_course" value="Prueba de Manejo">
+                        <input type="hidden" id="id_candidato">
 
                     </div>
                     <div style="margin-bottom: 100px;"></div>
@@ -63,6 +64,72 @@ return {
             $("#nombreInstructor").val(localStorage.getItem("nombre"));
             var fecha = getDateWhitZeros().split(" ");
             $("#fecha").val(fecha[0]);
+
+            var empresa = localStorage.getItem("empresa");
+                var self = this;
+                var app = self.$app; 
+                var NomJson = 'Prospectos_'+empresa;
+                var NomDescCli = "Prospectos_"+empresa;
+
+                var fecha = new Date();
+                var mes = fecha.getMonth()+1;
+                var day = fecha.getDate();;
+
+                self.autocompleteDropdownAjax = app.autocomplete.create({
+                    inputEl: '#nombreCandidato',
+                    openIn: 'dropdown',
+                    preloader: true, //enable preloader
+                    valueProperty: 'ID', //object's "value" property name
+                    textProperty:  'Nombre', //object's "text" property name
+                    limit: 10, //limit to [number] results
+                    dropdownPlaceholderText: 'Selecciona una candidato...',
+                    source: function (query, render) {
+                        var autocomplete = this;
+                        var results = [];
+                        if (query.length === 0) {
+                            render(results);
+                            return;
+                        }
+                        autocomplete.preloaderShow();
+                        app.request({
+                            url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json", 
+                            method: 'GET',
+                            dataType: 'json',
+                            data: {
+                                query: query,
+                            },success: function (data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i].Nombre.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                }
+                                autocomplete.preloaderHide();
+                                render(results); 
+                            }
+                        }); 
+                    }
+                });
+
+                $('#nombreCandidato').change(function () {
+                    var id_candidato = $("#nombreCandidato").val();
+                    var encontro = false;
+                    app.request.get(cordova.file.dataDirectory + "jsons_capacitacion/"+NomDescCli+".json", function (data) {
+                        var content2 = JSON.parse(data);
+                        for(var x = 0; x < content2.length; x++) {
+                            if(content2[x].ID == id_candidato){
+                                $("#id_candidato").val(content2[x].ID);
+                                $("#nombreCandidato").val(content2[x].Nombre);
+                                $("#edad").val(content2[x].edad);
+                                $("#telCelular").val(content2[x].numero);
+                                encontro = true;
+                            }         
+                        }
+                        if(encontro){}else{
+                            $("#id_candidato").val("");
+                            $("#nombreCandidato").val("");
+                            $("#edad").val("");
+                            $("#telCelular").val("");
+                        }
+                    });
+                });  
         }
     }
 }

@@ -294,7 +294,7 @@
     //Pantalla vertical
     function vertical(){
         screen.orientation.lock('portrait');
-        screen.orientation.unlock();
+        // screen.orientation.unlock();
     }
     //Pantalla horizontal
     function landsca(){
@@ -304,7 +304,7 @@
     // Cerrar Popup
     function gClose(){
         screen.orientation.lock('portrait');
-        screen.orientation.unlock();
+        // screen.orientation.unlock();
     }
     var testFirma;
 
@@ -3394,11 +3394,11 @@ function generaEvaluacion(val){
             var antecedentesManejo = $("#antecedentesManejo").val();
             var name_course = $("#name_course").val();
             var id_instructor = localStorage.getItem("id_usuario");
-            var id_candidato = 1; //! dinamic
+            var id_candidato = $("#id_candidato").val();
             var fecha_captura = getDateWhitZeros();
             var id_course = 1; //! dinamic
 
-            productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,geolocation,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua);
+            productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua);
             databaseHandler.db.transaction(
                 function (tx) {
                 tx.executeSql(
@@ -3456,5 +3456,77 @@ function generaEvaluacion(val){
         }
     }
 }
+function guardarCursoCiertoFalso(){
+    // if($("#observaciones").val() && $("#signate").val()){
+    //     console.log("true")
+    // } 
+    var id_cedula = localStorage.getItem("IdCedula");
+    var observaciones = $("#observaciones").val();
+    var firmaInstructor = $("#signate").val();
+    var apto = 0;
+    $("#cb3").prop("checked") == true ? apto = 1: apto = 0;
+
+    databaseHandler.db.transaction(
+        function(tx){
+            tx.executeSql("UPDATE datosGeneralesCurso SET apto = ?, observaciones = ?, firmaInstructor = ? WHERE id_cedula = ?",
+                [apto,observaciones,firmaInstructor, id_cedula],
+                function(tx, results){
+                    swal({
+                        title: "Aviso",
+                        text: "¿Estas seguro de querer finalizar la prueba?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((RESP) => {
+                        if (RESP == true) {
+                            var fecha_salida = getDateWhitZeros();
+                            var estatus = 1;
+                            databaseHandler.db.transaction(
+                                function(tx){
+                                    tx.executeSql("UPDATE cedulas_general SET fecha_salida  = ?,estatus = ? WHERE id_cedula = ?",
+                                        [fecha_salida,estatus,id_cedula],
+                                        function(tx, results){
+                                            window.location.href = "./menu.html";
+                                        },
+                                        function(tx, error){
+                                            swal("Error al guardar",error.message,"error");
+                                        }
+                                    );
+                                },
+                                function(error){},
+                                function(){}
+                            );              
+                        }
+                    });
+                },
+                function(tx, error){
+                    console.error("Error al guardar cierre: " + error.message);
+                }
+            );
+        },
+        function(error){},
+        function(){}
+    );
+}
+function gfirma(val){
+    var signaturePad = testFirma;
+    var data = signaturePad.toDataURL('data:image/jpeg;base64,');
+    screen.orientation.lock('portrait');
+    // screen.orientation.unlock();
+    $("#signate").val(data);
+    $('#ImagenFirmaView').attr('src', data);
+    $('#VolverFirmar').html("Evidencia");
+    $("#VolverAFirmar").html("Volver a Firmar <i class='icon material-icons md-only' style='display: inline-block;margin-left: 12px;'>border_color</i>");
+    if(val){
+        var element = document.querySelector(".page-content");
+        element.scrollTop = element.scrollHeight;
+    }
+}
+function getPromedio(respuesta, length){
+    var promedio = respuesta*100;
+    promedio = promedio/length;
+    return promedio.toFixed(2);
+}
+
 //fin Capacitacion 
 //fin HMO

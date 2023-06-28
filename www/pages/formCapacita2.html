@@ -19,7 +19,7 @@
 
         <div class="toolbar tabbar toolbar-bottom" >
             <div class="toolbar-inner" style="background-color: #005D99;" id="toolbar_down">
-                <a href="#" onclick="gg();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Siguiente <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+                <a href="#" onclick="guardarCursoCiertoFalso();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Guardar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
             </div>
         </div>
 
@@ -34,31 +34,31 @@
                         </div>
                         
                         <div class="container-check">
-                            <span class="span FWM-span-form">Nombre Instructor</span>
-                            <span class="span FWM-span-form span-dato" id="nombreInstructor" name="Nombre Instructor"></span>
+                            <span class="span FWM-span-form" style="margin-top: 0 !important;">Nombre Instructor</span>
+                            <span class="span FWM-span-form span-dato" id="nombreInstructor" name="Nombre Instructor" style="margin-top: 0 !important;"></span>
                         </div>
                         
                         <div class="container-check">
-                            <span class="span FWM-span-form">Nombre Candidato</span>
-                            <span class="span FWM-span-form span-dato" id="nombreCandidato" name="Nombre Candidato"></span>
+                            <span class="span FWM-span-form" style="margin-top: 0 !important;">Nombre Candidato</span>
+                            <span class="span FWM-span-form span-dato" id="nombreCandidato" name="Nombre Candidato" style="margin-top: 0 !important;"></span>
                         </div>
 
                         <div class="container-check">
-                            <span class="span FWM-span-form">Edad</span>
-                            <span class="span FWM-span-form span-dato" id="edad" name="Edad"></span>
+                            <span class="span FWM-span-form" style="margin-top: 0 !important;">Edad</span>
+                            <span class="span FWM-span-form span-dato" id="edad" name="Edad" style="margin-top: 0 !important;"></span>
                         </div>
                         
                         <div class="container-check">
-                            <span class="span FWM-span-form">Tel. Celular</span>
-                            <span class="span FWM-span-form span-dato" id="telCelular" name="Tel. Celular"></span>
+                            <span class="span FWM-span-form" style="margin-top: 0 !important;">Tel. Celular</span>
+                            <span class="span FWM-span-form span-dato" id="telCelular" name="Tel. Celular" style="margin-top: 0 !important;"></span>
                         </div>
 
                         <div class="container-check">
-                            <span class="span FWM-span-form">Antecedentes de Manejo</span>
-                            <span class="span FWM-span-form span-dato" id="antecedentesManejo" name="Antecedentes de Manejo"></span>
+                            <span class="span FWM-span-form" style="margin-top: 0 !important;">Antecedentes de Manejo</span>
+                            <span class="span FWM-span-form span-dato" id="antecedentesManejo" name="Antecedentes de Manejo" style="margin-top: 0 !important;"></span>
                         </div>
 
-                        <br>
+                        <hr>
                         <h2 style="text-align: center;">Evaluación</h2>
 
                         <div id="evaluacion_div">
@@ -68,13 +68,45 @@
                         <div class="container_options">
                             <div class="container_options">
                                 <span class="span FWM-span-form">Observaciones:</span>
-                                <textarea class="FWM-input" style="font-family: 'ITC Avant Garde Gothic', sans-serif;" id="comentarios_generales" cols="30" rows="10" onchange=""></textarea>
+                                <textarea class="FWM-input" style="font-family: 'ITC Avant Garde Gothic', sans-serif;" id="observaciones" cols="30" rows="10" onchange=""></textarea>
                             </div>
 
                             <div class="container_options">
                                 <span class="span FWM-span-form">El candidato es Apto?:</span>
                                 <input class="tgl tgl-skewed" id="cb3" type="checkbox"></input>
-                                <label class="tgl-btn" data-tg-off="NO" data-tg-on="SI" for="cb3" style="font-size: 20px;"></label>
+                                <label class="tgl-btn" data-tg-off="NO" data-tg-on="SI" for="cb3" style="font-size: 20px;border-radius: 5px;"></label>
+                            </div>
+                            
+                            <div class="container_options">
+                                <span class="span FWM-span-form">Firma Instructor:</span>
+                                <input type="hidden" name="signate" id="signate" placeholder="sfirmc">
+                                <input type="hidden" id="whitfirma">
+                                <center>
+                                    <img id="ImagenFirmaView" src="" width="70%"><br>
+                                    <span id="VolverFirmar" style="display: none;"></span>
+                                    <input type="button" style="position:absolute;display:none;margin:0 !important;color:white;background-color: #019cdc;top:40px;margin-left:160px !important" value="Volver a Firmar">
+                                </center>
+                                <div class="row align-items-stretch" style="text-align: center;">
+                                    <div class="col-100 medium-50" style="min-width: 50px; border-style: none;">
+                                        <span class="resize-handler"></span>
+                                        <a href="#" onclick="createFirma()" data-popup=".popup-services" style="background-color: #005D99;" class="link popup-open boton-equipo" id="VolverAFirmar">Agregar Firma <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;">border_color</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="popup popup-services" style="background-color: #f0f8ff;">
+                            <br>
+                            <div class="popup-container" style="height: 300px;">
+                                 <div class="headerPopupPhoto" style="width: 90%;display: flex;justify-content: space-between;padding-left: 20px;margin-bottom: 30px;">
+                                    <a class="link popup-close" onclick="gfirma(1)" href="#">Guardar Firma</a>
+                                    <a class="link" onclick="cleanFirma()" href="#">Limpiar</a>
+                                    <a class="link popup-close" onclick="gClose()" href="#">Cerrar</a>
+                                </div>
+                                
+                                <div style="display: flex;flex-direction: column;justify-content: center;align-content: center;align-items: center;">
+                                    <canvas id="signature-pad" class="signature-pad" width="600" height="250" style="background-color: #fff; touch-action: none; border: 2px solid #005D99; border-radius: 15px;"></canvas>
+                                </div>
                             </div>
                         </div>
                         
@@ -121,12 +153,13 @@ return {
                         function(tx, results){
                             var length = results.rows.length;
                             var j = 0;
+                            var respuestas = 0;
                             for(var i = 0; i< length; i++){
                                 j++;
                                 var checked1 = '';
                                 var checked2 = '';
                                 var item3 = results.rows.item(i);
-                                item3.Respuesta == 1 ? (checked1 = 'checked', checked2 = '') : null ;
+                                item3.Respuesta == 1 ? (checked1 = 'checked', checked2 = '', respuestas++) : null ;
                                 item3.Respuesta == 0 ? (checked2 = 'checked', checked1 = '') : null ;
                                 form += `
                                     <span class="span FWM-span-form span_options">${j}. ${item3.Pregunta}</span>

@@ -48,7 +48,8 @@
       },
       "cordova-plugin-file": {},
       "cordova-plugin-downloader": {},
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-screen-orientation": {}
     }
   }
 }
