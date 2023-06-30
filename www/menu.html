@@ -270,7 +270,7 @@
       $(".menu_recaudo").css("display", "grid");
     } else if(localStorage.getItem("Modulos") == 'Diesel'){
       $(".menu_diesel").css("display", "grid");
-      localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "grid") : $("#tdHistoralDiesel").css("display", "none");
+      // localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "grid") : $("#tdHistoralDiesel").css("display", "none");
     }
 
     $("#menu_activo").val(localStorage.getItem("Modulos"));
@@ -279,8 +279,8 @@
 
     $("#nombre_usuario").html(localStorage.getItem("nombre"));
     function updateData(){
-      // var urlBase2 = "http://192.168.100.7/Desarrollo/CISAApp";
-      var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+      var urlBase2 = "http://192.168.100.5/Desarrollo/CISAApp";
+      // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
       if(localStorage.getItem("Modulos")){
         if(localStorage.getItem("Modulos") == 'Limpieza'){
           var RutaJSONS = urlBase2 + "/Archivos/JSON_limp/";
@@ -444,7 +444,7 @@
         $(".menu_recaudo").css("display", "grid");
       } else if(localStorage.getItem("Modulos") == 'Diesel'){
         $(".menu_diesel").css("display", "grid");
-        localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "grid") : $("#tdHistoralDiesel").css("display", "none");
+        // localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "grid") : $("#tdHistoralDiesel").css("display", "none");
       }
       updateData();
       recargacedulas();

@@ -58,8 +58,9 @@
                             <table style="margin-top:10px;margin-bottom: 10px;" class="tb_docs">
                                 <thead>
                                     <tr>
+                                        <th class="td_input">&nbsp;</th>
                                         <th>ID</th>
-                                        <th>Unidad</th>
+                                        <th>Empresa</th>
                                         <th>Fecha</th>
                                         <th>Usuario</th>
                                         <th>Acciones</th>
@@ -69,6 +70,13 @@
                                     
                                 </tbody>
                             </table>
+
+                            <div class="div_button_diesel">
+                                <button class="col button button-large button-fill btn-calculadora"  onclick="guardarUnion()" style="width: 50%;margin: auto;margin-top: 40px;border: 2px solid #2ECC71; background-color: #FFF;">
+                                    <span>Terminar Union</span>
+                                    <i class="material-icons md-light" style="color: #2ECC71;vertical-align: middle;font-size: 30px;">check_circle</i>
+                                </button>
+                            </div>
 
                             <div class="notas_container">
                                 <div class="notas_div">
@@ -100,6 +108,9 @@
                                 </div>
                             </div>
 
+                            <input type="hidden" id="diesel_IdCte">
+                            <input type="hidden" id="diesel_IdCedula">
+                            <input type="hidden" id="diesel_FechaCaptura">
                         </div>
                         <div style="margin-bottom: 100px;"></div>
                     </div>
