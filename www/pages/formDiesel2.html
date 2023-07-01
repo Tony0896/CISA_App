@@ -262,7 +262,6 @@
                 }
 
 				var url = localStorage.getItem("url");
-				//var url = "http://192.168.30.237/Desarrollo/CISAApp/Archivos/App_dev";
 
 				app.request.get(url + '/datageneralDiesel.php', { Id: ID_consulta, TipoCed: typeConsulta }, function (data) {
 					$('.sentencia1').remove();

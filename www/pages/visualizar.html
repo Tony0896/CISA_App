@@ -47,7 +47,6 @@
         app.preloader.show('red');
         
         var url = localStorage.getItem("url");
-        //var url = "http://192.168.30.237/Desarrollo/CISAApp/Archivos/App_dev";
 
         app.request.get(url+'/datageneral.php', { Id: cedula, TipoCed:TipoCed }, function (data) {
           $('.sentencia1').remove();
