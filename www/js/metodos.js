@@ -225,9 +225,9 @@
             val == 1 
             ? app.views.main.router.navigate({ name: 'formCapacita1'})
                 : val == 2 
-                ? null //app.views.main.router.navigate({ name: 'yallegueLimp'})
+                ? generarAsistencia()
                 :  val == 3
-                ? null //app.views.main.router.navigate({ name: 'yallegueLimp'})
+                ? app.views.main.router.back('/formCapacita4/', {force: true, ignoreCache: true, reload: true})
             : false ;
         } else {
             var Modulos = localStorage.getItem("Modulos");
@@ -668,6 +668,8 @@ function continuarCed(id_cedula,tipo){
         app.views.main.router.back('/yallegueRecaudo/', {force: true, ignoreCache: true, reload: true});
     } else if(tipo == 5){
         app.views.main.router.back('/formCapacita2/', {force: true, ignoreCache: true, reload: true});
+    } else if(tipo == 6){
+        app.views.main.router.back('/formCapacita3/', {force: true, ignoreCache: true, reload: true});
     }
 }
 
@@ -2213,7 +2215,7 @@ function edit_apoyo(val, estatus){
 }
 function sincronizaDatos(){
     var EmpresaID = localStorage.getItem("empresa");
-    // var urlBase2 = "http://192.168.100.7/Desarrollo/CISAApp";
+    // var urlBase2 = "http://192.168.100.6/Desarrollo/CISAApp";
     var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
     var url = urlBase2 + "/Exec/datos_desin.php?empresa="+EmpresaID;
     var url2 = urlBase2 + "/Exec/datos_desin_H.php?empresa="+EmpresaID;
@@ -3414,7 +3416,6 @@ function generaEvaluacion(val){
                         var id_cedula = item.Id;
                         productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
                         var NomJson = 'CursoCiertoFalso'+empresa;
-                        form = '';
                         app.request({
                             url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
                             method: 'GET',
@@ -3508,6 +3509,7 @@ function guardarCursoCiertoFalso(){
         function(){}
     );
 }
+
 function gfirma(val){
     var signaturePad = testFirma;
     var data = signaturePad.toDataURL('data:image/jpeg;base64,');
@@ -3522,10 +3524,271 @@ function gfirma(val){
         element.scrollTop = element.scrollHeight;
     }
 }
+
 function getPromedio(respuesta, length){
     var promedio = respuesta*100;
     promedio = promedio/length;
     return promedio.toFixed(2);
+}
+
+function generarAsistencia(){
+    var fechas = getDateWhitZeros();
+    var fecha = fechas.split(" ");
+    databaseHandler.db.transaction(
+        function(tx5){
+            tx5.executeSql("SELECT COUNT(id_cedula) as cuenta FROM asistenciaHeader WHERE fecha = ? ",
+                [fecha[0]],
+                function(tx5, results){
+                    var item2 = results.rows.item(0);
+                    var count = item2.cuenta;
+                    if(count == 0){
+                        var id_usuario = localStorage.getItem("Usuario");
+                        var nombre_usuario = localStorage.getItem("nombre");
+                        var fecha_llegada = getDateWhitZeros();
+                        var geolocation = '';
+                        var id_cliente = localStorage.getItem("empresa");
+                        var nombre_cliente = 'Lista Asistencia';
+                        var horario_programado = fecha_llegada;
+                        var estatus = 0;
+                        var tipo_cedula = 'Capacitación';
+                        var nombre_evalua = 'Lista de Asistencia';
+                        var nombreInstructor = localStorage.getItem("nombre");;
+                        var id_instructor = localStorage.getItem("id_usuario");
+                        var fecha_captura = getDateWhitZeros();
+                        var id_course = 0; //! dinamic
+                        productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua);
+                        databaseHandler.db.transaction(
+                            function (tx) {
+                            tx.executeSql(
+                                "Select MAX(id_cedula) as Id from cedulas_general",
+                                [],
+                                function (tx, results) {
+                                    var progress = 0;
+                                    var dialog = app.dialog.progress('Generando Lista', progress, 'red');
+                                    var empresa = localStorage.getItem("empresa");
+                                    var item = results.rows.item(0);
+                                    localStorage.setItem("IdCedula", item.Id);
+                                    var id_cedula = item.Id;
+                                    productHandler.asistenciaHeader(id_cedula, fecha[0], id_instructor, nombreInstructor, fecha_captura);
+                                    var NomJson = 'BecariosVsInstructor_'+empresa;
+                                    app.request({
+                                        url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
+                                        method: 'GET',
+                                        dataType: 'json',
+                                        success: function (data) {
+                                            var aux = 0;
+                                            var aux2 = 0;
+                                            for (var j = 0; j < data.length; j++) {
+                                                if(data[j].FKPersonalInstructor == id_instructor){
+                                                    aux ++;
+                                                }
+                                            }
+                                            if(aux == 0){
+                                                app.dialog.close();
+                                                swal("","Algo salió mal. No tienes Becarios Asignados.","error");
+                                            }else{
+                                                dialog.setText('1 de ' + aux);
+                                                for (var j = 0; j < data.length; j++) {
+                                                    if(data[j].FKPersonalInstructor == id_instructor){
+                                                        aux2++;
+                                                        // asistenciaDetails(id_cedula integer, fecha text, id_becario int,claveBecario, nameBecario, asiste int, fechaCaptura text)
+                                                        productHandler.asistenciaDetails(id_cedula,fecha[0], data[j].ID, data[j].claveBecario, data[j].nameBecario, 0, fecha_captura, aux, aux2);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                                },
+                                function (tx, error) {
+                                console.log("Error al guardar cedula: " + error.message);
+                                }
+                            );
+                            },
+                            function (error) {},
+                            function () {}
+                        );
+
+                    } else {
+                        swal("", "Ya existe una asistencia registrada", "warning")
+                    }
+                },
+                function(tx5, error){ console.error("Error al consultar bandeja de salida: " + error.message); }
+            );  
+        },
+    function(error){},
+    function(){}
+    );
+}
+function actualizaLista(id){
+    console.log(id)
+    var id_asistenciaD = id.replace('cb3-','');
+    var assite = 0;
+    $("#"+id).prop("checked") == true ? assite = 1 : assite = 0;
+    databaseHandler.db.transaction(
+        function(tx){
+            tx.executeSql("UPDATE asistenciaDetails SET asiste = ? WHERE id_asistenciaD = ?",
+                [assite,id_asistenciaD],
+                function(tx, results){
+                },
+                function(tx, error){
+                    console.error("Error al guardar cierre: " + error.message);
+                }
+            );
+        },
+        function(error){},
+        function(){}
+    );
+}
+
+function guardarAsistencia(){
+    window.location.href = "./menu.html";
+}
+
+function verSeguimientoCapacitacion(ID, FKPersonalBecario){
+    var popEvidencia = app.popup.create({
+        content: `
+        <div class="sheet-modal my-sheet" id="sheet-modal" name="sheet">
+        <div class="toolbar">
+            <div class="toolbar-inner">
+                <div class="left"></div>
+                <div class="right"><a class="link" id="close_sheet" href="#">Cerrar</a></div>
+            </div>
+        </div>
+        <div class="sheet-modal-inner" style="overflow-y: scroll;">
+            <div class="block">
+                <div class="card-content">
+                    <div class="card" style="text-align: center;">
+                        <a href="#" onclick="LLamarCursos(${ID}, ${FKPersonalBecario});"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                            <p class="texto_master" style="margin: 10px 0 20px 0;">CURSOS</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="card" style="text-align: center;">
+                        <a href="#" onclick="LLamarIMTES(${ID}, ${FKPersonalBecario});"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                            <p class="texto_master" style="margin: 10px 0 20px 0;">IMTES</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`,
+    swipeToClose:false,
+    closeByOutsideClick:false,
+    closeByBackdropClick:false,
+    closeOnEscape:false,
+            on: {
+                open: function (popup) {
+                    $('#close_sheet').click(function () {
+                        app.sheet.close('#sheet-modal');
+                    });
+                },
+            }
+    });
+    popEvidencia.open();
+}
+
+function LLamarCursos(ID, FKPersonalBecario){
+    app.sheet.close('#sheet-modal');
+    var popEvidencia = app.popup.create({
+        content: `
+        <div class="sheet-modal my-sheet" id="sheet-modal-1" name="sheet">
+        <div class="toolbar">
+            <div class="toolbar-inner">
+                <div class="left"></div>
+                <div class="right"><a class="link" id="close_sheet" href="#">Cerrar</a></div>
+            </div>
+        </div>
+        <div class="sheet-modal-inner" style="overflow-y: scroll;">
+            <div class="block">
+                <div class="card-content">
+                    <div class="card" style="text-align: center;">
+                        <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario},1);"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                            <p class="texto_master" style="margin: 10px 0 20px 0;">Prueba de manejo</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="card" style="text-align: center;">
+                        <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario},2);"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                            <p class="texto_master" style="margin: 10px 0 20px 0;">Propedéutico</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="card" style="text-align: center;">
+                        <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario},3);"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                            <p class="texto_master" style="margin: 10px 0 20px 0;">Maniobras</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="card" style="text-align: center;">
+                        <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario},4);"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                            <p class="texto_master" style="margin: 10px 0 20px 0;">Pista</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`,
+    swipeToClose:false,
+    closeByOutsideClick:false,
+    closeByBackdropClick:false,
+    closeOnEscape:false,
+            on: {
+                open: function (popup) {
+                    $('#close_sheet').click(function () {
+                        app.sheet.close('#sheet-modal-1');
+                    });
+                },
+            }
+    });
+    popEvidencia.open();
+}
+
+function LLamarIMTES(ID, FKPersonalBecario){
+    app.sheet.close('#sheet-modal');
+    var popEvidencia = app.popup.create({
+        content: `
+        <div class="sheet-modal my-sheet" id="sheet-modal-2" name="sheet">
+        <div class="toolbar">
+            <div class="toolbar-inner">
+                <div class="left"></div>
+                <div class="right"><a class="link" id="close_sheet" href="#">Cerrar</a></div>
+            </div>
+        </div>
+        <div class="sheet-modal-inner" style="overflow-y: scroll;">
+            <div class="block">
+                <div class="card-content">
+                    <div class="card" style="text-align: center;">
+                        <a href="#" onclick="GenerarIMTES(${ID}, ${FKPersonalBecario},1);"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                            <p class="texto_master" style="margin: 10px 0 20px 0;">Licencia</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`,
+    swipeToClose:false,
+    closeByOutsideClick:false,
+    closeByBackdropClick:false,
+    closeOnEscape:false,
+            on: {
+                open: function (popup) {
+                    $('#close_sheet').click(function () {
+                        app.sheet.close('#sheet-modal-2');
+                    });
+                },
+            }
+    });
+    popEvidencia.open();
+}
+function GenerarCurso(ID, FK_Becario, op){//ID, FKPersonalBecario, 1
+    if(op == 1){
+        app.sheet.close('#sheet-modal-1');
+        app.views.main.router.back('/formCapacita5/', {force: true, ignoreCache: true, reload: true});
+    }
 }
 
 //fin Capacitacion 

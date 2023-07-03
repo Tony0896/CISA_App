@@ -244,3 +244,6 @@ i.icon{
 input[type="radio"]{
   transform: scale(1.3);
 }
+.tbody_asistencia > tr > td{
+  border: 1px solid #90c2ff;
+}

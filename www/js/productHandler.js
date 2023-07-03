@@ -444,4 +444,53 @@ var productHandler={
         function () {}
       );
   },
+  asistenciaHeader: function (id_cedula, fecha, id_instructor, nombreInstructor, fecha_captura){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "insert into asistenciaHeader(id_cedula, fecha, id_usuario, nameUsuario, fechaCaptura) values(?, ?, ?, ?, ?)",
+            [id_cedula, fecha, id_instructor, nombreInstructor, fecha_captura],
+            function (tx, results) {
+              //console.log("Frio correcto");
+            },
+            function (tx, error) {
+              console.error("Error registrar:" + error.message);
+            }
+          );
+        },
+        function (error) {
+            console.log(error)
+        },
+        function () {}
+      );
+  },
+  // asistenciaDetails(id_cedula integer, fecha text, id_becario int,claveBecario, nameBecario, asiste int, fechaCaptura text)
+  asistenciaDetails: function(id_cedula, fecha, id_becario, claveBecario, nameBecario, asiste, fecha_captura, aux, aux2){
+    databaseHandler.db.transaction(
+      function (tx) {
+        tx.executeSql(
+          "insert into asistenciaDetails(id_cedula, fecha, id_becario, claveBecario, nameBecario, asiste, fechaCaptura) values(?, ?, ?, ?, ?, ?, ?)",
+          [id_cedula, fecha, id_becario, claveBecario, nameBecario, asiste, getDateWhitZeros()],
+          function (tx, results) {
+            if(aux == aux2){
+              app.dialog.close();
+              app.views.main.router.back('/formCapacita3/', {force: true, ignoreCache: true, reload: true});
+            }else{
+              var dialog = app.dialog.get();
+              dialog.setProgress((aux2 * 100) / aux);
+              dialog.setText(aux2+' de '+aux);
+            }
+          },
+          function (tx, error) {
+            console.error("Error registrar:" + error.message);
+          }
+        );
+      },
+        function (error) {
+            console.log(error)
+        },
+  
+        function () {}
+    );
+  },
 };

@@ -132,6 +132,26 @@ var databaseHandler = {
                             console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
                         }
                     );
+                    tx.executeSql(
+                        "create table if not exists asistenciaHeader(id_asistencia integer primary key, id_cedula integer, fecha text, id_usuario int, nameUsuario text, fechaCaptura text)",
+                        [],
+                        function(tx, results){
+                            // console.log("Se creo Servicio tecnico DIPREC correctamente!");
+                        },
+                        function(tx, error){
+                            console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
+                        }
+                    );
+                    tx.executeSql(
+                        "create table if not exists asistenciaDetails(id_asistenciaD integer primary key, id_cedula integer, fecha text, id_becario int, claveBecario text, nameBecario text, asiste int, fechaCaptura text)",
+                        [],
+                        function(tx, results){
+                            // console.log("Se creo Servicio tecnico DIPREC correctamente!");
+                        },
+                        function(tx, error){
+                            console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
+                        }
+                    );
                 // }
             },
             function(error){
