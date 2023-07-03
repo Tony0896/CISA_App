@@ -247,3 +247,8 @@ input[type="radio"]{
 .tbody_asistencia > tr > td{
   border: 1px solid #90c2ff;
 }
+.timeline-item-date {
+  background-color: #005D99 !important;
+  color: #fff !important;
+  font-weight: bold;
+}

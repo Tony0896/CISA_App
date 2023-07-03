@@ -3455,6 +3455,85 @@ function generaEvaluacion(val){
             swal("","Debes llenar estos campos para poder guardar: "+quita_coma,"warning");
             return false;
         }
+    } else {
+        var id_usuario = localStorage.getItem("Usuario");
+        var nombre_usuario = localStorage.getItem("nombre");
+        var fecha_llegada = getDateWhitZeros();
+        var geolocation = '';
+        var id_cliente = localStorage.getItem("empresa");
+        var nombre_cliente = localStorage.getItem("nameBecario");
+        var horario_programado = fecha_llegada;
+        var estatus = 0;
+        var tipo_cedula = 'Capacitación';
+        var nombre_evalua = localStorage.getItem("NombreCurso");
+        
+        var fechas =fecha_llegada.split(" ");
+        var fecha = fechas[0];
+        var nombreInstructor = localStorage.getItem("nombre");
+        var nombreCandidato = localStorage.getItem("nameBecario");
+        var edad = "";
+        var telCelular = "";
+        var antecedentesManejo = "";
+        var name_course = localStorage.getItem("NombreCurso");
+        var id_instructor = localStorage.getItem("id_usuario");
+        var id_candidato = localStorage.getItem("FK_Becario");
+        var fecha_captura = getDateWhitZeros();
+        var id_course = localStorage.getItem("IDCurso");
+        var IDTipoCurso = localStorage.getItem("IDTipoCurso");
+
+        productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua);
+        databaseHandler.db.transaction(
+            function (tx) {
+            tx.executeSql(
+                "Select MAX(id_cedula) as Id from cedulas_general",
+                [],
+                function (tx, results) {
+                    //app.dialog.progress('Generando CheckList','red');
+                    var progress = 0;
+                    var dialog = app.dialog.progress('Generando CheckList', progress, 'red');
+                    var empresa = localStorage.getItem("empresa");
+                    var item = results.rows.item(0);
+                    localStorage.setItem("IdCedula", item.Id);
+                    var id_cedula = item.Id;
+                    if(IDTipoCurso == 2){
+                        productHandler.addDatosPrueba(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
+                        var NomJson = 'CursoSiNoValor'+empresa;
+                        app.request({
+                            url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
+                            method: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                var aux = 0;
+                                var aux2 = 0;
+                                for (var j = 0; j < data.length; j++) {
+                                    if(data[j].IDNombreCurso == id_course){
+                                        aux ++;
+                                    }
+                                }
+                                if(aux == 0){
+                                    app.dialog.close();
+                                    swal("","Algo salió mal.","error");
+                                }else{
+                                    dialog.setText('1 de ' + aux);
+                                    for (var j = 0; j < data.length; j++) {
+                                        if(data[j].IDNombreCurso == id_course){
+                                            aux2++;
+                                            productHandler.insertPreguntasSiNoValor(id_cedula,data[j].IDPregunta,data[j].Pregunta,id_course,data[j].OpCorrecta,data[j].Valor,aux,aux2);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                },
+                function (tx, error) {
+                console.log("Error al guardar cedula: " + error.message);
+                }
+            );
+            },
+            function (error) {},
+            function () {}
+        );
     }
 }
 function guardarCursoCiertoFalso(){
@@ -3644,7 +3723,7 @@ function guardarAsistencia(){
     window.location.href = "./menu.html";
 }
 
-function verSeguimientoCapacitacion(ID, FKPersonalBecario){
+function verSeguimientoCapacitacion(ID, FKPersonalBecario,nameBecario){
     var popEvidencia = app.popup.create({
         content: `
         <div class="sheet-modal my-sheet" id="sheet-modal" name="sheet">
@@ -3658,14 +3737,14 @@ function verSeguimientoCapacitacion(ID, FKPersonalBecario){
             <div class="block">
                 <div class="card-content">
                     <div class="card" style="text-align: center;">
-                        <a href="#" onclick="LLamarCursos(${ID}, ${FKPersonalBecario});"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                        <a href="#" onclick="LLamarCursos(${ID}, ${FKPersonalBecario}, '${nameBecario}');"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
                             <p class="texto_master" style="margin: 10px 0 20px 0;">CURSOS</p>
                         </a>
                     </div>
                 </div>
                 <div class="card-content">
                     <div class="card" style="text-align: center;">
-                        <a href="#" onclick="LLamarIMTES(${ID}, ${FKPersonalBecario});"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                        <a href="#" onclick="LLamarIMTES(${ID}, ${FKPersonalBecario}, '${nameBecario}');"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
                             <p class="texto_master" style="margin: 10px 0 20px 0;">IMTES</p>
                         </a>
                     </div>
@@ -3688,63 +3767,62 @@ function verSeguimientoCapacitacion(ID, FKPersonalBecario){
     popEvidencia.open();
 }
 
-function LLamarCursos(ID, FKPersonalBecario){
+function LLamarCursos(ID, FKPersonalBecario,nameBecario){
     app.sheet.close('#sheet-modal');
-    var popEvidencia = app.popup.create({
-        content: `
-        <div class="sheet-modal my-sheet" id="sheet-modal-1" name="sheet">
-        <div class="toolbar">
-            <div class="toolbar-inner">
-                <div class="left"></div>
-                <div class="right"><a class="link" id="close_sheet" href="#">Cerrar</a></div>
-            </div>
-        </div>
-        <div class="sheet-modal-inner" style="overflow-y: scroll;">
-            <div class="block">
-                <div class="card-content">
-                    <div class="card" style="text-align: center;">
-                        <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario},1);"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
-                            <p class="texto_master" style="margin: 10px 0 20px 0;">Prueba de manejo</p>
-                        </a>
+    var empresa = localStorage.getItem("empresa");
+    var NomJson = 'Cursos_'+empresa;
+    var html = '';
+    localStorage.setItem("nameBecario", nameBecario)
+    app.request({
+        url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var length = data.length;
+            if(length == 0){
+            } else {
+                for (var j = 0; j < data.length; j++) {
+                    html += `<div class="card-content">
+                        <div class="card" style="text-align: center;">
+                            <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario}, ${data[j].IDNombreCurso}, ${data[j].IDTipoCurso}, ${data[j].Diario}, '${data[j].NombreCurso}');"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                                <p class="texto_master" style="margin: 10px 0 20px 0;">${data[j].NombreCurso}</p>
+                            </a>
+                        </div>
+                    </div>`;
+                }
+                // $("#tbody_becarios").html(html);
+                var popEvidencia = app.popup.create({
+                    content: `
+                    <div class="sheet-modal my-sheet" id="sheet-modal-1" name="sheet">
+                    <div class="toolbar">
+                        <div class="toolbar-inner">
+                            <div class="left"></div>
+                            <div class="right"><a class="link" id="close_sheet" href="#">Cerrar</a></div>
+                        </div>
                     </div>
-                </div>
-                <div class="card-content">
-                    <div class="card" style="text-align: center;">
-                        <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario},2);"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
-                            <p class="texto_master" style="margin: 10px 0 20px 0;">Propedéutico</p>
-                        </a>
+                    <div class="sheet-modal-inner" style="overflow-y: scroll;">
+                        <div class="block">
+                           ${html}
+                        </div>
+                        <div style="margin-bottom: 100px;"></div>
                     </div>
-                </div>
-                <div class="card-content">
-                    <div class="card" style="text-align: center;">
-                        <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario},3);"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
-                            <p class="texto_master" style="margin: 10px 0 20px 0;">Maniobras</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <div class="card" style="text-align: center;">
-                        <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario},4);"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
-                            <p class="texto_master" style="margin: 10px 0 20px 0;">Pista</p>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>`,
-    swipeToClose:false,
-    closeByOutsideClick:false,
-    closeByBackdropClick:false,
-    closeOnEscape:false,
-            on: {
-                open: function (popup) {
-                    $('#close_sheet').click(function () {
-                        app.sheet.close('#sheet-modal-1');
-                    });
-                },
+                </div>`,
+                swipeToClose:false,
+                closeByOutsideClick:false,
+                closeByBackdropClick:false,
+                closeOnEscape:false,
+                        on: {
+                            open: function (popup) {
+                                $('#close_sheet').click(function () {
+                                    app.sheet.close('#sheet-modal-1');
+                                });
+                            },
+                        }
+                });
+                popEvidencia.open();
             }
+        }
     });
-    popEvidencia.open();
 }
 
 function LLamarIMTES(ID, FKPersonalBecario){
@@ -3784,10 +3862,15 @@ function LLamarIMTES(ID, FKPersonalBecario){
     });
     popEvidencia.open();
 }
-function GenerarCurso(ID, FK_Becario, op){//ID, FKPersonalBecario, 1
-    if(op == 1){
-        app.sheet.close('#sheet-modal-1');
-        app.views.main.router.back('/formCapacita5/', {force: true, ignoreCache: true, reload: true});
+function GenerarCurso(IDMov, FK_Becario, IDCurso, IDTipoCurso, OpDiario, NombreCurso){//ID, FKPersonalBecario, IDNombreCurso, IDTipoCurso, NombreCurso
+    localStorage.setItem("IDMov", IDMov);
+    localStorage.setItem("FK_Becario", FK_Becario);
+    localStorage.setItem("IDCurso", IDCurso);
+    localStorage.setItem("IDTipoCurso", IDTipoCurso);
+    localStorage.setItem("OpDiario", OpDiario);
+    localStorage.setItem("NombreCurso", NombreCurso);
+    if(OpDiario == 1){
+        generaEvaluacion(IDTipoCurso)
     }
 }
 

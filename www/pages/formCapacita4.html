@@ -99,7 +99,7 @@
                                         </td> 
                                         <td>${data[j].fecha}</td> 
                                         <td> 
-                                            <button class="col button button-small button-round button-outline" style="height: 80%;border-color: #2ECC71;" onclick="verSeguimientoCapacitacion(${data[j].ID},${data[j].FKPersonalBecario})"><i class="material-icons md-light" style="color: #2ECC71;vertical-align: middle;font-size: 30px;">play_circle_outline</i></button>
+                                            <button class="col button button-small button-round button-outline" style="height: 80%;border-color: #2ECC71;" onclick="verSeguimientoCapacitacion(${data[j].ID},${data[j].FKPersonalBecario},'${data[j].nameBecario}')"><i class="material-icons md-light" style="color: #2ECC71;vertical-align: middle;font-size: 30px;">play_circle_outline</i></button>
                                         </td> 
                                         </tr>`;
                                         $("#tbody_becarios").append(html);

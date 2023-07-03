@@ -493,4 +493,32 @@ var productHandler={
         function () {}
     );
   },
+  insertPreguntasSiNoValor: function (id_cedula,IDPregunta,Pregunta,id_curso,OpCorrecta,Valor,aux,aux2){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "insert into cursoCiertoFalso(id_cedula,FK_IDPregunta,Pregunta,FK_IDCurso,Respuesta, OpCorrecta,Valor, fecha) values(?,?,?,?,?,?,?,?)",
+            [id_cedula,IDPregunta,Pregunta,id_curso,0,OpCorrecta,Valor,getDateWhitZeros()],
+            function (tx, results) {
+              if(aux == aux2){
+                app.dialog.close();
+                app.views.main.router.back('/formCapacita5/', {force: true, ignoreCache: true, reload: true});
+              }else{
+                var dialog = app.dialog.get();
+                dialog.setProgress((aux2 * 100) / aux);
+                dialog.setText(aux2+' de '+aux);
+              }
+            },
+            function (tx, error) {
+              console.error("Error registrar:" + error.message);
+            }
+          );
+        },
+          function (error) {
+              console.log(error)
+          },
+    
+          function () {}
+        );
+  },
 };
