@@ -670,6 +670,33 @@ function continuarCed(id_cedula,tipo){
         app.views.main.router.back('/formCapacita2/', {force: true, ignoreCache: true, reload: true});
     } else if(tipo == 6){
         app.views.main.router.back('/formCapacita3/', {force: true, ignoreCache: true, reload: true});
+    } else if(tipo == 7){
+        app.views.main.router.back('/formCapacita5/', {force: true, ignoreCache: true, reload: true});
+    }
+}
+function continuarCedCap(id_cedula,tipo){
+    localStorage.setItem("IdCedula",id_cedula);
+    
+    if(tipo == 1){} else if(tipo == 2){
+        databaseHandler.db.transaction(
+            function(tx){
+                tx.executeSql(
+                    "Select * from cedulas_general cd INNER JOIN datosGeneralesCurso dg ON cd.id_cedula = dg.id_cedula where cd.id_cedula= ?",
+                    [id_cedula],
+                    function(tx, results){
+                        var item2 = results.rows.item(0);
+                        localStorage.setItem("FK_Becario", item2.id_candidato);
+                        localStorage.setItem("IDCurso", item2.geolocalizacion_entrada);
+                        localStorage.setItem("IDTipoCurso", item2.geolocalizacion_salida);
+                        localStorage.setItem("NombreCurso", item2.nombre_evalua);
+                        localStorage.setItem("nameBecario", item2.nombre_cliente);
+                        app.views.main.router.back('/formCapacita5/', {force: true, ignoreCache: true, reload: true});
+                    }
+                );
+            },
+            function(error){},
+            function(){}
+        );
     }
 }
 
@@ -3317,7 +3344,7 @@ function InsertaDetailsRecaudo(id_cedula, id_servidor){
 //Fin Recaudo
 //Inicio HMO
 //Inicio Capacitacion 
-function validarRadioCapa(id,val){
+function validarRadioCapa(id,val,valor){
     var ids = id.split("-");
     var check = ids[1];
     var valCheck = document.getElementById(ids[0]+"-"+ids[1]).checked;
@@ -3341,6 +3368,8 @@ function validarRadioCapa(id,val){
     if(val){
         if(val==1){
             actualizaRespuestaCiertoFalso(id);
+        } else if(val==2){
+            actualizaRespuestaSiNoPuntuacion(id,valor);
         }
     }
 }
@@ -3380,7 +3409,7 @@ function generaEvaluacion(val){
             var id_usuario = localStorage.getItem("Usuario");
             var nombre_usuario = localStorage.getItem("nombre");
             var fecha_llegada = getDateWhitZeros();
-            var geolocation = '';
+            var geolocation = 1;
             var id_cliente = localStorage.getItem("empresa");
             var nombre_cliente = $("#nombreCandidato").val();
             var horario_programado = fecha_llegada;
@@ -3400,7 +3429,7 @@ function generaEvaluacion(val){
             var fecha_captura = getDateWhitZeros();
             var id_course = 1; //! dinamic
 
-            productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua);
+            productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua,geolocation);
             databaseHandler.db.transaction(
                 function (tx) {
                 tx.executeSql(
@@ -3409,7 +3438,7 @@ function generaEvaluacion(val){
                     function (tx, results) {
                         //app.dialog.progress('Generando CheckList','red');
                         var progress = 0;
-                        var dialog = app.dialog.progress('Generando CheckList', progress, 'red');
+                        var dialog = app.dialog.progress('Generando Curso', progress, 'red');
                         var empresa = localStorage.getItem("empresa");
                         var item = results.rows.item(0);
                         localStorage.setItem("IdCedula", item.Id);
@@ -3459,7 +3488,7 @@ function generaEvaluacion(val){
         var id_usuario = localStorage.getItem("Usuario");
         var nombre_usuario = localStorage.getItem("nombre");
         var fecha_llegada = getDateWhitZeros();
-        var geolocation = '';
+        var geolocation = localStorage.getItem("IDTipoCurso");;
         var id_cliente = localStorage.getItem("empresa");
         var nombre_cliente = localStorage.getItem("nameBecario");
         var horario_programado = fecha_llegada;
@@ -3471,8 +3500,8 @@ function generaEvaluacion(val){
         var fecha = fechas[0];
         var nombreInstructor = localStorage.getItem("nombre");
         var nombreCandidato = localStorage.getItem("nameBecario");
-        var edad = "";
-        var telCelular = "";
+        var edad = 0;
+        var telCelular = 0;
         var antecedentesManejo = "";
         var name_course = localStorage.getItem("NombreCurso");
         var id_instructor = localStorage.getItem("id_usuario");
@@ -3481,7 +3510,7 @@ function generaEvaluacion(val){
         var id_course = localStorage.getItem("IDCurso");
         var IDTipoCurso = localStorage.getItem("IDTipoCurso");
 
-        productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua);
+        productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua,geolocation);
         databaseHandler.db.transaction(
             function (tx) {
             tx.executeSql(
@@ -3490,13 +3519,13 @@ function generaEvaluacion(val){
                 function (tx, results) {
                     //app.dialog.progress('Generando CheckList','red');
                     var progress = 0;
-                    var dialog = app.dialog.progress('Generando CheckList', progress, 'red');
+                    var dialog = app.dialog.progress('Generando Curso', progress, 'red');
                     var empresa = localStorage.getItem("empresa");
                     var item = results.rows.item(0);
                     localStorage.setItem("IdCedula", item.Id);
                     var id_cedula = item.Id;
                     if(IDTipoCurso == 2){
-                        productHandler.addDatosPrueba(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
                         var NomJson = 'CursoSiNoValor'+empresa;
                         app.request({
                             url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
@@ -3520,6 +3549,48 @@ function generaEvaluacion(val){
                                             aux2++;
                                             productHandler.insertPreguntasSiNoValor(id_cedula,data[j].IDPregunta,data[j].Pregunta,id_course,data[j].OpCorrecta,data[j].Valor,aux,aux2);
                                         }
+                                    }
+                                }
+                            }
+                        });
+                    } else if(IDTipoCurso == 3){
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
+                        var NomJson = 'PreguntasMultiple_'+empresa;
+                        app.request({
+                            url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
+                            method: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                var aux = 0;
+                                var aux2 = 0;
+                                for (var j = 0; j < data.length; j++) {
+                                    if(data[j].IDNombreCurso == id_course){
+                                        aux ++;
+                                    }
+                                }
+                                if(aux == 0){
+                                    app.dialog.close();
+                                    swal("","Algo salió mal.","error");
+                                }else{
+                                    dialog.setText('1 de ' + aux);
+                                    for (var j = 0; j < data.length; j++) {
+                                        if(data[j].IDNombreCurso == id_course){
+                                            aux2++;
+                                            productHandler.insertPreguntasMultiple(id_cedula,data[j].IDPregunta,data[j].Pregunta,id_course,aux,aux2);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        var NomJson2 = 'RespuestasMultiples_'+empresa;
+                        app.request({
+                            url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson2+".json",
+                            method: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                for (var j = 0; j < data.length; j++) {
+                                    if(data[j].FK_IDCurso == id_course){                                        
+                                        productHandler.insertOptionsMultiple(id_cedula,data[j].ID,data[j].FK_Pregunta,data[j].Opcion,data[j].Correcta,id_course);
                                     }
                                 }
                             }
@@ -3782,9 +3853,15 @@ function LLamarCursos(ID, FKPersonalBecario,nameBecario){
             if(length == 0){
             } else {
                 for (var j = 0; j < data.length; j++) {
+                    var realizado = 0;
+                    if(data[j].IDNombreCurso == 1){
+                        realizado = 1;
+                    } else {
+                        realizado = 0;
+                    }
                     html += `<div class="card-content">
                         <div class="card" style="text-align: center;">
-                            <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario}, ${data[j].IDNombreCurso}, ${data[j].IDTipoCurso}, ${data[j].Diario}, '${data[j].NombreCurso}');"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                            <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario}, ${data[j].IDNombreCurso}, ${data[j].IDTipoCurso}, ${data[j].Diario}, '${data[j].NombreCurso}','${realizado}');"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
                                 <p class="texto_master" style="margin: 10px 0 20px 0;">${data[j].NombreCurso}</p>
                             </a>
                         </div>
@@ -3797,7 +3874,7 @@ function LLamarCursos(ID, FKPersonalBecario,nameBecario){
                     <div class="toolbar">
                         <div class="toolbar-inner">
                             <div class="left"></div>
-                            <div class="right"><a class="link" id="close_sheet" href="#">Cerrar</a></div>
+                            <div class="right"><a class="link" id="close_sheet-1" href="#">Cerrar</a></div>
                         </div>
                     </div>
                     <div class="sheet-modal-inner" style="overflow-y: scroll;">
@@ -3813,7 +3890,7 @@ function LLamarCursos(ID, FKPersonalBecario,nameBecario){
                 closeOnEscape:false,
                         on: {
                             open: function (popup) {
-                                $('#close_sheet').click(function () {
+                                $('#close_sheet-1').click(function () {
                                     app.sheet.close('#sheet-modal-1');
                                 });
                             },
@@ -3833,7 +3910,7 @@ function LLamarIMTES(ID, FKPersonalBecario){
         <div class="toolbar">
             <div class="toolbar-inner">
                 <div class="left"></div>
-                <div class="right"><a class="link" id="close_sheet" href="#">Cerrar</a></div>
+                <div class="right"><a class="link" id="close_sheet-2" href="#">Cerrar</a></div>
             </div>
         </div>
         <div class="sheet-modal-inner" style="overflow-y: scroll;">
@@ -3854,7 +3931,7 @@ function LLamarIMTES(ID, FKPersonalBecario){
     closeOnEscape:false,
             on: {
                 open: function (popup) {
-                    $('#close_sheet').click(function () {
+                    $('#close_sheet-2').click(function () {
                         app.sheet.close('#sheet-modal-2');
                     });
                 },
@@ -3862,7 +3939,8 @@ function LLamarIMTES(ID, FKPersonalBecario){
     });
     popEvidencia.open();
 }
-function GenerarCurso(IDMov, FK_Becario, IDCurso, IDTipoCurso, OpDiario, NombreCurso){//ID, FKPersonalBecario, IDNombreCurso, IDTipoCurso, NombreCurso
+
+function GenerarCurso(IDMov, FK_Becario, IDCurso, IDTipoCurso, OpDiario, NombreCurso, Realizado){
     localStorage.setItem("IDMov", IDMov);
     localStorage.setItem("FK_Becario", FK_Becario);
     localStorage.setItem("IDCurso", IDCurso);
@@ -3871,8 +3949,169 @@ function GenerarCurso(IDMov, FK_Becario, IDCurso, IDTipoCurso, OpDiario, NombreC
     localStorage.setItem("NombreCurso", NombreCurso);
     if(OpDiario == 1){
         generaEvaluacion(IDTipoCurso)
+    } else {
+        if(Realizado == 1){
+            app.sheet.close('#sheet-modal-1');
+            var empresa = localStorage.getItem("empresa");
+            var NomJson = 'DatosEvaluacionS_'+empresa;
+            var html = `<div class="card-content">
+                <div class="card" style="text-align: center;padding-left: 15px;padding-right: 15px;border: 1px solid #005D99;border-radius: 10px;">
+                    <span class="span FWM-span-form">Evaluacion no disponible</span>
+                </div></div>`;
+            app.request({
+                url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    var length = data.length;
+                    if(length == 0){
+                    } else {
+                        for (var j = 0; j < data.length; j++) {
+                            if(data[j].FK_IDCurso == IDCurso && data[j].FK_Becario == FK_Becario){
+                                var check = ''
+                                data[j].apto == 1 ? check = 'checked': check = '';
+                                html = `<div class="card-content">
+                                    <div class="card" style="text-align: center;padding-left: 15px;padding-right: 15px;border: 1px solid #005D99;border-radius: 10px;">
+                                        <div class="container-check">
+                                            <span class="span FWM-span-form">Fecha Evaluacion</span>
+                                            <span class="span FWM-span-form span-dato" style="color:#005D99;">${data[j].fecha}</span>
+                                        </div>
+                                        <div class="container-check">
+                                            <span class="span FWM-span-form">Instructor</span>
+                                            <span class="span FWM-span-form span-dato" style="color:#005D99;">${data[j].nameInstructor}</span>
+                                        </div>
+                                        <div class="container-check">
+                                            <span class="span FWM-span-form">Becario</span>
+                                            <span class="span FWM-span-form span-dato" style="color:#005D99;">${data[j].nameBecario}</span>
+                                        </div>
+                                        <div class="container_options" style="display: flex;">
+                                            <span class="span FWM-span-form" style="width: 50%;">El candidato es Apto?:</span>
+                                            <div style="width: 50%;">
+                                                <input class="tgl tgl-skewed" id="cb3" type="checkbox" ${check}></input>
+                                                <label class="tgl-btn" data-tg-off="NO" data-tg-on="SI" for="" style="font-size: 20px;border-radius: 5px;"></label>
+                                            </div>
+                                        </div>
+                                        <div class="container-check">
+                                        <span class="span FWM-span-form">Observaciones</span>
+                                        <span class="span FWM-span-form span-dato" style="color:#005D99;">${data[j].observaciones}</span>
+                                    </div>
+                                    </div>
+                                </div>`;
+                            }
+                        }
+                        var popEvidencia = app.popup.create({
+                            content: `
+                            <div class="sheet-modal my-sheet" id="sheet-modal-3" name="sheet">
+                            <div class="toolbar">
+                                <div class="toolbar-inner">
+                                    <div class="left"></div>
+                                    <div class="right"><a class="link" id="close_sheet-3" href="#">Cerrar</a></div>
+                                </div>
+                            </div>
+                            <div class="sheet-modal-inner" style="overflow-y: scroll;">
+                                <div class="block">
+                                    ${html}
+                                </div>
+                            </div>
+                        </div>`,
+                        swipeToClose:false,
+                        closeByOutsideClick:false,
+                        closeByBackdropClick:false,
+                        closeOnEscape:false,
+                                on: {
+                                    open: function (popup) {
+                                        $('#close_sheet-3').click(function () {
+                                            app.sheet.close('#sheet-modal-3');
+                                        });
+                                    },
+                                }
+                        });
+                        popEvidencia.open();
+                    }
+                }
+            });
+        } else {
+            generaEvaluacion(IDTipoCurso);
+        }
+        
     }
 }
 
+function actualizaRespuestaSiNoPuntuacion(id, valor){
+    var id_cedula = localStorage.getItem("IdCedula");
+    var ids = id.split("-");
+    var check = ids[1];
+    if(check.includes('1')){
+        var respuesta = 1;
+        var id_pregunta = ids[0].replace('op','');
+        var prePunto = 1*valor;
+    } else if(check.includes('0')){
+        var respuesta = 0;
+        var id_pregunta = ids[0].replace('op','');
+        var prePunto = -1*valor;
+    }
+
+    var PuntosCurso = Number($("#calificacion_number").val());
+    var totalPuntos = PuntosCurso+prePunto;
+    $("#calificacion_number").val(totalPuntos)
+
+    var id_curso = localStorage.getItem("IDCurso");
+    if(id_curso == 3){
+        if(totalPuntos > 0 && totalPuntos <= 7){
+            califf = 0
+        } else if(totalPuntos > 7 && totalPuntos <= 9){
+            califf = 8
+        } else if(totalPuntos > 9 && totalPuntos <= 11){
+            califf = 9
+        } else if(totalPuntos > 11 && totalPuntos <= 13){
+            califf = 10
+        } else {
+            califf = 0
+        }
+    } else if(id_curso == 2 || id_curso == 4){
+        if(totalPuntos > 0 && totalPuntos <= 8){
+            califf = 0
+        } else if(totalPuntos > 8 && totalPuntos <= 11){
+            califf = 8
+        } else if(totalPuntos > 11 && totalPuntos <= 14){
+            califf = 9
+        } else if(totalPuntos > 14 && totalPuntos <= 16){
+            califf = 10
+        } else {
+            califf = 0
+        }
+    }
+
+    
+
+    $("#calificacion_text").html('Puntaje Obtenido: '+ totalPuntos + ", Calificación: "+califf)
+
+    databaseHandler.db.transaction(
+        function(tx){
+            tx.executeSql("UPDATE CAP_RespuestasSiNoPuntuacion SET Respuesta = ? WHERE id_cedula = ? AND FK_IDPregunta = ?",
+                [respuesta,id_cedula,id_pregunta],
+                function(tx, results){
+                },
+                function(tx, error){
+                    console.error("Error al guardar: " + error.message);
+                }
+            );
+        },
+        function(error){},
+        function(){}
+    );
+}
+function sincronizaDatosCapacitacion(){
+    var EmpresaID = localStorage.getItem("empresa");
+    var urlBase2 = "http://192.168.100.6/Desarrollo/CISAApp/HMOFiles/Exec";
+    // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+    var url = urlBase2 + "/capacitacion/datos.php?empresa="+EmpresaID;
+
+    fetch(url)
+        .then((response) => {
+            console.log("Sincroniza datos OK!")
+            eliminaCache();
+    });
+}
 //fin Capacitacion 
 //fin HMO

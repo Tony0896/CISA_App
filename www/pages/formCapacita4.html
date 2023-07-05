@@ -90,11 +90,11 @@
                                 html = '';
                                 if(data[j].FKPersonalInstructor == id_instructor){
                                     $("#message-nr").css("display", "none");
-                                    html = `<tr> <td>${data[j].nameBecario}</td> 
+                                    html = `<tr> <td style="padding-top: 23px;padding-bottom: 23px;">${data[j].nameBecario}</td> 
                                         <td> 
                                             <div class="container_progress" style="text-align: center;"> 
-                                                <div class="progressbar color-blue" data-progress="${data[j].promedioAvance}" id="demo_line_${data[j].ID}"></div>
-                                                <span> ${data[j].promedioAvance}% de 100%</span> 
+                                                <div class="progressbar color-blue" data-progress="${data[j].promedioAvance}" id="demo_line_${data[j].ID}" style="height: 15px;margin-bottom: 10px;border-radius: 5px;"></div>
+                                                <span style="color: #005D99;"> ${data[j].promedioAvance}% de 100%</span> 
                                             </div> 
                                         </td> 
                                         <td>${data[j].fecha}</td> 

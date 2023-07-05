@@ -879,3 +879,8 @@ table th {
 .span-dato{
   font-weight: 500;
 }
+.span.text-simple{
+  margin-top: -5px !important;
+  font-style: italic;
+  color: #FF0037;
+}

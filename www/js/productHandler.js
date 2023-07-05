@@ -378,12 +378,12 @@ var productHandler={
         function () {}
       );
   },
-  addCedula: function(id_usuario,nombre_usuario,fecha_entrada,geolocalizacion_entrada,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua){
+  addCedula: function(id_usuario,nombre_usuario,fecha_entrada,geolocalizacion_entrada,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua,geolocation){
     databaseHandler.db.transaction(
         function(tx){
             tx.executeSql(
-                "insert into cedulas_general(id_usuario,nombre_usuario,fecha_entrada,geolocalizacion_entrada,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua) values(?,?,?,?,?,?,?,?,?,?)",
-                [id_usuario,nombre_usuario,fecha_entrada,geolocalizacion_entrada,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua],
+                "insert into cedulas_general(id_usuario,nombre_usuario,fecha_entrada,geolocalizacion_entrada,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua,geolocalizacion_salida) values(?,?,?,?,?,?,?,?,?,?,?)",
+                [id_usuario,nombre_usuario,fecha_entrada,geolocalizacion_entrada,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua,geolocation],
                 function(tx, results){
                     // console.log("Registro de cedula creado exitosamente");
                 },
@@ -497,17 +497,68 @@ var productHandler={
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
-            "insert into cursoCiertoFalso(id_cedula,FK_IDPregunta,Pregunta,FK_IDCurso,Respuesta, OpCorrecta,Valor, fecha) values(?,?,?,?,?,?,?,?)",
+            "insert into CAP_RespuestasSiNoPuntuacion(id_cedula,FK_IDPregunta,Pregunta,FK_IDCurso,Respuesta, OpCorrecta,Valor, fecha) values(?,?,?,?,?,?,?,?)",
             [id_cedula,IDPregunta,Pregunta,id_curso,0,OpCorrecta,Valor,getDateWhitZeros()],
             function (tx, results) {
               if(aux == aux2){
                 app.dialog.close();
+                app.sheet.close('#sheet-modal-1');
                 app.views.main.router.back('/formCapacita5/', {force: true, ignoreCache: true, reload: true});
               }else{
                 var dialog = app.dialog.get();
                 dialog.setProgress((aux2 * 100) / aux);
                 dialog.setText(aux2+' de '+aux);
               }
+            },
+            function (tx, error) {
+              console.error("Error registrar:" + error.message);
+            }
+          );
+        },
+          function (error) {
+              console.log(error)
+          },
+    
+          function () {}
+        );
+  },
+  insertPreguntasMultiple: function (id_cedula,IDPregunta,Pregunta,id_curso,aux,aux2){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "insert into CAP_RespuestasMultiple(id_cedula, FK_IDPregunta, Pregunta , FK_IDCurso, Respuesta, fecha) values(?, ?, ? , ?, ?, ?)",
+            [id_cedula,IDPregunta,Pregunta,id_curso,0,getDateWhitZeros()],
+            function (tx, results) {
+              if(aux == aux2){
+                app.dialog.close();
+                app.sheet.close('#sheet-modal-1');
+                app.views.main.router.back('/formCapacita6/', {force: true, ignoreCache: true, reload: true});
+              }else{
+                var dialog = app.dialog.get();
+                dialog.setProgress((aux2 * 100) / aux);
+                dialog.setText(aux2+' de '+aux);
+              }
+            },
+            function (tx, error) {
+              console.error("Error registrar:" + error.message);
+            }
+          );
+        },
+          function (error) {
+              console.log(error)
+          },
+    
+          function () {}
+        );
+  },
+  insertOptionsMultiple: function (id_cedula,ID,FK_Pregunta,Opcion,Correcta,id_course){
+    databaseHandler.db.transaction(
+        function (tx) {
+          tx.executeSql(
+            "insert into CAP_OPMultipleOpts(id_cedula, FK_IDPregunta,Opcion,Correcta,FK_IDCurso) values(?,?,?,?,?)",
+            [id_cedula,FK_Pregunta,Opcion,Correcta,id_course],
+            function (tx, results) {
+             
             },
             function (tx, error) {
               console.error("Error registrar:" + error.message);

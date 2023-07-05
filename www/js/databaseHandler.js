@@ -153,7 +153,7 @@ var databaseHandler = {
                         }
                     );
                     tx.executeSql(
-                        "create table if not exists cursoCiertoFalso(id_curso integer primary key, id_cedula integer, FK_IDPregunta integer, Pregunta text, FK_IDCurso integer, Respuesta integer, OpCorrecta integer, fecha text)",
+                        "create table if not exists CAP_RespuestasSiNoPuntuacion(id_curso integer primary key, id_cedula integer, FK_IDPregunta integer, Pregunta text, FK_IDCurso integer, Respuesta integer, OpCorrecta integer,Valor int, fecha text)",
                         [],
                         function(tx, results){
                             // console.log("Se creo Servicio tecnico DIPREC correctamente!");
@@ -162,7 +162,27 @@ var databaseHandler = {
                             console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
                         }
                     );
-                // }
+                    tx.executeSql(
+                        "create table if not exists CAP_RespuestasMultiple(id_curso integer primary key, id_cedula integer, FK_IDPregunta integer, Pregunta text, FK_IDCurso integer, Respuesta integer, fecha text)",
+                        [],
+                        function(tx, results){
+                            // console.log("Se creo Servicio tecnico DIPREC correctamente!");
+                        },
+                        function(tx, error){
+                            console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
+                        }
+                    );
+                    tx.executeSql(
+                        "create table if not exists CAP_OPMultipleOpts(id_Opts integer primary key, id_cedula integer, FK_IDPregunta integer, Opcion text, Correcta integer, FK_IDCurso integer)",
+                        [],
+                        function(tx, results){
+                            // console.log("Se creo Servicio tecnico DIPREC correctamente!");
+                        },
+                        function(tx, error){
+                            console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
+                        }
+                    );
+                // } OptionsMultiple(id_cedula, ID_m, FK_Pregunta,Opcion,Correcta,id_course
             },
             function(error){
                 console.error("Error al crear la base de datos: " + error.message);

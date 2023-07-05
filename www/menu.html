@@ -320,6 +320,14 @@
         window.localStorage.removeItem("IdCed");
         window.localStorage.removeItem("TipoC");
         window.localStorage.removeItem("empresaID");
+        //Capacitacion
+        window.localStorage.removeItem("IDMov");
+        window.localStorage.removeItem("FK_Becario");
+        window.localStorage.removeItem("IDCurso");
+        window.localStorage.removeItem("IDTipoCurso");
+        window.localStorage.removeItem("OpDiario");
+        window.localStorage.removeItem("NombreCurso");
+        window.localStorage.removeItem("nameBecario");
 
         var modulos = localStorage.getItem("Modulo").split(",");
         for (i = 0; i < modulos.length; i++) {
@@ -591,7 +599,7 @@
                                     if(item2.nombre_evalua == 'Prueba Manejo'){
                                         $("#pendientes").append("<li id='conc" + item2.id_cedula + "'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> " + item2.nombre_cliente + "| " + fechas[0] + "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Prueba Manejo</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,5);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula + ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                                     } else {
-                                      $("#pendientes").append("<li id='conc" + item2.id_cedula + "'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> " + item2.nombre_cliente + "| " + fechas[0] + "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>"+item2.nombre_evalua+"</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,6);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula + ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
+                                        $("#pendientes").append("<li id='conc" + item2.id_cedula + "'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> " + item2.nombre_cliente + "| " + fechas[0] + "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>"+item2.nombre_evalua+"</div> </div><div class='item-after'><a href='#' onclick='continuarCedCap(`" + item2.id_cedula + "`,`" +item2.geolocalizacion_salida+ "`);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula + ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                                     }
                                 }
                             }
