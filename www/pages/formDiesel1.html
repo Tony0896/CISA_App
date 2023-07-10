@@ -123,6 +123,8 @@
     return {
         on: {
             pageInit: function (e, page) {
+                localStorage.getItem("TipoAcceso") == 'admin' ?  $(".notas_container").css("display", "flex") : $(".notas_container").css("display", "none");
+
                 var IdU = localStorage.getItem("Usuario");
                 var id_empresa = localStorage.getItem("empresa");
                 var tipo = localStorage.getItem("Modulos");
