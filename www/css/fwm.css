@@ -884,3 +884,11 @@ table th {
   font-style: italic;
   color: #FF0037;
 }
+.container_options_multiple{
+  margin-top: 12px;
+  margin-bottom: 30px;
+  flex-direction: column !important;
+}
+.radio_multiple{
+  margin-bottom: 15px;
+}

@@ -20,7 +20,7 @@
 
         <div class="toolbar tabbar toolbar-bottom">
             <div class="toolbar-inner" style="background-color: #005D99;" id="toolbar_down">
-                <a href="#" onclick="guardarCursoCiertoFalso();"
+                <a href="#" onclick="guardarCursoMultiple();"
                     style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Guardar <i
                         class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
             </div>
@@ -30,7 +30,7 @@
             <div
                 style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 30px;">
                 <div style="text-align: left;">
-                    <div class="list FWM-fixing-form" id="datos_form" style="width: 100%;margin-left: 0;">
+                    <div class="list FWM-fixing-form" id="datos_form" style="width: 100%;margin-left: 10px;margin-right: 10px;">
                         <h2 style="text-align: center;" id="title_asis">Propedéutico</h2>
 
                         <div class="container-check">
@@ -48,48 +48,14 @@
                             <span class="span FWM-span-form span-dato" id="nombreCandidato" name="Nombre Candidato" style="margin-top: 0 !important;"></span>
                         </div>
 
-                        <div class="list list-strong list-outline-ios list-dividers-ios inset-md accordion-list">
-                            <ul>
-                                <li class="accordion-item">
-                                    <a class="item-link item-content">
-                                    <div class="item-inner">
-                                        <div class="item-title">Ver historia de calificaciones</div>
-                                    </div>
-                                    </a>
-                                    <div class="accordion-item-content">
-                                        <div class="block">
-                                            <div class="card data-table">
-                                                <div class="infinite-scroll-content">
-                                                    <div class="hitii">
-                                                        <div class="timeline timeline-horizontal timeline-cols-3 medium-timeline-cols-6">
-                                                            <div class="timeline-year" style="padding: 0;">
-                                                                <div class="timeline-month" style="padding: 0;">
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div> 
-
                         <hr>
                         <h2 style="text-align: center;">Evaluación</h2>
 
                         <div id="evaluacion_div" style="padding-left: 10px;padding-right: 10px;">
-                           
+                            
                         </div>
 
                         <div style="padding-left: 10px;padding-right: 10px;">
-                            <div class="container_options">
-                                <span class="span FWM-span-form">Puntaje:</span>
-                                <span class="span FWM-span-form span-dato" id="calificacion_text" name="calif"></span>
-                                <input type="hidden" id="calificacion_number">
-                            </div>
 
                             <div class="container_options">
                                 <span class="span FWM-span-form">Observaciones:</span>
@@ -118,6 +84,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="popup popup-services" style="background-color: #f0f8ff;">
@@ -154,36 +121,7 @@
                 var empresa = localStorage.getItem("empresa");
                 var NomJson = 'DatosEvaluacionD_'+empresa;
                 var html = '';        
-                app.request({
-                    url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        var length = data.length;
-                        if(length == 0){
-                        } else {
-                            for (var j = 0; j < data.length; j++) {
-                                if(data[j].FK_IDCurso == IDCurso && data[j].FK_Becario == FK_Becario){
-                                    var check = ''
-                                    data[j].apto == 1 ? check = 'checked': check = '';
-                                    html += `<div class="timeline-item">
-                                        <div class="timeline-item-date">${data[j].fecha}</div>
-                                        <div class="timeline-item-content">
-                                            <div class="timeline-item-time">Puntos Obtenidos</div>
-                                            <div class="timeline-item-text">${data[j].Valores}</div>
-                                            <div class="timeline-item-time">Calificación</div>
-                                            <div class="timeline-item-text">${data[j].califf}</div>
-                                            <div class="timeline-item-time">Observaciones</div>
-                                            <div class="timeline-item-text">${data[j].observaciones}</div>
-                                        </div>
-                                    </div>`;
-                                }
-                            }
-                        }
-                        $(".timeline-month").html(html);
-                    }
-                });
-
+        
                 databaseHandler.db.transaction(
                     function(tx){
                         tx.executeSql(
@@ -202,56 +140,63 @@
                     function(error){},
                     function(){}
                 );
-
-                form = '';
+                // String.fromCharCode(65) //A
+                // String.fromCharCode(66) //B
+                // String.fromCharCode(67) //c
+                // String.fromCharCode(68) //D
+                // String.fromCharCode(69) //E
+                
+                var count = 0
+                var html='';
+                var id_cedula = localStorage.getItem("IdCedula");
                 databaseHandler.db.transaction(
                     function(tx){
                         tx.executeSql(
-                            "Select * from CAP_RespuestasSiNoPuntuacion where id_cedula= ?",
+                            "Select * from CAP_RespuestasMultiple where id_cedula= ?",
                             [id_cedula],
                             function(tx, results){
                                 var length = results.rows.length;
-                                var j = 0;
                                 var PuntosCurso = 0;
                                 for(var i = 0; i< length; i++){
-                                    j++;
-                                    var checked1 = '';
-                                    var checked2 = '';
-                                    var item3 = results.rows.item(i);
-                                    item3.Respuesta == 1 ? (checked1 = 'checked', checked2 = '', PuntosCurso = PuntosCurso + item3.Valor) : null ;
-                                    item3.Respuesta == 0 ? (checked2 = 'checked', checked1 = '') : null ;
-                                    form += `
-                                        <div class="container-answer-valor"><span class="span FWM-span-form span_options">${j}. ${item3.Pregunta} 
-                                            </span><span class="span text-simple">Valor: ${item3.Valor} Pto.</span>
-                                        </div>
-                                        <div class="container-check container_options">
-                                            <label for="op${item3.FK_IDPregunta}-1" id="label-op${item3.FK_IDPregunta}-1" class="radios ${checked1}"><input type="radio" id="op${item3.FK_IDPregunta}-1" style="margin-right: 15px;" onchange="validarRadioCapa(this.id,2,${item3.Valor})" ${checked1}>SI</label>
-                                            <label for="op${item3.FK_IDPregunta}-0" id="label-op${item3.FK_IDPregunta}-0" class="radios ${checked2}"><input type="radio" id="op${item3.FK_IDPregunta}-0" style="margin-right: 15px;" onchange="validarRadioCapa(this.id,2,${item3.Valor})" ${checked2}>NO</label>
-                                        </div>
-                                    `;                                    
+                                    count++
+                                    // console.log(String.fromCharCode(letter))
+                                    var item2 = results.rows.item(i);
+                                    html +=`<div class="container-answer-valor"><span class="span FWM-span-form span_options">${count}. ${item2.Pregunta}</span> </div>
+                                    <div class="container-check container_options_multiple" id="container_opts_${item2.FK_IDPregunta}"></div>`;
+                                    getOpcionesMultiples(item2.FK_IDPregunta, item2.Respuesta);
                                 }
-                                $("#evaluacion_div").html(form);
-                                var califf = 0;
-
-                                if(PuntosCurso > 0 && PuntosCurso <= 8){
-                                    califf = 0
-                                } else if(PuntosCurso > 8 && PuntosCurso <= 11){
-                                    califf = 8
-                                } else if(PuntosCurso > 11 && PuntosCurso <= 14){
-                                    califf = 9
-                                } else if(PuntosCurso > 14 && PuntosCurso <= 16){
-                                    califf = 10
-                                } else {
-                                    califf = 0
-                                }
-                                $("#calificacion_text").html('Puntaje Obtenido: '+ PuntosCurso + ", Calificación: "+califf)
-                                $("#calificacion_number").val(PuntosCurso);
+                                $("#evaluacion_div").html(html);
                             }
                         );
                     },
                     function(error){},
                     function(){}
                 );
+
+                function getOpcionesMultiples(FK_IDPregunta, Respuesta){
+                    var id_cedula = localStorage.getItem("IdCedula");
+                    databaseHandler.db.transaction(
+                        function(tx){
+                            tx.executeSql(
+                                "Select * from CAP_OPMultipleOpts where id_cedula= ? AND FK_IDPregunta = ?",
+                                [id_cedula, FK_IDPregunta],
+                                function(tx, results){
+                                    var length = results.rows.length;
+                                    var letter = 64
+                                    for(var i = 0; i< length; i++){
+                                        letter++
+                                        var item3 = results.rows.item(i);
+                                        var checked = '';
+                                        Respuesta == letter ? checked = 'checked' : checked = '';
+                                        $("#container_opts_"+FK_IDPregunta).append(`<label for="op${item3.id_Opts}-${letter}" id="label-op${item3.id_Opts}-${letter}" class="radios radio_multiple rad_${FK_IDPregunta}" style="width: fit-content;"><input class="in_${FK_IDPregunta}" type="radio" id="op${item3.id_Opts}-${letter}" style="margin-right: 15px;" onchange="validarRadioCapaMultiple(this.id,1,${FK_IDPregunta})" ${checked}>${String.fromCharCode(letter)}. ${item3.Opcion}</label>`)
+                                    }
+                                }
+                            );
+                        },
+                        function(error){},
+                        function(){}
+                    );
+                }
             }
         }
     }

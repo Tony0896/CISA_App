@@ -674,6 +674,7 @@ function continuarCed(id_cedula,tipo){
         app.views.main.router.back('/formCapacita5/', {force: true, ignoreCache: true, reload: true});
     }
 }
+
 function continuarCedCap(id_cedula,tipo){
     localStorage.setItem("IdCedula",id_cedula);
     
@@ -697,6 +698,8 @@ function continuarCedCap(id_cedula,tipo){
             function(error){},
             function(){}
         );
+    } else if(tipo == 3){
+        app.views.main.router.back('/formCapacita6/', {force: true, ignoreCache: true, reload: true});
     }
 }
 
@@ -3373,6 +3376,41 @@ function validarRadioCapa(id,val,valor){
         }
     }
 }
+
+function validarRadioCapaMultiple(id,val,FK_IDPregunta){
+    $(".in_"+FK_IDPregunta).prop("checked", false)
+    $(".rad_"+FK_IDPregunta).removeClass("checked");
+    document.getElementById(id).checked = true;
+    $("#label-"+id).addClass("checked");
+    if(val){
+        if(val==1){
+            actualizaRespuestasMultiples(id, FK_IDPregunta);
+        }
+    }
+}
+
+function actualizaRespuestasMultiples(id, FK_IDPregunta){
+    var id_cedula = localStorage.getItem("IdCedula");
+    var respuestas = id.split("-");
+    var respuesta = respuestas[1]
+    console.log(id)
+    databaseHandler.db.transaction(
+        function(tx){
+            tx.executeSql("UPDATE CAP_RespuestasMultiple SET Respuesta = ? WHERE id_cedula = ? AND FK_IDPregunta = ?",
+                [respuesta,id_cedula,FK_IDPregunta],
+                function(tx, results){
+                    
+                },
+                function(tx, error){
+                    console.error("Error al guardar cierre: " + error.message);
+                }
+            );
+        },
+        function(error){},
+        function(){}
+    );
+}
+
 function actualizaRespuestaCiertoFalso(id){
     var id_cedula = localStorage.getItem("IdCedula");
     var ids = id.split("-");
@@ -3400,6 +3438,7 @@ function actualizaRespuestaCiertoFalso(id){
         function(){}
     );
 }
+
 function generaEvaluacion(val){
     if(val == 1){
         var values = get_datos_completos('datos_form');
@@ -3524,7 +3563,36 @@ function generaEvaluacion(val){
                     var item = results.rows.item(0);
                     localStorage.setItem("IdCedula", item.Id);
                     var id_cedula = item.Id;
-                    if(IDTipoCurso == 2){
+                    if(IDTipoCurso == 1){
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
+                        var NomJson = 'CursoCiertoFalso'+empresa;
+                        app.request({
+                            url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
+                            method: 'GET',
+                            dataType: 'json',
+                            success: function (data) {
+                                var aux = 0;
+                                var aux2 = 0;
+                                for (var j = 0; j < data.length; j++) {
+                                    if(data[j].IDNombreCurso == id_course){
+                                        aux ++;
+                                    }
+                                }
+                                if(aux == 0){
+                                    app.dialog.close();
+                                    swal("","Algo salió mal.","error");
+                                }else{
+                                    dialog.setText('1 de ' + aux);
+                                    for (var j = 0; j < data.length; j++) {
+                                        if(data[j].IDNombreCurso == id_course){
+                                            aux2++;
+                                            productHandler.insertPreguntasCiertoFalso(id_cedula,data[j].IDPregunta,data[j].Pregunta,id_course,aux,aux2);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    } else if(IDTipoCurso == 2){
                         productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
                         var NomJson = 'CursoSiNoValor'+empresa;
                         app.request({
@@ -3607,6 +3675,7 @@ function generaEvaluacion(val){
         );
     }
 }
+
 function guardarCursoCiertoFalso(){
     // if($("#observaciones").val() && $("#signate").val()){
     //     console.log("true")
@@ -3769,6 +3838,7 @@ function generarAsistencia(){
     function(){}
     );
 }
+
 function actualizaLista(id){
     console.log(id)
     var id_asistenciaD = id.replace('cb3-','');
@@ -4101,6 +4171,7 @@ function actualizaRespuestaSiNoPuntuacion(id, valor){
         function(){}
     );
 }
+
 function sincronizaDatosCapacitacion(){
     var EmpresaID = localStorage.getItem("empresa");
     var urlBase2 = "http://192.168.100.6/Desarrollo/CISAApp/HMOFiles/Exec";
@@ -4112,6 +4183,59 @@ function sincronizaDatosCapacitacion(){
             console.log("Sincroniza datos OK!")
             eliminaCache();
     });
+}
+
+function guardarCursoMultiple(){
+    // if($("#observaciones").val() && $("#signate").val()){
+    //     console.log("true")
+    // } 
+    var id_cedula = localStorage.getItem("IdCedula");
+    var observaciones = $("#observaciones").val();
+    var firmaInstructor = $("#signate").val();
+    var apto = 0;
+    $("#cb3").prop("checked") == true ? apto = 1: apto = 0;
+
+    databaseHandler.db.transaction(
+        function(tx){
+            tx.executeSql("UPDATE datosGeneralesCurso SET apto = ?, observaciones = ?, firmaInstructor = ? WHERE id_cedula = ?",
+                [apto,observaciones,firmaInstructor, id_cedula],
+                function(tx, results){
+                    swal({
+                        title: "Aviso",
+                        text: "¿Estas seguro de querer finalizar la prueba?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((RESP) => {
+                        if (RESP == true) {
+                            var fecha_salida = getDateWhitZeros();
+                            var estatus = 1;
+                            databaseHandler.db.transaction(
+                                function(tx){
+                                    tx.executeSql("UPDATE cedulas_general SET fecha_salida  = ?,estatus = ? WHERE id_cedula = ?",
+                                        [fecha_salida,estatus,id_cedula],
+                                        function(tx, results){
+                                            window.location.href = "./menu.html";
+                                        },
+                                        function(tx, error){
+                                            swal("Error al guardar",error.message,"error");
+                                        }
+                                    );
+                                },
+                                function(error){},
+                                function(){}
+                            );              
+                        }
+                    });
+                },
+                function(tx, error){
+                    console.error("Error al guardar cierre: " + error.message);
+                }
+            );
+        },
+        function(error){},
+        function(){}
+    );
 }
 //fin Capacitacion 
 //fin HMO
