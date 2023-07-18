@@ -396,15 +396,17 @@ var productHandler={
           function(){}
       );
   },
-  insertPreguntasCiertoFalso: function (id_cedula,IDPregunta,Pregunta,id_curso,aux,aux2){
+  insertPreguntasCiertoFalso: function (id_cedula,IDPregunta,Pregunta,texto1,texto2,id_curso,aux,aux2){
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
-            "insert into cursoCiertoFalso(id_cedula,IDPregunta,Pregunta,IDCurso,Respuesta, OpCorrecta, fecha) values(?,?,?,?,?,?,?)",
-            [id_cedula,IDPregunta,Pregunta,id_curso,0,1,getDateWhitZeros()],
+            "insert into cursoCiertoFalso(id_cedula,IDPregunta,Pregunta,texto1,texto2,IDCurso,Respuesta, OpCorrecta, fecha) values(?,?,?,?,?,?,?,?,?)",
+            [id_cedula,IDPregunta,Pregunta,texto1,texto2,id_curso,0,1,getDateWhitZeros()],
             function (tx, results) {
               if(aux == aux2){
                 app.dialog.close();
+                app.sheet.close('#sheet-modal-1');
+                app.sheet.close('#sheet-modal-2');
                 app.views.main.router.back('/formCapacita2/', {force: true, ignoreCache: true, reload: true});
               }else{
                 var dialog = app.dialog.get();
@@ -424,14 +426,19 @@ var productHandler={
           function () {}
         );
   },
-  addDatosPrueba1: function (id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course){
+  addDatosPrueba1: function (id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso){
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
             "insert into datosGeneralesCurso(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course],
             function (tx, results) {
-              //console.log("Frio correcto");
+              if(IDTipoCurso == 5){
+                app.dialog.close();
+                app.sheet.close('#sheet-modal-1');
+                app.sheet.close('#sheet-modal-2');
+                app.views.main.router.back('/formCapacita7/', {force: true, ignoreCache: true, reload: true});
+              }
             },
             function (tx, error) {
               console.error("Error registrar:" + error.message);
@@ -474,6 +481,8 @@ var productHandler={
           function (tx, results) {
             if(aux == aux2){
               app.dialog.close();
+              app.sheet.close('#sheet-modal-1');
+              app.sheet.close('#sheet-modal-2');
               app.views.main.router.back('/formCapacita3/', {force: true, ignoreCache: true, reload: true});
             }else{
               var dialog = app.dialog.get();
@@ -503,6 +512,7 @@ var productHandler={
               if(aux == aux2){
                 app.dialog.close();
                 app.sheet.close('#sheet-modal-1');
+                app.sheet.close('#sheet-modal-2');
                 app.views.main.router.back('/formCapacita5/', {force: true, ignoreCache: true, reload: true});
               }else{
                 var dialog = app.dialog.get();
@@ -532,6 +542,7 @@ var productHandler={
               if(aux == aux2){
                 app.dialog.close();
                 app.sheet.close('#sheet-modal-1');
+                app.sheet.close('#sheet-modal-2');
                 app.views.main.router.back('/formCapacita6/', {force: true, ignoreCache: true, reload: true});
               }else{
                 var dialog = app.dialog.get();

@@ -123,7 +123,7 @@ var databaseHandler = {
                         }
                     );
                     tx.executeSql(
-                        "create table if not exists cursoCiertoFalso(id_curso integer primary key, id_cedula integer, IDPregunta integer, Pregunta text, IDCurso integer, Respuesta integer, OpCorrecta integer, fecha text)",
+                        "create table if not exists cursoCiertoFalso(id_curso integer primary key, id_cedula integer, IDPregunta integer, Pregunta text, IDCurso integer, Respuesta integer, OpCorrecta integer, fecha text, texto1 text, texto2 text)",
                         [],
                         function(tx, results){
                             // console.log("Se creo Servicio tecnico DIPREC correctamente!");
@@ -174,6 +174,16 @@ var databaseHandler = {
                     );
                     tx.executeSql(
                         "create table if not exists CAP_OPMultipleOpts(id_Opts integer primary key, id_cedula integer, FK_IDPregunta integer, Opcion text, Correcta integer, FK_IDCurso integer)",
+                        [],
+                        function(tx, results){
+                            // console.log("Se creo Servicio tecnico DIPREC correctamente!");
+                        },
+                        function(tx, error){
+                            console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
+                        }
+                    );
+                    tx.executeSql(
+                        "create table if not exists CAP_Evidencias(id_evidencia integer primary key, id_cedula integer, evidencia blob, fecha text)",
                         [],
                         function(tx, results){
                             // console.log("Se creo Servicio tecnico DIPREC correctamente!");

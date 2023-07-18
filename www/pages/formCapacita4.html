@@ -30,7 +30,7 @@
             <div
                 style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 30px;">
                 <div style="text-align: left;">
-                    <div class="list FWM-fixing-form" id="datos_form" style="width: 100%;margin-left: 10px;margin-right: 10px;">
+                    <div class="list FWM-fixing-form" id="datos_form" style="width: 97%;margin-left: 10px;margin-right: 10px;">
                         <h2 style="text-align: center;" id="title_asis">Tablero Becarios del día</h2>
 
                         <div class="card data-table" style="margin-bottom: 50px;">
@@ -41,7 +41,7 @@
                                             <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;">Nombre</th>
                                             <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;">Avance</th>
                                             <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;">Fecha Ingreso</th>
-                                            <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;">Ver Seguimiento</th>
+                                            <th class="numeric-cell" style="text-align: center;background-color: #005D99;color: white;">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbody_becarios">
@@ -99,7 +99,11 @@
                                         </td> 
                                         <td>${data[j].fecha}</td> 
                                         <td> 
-                                            <button class="col button button-small button-round button-outline" style="height: 80%;border-color: #2ECC71;" onclick="verSeguimientoCapacitacion(${data[j].ID},${data[j].FKPersonalBecario},'${data[j].nameBecario}')"><i class="material-icons md-light" style="color: #2ECC71;vertical-align: middle;font-size: 30px;">play_circle_outline</i></button>
+                                            <div style="display: flex;">
+                                                <button class="col button button-small button-round button-outline" style="height: 80%;border-color: #005D99;margin-right: 20px;" onclick="verDetalleCapacitacion(${data[j].ID},${data[j].FKPersonalBecario},'${data[j].nameBecario}')"><i class="material-icons md-light" style="color: #005D99;vertical-align: middle;font-size: 30px;">check</i></button>
+                                                
+                                                <button class="col button button-small button-round button-outline" style="height: 80%;border-color: #2ECC71;" onclick="verSeguimientoCapacitacion(${data[j].ID},${data[j].FKPersonalBecario},'${data[j].nameBecario}')"><i class="material-icons md-light" style="color: #2ECC71;vertical-align: middle;font-size: 30px;">play_arrow</i></button>
+                                            </div>
                                         </td> 
                                         </tr>`;
                                         $("#tbody_becarios").append(html);

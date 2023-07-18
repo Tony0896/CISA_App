@@ -20,7 +20,7 @@
 
         <div class="toolbar tabbar toolbar-bottom">
             <div class="toolbar-inner" style="background-color: #005D99;" id="toolbar_down">
-                <a href="#" onclick="guardarCursoCiertoFalso();"
+                <a href="#" onclick="guardarCursoEvidencias();"
                     style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Guardar <i
                         class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
             </div>
@@ -48,48 +48,48 @@
                             <span class="span FWM-span-form span-dato" id="nombreCandidato" name="Nombre Candidato" style="margin-top: 0 !important;"></span>
                         </div>
 
-                        <div class="list list-strong list-outline-ios list-dividers-ios inset-md accordion-list">
-                            <ul>
-                                <li class="accordion-item">
-                                    <a class="item-link item-content">
-                                    <div class="item-inner">
-                                        <div class="item-title">Ver historia de calificaciones</div>
-                                    </div>
-                                    </a>
-                                    <div class="accordion-item-content">
-                                        <div class="block">
-                                            <div class="card data-table">
-                                                <div class="infinite-scroll-content">
-                                                    <div class="hitii">
-                                                        <div class="timeline timeline-horizontal timeline-cols-3 medium-timeline-cols-6">
-                                                            <div class="timeline-year" style="padding: 0;">
-                                                                <div class="timeline-month" style="padding: 0;">
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div> 
-
                         <hr>
-                        <h2 style="text-align: center;">Evaluación</h2>
+                        
+                        <div id="evidencias_div" style="padding-left: 10px;padding-right: 10px;display: none;">
+                            <div class="FWM-photo-container">
+                                <div class="border-capture" style="text-align: center;">
+                                    <img class="FWM-photo" src="" id="photoIcon" width="45px"/>
+                                </div>
+                                <img class="FWM-photo-hide" id="smallImage" src=""/>
+                                <input type="hidden" id="imagenC" name="imagenC"/>
+                            </div>
+                        </div>
 
-                        <div id="evaluacion_div" style="padding-left: 10px;padding-right: 10px;">
-                           
+                        <div class="row" style="text-align: center; margin: 65px 10px 65px 10px;justify-content: space-around;" id="div_botones_camara">
+                            <div style="min-width: 50px; border-style: none;">
+                                <span class="resize-handler"></span>
+                                <a href="#" onclick="ValidarCapturePhoto()" style="background-color: #fff;border: 3px solid #005D99;color:#005D99" class="boton-equipo">
+                                    Agregar Evidencia <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;color:#005D99">photo_camera</i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <h2 style="text-align: center;">Evidencias</h2>
+
+                        <div class="card data-table" style="margin-bottom: 50px;">
+                            <div class="infinite-scroll-content">
+                                <table id="facturas">
+                                    <thead>
+                                        <tr>
+                                            <th class="numeric-cell" style="text-align: center;background-color: #063E7F;color: white;">Evidencia</th>
+                                            <th class="numeric-cell" style="text-align: center;background-color: #063E7F;color: white;">Borrar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <div class="sentencia preloader color-grey infinite-scroll-preloader"></div>
+                                <div id="message-nr" style="width: 100%;text-align: center;font-family: 'ITC Avant Garde Gothic', sans-serif;font-size: 16px;" style="display: none;">
+                                    <p>Sin registros</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div style="padding-left: 10px;padding-right: 10px;">
-                            <div class="container_options">
-                                <span class="span FWM-span-form">Puntaje:</span>
-                                <span class="span FWM-span-form span-dato" id="calificacion_text" name="calif"></span>
-                                <input type="hidden" id="calificacion_number">
-                            </div>
 
                             <div class="container_options">
                                 <span class="span FWM-span-form">Observaciones:</span>
@@ -118,6 +118,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="popup popup-services" style="background-color: #f0f8ff;">
@@ -154,36 +155,7 @@
                 var empresa = localStorage.getItem("empresa");
                 var NomJson = 'DatosEvaluacionD_'+empresa;
                 var html = '';        
-                app.request({
-                    url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
-                    method: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        var length = data.length;
-                        if(length == 0){
-                        } else {
-                            for (var j = 0; j < data.length; j++) {
-                                if(data[j].FK_IDCurso == IDCurso && data[j].FK_Becario == FK_Becario){
-                                    var check = ''
-                                    data[j].apto == 1 ? check = 'checked': check = '';
-                                    html += `<div class="timeline-item">
-                                        <div class="timeline-item-date">${data[j].fecha}</div>
-                                        <div class="timeline-item-content">
-                                            <div class="timeline-item-time">Puntos Obtenidos</div>
-                                            <div class="timeline-item-text">${data[j].Valores}</div>
-                                            <div class="timeline-item-time">Calificación</div>
-                                            <div class="timeline-item-text">${data[j].califf}</div>
-                                            <div class="timeline-item-time">Observaciones</div>
-                                            <div class="timeline-item-text">${data[j].observaciones}</div>
-                                        </div>
-                                    </div>`;
-                                }
-                            }
-                        }
-                        $(".timeline-month").html(html);
-                    }
-                });
-
+        
                 databaseHandler.db.transaction(
                     function(tx){
                         tx.executeSql(
@@ -203,55 +175,26 @@
                     function(){}
                 );
 
-                form = '';
                 databaseHandler.db.transaction(
                     function(tx){
                         tx.executeSql(
-                            "Select * from CAP_RespuestasSiNoPuntuacion where id_cedula= ?",
+                            "Select * from CAP_Evidencias where id_cedula= ?",
                             [id_cedula],
                             function(tx, results){
+                                $('.sentencia').remove();
                                 var length = results.rows.length;
-                                var j = 0;
-                                var PuntosCurso = 0;
                                 for(var i = 0; i< length; i++){
-                                    j++;
-                                    var checked1 = '';
-                                    var checked2 = '';
-                                    var item3 = results.rows.item(i);
-                                    item3.Respuesta == 1 ? (checked1 = 'checked', checked2 = '', PuntosCurso = PuntosCurso + item3.Valor) : null ;
-                                    item3.Respuesta == 0 ? (checked2 = 'checked', checked1 = '') : null ;
-                                    form += `
-                                        <div class="container-answer-valor"><span class="span FWM-span-form span_options">${j}. ${item3.Pregunta} 
-                                            </span><span class="span text-simple">Valor: ${item3.Valor} Pto.</span>
-                                        </div>
-                                        <div class="container-check container_options">
-                                            <label for="op${item3.FK_IDPregunta}-1" id="label-op${item3.FK_IDPregunta}-1" class="radios ${checked1}"><input type="radio" id="op${item3.FK_IDPregunta}-1" style="margin-right: 15px;" onchange="validarRadioCapa(this.id,2,${item3.Valor})" ${checked1}>SI</label>
-                                            <label for="op${item3.FK_IDPregunta}-0" id="label-op${item3.FK_IDPregunta}-0" class="radios ${checked2}"><input type="radio" id="op${item3.FK_IDPregunta}-0" style="margin-right: 15px;" onchange="validarRadioCapa(this.id,2,${item3.Valor})" ${checked2}>NO</label>
-                                        </div>
-                                    `;                                    
+                                    var item2 = results.rows.item(i);
+                                    $("#facturas").append("<tr id='fila"+ item2.id_evidencia +"'><td style='text-align: center;'><img src='"+item2.evidencia+"' width='60px' style='margin-top: 4px;'/></td><td style='text-align: center;'><a href='#' onclick='eliminarFilaFoto("+item2.id_evidencia +",1);' style='border: none; outline:none;'><i class='icon material-icons md-only' style='display: inline-block;margin-left: 12px;color:#FF0037; font-size: 40px;'>delete_forever</i></a></td></tr>");
+                                    $("#message-nr").css("display", "none");
                                 }
-                                $("#evaluacion_div").html(form);
-                                var califf = 0;
-
-                                if(PuntosCurso > 0 && PuntosCurso <= 8){
-                                    califf = 0
-                                } else if(PuntosCurso > 8 && PuntosCurso <= 11){
-                                    califf = 8
-                                } else if(PuntosCurso > 11 && PuntosCurso <= 14){
-                                    califf = 9
-                                } else if(PuntosCurso > 14 && PuntosCurso <= 16){
-                                    califf = 10
-                                } else {
-                                    califf = 0
-                                }
-                                $("#calificacion_text").html('Puntaje Obtenido: '+ PuntosCurso + ", Calificación: "+califf)
-                                $("#calificacion_number").val(PuntosCurso);
                             }
                         );
                     },
                     function(error){},
                     function(){}
                 );
+                
             }
         }
     }

@@ -43,17 +43,17 @@
                             <span class="span FWM-span-form span-dato" id="nombreCandidato" name="Nombre Candidato" style="margin-top: 0 !important;"></span>
                         </div>
 
-                        <div class="container-check">
+                        <div class="container-check div_manejo">
                             <span class="span FWM-span-form" style="margin-top: 0 !important;">Edad</span>
                             <span class="span FWM-span-form span-dato" id="edad" name="Edad" style="margin-top: 0 !important;"></span>
                         </div>
                         
-                        <div class="container-check">
+                        <div class="container-check div_manejo">
                             <span class="span FWM-span-form" style="margin-top: 0 !important;">Tel. Celular</span>
                             <span class="span FWM-span-form span-dato" id="telCelular" name="Tel. Celular" style="margin-top: 0 !important;"></span>
                         </div>
 
-                        <div class="container-check">
+                        <div class="container-check div_manejo">
                             <span class="span FWM-span-form" style="margin-top: 0 !important;">Antecedentes de Manejo</span>
                             <span class="span FWM-span-form span-dato" id="antecedentesManejo" name="Antecedentes de Manejo" style="margin-top: 0 !important;"></span>
                         </div>
@@ -130,12 +130,17 @@ return {
                         [id_cedula],
                         function(tx, results){
                             var item2 = results.rows.item(0);
+                            $(".title").html(item2.name_course)
                             $("#fecha").html(item2.fecha);
                             $("#nombreInstructor").html(item2.nombreInstructor);
                             $("#nombreCandidato").html(item2.nombreCandidato);
-                            $("#edad").html(item2.edad);
-                            $("#telCelular").html(item2.telCelular);
-                            $("#antecedentesManejo").html(item2.antecedentesManejo);
+                            if(item2.id_course == 1){
+                                $("#edad").html(item2.edad);
+                                $("#telCelular").html(item2.telCelular);
+                                $("#antecedentesManejo").html(item2.antecedentesManejo);
+                            } else {
+                                $(".div_manejo").css("display", "none");
+                            }
                         }
                     );
                 },
@@ -163,8 +168,8 @@ return {
                                 form += `
                                     <span class="span FWM-span-form span_options">${j}. ${item3.Pregunta}</span>
                                     <div class="container-check container_options">
-                                        <label for="op${item3.IDPregunta}-1" id="label-op${item3.IDPregunta}-1" class="radios ${checked1}"><input type="radio" id="op${item3.IDPregunta}-1" style="margin-right: 15px;" onchange="validarRadioCapa(this.id,1)" ${checked1}>Lo Hace</label>
-                                        <label for="op${item3.IDPregunta}-0" id="label-op${item3.IDPregunta}-0" class="radios ${checked2}"><input type="radio" id="op${item3.IDPregunta}-0" style="margin-right: 15px;" onchange="validarRadioCapa(this.id,1)" ${checked2}>No Lo Hace</label>
+                                        <label for="op${item3.IDPregunta}-1" id="label-op${item3.IDPregunta}-1" class="radios ${checked1}"><input type="radio" id="op${item3.IDPregunta}-1" style="margin-right: 15px;" onchange="validarRadioCapa(this.id,1)" ${checked1}>${item3.texto1}</label>
+                                        <label for="op${item3.IDPregunta}-0" id="label-op${item3.IDPregunta}-0" class="radios ${checked2}"><input type="radio" id="op${item3.IDPregunta}-0" style="margin-right: 15px;" onchange="validarRadioCapa(this.id,1)" ${checked2}>${item3.texto2}</label>
                                     </div>
                                 `;
                             }

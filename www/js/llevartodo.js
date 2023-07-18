@@ -591,7 +591,7 @@ function llevarTodo(id_cedula,tipo_cedula){
                                                                 $.ajax({
                                                                     type: "POST",
                                                                     async : true,
-                                                                    url: url+"/capacitacion/guardarCursoManejo.php",
+                                                                    url: url+"/capacitacion/guardarCiertoFalso.php",
                                                                     dataType: 'html',
                                                                     data: {'datosCedulaGeneral': JSON.stringify(datosCedulaGeneral),
                                                                     'datosGeneralesCurso': JSON.stringify(datosGeneralesCurso),
@@ -768,6 +768,93 @@ function llevarTodo(id_cedula,tipo_cedula){
                                                                     data: {'datosCedulaGeneral': JSON.stringify(datosCedulaGeneral),
                                                                     'datosGeneralesCurso': JSON.stringify(datosGeneralesCurso),
                                                                     'CAP_RespuestasMultiple': JSON.stringify(cursoCiertoFalso)},
+                                                                    success: function(respuesta){
+                                                                        var respu1 = respuesta.split("._.");
+                                                                        var dat1 = respu1[0];
+                                                                        var dat2 = respu1[1];
+                                                                        if(dat1 == "CEDULA"){
+                                                                            if(dat2 > 0){
+                                                                                databaseHandler.db.transaction(
+                                                                                    function(tx7){
+                                                                                        tx7.executeSql(
+                                                                                            "UPDATE cedulas_general SET estatus = 3 WHERE id_cedula = ?",
+                                                                                            [id_cedula],
+                                                                                            function(tx7, results){
+                                                                                                $(".send-ced").css("pointer-events", "all");
+                                                                                                localStorage.setItem("sendFlag", 0);
+                                                                                                $("#li-"+item.id_cedula).remove();
+                                                                                                swal("Enviado!", "", "success");
+                                                                                                sincronizaDatosCapacitacion();
+                                                                                            }
+                                                                                        );
+                                                                                    }
+                                                                                );
+                                                                            }
+                                                                        } else {
+                                                                            AlmacenarError(respuesta);
+                                                                        }
+                                                                    },
+                                                                    error: function(){
+                                                                        console.log("Error en la comunicacion");
+                                                                        swal("Fallo el envío, por conexión!", "", "error");
+                                                                        $(".send-ced").css("pointer-events", "all")
+                                                                    }
+                                                                });
+                                                            },
+                                                            function(tx, error){
+                                                                console.log("Error al consultar: " + error.message);
+                                                            }
+                                                        );
+                                                    },
+                                                    function(error){},
+                                                    function(){}
+                                                );
+                                            },
+                                            function(tx, error){
+                                                console.log("Error al consultar: " + error.message);
+                                            }
+                                        );
+                                    },
+                                    function(error){},
+                                    function(){}
+                                );
+                            } else if(item.geolocalizacion_salida == 5){
+                                console.log("gg");
+                                var evidencias = new Array();
+                                databaseHandler.db.transaction(
+                                    function(tx){// id_evidencia integer primary key, id_cedula integer, evidencia blob, fecha
+                                        tx.executeSql("SELECT * FROM CAP_Evidencias WHERE id_cedula = ?",
+                                            [id_cedula],
+                                            function(tx, results){
+                                                var length2 = results.rows.length;
+                                                for(var i = 0; i< length2; i++){
+                                                    var item2 = results.rows.item(i);
+                                                    var fechag = item2.fecha;
+                                                    fechag = fechag.replace(" ", "T");
+                                                    evidencias[i] = {'Valor':i, 'fecha': fechag, 'evidencia': item2.evidencia};
+                                                }
+                                                databaseHandler.db.transaction(
+                                                    function(tx){
+                                                        tx.executeSql("SELECT * FROM datosGeneralesCurso WHERE id_cedula = ?",
+                                                            [id_cedula],
+                                                            function(tx, results){
+                                                                var length = results.rows.length;
+                                                                for(var i = 0; i< length; i++){
+                                                                    var item1 = results.rows.item(i);
+                                                                    var fecha_captura = item1.fecha_captura;
+                                                                    var promedio = 0
+                                                                    item1.apto == 1 ? promedio = 100 : promedio = 0
+                                                                    fecha_captura = fecha_captura.replace(" ", "T");
+                                                                    datosGeneralesCurso[i] = {'Valor':i,'antecedentesManejo': item1.antecedentesManejo, 'apto': item1.apto, 'edad': item1.edad, 'fecha': item1.fecha, 'fecha_captura': fecha_captura, 'firmaInstructor': item1.firmaInstructor, 'id_candidato': item1.id_candidato, 'id_course': item1.id_course, 'id_instructor': item1.id_instructor, 'name_course': item1.name_course, 'nombreCandidato': item1.nombreCandidato, 'nombreInstructor': item1.nombreInstructor, 'observaciones': item1.observaciones, 'telCelular': item1.telCelular, 'promedio':promedio};
+                                                                }
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    async : true,
+                                                                    url: url+"/capacitacion/guardarCursoEvidencias.php",
+                                                                    dataType: 'html',
+                                                                    data: {'datosCedulaGeneral': JSON.stringify(datosCedulaGeneral),
+                                                                    'datosGeneralesCurso': JSON.stringify(datosGeneralesCurso),
+                                                                    'evidencias': JSON.stringify(evidencias)},
                                                                     success: function(respuesta){
                                                                         var respu1 = respuesta.split("._.");
                                                                         var dat1 = respu1[0];

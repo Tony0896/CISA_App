@@ -374,6 +374,37 @@
         $("#version_app").text("Versión " + localStorage.getItem("version"));
 
         $("#nombre_usuario").html(localStorage.getItem("nombre"));
+
+         // Called when a photo is successfully retrieved
+        function onPhotoDataSuccess(imageData) {
+            var camera = 1;
+            if(camera == 0){
+                var smallImage = document.getElementById('smallImage');
+                smallImage.style.display = 'flex';
+                smallImage.src = imageData;
+                $("#imagenC").val(imageData);
+                console.log(imageData);
+            }else{
+                var smallImage = document.getElementById('smallImage');
+                smallImage.style.display = 'flex';
+                var nameima = "data:image/jpeg;base64," + imageData;
+                smallImage.src = "data:image/jpeg;base64," + imageData;
+                $("#imagenC").val(nameima);
+                console.log(imageData);
+            }
+            $("#evidencias_div").css("display", "block")
+            $("#div_botones_camara").html(`<div style="min-width: 50px; border-style: none;">
+                <span class="resize-handler"></span>
+                <a href="#" onclick="capturePhoto()" style="background-color: #005D99;" class="boton-equipo">Volver a tomar Evidencia <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;">photo_camera</i></a>
+            </div><div style="min-width: 50px; border-style: none;">
+                <span class="resize-handler"></span>
+                <a href="#" onclick="GuardarPhoto()" style="background-color: #2ECC71;" class="boton-equipo">Guardar Evidencia <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;">save</i></a>
+            </div>`)
+        }
+        // Called if something bad happens.
+        function onFail(message) {
+            alert("Failed because: "+message);
+        }
         function updateData() {
             var urlBase2 = "http://192.168.100.6/Desarrollo/CISAApp/HMOFiles/JSONS";
             // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";

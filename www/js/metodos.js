@@ -98,7 +98,7 @@
         }
     }
     function capturePhoto() {
-        var camera = localStorage.getItem("camera");
+        var camera = 1;
         if(camera == 0){
             var camera = app.popup.create({
                 content: `
@@ -678,7 +678,9 @@ function continuarCed(id_cedula,tipo){
 function continuarCedCap(id_cedula,tipo){
     localStorage.setItem("IdCedula",id_cedula);
     
-    if(tipo == 1){} else if(tipo == 2){
+    if(tipo == 1){
+        app.views.main.router.back('/formCapacita2/', {force: true, ignoreCache: true, reload: true});
+    } else if(tipo == 2){
         databaseHandler.db.transaction(
             function(tx){
                 tx.executeSql(
@@ -700,6 +702,8 @@ function continuarCedCap(id_cedula,tipo){
         );
     } else if(tipo == 3){
         app.views.main.router.back('/formCapacita6/', {force: true, ignoreCache: true, reload: true});
+    } else if(tipo == 5){
+        app.views.main.router.back('/formCapacita7/', {force: true, ignoreCache: true, reload: true});
     }
 }
 
@@ -3440,94 +3444,16 @@ function actualizaRespuestaCiertoFalso(id){
 }
 
 function generaEvaluacion(val){
+    console.log(val)
     if(val == 1){
-        var values = get_datos_completos('datos_form');
-        var quita_coma = values.response;
-        var valido = values.valido;
-        if (valido) {
-            var id_usuario = localStorage.getItem("Usuario");
-            var nombre_usuario = localStorage.getItem("nombre");
-            var fecha_llegada = getDateWhitZeros();
-            var geolocation = 1;
-            var id_cliente = localStorage.getItem("empresa");
-            var nombre_cliente = $("#nombreCandidato").val();
-            var horario_programado = fecha_llegada;
-            var estatus = 0;
-            var tipo_cedula = 'Capacitación';
-            var nombre_evalua = 'Prueba Manejo';
-
-            var fecha = $("#fecha").val();
-            var nombreInstructor = $("#nombreInstructor").val();
-            var nombreCandidato = $("#nombreCandidato").val();
-            var edad = $("#edad").val();
-            var telCelular = $("#telCelular").val();
-            var antecedentesManejo = $("#antecedentesManejo").val();
-            var name_course = $("#name_course").val();
-            var id_instructor = localStorage.getItem("id_usuario");
-            var id_candidato = $("#id_candidato").val();
-            var fecha_captura = getDateWhitZeros();
-            var id_course = 1; //! dinamic
-
-            productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua,geolocation);
-            databaseHandler.db.transaction(
-                function (tx) {
-                tx.executeSql(
-                    "Select MAX(id_cedula) as Id from cedulas_general",
-                    [],
-                    function (tx, results) {
-                        //app.dialog.progress('Generando CheckList','red');
-                        var progress = 0;
-                        var dialog = app.dialog.progress('Generando Curso', progress, 'red');
-                        var empresa = localStorage.getItem("empresa");
-                        var item = results.rows.item(0);
-                        localStorage.setItem("IdCedula", item.Id);
-                        var id_cedula = item.Id;
-                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
-                        var NomJson = 'CursoCiertoFalso'+empresa;
-                        app.request({
-                            url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
-                            method: 'GET',
-                            dataType: 'json',
-                            success: function (data) {
-                                var aux = 0;
-                                var aux2 = 0;
-                                for (var j = 0; j < data.length; j++) {
-                                    if(data[j].IDNombreCurso == 1){
-                                        aux ++;
-                                    }
-                                }
-                                if(aux == 0){
-                                    app.dialog.close();
-                                    swal("","Algo salió mal.","error");
-                                }else{
-                                    dialog.setText('1 de ' + aux);
-                                    for (var j = 0; j < data.length; j++) {
-                                        if(data[j].IDNombreCurso == 1){
-                                            aux2++;
-                                            productHandler.insertPreguntasCiertoFalso(id_cedula,data[j].IDPregunta,data[j].Pregunta,1,aux,aux2);
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    },
-                    function (tx, error) {
-                    console.log("Error al guardar cedula: " + error.message);
-                    }
-                );
-                },
-                function (error) {},
-                function () {}
-            );
-        } else {
-            swal("","Debes llenar estos campos para poder guardar: "+quita_coma,"warning");
-            return false;
-        }
+        app.sheet.close('#sheet-modal-1');
+        localStorage.setItem("SaltoCurso", 1);
+        app.views.main.router.back('/formCapacita1/', {force: true, ignoreCache: true, reload: true})
     } else {
         var id_usuario = localStorage.getItem("Usuario");
         var nombre_usuario = localStorage.getItem("nombre");
         var fecha_llegada = getDateWhitZeros();
-        var geolocation = localStorage.getItem("IDTipoCurso");;
+        var geolocation = localStorage.getItem("IDTipoCurso");
         var id_cliente = localStorage.getItem("empresa");
         var nombre_cliente = localStorage.getItem("nameBecario");
         var horario_programado = fecha_llegada;
@@ -3564,7 +3490,7 @@ function generaEvaluacion(val){
                     localStorage.setItem("IdCedula", item.Id);
                     var id_cedula = item.Id;
                     if(IDTipoCurso == 1){
-                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso);
                         var NomJson = 'CursoCiertoFalso'+empresa;
                         app.request({
                             url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
@@ -3586,14 +3512,14 @@ function generaEvaluacion(val){
                                     for (var j = 0; j < data.length; j++) {
                                         if(data[j].IDNombreCurso == id_course){
                                             aux2++;
-                                            productHandler.insertPreguntasCiertoFalso(id_cedula,data[j].IDPregunta,data[j].Pregunta,id_course,aux,aux2);
+                                            productHandler.insertPreguntasCiertoFalso(id_cedula,data[j].IDPregunta,data[j].Pregunta,data[j].texto1,data[j].texto2,id_course,aux,aux2);
                                         }
                                     }
                                 }
                             }
                         });
                     } else if(IDTipoCurso == 2){
-                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso);
                         var NomJson = 'CursoSiNoValor'+empresa;
                         app.request({
                             url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
@@ -3622,7 +3548,7 @@ function generaEvaluacion(val){
                             }
                         });
                     } else if(IDTipoCurso == 3){
-                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course);
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso);
                         var NomJson = 'PreguntasMultiple_'+empresa;
                         app.request({
                             url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
@@ -3663,6 +3589,8 @@ function generaEvaluacion(val){
                                 }
                             }
                         });
+                    } else if(IDTipoCurso == 5){
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso);
                     }
                 },
                 function (tx, error) {
@@ -3911,7 +3839,7 @@ function verSeguimientoCapacitacion(ID, FKPersonalBecario,nameBecario){
 function LLamarCursos(ID, FKPersonalBecario,nameBecario){
     app.sheet.close('#sheet-modal');
     var empresa = localStorage.getItem("empresa");
-    var NomJson = 'Cursos_'+empresa;
+    var NomJson = 'BecariosCursos_'+empresa;
     var html = '';
     localStorage.setItem("nameBecario", nameBecario)
     app.request({
@@ -3923,19 +3851,17 @@ function LLamarCursos(ID, FKPersonalBecario,nameBecario){
             if(length == 0){
             } else {
                 for (var j = 0; j < data.length; j++) {
-                    var realizado = 0;
-                    if(data[j].IDNombreCurso == 1){
-                        realizado = 1;
-                    } else {
-                        realizado = 0;
+                    if(data[j].FK_Becario == FKPersonalBecario){
+                        if(data[j].Certificadora == 0){
+                            html += `<div class="card-content">
+                                <div class="card" style="text-align: center;">
+                                    <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario}, ${data[j].ID}, ${data[j].FK_TipoCurso}, ${data[j].Diario}, '${data[j].NombreCurso}','${data[j].realizado}');"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                                        <p class="texto_master" style="margin: 10px 0 20px 0;">${data[j].NombreCurso}</p>
+                                    </a>
+                                </div>
+                            </div>`;
+                        }
                     }
-                    html += `<div class="card-content">
-                        <div class="card" style="text-align: center;">
-                            <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario}, ${data[j].IDNombreCurso}, ${data[j].IDTipoCurso}, ${data[j].Diario}, '${data[j].NombreCurso}','${realizado}');"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
-                                <p class="texto_master" style="margin: 10px 0 20px 0;">${data[j].NombreCurso}</p>
-                            </a>
-                        </div>
-                    </div>`;
                 }
                 // $("#tbody_becarios").html(html);
                 var popEvidencia = app.popup.create({
@@ -3972,42 +3898,65 @@ function LLamarCursos(ID, FKPersonalBecario,nameBecario){
     });
 }
 
-function LLamarIMTES(ID, FKPersonalBecario){
+function LLamarIMTES(ID, FKPersonalBecario, nameBecario){
     app.sheet.close('#sheet-modal');
-    var popEvidencia = app.popup.create({
-        content: `
-        <div class="sheet-modal my-sheet" id="sheet-modal-2" name="sheet">
-        <div class="toolbar">
-            <div class="toolbar-inner">
-                <div class="left"></div>
-                <div class="right"><a class="link" id="close_sheet-2" href="#">Cerrar</a></div>
-            </div>
-        </div>
-        <div class="sheet-modal-inner" style="overflow-y: scroll;">
-            <div class="block">
-                <div class="card-content">
-                    <div class="card" style="text-align: center;">
-                        <a href="#" onclick="GenerarIMTES(${ID}, ${FKPersonalBecario},1);"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
-                            <p class="texto_master" style="margin: 10px 0 20px 0;">Licencia</p>
-                        </a>
+    var empresa = localStorage.getItem("empresa");
+    var NomJson = 'BecariosCursos_'+empresa;
+    var html = '';
+    localStorage.setItem("nameBecario", nameBecario)
+    app.request({
+        url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            var length = data.length;
+            if(length == 0){
+            } else {
+                for (var j = 0; j < data.length; j++) {
+                    if(data[j].FK_Becario == FKPersonalBecario){
+                        if(data[j].Certificadora == 1){
+                            html += `<div class="card-content">
+                                <div class="card" style="text-align: center;">
+                                    <a href="#" onclick="GenerarCurso(${ID}, ${FKPersonalBecario}, ${data[j].ID}, ${data[j].FK_TipoCurso}, ${data[j].Diario}, '${data[j].NombreCurso}','${data[j].realizado}');"><img src="img/iconsMenu/IMGNO.png" style="width: 18vw;margin-top: 10px;">
+                                        <p class="texto_master" style="margin: 10px 0 20px 0;">${data[j].NombreCurso}</p>
+                                    </a>
+                                </div>
+                            </div>`;
+                        }
+                    }
+                }
+                var popEvidencia = app.popup.create({
+                    content: `
+                    <div class="sheet-modal my-sheet" id="sheet-modal-2" name="sheet">
+                    <div class="toolbar">
+                        <div class="toolbar-inner">
+                            <div class="left"></div>
+                            <div class="right"><a class="link" id="close_sheet-2" href="#">Cerrar</a></div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>`,
-    swipeToClose:false,
-    closeByOutsideClick:false,
-    closeByBackdropClick:false,
-    closeOnEscape:false,
-            on: {
-                open: function (popup) {
-                    $('#close_sheet-2').click(function () {
-                        app.sheet.close('#sheet-modal-2');
-                    });
-                },
+                    <div class="sheet-modal-inner" style="overflow-y: scroll;">
+                        <div class="block">
+                           ${html}
+                        </div>
+                        <div style="margin-bottom: 100px;"></div>
+                    </div>
+                </div>`,
+                swipeToClose:false,
+                closeByOutsideClick:false,
+                closeByBackdropClick:false,
+                closeOnEscape:false,
+                        on: {
+                            open: function (popup) {
+                                $('#close_sheet-2').click(function () {
+                                    app.sheet.close('#sheet-modal-2');
+                                });
+                            },
+                        }
+                });
+                popEvidencia.open();
             }
+        }
     });
-    popEvidencia.open();
 }
 
 function GenerarCurso(IDMov, FK_Becario, IDCurso, IDTipoCurso, OpDiario, NombreCurso, Realizado){
@@ -4017,11 +3966,13 @@ function GenerarCurso(IDMov, FK_Becario, IDCurso, IDTipoCurso, OpDiario, NombreC
     localStorage.setItem("IDTipoCurso", IDTipoCurso);
     localStorage.setItem("OpDiario", OpDiario);
     localStorage.setItem("NombreCurso", NombreCurso);
+
     if(OpDiario == 1){
-        generaEvaluacion(IDTipoCurso)
+        generaEvaluacion(IDCurso)
     } else {
         if(Realizado == 1){
             app.sheet.close('#sheet-modal-1');
+            app.sheet.close('#sheet-modal-2');
             var empresa = localStorage.getItem("empresa");
             var NomJson = 'DatosEvaluacionS_'+empresa;
             var html = `<div class="card-content">
@@ -4101,7 +4052,7 @@ function GenerarCurso(IDMov, FK_Becario, IDCurso, IDTipoCurso, OpDiario, NombreC
                 }
             });
         } else {
-            generaEvaluacion(IDTipoCurso);
+            generaEvaluacion(IDCurso);
         }
         
     }
@@ -4151,8 +4102,6 @@ function actualizaRespuestaSiNoPuntuacion(id, valor){
             califf = 0
         }
     }
-
-    
 
     $("#calificacion_text").html('Puntaje Obtenido: '+ totalPuntos + ", Calificación: "+califf)
 
@@ -4236,6 +4185,331 @@ function guardarCursoMultiple(){
         function(error){},
         function(){}
     );
+}
+function verDetalleCapacitacion(ID, FKPersonalBecario,nameBecario){
+    var empresa = localStorage.getItem("empresa");
+    var NomJson = 'BecariosCursos_'+empresa;
+    var html = ''
+    var coursesHTML = ''
+    var imtesHTML = ''
+    app.request({
+        url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            for (var j = 0; j < data.length; j++) {
+                if(data[j].FK_Becario == FKPersonalBecario){
+                    let check = ''
+                    let apto = ''
+                    data[j].aprobado == 1 ? apto = 'checked': apto = ''
+                    data[j].realizado == 1 ? check = 'checked' : check = ''
+                    if(data[j].Certificadora == 0){
+                        coursesHTML += `<div style="display: flex; justify-content: space-around; align-items: center;" class="card">
+                            <input type="checkbox" id="" ${check} onclick="return false;">
+                            <h2 style=" font-size: 18px;color: #000;">${data[j].NombreCurso}</h2>
+                            <div class="container_options">
+                                <span class="span FWM-span-form">El candidato es Apto?:</span>
+                                <input class="tgl tgl-skewed" id="cb3" type="checkbox" ${apto} onclick="return false;"></input>
+                                <label class="tgl-btn" data-tg-off="NO" data-tg-on="SI" for="cb3" style="font-size: 20px;border-radius: 5px;"></label>
+                            </div>
+                        </div>`
+                    } else {
+                        imtesHTML += `<div style="display: flex; justify-content: space-around; align-items: center;" class="card">
+                            <input type="checkbox" id="" ${check} onclick="return false;">
+                            <h2 style=" font-size: 18px;color: #000;">${data[j].NombreCurso}</h2>
+                            <div class="container_options">
+                                <span class="span FWM-span-form">El candidato es Apto?:</span>
+                                <input class="tgl tgl-skewed" id="cb3" type="checkbox" ${apto} onclick="return false;"></input>
+                                <label class="tgl-btn" data-tg-off="NO" data-tg-on="SI" for="cb3" style="font-size: 20px;border-radius: 5px;"></label>
+                            </div>
+                        </div>`
+                    }
+                }
+            }
+            // <div class="block">
+            //     <div class="card-content">
+            //         <div class="card" style="text-align: center;"></div>
+            html = `<div class="sheet-modal my-sheet" id="sheet-modal-4" name="sheet">
+                <div class="toolbar">
+                    <div class="toolbar-inner">
+                        <div class="left"></div>
+                        <div class="right"><a class="link" id="close_sheet" href="#">Cerrar</a></div>
+                    </div>
+                </div>
+                <div class="sheet-modal-inner" style="overflow-y: scroll;">
+                    <div class="block">
+                        <div class="card-content">
+                            <div class="card">
+                                <div>
+                                    <div>
+                                        <h2 style="width: fit-content;margin-left: auto;margin-right: auto;background-color: #cce7ff;padding: 10px 25px 8px 25px;border-radius: 10px;">Cursos</h2>
+                                    </div>
+                                </div>
+                                <div id="div_cursos" class="card">
+                                    ${coursesHTML}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card">
+                                <div>
+                                    <div>
+                                        <h2 style="width: fit-content;margin-left: auto;margin-right: auto;background-color: #cce7ff;padding: 10px 25px 8px 25px;border-radius: 10px;">IMTES</h2>
+                                    </div>   
+                                </div>
+                                <div id="div_imtes" class="card">
+                                    ${imtesHTML}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+            var popEvidencia = app.popup.create({
+                content: `
+                ${html}`,
+            swipeToClose:false,
+            closeByOutsideClick:false,
+            closeByBackdropClick:false,
+            closeOnEscape:false,
+                    on: {
+                        open: function (popup) {
+                            $('#close_sheet').click(function () {
+                                app.sheet.close('#sheet-modal-4');
+                            });
+                        },
+                    }
+            });
+
+            popEvidencia.open();
+            
+        }
+    });
+}
+
+function GuardarPhoto(){
+    //CAP_Evidencias( id_cedula integer, evidencia blob, fecha text
+    var id_cedula = localStorage.getItem("IdCedula");
+    var foto = $("#imagenC").val();
+    if(foto){
+        databaseHandler.db.transaction(
+            function(tx){
+                tx.executeSql("INSERT INTO CAP_Evidencias(id_cedula,evidencia,fecha) VALUES (?,?,?)",
+                    [id_cedula,foto,getDateWhitZeros()],
+                    function(tx, results){
+                        databaseHandler.db.transaction(
+                            function(tx1){
+                                tx1.executeSql(
+                                    "Select * from CAP_Evidencias where id_cedula= ? ORDER BY id_evidencia DESC LIMIT 1",
+                                    [id_cedula],
+                                    function(tx, results){
+                                        var item = results.rows.item(0);
+                                        $("#evidencias_div").css("display", "none")
+                                        $("#div_botones_camara").html(`<div style="min-width: 50px; border-style: none;">
+                                            <span class="resize-handler"></span>
+                                            <a href="#" onclick="ValidarCapturePhoto()" style="background-color: #fff;border: 3px solid #005D99;color:#005D99" class="boton-equipo">
+                                                Agregar Evidencia <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;color:#005D99">photo_camera</i>
+                                            </a>
+                                        </div>`)
+                                        $("#imagenC").val('');
+                                        swal("","Foto guardada correctamente","success");
+                                        $("#facturas").append("<tr id='fila"+ item.id_evidencia +"'><td style='text-align: center;'><img src='"+item.evidencia+"' width='60px' style='margin-top: 4px;'/></td><td style='text-align: center;'><a href='#' onclick='eliminarFilaFoto("+item.id_evidencia +",1);' style='border: none; outline:none;'><i class='icon material-icons md-only' style='display: inline-block;margin-left: 12px;color:#FF0037;font-size: 40px;'>delete_forever</i></a></td></tr>");
+                                        $("#message-nr").css("display", "none");
+                                    }
+                                );
+                            },
+                            function(error){},
+                            function(){}
+                        );
+                    },
+                    function(tx, error){
+                    }
+                );
+            },function(error){},function(){
+            }
+        );
+    }else{
+        swal("","Debes tomar una fotografía de la factura(s):", "warning");
+    }
+}
+
+function ValidarCapturePhoto(){
+    var id_cedula = localStorage.getItem("IdCedula");
+    databaseHandler.db.transaction(
+        function(tx1){
+            tx1.executeSql(
+                "Select COUNT(id_cedula) as cuenta from CAP_Evidencias where id_cedula= ?",
+                [id_cedula],
+                function(tx, results){
+                    var item = results.rows.item(0);
+                    if(item.cuenta <= 2){
+                        capturePhoto()
+                    } else {
+                        swal("", "Solo puedes agregar máx. 3 fotos", "warning")
+                    }
+                }
+            );
+        },
+        function(error){},
+        function(){}
+    );
+}
+
+function eliminarFilaFoto(index, val){
+    if(val == 1){
+        databaseHandler.db.transaction(
+            function(tx){
+                tx.executeSql(
+                    "DELETE FROM CAP_Evidencias WHERE id_evidencia = ?",
+                    [index],
+                    function(tx, results){
+                         swal("","El registro se elimino satisfactoriamente","success");
+                         $("#fila" + index).remove();
+                    },
+                    function(tx, error){
+                        swal("Error al eliminar registro",error.message,"error");
+                    }
+                );
+            },
+            function(error){},
+            function(){}
+        );
+    }
+}
+
+function guardarCursoEvidencias(){
+    var id_cedula = localStorage.getItem("IdCedula");
+    var observaciones = $("#observaciones").val();
+    var firmaInstructor = $("#signate").val();
+    var apto = 0;
+    $("#cb3").prop("checked") == true ? apto = 1: apto = 0;
+
+    databaseHandler.db.transaction(
+        function(tx){
+            tx.executeSql("UPDATE datosGeneralesCurso SET apto = ?, observaciones = ?, firmaInstructor = ? WHERE id_cedula = ?",
+                [apto,observaciones,firmaInstructor, id_cedula],
+                function(tx, results){
+                    swal({
+                        title: "Aviso",
+                        text: "¿Estas seguro de querer finalizar la prueba?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    }).then((RESP) => {
+                        if (RESP == true) {
+                            var fecha_salida = getDateWhitZeros();
+                            var estatus = 1;
+                            databaseHandler.db.transaction(
+                                function(tx){
+                                    tx.executeSql("UPDATE cedulas_general SET fecha_salida  = ?,estatus = ? WHERE id_cedula = ?",
+                                        [fecha_salida,estatus,id_cedula],
+                                        function(tx, results){
+                                            window.location.href = "./menu.html";
+                                        },
+                                        function(tx, error){
+                                            swal("Error al guardar",error.message,"error");
+                                        }
+                                    );
+                                },
+                                function(error){},
+                                function(){}
+                            );              
+                        }
+                    });
+                },
+                function(tx, error){
+                    console.error("Error al guardar cierre: " + error.message);
+                }
+            );
+        },
+        function(error){},
+        function(){}
+    );
+}
+function generarCursoManejo(){
+    var values = get_datos_completos('datos_form');
+    var quita_coma = values.response;
+    var valido = values.valido;
+    if (valido) {
+        var id_usuario = localStorage.getItem("Usuario");
+        var nombre_usuario = localStorage.getItem("nombre");
+        var fecha_llegada = getDateWhitZeros();
+        var geolocation = 1;
+        var id_cliente = localStorage.getItem("empresa");
+        var nombre_cliente = $("#nombreCandidato").val();
+        var horario_programado = fecha_llegada;
+        var estatus = 0;
+        var tipo_cedula = 'Capacitación';
+        var nombre_evalua = 'Prueba Manejo';
+
+        var fecha = $("#fecha").val();
+        var nombreInstructor = $("#nombreInstructor").val();
+        var nombreCandidato = $("#nombreCandidato").val();
+        var edad = $("#edad").val();
+        var telCelular = $("#telCelular").val();
+        var antecedentesManejo = $("#antecedentesManejo").val();
+        var name_course = $("#name_course").val();
+        var id_instructor = localStorage.getItem("id_usuario");
+        var id_candidato = $("#id_candidato").val();
+        var fecha_captura = getDateWhitZeros();
+        var id_course = 1; //! dinamic
+
+        productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua,geolocation);
+        databaseHandler.db.transaction(
+            function (tx) {
+            tx.executeSql(
+                "Select MAX(id_cedula) as Id from cedulas_general",
+                [],
+                function (tx, results) {
+                    //app.dialog.progress('Generando CheckList','red');
+                    var progress = 0;
+                    var dialog = app.dialog.progress('Generando Curso', progress, 'red');
+                    var empresa = localStorage.getItem("empresa");
+                    var item = results.rows.item(0);
+                    localStorage.setItem("IdCedula", item.Id);
+                    var id_cedula = item.Id;
+                    productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, 1);
+                    var NomJson = 'CursoCiertoFalso'+empresa;
+                    app.request({
+                        url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            var aux = 0;
+                            var aux2 = 0;
+                            for (var j = 0; j < data.length; j++) {
+                                if(data[j].IDNombreCurso == 1){
+                                    aux ++;
+                                }
+                            }
+                            if(aux == 0){
+                                app.dialog.close();
+                                swal("","Algo salió mal.","error");
+                            }else{
+                                dialog.setText('1 de ' + aux);
+                                for (var j = 0; j < data.length; j++) {
+                                    if(data[j].IDNombreCurso == 1){
+                                        aux2++;
+                                        productHandler.insertPreguntasCiertoFalso(id_cedula,data[j].IDPregunta,data[j].Pregunta,data[j].texto1,data[j].texto2,1,aux,aux2);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                function (tx, error) {
+                console.log("Error al guardar cedula: " + error.message);
+                }
+            );
+            },
+            function (error) {},
+            function () {}
+        );
+    } else {
+        swal("","Debes llenar estos campos para poder guardar: "+quita_coma,"warning");
+        return false;
+    }
 }
 //fin Capacitacion 
 //fin HMO
