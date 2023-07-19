@@ -4123,7 +4123,7 @@ function actualizaRespuestaSiNoPuntuacion(id, valor){
 
 function sincronizaDatosCapacitacion(){
     var EmpresaID = localStorage.getItem("empresa");
-    var urlBase2 = "http://192.168.100.6/Desarrollo/CISAApp/HMOFiles/Exec";
+    var urlBase2 = "http://192.168.1.71/Desarrollo/CISAApp/HMOFiles/Exec";
     // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
     var url = urlBase2 + "/capacitacion/datos.php?empresa="+EmpresaID;
 
