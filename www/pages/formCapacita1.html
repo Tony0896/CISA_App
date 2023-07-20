@@ -49,6 +49,7 @@
 
                         <input type="hidden" id="name_course" value="Prueba de Manejo">
                         <input type="hidden" id="id_candidato">
+                        <input type="hidden" id="ID_AT">
 
                     </div>
                     <div style="margin-bottom: 100px;"></div>
@@ -125,6 +126,7 @@ return {
                                 $("#nombreCandidato").val(content2[x].Nombre);
                                 $("#edad").val(content2[x].edad);
                                 $("#telCelular").val(content2[x].numero);
+                                $("#ID_AT").val(content2[x].ID_AT);
                                 encontro = true;
                             }         
                         }
@@ -133,6 +135,7 @@ return {
                             $("#nombreCandidato").val("");
                             $("#edad").val("");
                             $("#telCelular").val("");
+                            $("#ID_AT").val("");
                         }
                     });
                 }); 

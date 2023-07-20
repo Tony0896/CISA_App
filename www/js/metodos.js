@@ -3474,6 +3474,7 @@ function generaEvaluacion(val){
         var fecha_captura = getDateWhitZeros();
         var id_course = localStorage.getItem("IDCurso");
         var IDTipoCurso = localStorage.getItem("IDTipoCurso");
+        var ID_AT = localStorage.getItem("ID_AT");
 
         productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua,geolocation);
         databaseHandler.db.transaction(
@@ -3490,7 +3491,7 @@ function generaEvaluacion(val){
                     localStorage.setItem("IdCedula", item.Id);
                     var id_cedula = item.Id;
                     if(IDTipoCurso == 1){
-                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso);
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso, ID_AT);
                         var NomJson = 'CursoCiertoFalso'+empresa;
                         app.request({
                             url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
@@ -3519,7 +3520,7 @@ function generaEvaluacion(val){
                             }
                         });
                     } else if(IDTipoCurso == 2){
-                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso);
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso, ID_AT);
                         var NomJson = 'CursoSiNoValor'+empresa;
                         app.request({
                             url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
@@ -3548,7 +3549,7 @@ function generaEvaluacion(val){
                             }
                         });
                     } else if(IDTipoCurso == 3){
-                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso);
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso, ID_AT);
                         var NomJson = 'PreguntasMultiple_'+empresa;
                         app.request({
                             url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",
@@ -3590,7 +3591,7 @@ function generaEvaluacion(val){
                             }
                         });
                     } else if(IDTipoCurso == 5){
-                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso);
+                        productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso, ID_AT);
                     }
                 },
                 function (tx, error) {
@@ -4427,6 +4428,7 @@ function guardarCursoEvidencias(){
         function(){}
     );
 }
+
 function generarCursoManejo(){
     var values = get_datos_completos('datos_form');
     var quita_coma = values.response;
@@ -4454,6 +4456,7 @@ function generarCursoManejo(){
         var id_candidato = $("#id_candidato").val();
         var fecha_captura = getDateWhitZeros();
         var id_course = 1; //! dinamic
+        var ID_AT = $("#ID_AT").val();
 
         productHandler.addCedula(id_usuario,nombre_usuario,fecha_llegada,id_course,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula,nombre_evalua,geolocation);
         databaseHandler.db.transaction(
@@ -4469,7 +4472,7 @@ function generarCursoManejo(){
                     var item = results.rows.item(0);
                     localStorage.setItem("IdCedula", item.Id);
                     var id_cedula = item.Id;
-                    productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, 1);
+                    productHandler.addDatosPrueba1(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, 1, ID_AT);
                     var NomJson = 'CursoCiertoFalso'+empresa;
                     app.request({
                         url: cordova.file.dataDirectory + "jsons_capacitacion/"+NomJson+".json",

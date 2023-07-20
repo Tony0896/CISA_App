@@ -426,12 +426,12 @@ var productHandler={
           function () {}
         );
   },
-  addDatosPrueba1: function (id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso){
+  addDatosPrueba1: function (id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, IDTipoCurso, ID_AT){
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
-            "insert into datosGeneralesCurso(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course],
+            "insert into datosGeneralesCurso(id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, ID_AT) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [id_cedula, fecha, nombreInstructor, id_instructor, id_candidato, nombreCandidato, edad, telCelular, antecedentesManejo, name_course, fecha_captura, id_course, ID_AT],
             function (tx, results) {
               if(IDTipoCurso == 5){
                 app.dialog.close();
