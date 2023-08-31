@@ -115,12 +115,12 @@ var productHandler={
         function () {}
       );
   },
-  addDesincorHeader: function (id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario, estatus_servidor, id_servidor){
+  addDesincorHeader: function (id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario, estatus_servidor, id_servidor, fechaApertura, OrigenApertura, OrigenCierre){
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
-            "insert into desincorporaciones(id_cedula, empresa, fecha, estatus, userApertura, estatus_servidor, id_servidor) values(?, ?, ?, ?, ?, ?, ?)",
-            [id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario,estatus_servidor, id_servidor],
+            "insert into desincorporaciones(id_cedula, empresa, fecha, estatus, userApertura, estatus_servidor, id_servidor, fechaApertura, OrigenApertura, OrigenCierre) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario,estatus_servidor, id_servidor, fechaApertura, OrigenApertura, OrigenCierre],
             function (tx, results) { },
             function (tx, error) { console.error("Error registrar:" + error.message); }
           );
@@ -129,12 +129,12 @@ var productHandler={
         function () {}
       );
   },
-  addDesincorHeader2: function (id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario, estatus_servidor, id_servidor, usuarioCierre){
+  addDesincorHeader2: function (id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario, estatus_servidor, id_servidor, usuarioCierre, OrigenApertura, OrigenCierre){
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
-            "insert into desincorporaciones(id_cedula, empresa, fecha, estatus, userApertura, estatus_servidor, id_servidor, userCierre) values(?, ?, ?, ?, ?, ?, ?, ?)",
-            [id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario,estatus_servidor, id_servidor, usuarioCierre],
+            "insert into desincorporaciones(id_cedula, empresa, fecha, estatus, userApertura, estatus_servidor, id_servidor, userCierre, OrigenApertura, OrigenCierre) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario,estatus_servidor, id_servidor, usuarioCierre, OrigenApertura, OrigenCierre],
             function (tx, results) { },
             function (tx, error) { console.error("Error registrar:" + error.message); }
           );
@@ -154,10 +154,14 @@ var productHandler={
               if(item.cont == 0){
                 databaseHandler.db.transaction(
                   function (tx) {
-                    if(UnidadI){
+                    if(JornadaSinIncorporacion == 1){
                       var estatus_servidor = 4;
                     } else {
-                      var estatus_servidor = 2;
+                      if(UnidadI){
+                        var estatus_servidor = 4;
+                      } else {
+                        var estatus_servidor = 2;
+                      }
                     }
                     tx.executeSql(//
                       "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, HoraInc, UnidadIncID, UnidadInc, SentidoInc, Inclumplimiento, OperadorInc, KmInc, KmPerdidos, FolioInc, Usuarioinc, HoraIncR, UbicacionInc, jornadaSIncorporacion) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",

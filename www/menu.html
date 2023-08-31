@@ -138,6 +138,7 @@
                                 <div>
                                   <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();"><img src="img/iconsMenu/portapapeles2.svg" height="60px"><p style="color: #000000;font-size: 19px;">Generar Nuevo Reporte</p><i class="material-icons md-light" style="color: #ff0000;margin-right: 10px;">chevron_right</i></a>
                                 </div>
+                                <input type="hidden" placeholder="Select date" readonly="readonly" id="demo-calendar-modal" />
                               </td>
                             </tr>
                             <tr class="menu_recaudo menus">
@@ -219,6 +220,8 @@
     window.localStorage.removeItem("IdCed");
     window.localStorage.removeItem("TipoC");
     window.localStorage.removeItem("empresaID");
+    window.localStorage.removeItem("one_step")
+    window.localStorage.removeItem("tap_refresh")
 
     var modulos =localStorage.getItem("Modulo").split(",");
     for(i=0;i < modulos.length; i++){
@@ -268,8 +271,8 @@
 
     $("#nombre_usuario").html(localStorage.getItem("nombre"));
     function updateData(){
-      // var urlBase2 = "http://192.168.100.7/Desarrollo/CISAApp";
-      var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+      var urlBase2 = "http://192.168.100.4/Desarrollo/CISAApp";
+      // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
       if(localStorage.getItem("Modulos")){
         if(localStorage.getItem("Modulos") == 'Limpieza'){
           var RutaJSONS = urlBase2 + "/Archivos/JSON_limp/";
@@ -459,6 +462,33 @@
           var tipo = "Limpieza";
         } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
           var tipo = "Desincorporaciones";
+          let calendarModal
+          calendarModal = app.calendar.create({
+            inputEl: '#demo-calendar-modal',
+            openIn: 'customModal',
+            header: true,
+            footer: true,
+            headerPlaceholder: "Selecciona un día",
+            maxDate: [new Date()],
+            value: [new Date()],
+            toolbarCloseText : 'Ok',
+            on:{
+              closed: () => {
+                //console.log($("#demo-calendar-modal").val())
+                iniciarDesincorporaciones()
+              }
+            }
+          });
+          databaseHandler.db.transaction(
+              function(tx5){tx5.executeSql("SELECT OrigenApertura FROM desincorporaciones LIMIT 1",[],function(tx5, results){});},
+              function(error){
+                databaseHandler.db.transaction( function(tx5){ tx5.executeSql( "ALTER TABLE desincorporaciones ADD COLUMN OrigenApertura text", [], function(tx5, results){ } ); }, function(error){}, function(){} );
+                databaseHandler.db.transaction( function(tx5){ tx5.executeSql( "ALTER TABLE desincorporaciones ADD COLUMN OrigenCierre text", [], function(tx5, results){ } ); }, function(error){}, function(){} );
+                databaseHandler.db.transaction( function(tx5){ tx5.executeSql( "ALTER TABLE desincorporaciones ADD COLUMN fechaApertura text", [], function(tx5, results){ } ); }, function(error){}, function(){} );
+              },
+              function(){}
+          );
+
         } else if(localStorage.getItem("Modulos") == 'Recaudo'){
           var tipo = "Recaudo";
         }
@@ -478,7 +508,8 @@
                             } else if(item2.tipo_cedula == 'Limpieza'){
                               $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Rev. Limpieza</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,2);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                             } else if(item2.tipo_cedula == 'Desincorporaciones'){
-                              $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>");
+                              fechas = item2.horario_programado
+                              $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas+ "</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>");
                             } else if(item2.tipo_cedula == 'Recaudo'){
                               $("#pendientes").append("<li id='conc"+item2.id_cedula+"'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> "+item2.nombre_cliente + "| "+fechas[0]+ "</div> <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Recaudo</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" + item2.id_cedula + "`,4);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='EliminarReg(" + item2.id_cedula+ ",`" + item2.tipo_cedula + "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>");
                             }

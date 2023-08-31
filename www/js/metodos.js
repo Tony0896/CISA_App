@@ -228,7 +228,8 @@
         }else if(Modulos == "Imagen"){
             app.views.main.router.navigate({ name: 'yallegue'});
         } else if(Modulos == "Desincorporaciones"){
-            iniciarDesincorporaciones();
+            $("#demo-calendar-modal").trigger( "click" );
+            //iniciarDesincorporaciones();
         } else if(Modulos == "Recaudo"){
             preingresoRecaudo();
         }
@@ -1496,8 +1497,14 @@ function get_datos_completos(form){
     }
 }
 function iniciarDesincorporaciones(){
-    var hoy = getDateWhitZeros();
-    hoy = hoy.split(" ");
+    // var hoy = getDateWhitZeros();
+    // hoy = hoy.split(" ");
+    var hoy = $("#demo-calendar-modal").val()
+    if(!hoy){
+        swal("", "Debes seleccionar un día", "warning")
+        return false
+    }
+
     var id_cliente = localStorage.getItem("empresa");
 
     if(id_cliente == 1){
@@ -1557,8 +1564,8 @@ function iniciarDesincorporaciones(){
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
-            "Select id_cedula from desincorporaciones where DATE(fecha) = ? AND empresa = ?",
-            [hoy[0], nombre_cliente],
+            "Select id_cedula from desincorporaciones where DATE(fechaApertura) = ? AND empresa = ?",
+            [hoy, nombre_cliente],
             function (tx, results) {
                 var length = results.rows.length;
                 if(length == 0){
@@ -1574,12 +1581,12 @@ function iniciarDesincorporaciones(){
                             var nombre_usuario = localStorage.getItem("nombre");
                             var Usuario = localStorage.getItem("Usuario");
                             var fecha_llegada = getDateWhitZeros();
-                            var horario_programado = fecha_llegada;
+                            var fechaApertura = hoy
                             var estatus = 0;
                             var geolocation = '';
                 
                             var tipo_cedula = 'Desincorporaciones';
-                            productHandler.addCedulayb(id_usuario,nombre_usuario,fecha_llegada,geolocation,id_cliente,nombre_cliente,horario_programado,estatus,tipo_cedula);
+                            productHandler.addCedulayb(id_usuario,nombre_usuario,fecha_llegada,geolocation,id_cliente,nombre_cliente,fechaApertura,estatus,tipo_cedula);
                 
                             databaseHandler.db.transaction(
                                 function (tx) {
@@ -1591,7 +1598,7 @@ function iniciarDesincorporaciones(){
                                         localStorage.setItem("IdCedula", item.Id);
                                         var id_cedula = item.Id;
                                         var estatusd = "Abierto";
-                                        productHandler.addDesincorHeader(id_cedula,nombre_cliente,fecha_llegada,estatusd,Usuario, 0, 0);
+                                        productHandler.addDesincorHeader(id_cedula,nombre_cliente,fecha_llegada,estatusd,Usuario, 0, 0, fechaApertura, 'MOBILE', null);
                                         app.views.main.router.navigate({ name: 'yallegue_desin'});         
                                     },
                                     function (tx, error) {}
@@ -1603,7 +1610,7 @@ function iniciarDesincorporaciones(){
                         }
                     });
                 } else {
-                    swal("","Actualmente ya existe un registro del día de hoy. Puedes acceder a el en la sección de bandeja de salida","warning");
+                    swal("","Actualmente ya existe un registro este día. Puedes acceder a el en la sección de bandeja de salida","warning");
                 }
             },
             function (tx, error) {}
@@ -1628,32 +1635,41 @@ function RevisaHeaders(){
     var usuarioApertura = '';
     var usuarioCierre = '';
     var empresa = '';
+    var FechaApertura = '';
+    var OrigenApertura = '';
+    var OrigenCierre = '';
 
     app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson+".json", function (data) {
-        var content2 = JSON.parse(data);
-        if (content2 == null){}else{
-            for(var x = 0; x < content2.length; x++) {
-                if(content2[x].Fecha2 == hoy[0]){
-                    encontro = true;
-                    id = content2[x].ID;
-                    empresa = content2[x].Empresa;
-                    folio = content2[x].Folio;
-                    fecha = content2[x].Fecha;
-                    estatus = content2[x].Estatus;
-                    usuarioApertura = content2[x].UsuarioApertura;
-                    usuarioCierre = content2[x].UsuarioCierre;
-                    GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura, usuarioCierre);
-                }         
+        if(data){
+            var content2 = JSON.parse(data);
+            if (content2 == null){}else{
+                for(var x = 0; x < content2.length; x++) {
+                    // if(content2[x].Fecha2 == hoy[0]){
+                        encontro = true;
+                        id = content2[x].ID;
+                        empresa = content2[x].Empresa;
+                        folio = content2[x].Folio;
+                        fecha = content2[x].Fecha;
+                        estatus = content2[x].Estatus;
+                        usuarioApertura = content2[x].UsuarioApertura;
+                        usuarioCierre = content2[x].UsuarioCierre;
+                        FechaApertura = content2[x].FechaApertura;
+                        OrigenApertura = content2[x].OrigenApertura;
+                        OrigenCierre = content2[x].OrigenCierre;
+                        GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura, usuarioCierre, FechaApertura, OrigenApertura, OrigenCierre);
+                    // }
+                }
             }
         }
     });
 }
 
-function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura, usuarioCierre){
+function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura, usuarioCierre, FechaApertura, OrigenApertura, OrigenCierre){
+    // console.log(id, empresa, folio, fecha, estatus, usuarioApertura, usuarioCierre, FechaApertura, OrigenApertura, OrigenCierre)
     databaseHandler.db.transaction(
         function(tx5){
-            tx5.executeSql("SELECT * FROM desincorporaciones WHERE fecha = ? ",
-                [fecha],
+            tx5.executeSql("SELECT * FROM desincorporaciones WHERE id_servidor = ? ",
+                [id],
                 function(tx5, results){
                     var length = results.rows.length;
                     if(length == 0){
@@ -1663,7 +1679,7 @@ function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura
                         var estatus = 0;
                         var geolocation = '';
                         var tipo_cedula = 'Desincorporaciones';
-                        productHandler.addCedulayb(id_usuario,nombre_usuario,fecha,geolocation,id_cliente,empresa,fecha,estatus,tipo_cedula);
+                        productHandler.addCedulayb(id_usuario,nombre_usuario,fecha,geolocation,id_cliente,empresa,FechaApertura,estatus,tipo_cedula);
                         databaseHandler.db.transaction(
                             function (tx) {
                                 tx.executeSql(
@@ -1675,11 +1691,11 @@ function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura
                                     var id_cedula = item.Id;
                                     if(usuarioCierre){
                                         var estatusd = "Concluido";
-                                        productHandler.addDesincorHeader2(id_cedula,empresa,fecha,estatusd,usuarioApertura, 4, id, usuarioCierre);
+                                        productHandler.addDesincorHeader2(id_cedula,empresa,fecha,estatusd,usuarioApertura, 4, id, usuarioCierre, OrigenApertura, OrigenCierre);
                                         PintaCedulas(0, "Desincorporaciones");
                                     } else {
                                         var estatusd = "Abierto";
-                                        productHandler.addDesincorHeader(id_cedula,empresa,fecha,estatusd,usuarioApertura, 2, id);
+                                        productHandler.addDesincorHeader(id_cedula,empresa,fecha,estatusd,usuarioApertura, 2, id, fecha, OrigenApertura, OrigenCierre);
                                         PintaCedulas(0, "Desincorporaciones");
                                     }
                                     InsertaDetails(id_cedula, id);
@@ -1767,8 +1783,8 @@ function PintaCedulas(estatus, tipo){
                         var html = '';
                         for(var i = 0; i< length; i++){
                             var item2 = results.rows.item(i);
-                            var fechas = item2.fecha_entrada.split(" ");
-                            var html = html + `<li id='conc${item2.id_cedula}'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> ${item2.nombre_cliente + "| "+fechas[0]}</div> </div><div class='item-after'><a href='#' onclick='continuarCed(${item2.id_cedula},3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>`;
+                            var fechas = item2.horario_programado
+                            var html = html + `<li id='conc${item2.id_cedula}'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> ${item2.nombre_cliente + "| "+fechas}</div> </div><div class='item-after'><a href='#' onclick='continuarCed(${item2.id_cedula},3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>`;
                         }
                         $("#pendientes").html(html);
                     },
@@ -1806,6 +1822,7 @@ function PintaCedulas(estatus, tipo){
     }
 }
 function InsertaDetails(id_cedula, id_servidor){
+    // console.log(id_cedula, id_servidor)
     var empresa = localStorage.getItem("empresa");
     var NomJson = 'Details_'+empresa;
     app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson+".json", function (data) {
@@ -1929,17 +1946,17 @@ function RefreshDataSustitucion(){
     }
 }
 function CerrarReporte(){
-    var MyDate = new Date();
-    var time1 = ('0' + MyDate.getHours()).slice(-2)+":"+('0' + MyDate.getMinutes()).slice(-2)+":"+('0' + MyDate.getSeconds()).slice(-2);
+    // var MyDate = new Date();
+    // var time1 = ('0' + MyDate.getHours()).slice(-2)+":"+('0' + MyDate.getMinutes()).slice(-2)+":"+('0' + MyDate.getSeconds()).slice(-2);
 
-    const date1 = new Date('2023-01-01 ' + time1);
-    const date2 = new Date('2023-01-01 23:00');
-    const date3 = new Date('2023-01-01 03:00');
+    // const date1 = new Date('2023-01-01 ' + time1);
+    // const date2 = new Date('2023-01-01 23:00');
+    // const date3 = new Date('2023-01-01 03:00');
 
-    if (date1.getTime() < date2.getTime() && date1.getTime() > date3.getTime()) {
-        swal("", "Este botón solo estará activo después de las 23 horas", "warning");
-        return false;
-    } 
+    // if (date1.getTime() < date2.getTime() && date1.getTime() > date3.getTime()) {
+    //     swal("", "Este botón solo estará activo después de las 23 horas", "warning");
+    //     return false;
+    // } 
 
     var id_cedula = localStorage.getItem("IdCedula");
     databaseHandler.db.transaction(
@@ -1976,8 +1993,8 @@ function CerrarReporte(){
             var cierre = "CERRADO";
             databaseHandler.db.transaction(
                 function(tx){
-                    tx.executeSql("UPDATE desincorporaciones SET fecha2  = ?, userCierre = ?, Estatus = ?, estatus_servidor = ? WHERE id_cedula = ?",
-                        [fecha_salida, usuarioCierre, cierre,3, id_cedula],
+                    tx.executeSql("UPDATE desincorporaciones SET fecha2  = ?, userCierre = ?, Estatus = ?, estatus_servidor = ?, OrigenCierre = ? WHERE id_cedula = ?",
+                        [fecha_salida, usuarioCierre, cierre,3, 'MOBILE', id_cedula],
                         function(tx, results){
                             databaseHandler.db.transaction(
                                 function(tx){
@@ -2201,8 +2218,8 @@ function edit_apoyo(val, estatus){
 }
 function sincronizaDatos(){
     var EmpresaID = localStorage.getItem("empresa");
-    // var urlBase2 = "http://192.168.100.7/Desarrollo/CISAApp";
-    var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+    var urlBase2 = "http://192.168.100.4/Desarrollo/CISAApp";
+    // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
     var url = urlBase2 + "/Exec/datos_desin.php?empresa="+EmpresaID;
     var url2 = urlBase2 + "/Exec/datos_desin_H.php?empresa="+EmpresaID;
 
