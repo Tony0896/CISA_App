@@ -1656,6 +1656,7 @@ function RevisaHeaders(){
                         FechaApertura = content2[x].FechaApertura;
                         OrigenApertura = content2[x].OrigenApertura;
                         OrigenCierre = content2[x].OrigenCierre;
+                        FechaApertura ? null : FechaApertura = content2[x].Fecha2
                         GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura, usuarioCierre, FechaApertura, OrigenApertura, OrigenCierre);
                     // }
                 }
