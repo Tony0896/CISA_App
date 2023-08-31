@@ -115,12 +115,12 @@ var productHandler={
         function () {}
       );
   },
-  addDesincorHeader: function (id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario, estatus_servidor, id_servidor){
+  addDesincorHeader: function (id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario, estatus_servidor, id_servidor, fechaApertura, OrigenApertura, OrigenCierre){
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
-            "insert into desincorporaciones(id_cedula, empresa, fecha, estatus, userApertura, estatus_servidor, id_servidor) values(?, ?, ?, ?, ?, ?, ?)",
-            [id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario,estatus_servidor, id_servidor],
+            "insert into desincorporaciones(id_cedula, empresa, fecha, estatus, userApertura, estatus_servidor, id_servidor, fechaApertura, OrigenApertura, OrigenCierre) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario,estatus_servidor, id_servidor, fechaApertura, OrigenApertura, OrigenCierre],
             function (tx, results) { },
             function (tx, error) { console.error("Error registrar:" + error.message); }
           );
@@ -129,12 +129,12 @@ var productHandler={
         function () {}
       );
   },
-  addDesincorHeader2: function (id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario, estatus_servidor, id_servidor, usuarioCierre){
+  addDesincorHeader2: function (id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario, estatus_servidor, id_servidor, usuarioCierre, OrigenApertura, OrigenCierre){
     databaseHandler.db.transaction(
         function (tx) {
           tx.executeSql(
-            "insert into desincorporaciones(id_cedula, empresa, fecha, estatus, userApertura, estatus_servidor, id_servidor, userCierre) values(?, ?, ?, ?, ?, ?, ?, ?)",
-            [id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario,estatus_servidor, id_servidor, usuarioCierre],
+            "insert into desincorporaciones(id_cedula, empresa, fecha, estatus, userApertura, estatus_servidor, id_servidor, userCierre, OrigenApertura, OrigenCierre) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [id_cedula,nombre_cliente,fecha,estatusd,nombre_usuario,estatus_servidor, id_servidor, usuarioCierre, OrigenApertura, OrigenCierre],
             function (tx, results) { },
             function (tx, error) { console.error("Error registrar:" + error.message); }
           );
