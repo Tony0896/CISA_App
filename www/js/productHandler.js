@@ -178,10 +178,14 @@ var productHandler={
               } else{
                 databaseHandler.db.transaction(
                   function (tx) {
-                    if(UnidadI){
+                    if(JornadaSinIncorporacion == 1){
                       var estatus_servidor = 4;
                     } else {
-                      var estatus_servidor = 2;
+                      if(UnidadI){
+                        var estatus_servidor = 4;
+                      } else {
+                        var estatus_servidor = 2;
+                      }
                     }
                     tx.executeSql(
                       "UPDATE desincorporacionesD SET apoyo = ?, jornadas = ?, HoraDes = ?, UnidadDesinID = ?, UnidadDesin = ?, Itinerario = ?, Falla = ?, DetalleFalla = ?, SentidoDes = ?, UbicacionDes = ?, OperadorDes = ?, KmDes = ?, FolioDes = ?, UsuarioDes = ?,estatus_servidor = ?, HoraDesR = ?, HoraInc = ?, UnidadIncID = ?, UnidadInc = ?, SentidoInc = ?, Inclumplimiento = ?, OperadorInc = ?, KmInc = ?, KmPerdidos = ?, FolioInc = ?, Usuarioinc = ?, HoraIncR = ?, UbicacionInc = ?, jornadaSIncorporacion = ? WHERE id_servidor = ?",
