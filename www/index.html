@@ -1,8 +1,8 @@
 <script>
     // Validar si ya habia iniciado sesion
     var Usuario = localStorage.getItem("Usuario");
-    localStorage.setItem("version", "1.4.2");
-    // var url = "http://192.168.100.4/Desarrollo/CISAApp/Archivos/App_dev";
+    localStorage.setItem("version", "2.0.4");
+    // var url = "http://192.168.100.6/Desarrollo/CISAApp/Archivos/App_dev";
     var url = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/App";
     localStorage.setItem("url", url);
     if (Usuario){
@@ -119,6 +119,7 @@
                           var AccesoUser = separado[2];
                           var Area = separado[3];
                           var Modulo = separado[4];
+                          var TipoAcceso = separado[5];
                           var AccesosUser = AccesoUser.split(",");
                           var encontro = false;
                           if(AccesosUser.length > 0){
@@ -135,6 +136,7 @@
                               localStorage.setItem("nombre", Nombre);
                               localStorage.setItem("empresa", $("#empresa").val());
                               localStorage.setItem("Area", Area);
+                              localStorage.setItem("TipoAcceso", TipoAcceso);
                               if(Modulo){
                                 localStorage.setItem("Modulo", Modulo);
                               }else{
@@ -151,6 +153,7 @@
                               localStorage.setItem("nombre", Nombre);
                               localStorage.setItem("empresa", $("#empresa").val());
                               localStorage.setItem("Area", Area);
+                              localStorage.setItem("TipoAcceso", TipoAcceso);
                               if(Modulo){
                                 localStorage.setItem("Modulo", Modulo);
                               }else{
@@ -163,6 +166,7 @@
                               localStorage.setItem("nombre", Nombre);
                               localStorage.setItem("empresa", $("#empresa").val());
                               localStorage.setItem("Area", Area);
+                              localStorage.setItem("TipoAcceso", TipoAcceso);
                               if(Modulo){
                                 localStorage.setItem("Modulo", Modulo);
                               }else{

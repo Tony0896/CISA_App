@@ -2303,6 +2303,15 @@ function getIDEmpresa(val){
         return 0;
     }
 }
+
+function validaMenor500(ID, value){
+    if(value <= 500){ } else {
+        $("#"+ID).val('0')
+        swal("", "Los Kilometros perdidos no pueden ser mayor a 500", "warning")
+    }
+}
+
+// fin desincorporaciones
 //Inicio Recaudo
 function iniciarRecaudo(){
     var id_usuario = localStorage.getItem("Usuario");
