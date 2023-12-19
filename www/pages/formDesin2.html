@@ -98,7 +98,7 @@
                     <textarea class="FWM-input obligatorio opta" name="Incumplimiento" id="incumplimiento" cols="30" rows="10" maxlength="255"></textarea>
 
                     <span class="span FWM-span-form" >Kilometros perdidos</span>
-                    <input class="FWM-input opta" name="Kilometros perdidos" type="number" id="km_perdidos"/>
+                    <input class="FWM-input opta" name="Kilometros perdidos" type="number" id="km_perdidos" onchange="validaMenor500(this.id, this.value)"/>
 
                     <span class="span FWM-span-form" >Folio final</span>
                     <input class="FWM-input" name="Folio final" type="text" id="folio_final" maxlength="25"/>
