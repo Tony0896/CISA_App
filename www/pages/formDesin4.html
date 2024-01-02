@@ -40,13 +40,13 @@
                         <input class="FWM-input obligatorio" type="text" id="operador_des" name="Operador" readonly/>
 
                         <span class="span FWM-span-form" name="">Kilometraje Unidad</span>
-                        <input class="FWM-input obligatorio" type="number" id="km_unidad" name="Kilometraje Unidad" readonly/>
+                        <input class="FWM-input" type="number" id="km_unidad" name="Kilometraje Unidad" readonly/>
 
                         <span class="span FWM-span-form opta">Incumplimiento</span>
                         <textarea class="FWM-input obligatorio opta" name="Incumplimiento" id="incumplimiento" cols="30" rows="10"></textarea>
 
                         <span class="span FWM-span-form opta" >Kilometros perdidos</span>
-                        <input class="FWM-input obligatorio opta" name="Kilometros perdidos" type="number" id="km_perdidos"/>
+                        <input class="FWM-input obligatorio opta" name="Kilometros perdidos" type="number" id="km_perdidos" onchange="validaMenor500(this.id, this.value)"/>
 
                         <span class="span FWM-span-form" id="txt_folio">Folio inicial</span>
                         <input class="FWM-input" type="text" id="folio_inicial" name="Folio inicial"/>

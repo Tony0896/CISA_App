@@ -23,7 +23,7 @@ var databaseHandler = {
                         console.error("Error al crear la tabla de cedulas_general: " + error.message);
                     }
                 );
-                if(localStorage.getItem("Modulos") == 'Imagen' || localStorage.getItem("Modulos") == 'Checklist' || localStorage.getItem("Modulos") == 'Limpieza'){
+                // if(localStorage.getItem("Modulos") == 'Imagen' || localStorage.getItem("Modulos") == 'Checklist' || localStorage.getItem("Modulos") == 'Limpieza'){
                     tx.executeSql(
                         "create table if not exists checklist(id_check integer primary key, id_cedula integer, id_pregunta integer, revision text, nombre_fase text, int_ext text, id_fase int, obligatorio int, no_pregunta int, respuesta int, modelo int, comentarios text, multiple int)",
                         [],
@@ -60,7 +60,7 @@ var databaseHandler = {
                             console.error("Error al crear la tabla" + error.message);
                         }
                     );
-                } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
+                // } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
                     tx.executeSql(  
                         "create table if not exists desincorporaciones(id_des integer primary key, id_cedula integer, empresa text, fecha text, estatus text, userApertura text, userCierre text, Folio text, estatus_servidor int, id_servidor int, fecha2 text)",
                         [],
@@ -91,7 +91,7 @@ var databaseHandler = {
                             console.error("Error al crear la tabla" + error.message);
                         }
                     );
-                } else if(localStorage.getItem("Modulos") == 'Recaudo'){
+                // } else if(localStorage.getItem("Modulos") == 'Recaudo'){
                     tx.executeSql(
                         "create table if not exists datos_generales_recaudo(id_dato integer primary key, id_cedula integer, fecha text, id_usuario text, id_empresa integer, observaciones text, folio text, folio2 text, recaudo_total float, recaudo_sin_billetes float, total_billetes float, total_cacharpa float, bolsas_totales integer, plomo text, monto1 float, total_unidades integer, unidades_recaudads integer, promedio float, bolsa50c integer, bolsa1 integer, bolsa2 integer, bolsa5 integer, bolsa10 integer, pico50c integer, pico1 integer, pico2 integer, pico5 integer, pico10 integer, opc_cacharpa integer, opc_adicional integer, bolsaCacharpa10 integer, bolsaCacharpa20 integer, bolsaCacharpa50 integer, monto_adicional integer, bolsaAdd50c integer, bolsaAdd1 integer, bolsaAdd2 integer, bolsaAdd5 integer, bolsaAdd10 integer, importe_cacharpa integer, plomo2 text, plomo3 text, plomo4 text, plomo5 text, peso_cacharpa float, origen int, id_servidor int, estatus int)",
                         [],
@@ -112,7 +112,7 @@ var databaseHandler = {
                             console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
                         }
                     );
-                } else if(localStorage.getItem("Modulos") == 'Diesel'){
+                // } else if(localStorage.getItem("Modulos") == 'Diesel'){
                     tx.executeSql(
                         "create table if not exists datos_generales_diesel(id_dato integer primary key, id_cedula integer, fecha text, id_usuario text, id_empresa integer, observaciones text, carga_total float, total_unidades integer, unidades_cargadas integer, promedio float, origen int, estatus int, id_servidor integer, fecha_fin text, nombre_usuario text)",
                         [],
@@ -133,7 +133,7 @@ var databaseHandler = {
                             console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
                         }
                     );
-                }
+                // }
             },
             function(error){
                 console.error("Error al crear la base de datos: " + error.message);

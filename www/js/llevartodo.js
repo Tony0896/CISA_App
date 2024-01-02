@@ -241,7 +241,7 @@ function llevarTodo(id_cedula,tipo_cedula){
                                             } else {
                                                 var estatusHeader = item1.estatus;
                                             }
-                                            desincorporaciones[i] = {'Valor':i, 'Empresa':item1.empresa,'estatus_servidor':item1.estatus_servidor, 'Fecha':horas, 'Estatus':estatusHeader, 'UsuarioApertura':item1.userApertura, 'UsuarioCierre':item1.userCierre, 'id_servidor': item1.id_servidor, 'fecha2': horas2, 'id_empresa': id_empresa};
+                                            desincorporaciones[i] = {'Valor':i, 'Empresa':item1.empresa,'estatus_servidor':item1.estatus_servidor, 'Fecha':horas, 'Estatus':estatusHeader, 'UsuarioApertura':item1.userApertura, 'UsuarioCierre':item1.userCierre, 'id_servidor': item1.id_servidor, 'fecha2': horas2, 'id_empresa': id_empresa, 'OrigenApertura': item1.OrigenApertura, 'OrigenCierre': item1.OrigenCierre, 'fechaApertura': item1.fechaApertura};
                                         }
                                         databaseHandler.db.transaction(
                                             function(tx){
@@ -845,7 +845,7 @@ function llevarDatosTrafico(id_cedula,tipo,id_servidor){
                         } else {
                             var estatusHeader = item2.estatus;
                         }
-                        desincorporaciones[0] = {'Empresa':item2.empresa, 'Fecha':horas, 'Estatus':estatusHeader, 'UsuarioApertura':item2.userApertura, 'UsuarioCierre':item2.userCierre, 'id_servidor': item2.id_servidor, 'fecha2': item2.fecha2, 'id_empresa': id_empresa};
+                        desincorporaciones[0] = {'Empresa':item2.empresa, 'Fecha':horas, 'Estatus':estatusHeader, 'UsuarioApertura':item2.userApertura, 'UsuarioCierre':item2.userCierre, 'id_servidor': item2.id_servidor, 'fecha2': item2.fecha2, 'id_empresa': id_empresa, 'OrigenApertura': item2.OrigenApertura, 'OrigenCierre': item2.OrigenCierre, 'fechaApertura': item2.fechaApertura};
                         var estatus = item2.estatus_servidor;
                         var urlphp = url+"/guardarTrafico.php?tipo="+estatus;
                         $.ajax({
