@@ -362,8 +362,8 @@
     color: #FFFFFF;
     padding-top: 15px;
     padding-bottom: 15px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
     background-color: #00A7B5;
     border-radius: 15px;
 }
@@ -869,4 +869,16 @@ table th {
   color: #fff !important;
   font-weight: bold;
   font-size: 14px !important;
+}
+.disabled_red{
+  background-color: #ff003738;
+}
+.disabled_red > div.card-content.card-content-padding{
+  background-color: transparent;
+}
+.disabled.disabled_red {
+  opacity: .80 !important;
+}
+.data-table tbody td {
+  text-align: center;
 }

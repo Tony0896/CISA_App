@@ -244,3 +244,97 @@ i.icon{
 input[type="radio"]{
   transform: scale(1.3);
 }
+input[type="checkbox"]{
+  transform: scale(1.5);
+}
+.card_bus{
+  display: flex;
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px 0px;
+}
+.message-no{
+  margin: 35px;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0pt 3pt 6pt 0px #00000029 !important;
+  border: 1px solid #e2e1e1;
+  padding: 30px;
+}
+
+@media only screen and (max-width: 600px) {
+  .card_bus > div > img {
+      display: none;
+  }
+  .card_bus > div.card-content.card-content-padding{
+    margin: auto;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .card_bus > div > img {
+      display: none;
+  }
+  .card_bus > div.card-content.card-content-padding{
+    margin: auto;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .card_bus > div > img {
+    display: block;
+  }
+  .card_bus > div.card-content.card-content-padding{
+    margin: auto;
+  }
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .card_bus > div > img {
+      display: block;
+  }
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .card_bus > div > img {
+      display: block;
+  }
+}
+
+.input-resalte{
+  font-size: 60px !important;
+  height: 70px !important;
+  background-color: #e7f0f8 !important;
+  border: 2px solid #3498db !important;
+}
+
+.notas_div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.notas_icon{
+  display: block;
+}
+.notas_text{
+  display: block;
+  margin-left: 20px;
+  font-weight: bold;
+  color: #005D99;
+}
+.notas_container{
+  margin-top: 80px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.td_input{
+  display: none;
+}
+.div_button_diesel{
+  display: none;
+}
