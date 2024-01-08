@@ -134,6 +134,28 @@ var routes = [
     componentUrl: './pages/formRecaudo3.html',
   },
   //fin Recaudo
+   //inicio diesel
+   {
+    name: 'yallegueDiesel',
+    path: '/yallegueDiesel/',
+    componentUrl: './pages/yallegueDiesel.html',
+  },
+  {
+    name: 'formDiesel1',
+    path: '/formDiesel1/',
+    componentUrl: './pages/formDiesel1.html',
+  },
+  {
+    name: 'formDiesel2',
+    path: '/formDiesel2/',
+    componentUrl: './pages/formDiesel2.html',
+  },
+  {
+    name: 'formDiesel3',
+    path: '/formDiesel3/',
+    componentUrl: './pages/formDiesel3.html',
+  },
+  //fin diesel
   {
     name: 'visualizar',
     path: '/visualizar/',
