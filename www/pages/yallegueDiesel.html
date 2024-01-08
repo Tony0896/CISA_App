@@ -270,7 +270,7 @@
                                         var item2 = results.rows.item(i);
                                         var no_bomba = '';
                                         item2.no_bomba ? no_bomba = item2.no_bomba: no_bomba = 0;
-                                        $("#tb_diesel").append(`<tr><td>${item2.eco}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(item2.odometro)}</td><td>${no_bomba}</td><td>${item2.tipo_carga}</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${item2.id_detalle}','${item2.id_unidad}','${item2.eco}','${item2.carga_total}','${item2.odometro}','${item2.no_bomba}','${item2.almacen}','${item2.h_fin}','${item2.h_inicio}','${item2.jornada}','${item2.operador}','${item2.id_operador}','${item2.vueltas}','${item2.tipo_carga}','${item2.operador2}','${item2.VIN}','2');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`);
+                                        $("#tb_diesel").append(`<tr><td>${item2.eco2}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(item2.odometro)}</td><td>${no_bomba}</td><td>${item2.tipo_carga}</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${item2.id_detalle}','${item2.id_unidad}','${item2.eco}','${item2.carga_total}','${item2.odometro}','${item2.no_bomba}','${item2.almacen}','${item2.h_fin}','${item2.h_inicio}','${item2.jornada}','${item2.operador}','${item2.id_operador}','${item2.vueltas}','${item2.tipo_carga}','${item2.operador2}','${item2.VIN}','2','${item2.eco2}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`);
                                     }
                                     databaseHandler.db.transaction(
                                         function(tx5){
@@ -331,7 +331,7 @@
                     openIn: 'dropdown',
                     preloader: true, //enable preloader
                     valueProperty: 'id_unidad', //object's "value" property name
-                    textProperty:  'Unidad', //object's "text" property name
+                    textProperty:  'buscador', //object's "text" property name
                     limit: 10, //limit to [number] results
                     dropdownPlaceholderText: 'Selecciona una Unidad...',
                     source: function (query, render) {
@@ -350,7 +350,7 @@
                                 query: query,
                             },success: function (data) {
                                 for (var i = 0; i < data.length; i++) {
-                                    if (data[i].Unidad.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
                                 }
                                 autocomplete.preloaderHide();
                                 render(results); 
@@ -366,8 +366,8 @@
                         var content = JSON.parse(data);
                         for(var x = 0; x < content.length; x++) {
                             if(content[x].id_unidad == unidad){
-                                $("#autocomplete").val(content[x].Unidad);
-                                $("#btn_llamarUnidad").data({"id_unidad":content[x].id_unidad, "Unidad": content[x].Unidad, "VIN": content[x].VIN})
+                                $("#autocomplete").val(content[x].buscador);
+                                $("#btn_llamarUnidad").data({"id_unidad":content[x].id_unidad, "Unidad": content[x].Unidad, "VIN": content[x].VIN, "buscador": content[x].buscador})
                                 //llamarUnidadDiesel(content[x].id_unidad, content[x].Unidad, paso)
                                 encontro = true;
                             }         
@@ -388,7 +388,7 @@
                     openIn: 'dropdown',
                     preloader: true, //enable preloader
                     valueProperty: 'id_unidad', //object's "value" property name
-                    textProperty:  'Unidad', //object's "text" property name
+                    textProperty:  'buscador', //object's "text" property name
                     limit: 10, //limit to [number] results
                     dropdownPlaceholderText: 'Selecciona una Unidad...',
                     source: function (query, render) {
@@ -407,7 +407,7 @@
                                 query: query,
                             },success: function (data) {
                                 for (var i = 0; i < data.length; i++) {
-                                    if (data[i].Unidad.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
                                 }
                                 autocomplete.preloaderHide();
                                 render(results); 
@@ -426,6 +426,7 @@
                                 $("#unidad_u").val(content[x].Unidad);
                                 $("#id_unidad_u").val(content[x].id_unidad);
                                 $("#VIN_u").val(content[x].VIN);
+                                $("#title_unidad_u").html(`Unidad: ${content[x].buscador}`);
                                 encontro = true;
                             }         
                         }

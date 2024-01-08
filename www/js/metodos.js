@@ -3393,6 +3393,7 @@ function llamarUnidadDiesel(){
     var id_unidad = $("#btn_llamarUnidad").data('id_unidad');
     var eco = $("#btn_llamarUnidad").data('Unidad');
     var VIN = $("#btn_llamarUnidad").data('VIN');
+    var buscador = $("#btn_llamarUnidad").data('buscador');
     if(id_unidad){
         app.sheet.open('#sheet-modal');
         $("#id_unidad").val("");
@@ -3419,7 +3420,7 @@ function llamarUnidadDiesel(){
 
         $("#id_unidad").val(id_unidad);
         $("#eco").val(eco);
-        $("#title_unidad").html(`Unidad: ${eco}`);
+        $("#title_unidad").html(`Unidad: ${buscador}`);
         $("#h_inicio").val(tiempoactual[1]);
         $("#h_fin").val(houtransform);
         $("#VIN").val(VIN);
@@ -3464,12 +3465,14 @@ function agregaCarga(){
         var VIN = $("#VIN").val();
         var id_unidad = $("#id_unidad").val();
         var eco = $("#eco").val();
+        var eco2 = $("#title_unidad").text()
+        eco2 = eco2.replace("Unidad: ", '')
 
         databaseHandler.db.transaction(
             function (tx) {
               tx.executeSql(
-                "insert into detalle_diesel (id_cedula, id_unidad, eco, carga_total, odometro, fecha_carga, no_bomba, almacen, operador, id_operador, jornada, vueltas, h_inicio, h_fin, tipo_carga, operador2, VIN) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                [id_cedula, id_unidad, eco, carga_total, odometro, fecha_carga, no_bomba, almacen, operador, id_operador, jornada, vueltas, h_inicio, h_fin, tipo_carga, operador2, VIN],
+                "insert into detalle_diesel (id_cedula, id_unidad, eco, carga_total, odometro, fecha_carga, no_bomba, almacen, operador, id_operador, jornada, vueltas, h_inicio, h_fin, tipo_carga, operador2, VIN, eco2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [id_cedula, id_unidad, eco, carga_total, odometro, fecha_carga, no_bomba, almacen, operador, id_operador, jornada, vueltas, h_inicio, h_fin, tipo_carga, operador2, VIN, eco2],
                 function (tx, results) {
                     swal("","Guardado correctamente","success");
                     $("#row_totales").remove();
@@ -3482,7 +3485,7 @@ function agregaCarga(){
                                     $("#message-nr").css("display", "none");
                                     var no_bomba = '';
                                     item2.no_bomba ? no_bomba = item2.no_bomba: no_bomba = 0;
-                                    $("#tb_diesel").append(`<tr><td>${item2.eco}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(item2.odometro)}</td><td>${no_bomba}</td><td>${item2.tipo_carga}</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${item2.id_detalle}','${item2.id_unidad}','${item2.eco}','${item2.carga_total}','${item2.odometro}','${item2.no_bomba}','${item2.almacen}','${item2.h_fin}','${item2.h_inicio}','${item2.jornada}','${item2.operador}','${item2.id_operador}','${item2.vueltas}','${item2.tipo_carga}','${item2.operador2}','${item2.VIN}','2');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`);
+                                    $("#tb_diesel").append(`<tr><td>${item2.eco2}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(item2.odometro)}</td><td>${no_bomba}</td><td>${item2.tipo_carga}</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${item2.id_detalle}','${item2.id_unidad}','${item2.eco}','${item2.carga_total}','${item2.odometro}','${item2.no_bomba}','${item2.almacen}','${item2.h_fin}','${item2.h_inicio}','${item2.jornada}','${item2.operador}','${item2.id_operador}','${item2.vueltas}','${item2.tipo_carga}','${item2.operador2}','${item2.VIN}','2','${item2.eco2}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`);
                                     databaseHandler.db.transaction(
                                         function(tx5){
                                             tx5.executeSql("SELECT SUM(carga_total) as carga_totales, COUNT(id_cedula) as cuentas FROM detalle_diesel WHERE id_cedula = ?",
@@ -3525,14 +3528,14 @@ function agregaCarga(){
     }
 }
 
-function editarCargaDiesel(id_detalle,id_unidad,eco,carga_total,odometro,no_bomba,almacen,h_fin,h_inicio,jornada,operador,id_operador,vueltas,tipo_carga,operador2,VIN,type){
+function editarCargaDiesel(id_detalle,id_unidad,eco,carga_total,odometro,no_bomba,almacen,h_fin,h_inicio,jornada,operador,id_operador,vueltas,tipo_carga,operador2,VIN,type,eco2){
     if(type){
         app.sheet.open('#sheet-modal-u');
         $("#h_inicio_u").val(h_inicio);
         $("#h_fin_u").val(h_fin);
         $("#id_unidad_u").val(id_unidad);
         $("#id_detalle_u").val(id_detalle);
-        $("#title_unidad_u").html(`Unidad: ${eco}`);
+        $("#title_unidad_u").html(`Unidad: ${eco2}`);
         $("#carga_u").val(carga_total);
         $("#odometro_u").val(odometro);
         $("#bomba_u").val(no_bomba);
@@ -3624,12 +3627,14 @@ function actualizaCargaDiesel(){
         var id_unidad =$("#id_unidad_u").val();
         var eco =$("#unidad_u").val();
         var VIN = $("#VIN_u").val();
+        var eco2 = $("#title_unidad_u").text()
+        eco2 = eco2.replace("Unidad: ", '')
     
         databaseHandler.db.transaction(
             function (tx) {
               tx.executeSql(
-                "Update detalle_diesel SET carga_total = ?, odometro = ?, no_bomba = ?, h_inicio = ?, h_fin = ?, almacen = ?, jornada = ?, operador = ?, id_operador = ?, vueltas = ?, tipo_carga = ?, operador2 = ?, id_unidad = ?, eco = ?, VIN = ? WHERE id_cedula = ? AND id_detalle = ?",
-                [carga, odometro, bomba, h_inicio, h_fin, almacen, jornada, operador, id_operador, vueltas, tipo_carga, operador2, id_unidad, eco, VIN, id_cedula, id_carga],
+                "Update detalle_diesel SET carga_total = ?, odometro = ?, no_bomba = ?, h_inicio = ?, h_fin = ?, almacen = ?, jornada = ?, operador = ?, id_operador = ?, vueltas = ?, tipo_carga = ?, operador2 = ?, id_unidad = ?, eco = ?, VIN = ?, eco2 = ? WHERE id_cedula = ? AND id_detalle = ?",
+                [carga, odometro, bomba, h_inicio, h_fin, almacen, jornada, operador, id_operador, vueltas, tipo_carga, operador2, id_unidad, eco, VIN, eco2, id_cedula, id_carga],
                 function (tx, results) {
                     $("#tb_diesel").html(``);
                     swal("","Actualizado correctamente","success");
@@ -3648,7 +3653,7 @@ function actualizaCargaDiesel(){
                                             var item2 = results.rows.item(i);
                                             var no_bomba = '';
                                             item2.no_bomba ? no_bomba = item2.no_bomba: no_bomba = 0;
-                                            $("#tb_diesel").append(`<tr><td>${item2.eco}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(item2.odometro)}</td><td>${no_bomba}</td><td>${item2.tipo_carga}</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${item2.id_detalle}','${item2.id_unidad}','${item2.eco}','${item2.carga_total}','${item2.odometro}','${item2.no_bomba}','${item2.almacen}','${item2.h_fin}','${item2.h_inicio}','${item2.jornada}','${item2.operador}','${item2.id_operador}','${item2.vueltas}','${item2.tipo_carga}','${item2.operador2}','${item2.VIN}','2');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`);
+                                            $("#tb_diesel").append(`<tr><td>${item2.eco2}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(item2.odometro)}</td><td>${no_bomba}</td><td>${item2.tipo_carga}</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${item2.id_detalle}','${item2.id_unidad}','${item2.eco}','${item2.carga_total}','${item2.odometro}','${item2.no_bomba}','${item2.almacen}','${item2.h_fin}','${item2.h_inicio}','${item2.jornada}','${item2.operador}','${item2.id_operador}','${item2.vueltas}','${item2.tipo_carga}','${item2.operador2}','${item2.VIN}','2','${item2.eco2}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`);
                                         }
                                         databaseHandler.db.transaction(
                                             function(tx5){
@@ -4125,10 +4130,14 @@ function viewDetailDiesel2(IdCte,IdCedula,id_intelesis,type){
                     var dat2 = respu1[1];
                     if(dat1 == "CEDULA"){
                         if(dat2 > 0){
-                            if (dat2 == 2) {
+                            if (dat2 == 2) { // the mov in intelisis is concluido
                                 app.views.main.router.back('/formDiesel3/', {force: true, ignoreCache: true, reload: true});
-                            } else {
-                                app.views.main.router.back('/formDiesel2/', {force: true, ignoreCache: true, reload: true});
+                            } else { // the mov in intelisis not is concluido
+                                if (localStorage.getItem("TipoAcceso") == 'admin'){
+                                    app.views.main.router.back('/formDiesel2/', {force: true, ignoreCache: true, reload: true});
+                                } else {
+                                    app.views.main.router.back('/formDiesel3/', {force: true, ignoreCache: true, reload: true});
+                                }
                             }
                         } else {
                             AlmacenarError(respuesta);
@@ -4168,6 +4177,9 @@ function actualizaCargaDiesel2(){
         var id_unidad = $("#id_unidad_u").val();
         var eco = $("#unidad_u").val();
         var VIN = $("#VIN_u").val();
+
+        var eco2 = $("#title_unidad_u").text()
+        eco2 = eco2.replace("Unidad: ", '')
     
         var url = localStorage.getItem("url");
         var datos = new Array();
@@ -4180,7 +4192,7 @@ function actualizaCargaDiesel2(){
         var Version_App = localStorage.getItem("version");
         var id_empresa = localStorage.getItem("empresa");
     
-        datos[0] = { 'id_cedula': id_cedula, 'h_inicio': h_inicio, 'h_fin': h_fin, 'id_carga': id_carga, 'carga': carga, 'odometro': odometro, 'bomba': bomba, 'almacen': almacen, 'jornada': jornada, 'operador': operador, 'id_operador': id_operador, 'vueltas': vueltas, 'tipo_carga': tipo_carga, 'operador2': operador2, 'ID_interno' : id_carga, 'Evento' : Evento, 'Fecha' : Fecha, 'ID_Usuario' : ID_Usuario, 'Nombre_Usuario' : Nombre_Usuario, 'Origen' : Origen, 'Version_App' : Version_App, 'ID_cabeceros' : id_carga, 'id_empresa' : id_empresa, 'id_unidad':id_unidad, 'eco' : eco, 'VIN':VIN};
+        datos[0] = { 'id_cedula': id_cedula, 'h_inicio': h_inicio, 'h_fin': h_fin, 'id_carga': id_carga, 'carga': carga, 'odometro': odometro, 'bomba': bomba, 'almacen': almacen, 'jornada': jornada, 'operador': operador, 'id_operador': id_operador, 'vueltas': vueltas, 'tipo_carga': tipo_carga, 'operador2': operador2, 'ID_interno' : id_carga, 'Evento' : Evento, 'Fecha' : Fecha, 'ID_Usuario' : ID_Usuario, 'Nombre_Usuario' : Nombre_Usuario, 'Origen' : Origen, 'Version_App' : Version_App, 'ID_cabeceros' : id_carga, 'id_empresa' : id_empresa, 'id_unidad':id_unidad, 'eco' : eco, 'eco2' : eco2, 'VIN':VIN};
     
         $.ajax({
             type: "POST",
@@ -4197,8 +4209,8 @@ function actualizaCargaDiesel2(){
                         if(dat2 > 0){
                             app.sheet.close('#sheet-modal-u');
                             swal("Actualizado","","success");
-                            $("#trdiesel_"+id_carga).html(`<td>${eco}</td><td>${numberWithCommas(carga)}</td><td>${numberWithCommas(odometro)}</td><td>${bomba}</td><td>${tipo_carga}</td><td> 
-                            <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${id_carga}','${id_unidad}','${eco}','${carga}','${odometro}','${bomba}','${almacen}','${h_fin}','${h_inicio}','${jornada}','${operador}','${id_operador}','${vueltas}','${tipo_carga}','${operador2}','${VIN}','3');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button>
+                            $("#trdiesel_"+id_carga).html(`<td>${eco2}</td><td>${numberWithCommas(carga)}</td><td>${numberWithCommas(odometro)}</td><td>${bomba}</td><td>${tipo_carga}</td><td> 
+                            <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${id_carga}','${id_unidad}','${eco}','${carga}','${odometro}','${bomba}','${almacen}','${h_fin}','${h_inicio}','${jornada}','${operador}','${id_operador}','${vueltas}','${tipo_carga}','${operador2}','${VIN}','3','${eco2}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button>
                             <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="borrarCargaDiesel('${id_carga}','${id_unidad}','${eco}','${carga}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>delete_forever</i></button>
                             </td>`);
                             var carga_total_diesel = Number($("#carga_total_diesel").val());
@@ -4531,6 +4543,8 @@ function agregaCarga2(){
         var VIN = $("#VIN").val(); // VIN
         var id_unidad = $("#id_unidad").val(); // id_unidad
         var eco = $("#eco").val(); // eco
+        var eco2 = $("#title_unidad").text()
+        eco2 = eco2.replace("Unidad: ", '')
         var procesado = 0;
         var id_interno = localStorage.getItem("ID_consulta");
 
@@ -4546,9 +4560,8 @@ function agregaCarga2(){
         var id_empresa = localStorage.getItem("empresa");
         var typeConsulta = localStorage.getItem("typeConsulta");
     
-        datos[0] = { 'id_cedula' :id_cedula, 'typeConsulta':typeConsulta, 'carga_total' :carga_total, 'odometro' :odometro, 'fecha_carga' :fecha_carga, 'no_bomba' :no_bomba, 'tipo_carga' :tipo_carga, 'almacen' :almacen, 'operador' :operador, 'id_operador' :id_operador, 'jornada' :jornada, 'vueltas' :vueltas, 'h_inicio' :h_inicio, 'h_fin' :h_fin, 'operador2' :operador2, 'VIN' :VIN, 'id_unidad' :id_unidad, 'eco' :eco, 'procesado' :procesado, 'ID_interno' :id_interno, 'Evento' :Evento, 'Fecha' :Fecha, 'ID_Usuario' :ID_Usuario, 'Nombre_Usuario' :Nombre_Usuario, 'Origen' :Origen, 'Version_App' :Version_App, 'id_empresa' :id_empresa, 'ID_cabeceros': id_cedula};
+        datos[0] = { 'id_cedula' :id_cedula, 'typeConsulta':typeConsulta, 'carga_total' :carga_total, 'odometro' :odometro, 'fecha_carga' :fecha_carga, 'no_bomba' :no_bomba, 'tipo_carga' :tipo_carga, 'almacen' :almacen, 'operador' :operador, 'id_operador' :id_operador, 'jornada' :jornada, 'vueltas' :vueltas, 'h_inicio' :h_inicio, 'h_fin' :h_fin, 'operador2' :operador2, 'VIN' :VIN, 'id_unidad' :id_unidad, 'eco' :eco, 'eco2' :eco2, 'procesado' :procesado, 'ID_interno' :id_interno, 'Evento' :Evento, 'Fecha' :Fecha, 'ID_Usuario' :ID_Usuario, 'Nombre_Usuario' :Nombre_Usuario, 'Origen' :Origen, 'Version_App' :Version_App, 'id_empresa' :id_empresa, 'ID_cabeceros': id_cedula};
     
-        console.log(datos);
         $.ajax({
             type: "POST",
             async : true,
@@ -4566,8 +4579,8 @@ function agregaCarga2(){
                             $("#btn_llamarUnidad").removeData()
                             app.sheet.close('#sheet-modal');
                             swal("Agregado","","success");
-                            $("#disesl_detalle").append(`<tr id="trdiesel_${dat2}"><td>${eco}</td><td>${numberWithCommas(carga_total)}</td><td>${numberWithCommas(odometro)}</td><td>${no_bomba}</td><td>${tipo_carga}</td><td> 
-                                <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${dat2}','${id_unidad}','${eco}','${carga_total}','${odometro}','${no_bomba}','${almacen}','${h_fin}','${h_inicio}','${jornada}','${operador}','${id_operador}','${vueltas}','${tipo_carga}','${operador2}','${VIN}','3');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button>
+                            $("#disesl_detalle").append(`<tr id="trdiesel_${dat2}"><td>${eco2}</td><td>${numberWithCommas(carga_total)}</td><td>${numberWithCommas(odometro)}</td><td>${no_bomba}</td><td>${tipo_carga}</td><td> 
+                                <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${dat2}','${id_unidad}','${eco}','${carga_total}','${odometro}','${no_bomba}','${almacen}','${h_fin}','${h_inicio}','${jornada}','${operador}','${id_operador}','${vueltas}','${tipo_carga}','${operador2}','${VIN}','3','${eco2}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button>
                                 <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="borrarCargaDiesel('${dat2}','${id_unidad}','${eco}','${carga_total}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>delete_forever</i></button>
                             </td></tr>`);
                             var carga_total_diesel = Number($("#carga_total_diesel").val());
@@ -4575,6 +4588,10 @@ function agregaCarga2(){
                             carga_total_diesel = Number(carga_total_diesel + Number(carga_total));
                             $("#carga_total_diesel").val(carga_total_diesel);
                             $("#text_carga_Diesel").html(numberWithCommas(carga_total_diesel))
+                            
+                            let text_unidades_cargadas = Number($("#text_unidades_cargadas").text());
+                            text_unidades_cargadas++
+                            $("#text_unidades_cargadas").html(text_unidades_cargadas)
                         }
                     }
                 }
@@ -4634,6 +4651,10 @@ function borrarCargaDiesel(id, id_unidad, eco, carga){
                                 carga_total_diesel = Number(carga_total_diesel - Number(carga));
                                 $("#carga_total_diesel").val(carga_total_diesel);
                                 $("#text_carga_Diesel").html(numberWithCommas(carga_total_diesel))
+
+                                let text_unidades_cargadas = Number($("#text_unidades_cargadas").text());
+                                text_unidades_cargadas = text_unidades_cargadas-1
+                                $("#text_unidades_cargadas").html(text_unidades_cargadas)
                             }
                         }
                     }

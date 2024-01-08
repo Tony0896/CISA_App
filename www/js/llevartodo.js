@@ -491,7 +491,7 @@ function llevarTodo(id_cedula,tipo_cedula){
                                                         for(var i = 0; i< length; i++){
                                                             var item2 = results.rows.item(i);
                                                             let fecha_carga = item2.fecha_carga.replace(" ", "T");
-                                                            detalle_diesel[i] = {'Valor':i, 'id_unidad':item2.id_unidad, 'eco':item2.eco, 'carga_total':item2.carga_total, 'odometro':item2.odometro, 'fecha_carga':fecha_carga, 'no_bomba':item2.no_bomba, 'almacen':item2.almacen, 'id_operador':item2.id_operador, 'operador':item2.operador, 'jornada':item2.jornada, 'vueltas':item2.vueltas, 'h_inicio':item2.h_inicio, 'h_fin':item2.h_fin, 'tipo_carga':item2.tipo_carga, 'operador2': item2.operador2, 'VIN': item2.VIN};
+                                                            detalle_diesel[i] = {'Valor':i, 'id_unidad':item2.id_unidad, 'eco':item2.eco, 'eco':item2.eco, 'carga_total':item2.carga_total, 'odometro':item2.odometro, 'fecha_carga':fecha_carga, 'no_bomba':item2.no_bomba, 'almacen':item2.almacen, 'id_operador':item2.id_operador, 'operador':item2.operador, 'jornada':item2.jornada, 'vueltas':item2.vueltas, 'h_inicio':item2.h_inicio, 'h_fin':item2.h_fin, 'tipo_carga':item2.tipo_carga, 'operador2': item2.operador2, 'VIN': item2.VIN};
                                                         }
                                                         $.ajax({
                                                             type: "POST",

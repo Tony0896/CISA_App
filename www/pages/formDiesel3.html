@@ -213,7 +213,7 @@
 										var no_bomba = '';
 										carga_total = Number(carga_total + Detail[i].carga_total);
 										Detail[i].no_bomba ? no_bomba = Detail[i].no_bomba: no_bomba = 0;
-										html = html + `<tr id="trdiesel_${Detail[i].ID}"><td>${Detail[i].eco}</td><td>${numberWithCommas(Detail[i].carga_total)}</td><td>${numberWithCommas(Detail[i].odometro)}</td><td>${no_bomba}</td><td>${Detail[i].tipo_carga}</td></tr>`;
+										html = html + `<tr id="trdiesel_${Detail[i].ID}"><td>${Detail[i].eco2}</td><td>${numberWithCommas(Detail[i].carga_total)}</td><td>${numberWithCommas(Detail[i].odometro)}</td><td>${no_bomba}</td><td>${Detail[i].tipo_carga}</td></tr>`;
 									}
 									carga_total = carga_total.toFixed(2);
                                     pintaMenu(carga_total, unidades_cargadas, html);
@@ -310,7 +310,7 @@
                     openIn: 'dropdown',
                     preloader: true, //enable preloader
                     valueProperty: 'id_unidad', //object's "value" property name
-                    textProperty:  'Unidad', //object's "text" property name
+                    textProperty:  'buscador', //object's "text" property name
                     limit: 10, //limit to [number] results
                     dropdownPlaceholderText: 'Selecciona una Unidad...',
                     source: function (query, render) {
@@ -329,7 +329,7 @@
                                 query: query,
                             },success: function (data) {
                                 for (var i = 0; i < data.length; i++) {
-                                    if (data[i].Unidad.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
                                 }
                                 autocomplete.preloaderHide();
                                 render(results); 
@@ -348,6 +348,7 @@
                                 $("#unidad_u").val(content[x].Unidad);
                                 $("#id_unidad_u").val(content[x].id_unidad);
 								$("#VIN_u").val(content[x].VIN);
+                                $("#title_unidad_u").html(`Unidad: ${content[x].buscador}`);
                                 encontro = true;
                             }         
                         }
