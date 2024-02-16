@@ -654,6 +654,33 @@ function recargacedulas(){
     function(){}
     );
 }
+
+function eliminaTodo(){
+    var success = function (status) {
+        window.sqlitePlugin.deleteDatabase({name: "cisa.db", location:'default'});
+        location.reload();
+    };
+    var error = function (status) {
+        console.log('Error: ' + status);
+    };
+    window.CacheClear(success, error);
+}
+
+
+function preEliminaTodo(){
+    swal({
+        title: "Aviso",
+        text: "¿Estas seguro de querer borrar toda la información guardada en la app?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((RESP) => {
+        if (RESP == true) {
+            eliminaTodo()
+        }
+    });
+}
+
 //inicio checklist
 function continuarCed(id_cedula,tipo){
     localStorage.setItem("IdCedula",id_cedula);
@@ -1335,7 +1362,7 @@ function NombreEmpresa(val){
     } else if(val == 18){
         return "VYCSA";
     } else{
-        return "logo1";
+        return "";
     }
 }
 //inicio de Desincorporacion
@@ -1445,8 +1472,8 @@ function check_jornada(val){
             $("#operador_des").removeClass("obligatorio");
             $("#km_unidad").removeClass("obligatorio");
             $("#hora_des").removeClass("obligatorio");
-            $("#hora_des").val("");
-            $("#hora_des").prop("readonly", true);
+            $("#hora_des").val("00:00");
+            // $("#hora_des").prop("readonly", true);
         } else {
             $("#unidad_des").addClass("obligatorio");
             $("#unidad_des").val("");
