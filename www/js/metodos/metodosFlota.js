@@ -10,11 +10,7 @@ function IniciaCheckListFlota() {
             sePuede = true;
             flag = 1;
         } else {
-            swal(
-                "",
-                "Debes indicar si la unidad se puede inspeccionar.",
-                "warning"
-            );
+            swal("", "Debes indicar si la unidad se puede inspeccionar.", "warning");
             return false;
         }
 
@@ -37,6 +33,11 @@ function IniciaCheckListFlota() {
                     let FK_id_empresa = $("#FK_unidad_danos_empresa").val();
                     let id_modelo_check = $("#modelo_check").val();
                     let fecha_revision = $("#fecha_revision").val();
+                    let VIN = $("#VIN").val();
+                    let ultimoMantenimiento = $("#FechaConclusionOT").val();
+                    let tipoMannto = $("#TipoMantenimiento").val();
+                    let medidor = $("#Medidor").val();
+                    let intervalo = $("#Intervalo").val();
                     let id_usuario = localStorage.getItem("Usuario");
                     let nombre_usuario = localStorage.getItem("nombre");
                     let fecha_llegada = getDateWhitZeros();
@@ -65,13 +66,8 @@ function IniciaCheckListFlota() {
                                 function (tx, results) {
                                     //app.dialog.progress('Generando CheckList','red');
                                     let progress = 0;
-                                    let dialog = app.dialog.progress(
-                                        "Generando CheckList",
-                                        progress,
-                                        "red"
-                                    );
-                                    let empresa =
-                                        localStorage.getItem("empresa");
+                                    let dialog = app.dialog.progress("Generando CheckList", progress, "red");
+                                    let empresa = localStorage.getItem("empresa");
                                     let item = results.rows.item(0);
                                     localStorage.setItem("IdCedula", item.Id);
                                     let id_cedula = item.Id;
@@ -87,50 +83,33 @@ function IniciaCheckListFlota() {
                                         FK_id_empresa,
                                         id_modelo_check,
                                         fecha_revision,
-                                        flag
+                                        flag,
+                                        VIN,
+                                        ultimoMantenimiento,
+                                        tipoMannto,
+                                        medidor,
+                                        intervalo
                                     );
                                     let NomJson = "datos_check_desc" + empresa;
                                     app.request({
-                                        url:
-                                            cordova.file.dataDirectory +
-                                            "jsons_InsFlota/" +
-                                            NomJson +
-                                            ".json",
+                                        url: cordova.file.dataDirectory + "jsons_InsFlota/" + NomJson + ".json",
                                         method: "GET",
                                         dataType: "json",
                                         success: function (data) {
                                             let aux = 0;
                                             let aux2 = 0;
-                                            for (
-                                                let j = 0;
-                                                j < data.length;
-                                                j++
-                                            ) {
-                                                if (
-                                                    data[j].modelos ==
-                                                    id_modelo_check
-                                                ) {
+                                            for (let j = 0; j < data.length; j++) {
+                                                if (data[j].modelos == id_modelo_check) {
                                                     aux++;
                                                 }
                                             }
                                             if (aux == 0) {
                                                 app.dialog.close();
-                                                swal(
-                                                    "",
-                                                    "Algo salió mal.",
-                                                    "warning"
-                                                );
+                                                swal("", "Algo salió mal.", "warning");
                                             } else {
                                                 dialog.setText("1 de " + aux);
-                                                for (
-                                                    let j = 0;
-                                                    j < data.length;
-                                                    j++
-                                                ) {
-                                                    if (
-                                                        data[j].modelos ==
-                                                        id_modelo_check
-                                                    ) {
+                                                for (let j = 0; j < data.length; j++) {
+                                                    if (data[j].modelos == id_modelo_check) {
                                                         aux2++;
                                                         productHandler.insertPreguntasFlota(
                                                             id_cedula,
@@ -141,7 +120,7 @@ function IniciaCheckListFlota() {
                                                             data[j].obligatorio,
                                                             data[j].no_pregunta,
                                                             1,
-                                                            data[j].formatos,
+                                                            data[j].modelos,
                                                             aux,
                                                             aux2,
                                                             data[j].multiple,
@@ -155,10 +134,7 @@ function IniciaCheckListFlota() {
                                     });
                                 },
                                 function (tx, error) {
-                                    console.log(
-                                        "Error al guardar cedula: " +
-                                            error.message
-                                    );
+                                    console.log("Error al guardar cedula: " + error.message);
                                 }
                             );
                         },
@@ -231,10 +207,7 @@ function IniciaCheckListFlota() {
                                     );
                                 },
                                 function (tx, error) {
-                                    console.log(
-                                        "Error al guardar cedula: " +
-                                            error.message
-                                    );
+                                    console.log("Error al guardar cedula: " + error.message);
                                 }
                             );
                         },
@@ -265,6 +238,14 @@ function moveChecklistFlota(fase) {
             reload: true,
         });
     }
+}
+
+function IrMilimetrajes() {
+    app.views.main.router.back("/formFlota5/", {
+        force: true,
+        ignoreCache: true,
+        reload: true,
+    });
 }
 
 function showCriterios(criterio) {
@@ -298,9 +279,27 @@ function actualizaRespuestasFlota(id, paso) {
     databaseHandler.db.transaction(
         function (tx) {
             tx.executeSql(
-                "UPDATE checklistFlota SET respuesta = ?, comentarios = ? WHERE id_cedula = ? AND id_pregunta = ?",
-                [respuesta, comentarios, id_cedula, id_pregunta],
-                function (tx, results) {},
+                "UPDATE checklistFlota SET respuesta = ?, comentarios = ?, comentarios2 = ? WHERE id_cedula = ? AND id_pregunta = ?",
+                [respuesta, comentarios, comentarios, id_cedula, id_pregunta],
+                function (tx, results) {
+                    if (respuesta == 1 || respuesta == 3) {
+                        $("#span-" + id_pregunta).html("");
+                        databaseHandler.db.transaction(
+                            function (tx) {
+                                tx.executeSql(
+                                    "DELETE FROM Evidencias WHERE id_cedula = ? AND flagPregunta = ?",
+                                    [id_cedula, id_pregunta],
+                                    function (tx, results) {},
+                                    function (tx, error) {
+                                        console.error("Error al guardar cierre: " + error.message);
+                                    }
+                                );
+                            },
+                            function (error) {},
+                            function () {}
+                        );
+                    }
+                },
                 function (tx, error) {
                     console.error("Error al guardar cierre: " + error.message);
                 }
@@ -314,64 +313,46 @@ function actualizaRespuestasFlota(id, paso) {
 function seleccionaDaniosFlota(id) {
     var id_cedula = localStorage.getItem("IdCedula");
     databaseHandler.db.transaction(function (tx5) {
-        tx5.executeSql(
-            "SELECT * FROM checklistFlota WHERE id_pregunta = ? AND id_cedula = ?",
-            [id, id_cedula],
-            function (tx5, results) {
-                var item2 = results.rows.item(0);
-                if (item2.multiple == 1) {
-                    var text = item2.revision;
-                    let result = text.includes("(");
-                    if (result) {
-                        var resultados = text.split("(");
-                        var titulo_modal = resultados[0].trim();
-                        var divididos = resultados[1].split(",");
-                        var opciones =
-                            '<select class="FWM-input" id="opts_modal" multiple>';
-                        var quitapar = "";
-                        for (i = 0; i < divididos.length; i++) {
-                            quitapar = divididos[i].replace("(", "");
-                            quitapar = quitapar.replace(")", "");
-                            quitapar = capitalizarPrimeraLetra(quitapar);
-                            opciones =
-                                opciones +
-                                `<option value=` +
-                                quitapar.trim() +
-                                `>` +
-                                quitapar.trim() +
-                                `</option>`;
-                        }
-                        opciones = opciones + "</select>";
-                        CreaModalOptionFlota(id, opciones, 1, titulo_modal);
-                    } else {
-                        var titulo_modal = "";
-                        var divididos = text.split(",");
-                        var opciones =
-                            '<select class="FWM-input" id="opts_modal" multiple>';
-                        var quitapar = "";
-                        for (i = 0; i < divididos.length; i++) {
-                            quitapar = divididos[i].replace("(", "");
-                            quitapar = quitapar.replace(")", "");
-                            quitapar = capitalizarPrimeraLetra(quitapar);
-                            opciones =
-                                opciones +
-                                `<option value=` +
-                                quitapar.trim() +
-                                `>` +
-                                quitapar.trim() +
-                                `</option>`;
-                        }
-                        opciones = opciones + "</select>";
-                        var titulo_modal = "";
-                        CreaModalOptionFlota(id, opciones, 2, titulo_modal);
+        tx5.executeSql("SELECT * FROM checklistFlota WHERE id_pregunta = ? AND id_cedula = ?", [id, id_cedula], function (tx5, results) {
+            var item2 = results.rows.item(0);
+            if (item2.multiple == 1) {
+                var text = item2.revision;
+                let result = text.includes("(");
+                if (result) {
+                    var resultados = text.split("(");
+                    var titulo_modal = resultados[0].trim();
+                    var divididos = resultados[1].split(",");
+                    var opciones = '<select class="FWM-input" id="opts_modal" multiple>';
+                    var quitapar = "";
+                    for (i = 0; i < divididos.length; i++) {
+                        quitapar = divididos[i].replace("(", "");
+                        quitapar = quitapar.replace(")", "");
+                        quitapar = capitalizarPrimeraLetra(quitapar);
+                        opciones = opciones + `<option value=` + quitapar.trim() + `>` + quitapar.trim() + `</option>`;
                     }
+                    opciones = opciones + "</select>";
+                    CreaModalOptionFlota(id, opciones, 1, titulo_modal);
                 } else {
-                    var opciones = false;
                     var titulo_modal = "";
-                    CreaModalOptionFlota(id, opciones, 3, titulo_modal);
+                    var divididos = text.split(",");
+                    var opciones = '<select class="FWM-input" id="opts_modal" multiple>';
+                    var quitapar = "";
+                    for (i = 0; i < divididos.length; i++) {
+                        quitapar = divididos[i].replace("(", "");
+                        quitapar = quitapar.replace(")", "");
+                        quitapar = capitalizarPrimeraLetra(quitapar);
+                        opciones = opciones + `<option value=` + quitapar.trim() + `>` + quitapar.trim() + `</option>`;
+                    }
+                    opciones = opciones + "</select>";
+                    var titulo_modal = "";
+                    CreaModalOptionFlota(id, opciones, 2, titulo_modal);
                 }
+            } else {
+                var opciones = false;
+                var titulo_modal = "";
+                CreaModalOptionFlota(id, opciones, 3, titulo_modal);
             }
-        );
+        });
     });
 }
 
@@ -390,17 +371,15 @@ function CreaModalOptionFlota(id, opciones, mul, titulo_modal) {
     var NomDescCli = "danios";
     var html = "";
 
-    app.request.get(
-        cordova.file.dataDirectory + "jsons/" + NomDescCli + ".json",
-        function (data) {
-            var content2 = JSON.parse(data);
-            for (var x = 0; x < content2.length; x++) {
-                html += `<label class="label_modal">
+    app.request.get(cordova.file.dataDirectory + "jsons/" + NomDescCli + ".json", function (data) {
+        var content2 = JSON.parse(data);
+        for (var x = 0; x < content2.length; x++) {
+            html += `<label class="label_modal">
                     <input class="cbox_modal obligatorio" type="checkbox" id="cbox${content2[x].id_danio}" value="${content2[x].tipo_danio}">${content2[x].tipo_danio}
                 </label><br>`;
-            }
-            var popEvidencia = app.popup.create({
-                content: `
+        }
+        var popEvidencia = app.popup.create({
+            content: `
             <div class="sheet-modal my-sheet" id="sheet-modal" name="sheet">
             <div class="toolbar">
                 <div class="toolbar-inner">
@@ -423,8 +402,8 @@ function CreaModalOptionFlota(id, opciones, mul, titulo_modal) {
                     </div>
 
                     <span class="span FWM-span-form">Observaciones adicionales:</span>
-                        <textarea class="FWM-input" style="font-family: 'ITC Avant Garde Gothic',sans-serif;width: 100%;margin-bottom: 30px;" 
-                            id="comentarios_generales" cols="30" rows="10" onchange="setComentariosFlota(this.value)">
+                        <textarea class="FWM-input" style="font-family: 'ITC Avant Garde Gothic',sans-serif;width: 100%;margin-bottom: 30px;padding-top: 10px;" 
+                            id="comentarios_generales" cols="30" rows="10" onchange="setComentariosFlota(this.value, ${id})">
                         </textarea>
 
                         <div id="evidencias_div" style="padding-left: 10px;padding-right: 10px;display: none;">
@@ -442,7 +421,7 @@ function CreaModalOptionFlota(id, opciones, mul, titulo_modal) {
                             <span class="resize-handler"></span>
                             <a
                                 href="#"
-                                onclick="ValidarCapturePhotoInsflota()"
+                                onclick="capturePhotoModal()"
                                 style=" background-color: #fff; border: 3px solid #005d99; color: #005d99;" class="boton-equipo">
                                 Agregar Evidencia
                                 <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;color: #005d99;">
@@ -463,74 +442,162 @@ function CreaModalOptionFlota(id, opciones, mul, titulo_modal) {
                 </div>
             </div>
         </div>`,
-                swipeToClose: false,
-                closeByOutsideClick: false,
-                closeByBackdropClick: false,
-                closeOnEscape: false,
-                on: {
-                    open: function (popup) {
-                        $("#close_sheet").click(function () {
-                            if ($("#pasa").val() != 0) {
-                                app.sheet.close("#sheet-modal");
-                            } else {
-                                swal({
-                                    title: "Aviso",
-                                    text: "Aún no seleccionas o guardas una opción, ¿Estas seguro que deseas regresar?",
-                                    icon: "warning",
-                                    buttons: true,
-                                    dangerMode: false,
-                                }).then((willGoBack) => {
-                                    if (willGoBack) {
-                                        var otherCheck = "radio" + id + "-2";
-                                        document.getElementById(
-                                            otherCheck
-                                        ).checked = false;
-                                        var Check = "radio" + id + "-1";
-                                        document.getElementById(
-                                            Check
-                                        ).checked = true;
-                                        var labels1 = Check.replace(
-                                            "radio",
-                                            "label"
-                                        );
-                                        var labels2 = otherCheck.replace(
-                                            "radio",
-                                            "label"
-                                        );
-                                        $("#" + labels1).addClass("checked");
-                                        $("#" + labels2).removeClass("checked");
-                                        // actualizacheck(Check);
-                                        app.sheet.close("#sheet-modal");
-                                    } else {
-                                    }
-                                });
+            swipeToClose: false,
+            closeByOutsideClick: false,
+            closeByBackdropClick: false,
+            closeOnEscape: false,
+            on: {
+                open: function (popup) {
+                    $("#close_sheet").click(function () {
+                        let campos;
+                        let comentarios = "";
+                        let valido = false;
+
+                        campos = document.querySelectorAll("#div_cboxs .obligatorio");
+
+                        [].slice.call(campos).forEach(function (campo) {
+                            if (campo.checked == true) {
+                                valido = true;
+                                comentarios = comentarios + ", " + campo.value;
                             }
                         });
-                    },
-                },
-            });
 
-            popEvidencia.open();
-        }
-    );
+                        if (valido) {
+                            swal({
+                                title: "Aviso",
+                                text: "¿Estas seguro que deseas regresar?",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: false,
+                            }).then((willGoBack) => {
+                                if (willGoBack) {
+                                    let otherCheck = "radio-" + id + "-2";
+                                    document.getElementById(otherCheck).checked = false;
+                                    let Check = "radio-" + id + "-3";
+                                    document.getElementById(Check).checked = false;
+                                    let Checks = "radio-" + id + "-1";
+                                    document.getElementById(Checks).checked = true;
+                                    let labels0 = Checks.replace("radio", "label");
+                                    let labels1 = Check.replace("radio", "label");
+                                    let labels2 = otherCheck.replace("radio", "label");
+
+                                    $("#" + labels0).addClass("checked");
+                                    $("#" + labels1).removeClass("checked");
+                                    $("#" + labels2).removeClass("checked");
+                                    validaRadioFlota(Checks, 1);
+                                    app.sheet.close("#sheet-modal");
+                                } else {
+                                }
+                            });
+                        } else {
+                            swal({
+                                title: "Aviso",
+                                text: "¿Estas seguro que deseas regresar?",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: false,
+                            }).then((willGoBack) => {
+                                if (willGoBack) {
+                                    let otherCheck = "radio-" + id + "-2";
+                                    document.getElementById(otherCheck).checked = false;
+                                    let Check = "radio-" + id + "-3";
+                                    document.getElementById(Check).checked = false;
+                                    let Checks = "radio-" + id + "-1";
+                                    document.getElementById(Checks).checked = true;
+                                    let labels0 = Checks.replace("radio", "label");
+                                    let labels1 = Check.replace("radio", "label");
+                                    let labels2 = otherCheck.replace("radio", "label");
+
+                                    $("#" + labels0).addClass("checked");
+                                    $("#" + labels1).removeClass("checked");
+                                    $("#" + labels2).removeClass("checked");
+                                    validaRadioFlota(Checks, 1);
+                                    app.sheet.close("#sheet-modal");
+                                } else {
+                                }
+                            });
+                        }
+                    });
+
+                    let id_pregunta = id;
+
+                    databaseHandler.db.transaction(
+                        function (tx1) {
+                            tx1.executeSql(
+                                "Select * from Evidencias where id_cedula= ? AND FKHeader = ? AND flagPregunta = ? ORDER BY id_evidencia",
+                                [localStorage.getItem("IdCedula"), localStorage.getItem("IdHeader"), id_pregunta],
+                                function (tx, results) {
+                                    var length = results.rows.length;
+                                    if (length == 0) {
+                                    } else {
+                                        let item = results.rows.item(0);
+                                        let imageData = item.evidencia;
+                                        $("#imagenC").val(imageData);
+                                        let smallImage = document.getElementById("smallImage");
+                                        smallImage.style.display = "flex";
+                                        smallImage.src = imageData;
+                                        $("#evidencias_div").css("display", "block");
+                                        $("#div_botones_camara").html(`<div style="min-width: 50px; border-style: none;">
+                                                <a href="#" onclick="capturePhotoModal()" style="background-color: #005D99;" class="boton-equipo">Volver a tomar Evidencia <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;">photo_camera</i></a>
+                                            </div>`);
+                                    }
+                                }
+                            );
+                        },
+                        function (error) {},
+                        function () {}
+                    );
+
+                    databaseHandler.db.transaction(
+                        function (tx1) {
+                            tx1.executeSql(
+                                "Select * from checklistFlota where id_cedula= ? AND id_pregunta = ?",
+                                [localStorage.getItem("IdCedula"), id_pregunta],
+                                function (tx, results) {
+                                    var length = results.rows.length;
+                                    if (length == 0) {
+                                    } else {
+                                        let item = results.rows.item(0);
+                                        let comentarios = String(item.comentarios).split(",");
+                                        comentarios.forEach((comentario) => {
+                                            let campos;
+                                            let cbox = comentario.trim();
+
+                                            campos = document.querySelectorAll("#div_cboxs .obligatorio");
+
+                                            [].slice.call(campos).forEach((campo) => {
+                                                if (campo.value == cbox) {
+                                                    campo.checked = true;
+                                                }
+                                            });
+                                        });
+                                        $("#comentarios_generales").val(item.comentarios2);
+                                    }
+                                }
+                            );
+                        },
+                        function (error) {},
+                        function () {}
+                    );
+                },
+            },
+        });
+
+        popEvidencia.open();
+    });
 }
 
 function agregaComentariosFlota(id_pregunta, mul) {
     if (mul == 1 || mul == 2) {
-        var seleccionados = $("#opts_modal").val();
+        let seleccionados = $("#opts_modal").val();
         if (seleccionados.length == 0) {
-            swal(
-                "",
-                "Selecciona al menos una opción del desplegable.",
-                "warning"
-            );
+            swal("", "Selecciona al menos una opción del desplegable.", "warning");
             return false;
         } else {
             var opts = "";
             $("#opts_modal option").each(function () {
                 if (this.selected) {
-                    opts =
-                        opts + ", " + capitalizarPrimeraLetra($(this).text());
+                    opts = opts + ", " + capitalizarPrimeraLetra($(this).text());
                 }
             });
             opts = opts.slice(1);
@@ -562,21 +629,64 @@ function agregaComentariosFlota(id_pregunta, mul) {
         databaseHandler.db.transaction(
             function (tx) {
                 tx.executeSql(
-                    "UPDATE checklistFlota SET comentarios = ? WHERE id_cedula = ? AND id_pregunta = ?",
-                    [name, id_cedula, id_pregunta],
+                    "UPDATE checklistFlota SET comentarios = ?, respuesta = ? WHERE id_cedula = ? AND id_pregunta = ?",
+                    [name, 2, id_cedula, id_pregunta],
                     function (tx, results) {
+                        let comentarios2 = $("#comentarios_generales").val();
+                        comentarios2 && (name += ", " + comentarios2);
                         $("#span-" + id_pregunta).html(name);
                         app.sheet.close("#sheet-modal");
-                        swal(
-                            "",
-                            "Comentario guardado correctamente",
-                            "success"
-                        );
+                        if ($("#imagenC").val()) {
+                            let foto = $("#imagenC").val();
+                            databaseHandler.db.transaction(
+                                function (tx1) {
+                                    tx1.executeSql(
+                                        "Select * from Evidencias where id_cedula= ? AND FKHeader = ? AND flagPregunta = ? ORDER BY id_evidencia",
+                                        [id_cedula, localStorage.getItem("IdHeader"), id_pregunta],
+                                        function (tx, results) {
+                                            var length = results.rows.length;
+                                            if (length == 0) {
+                                                databaseHandler.db.transaction(
+                                                    function (tx) {
+                                                        tx.executeSql(
+                                                            "INSERT INTO Evidencias(id_cedula,FKHeader,evidencia,fecha,proceso,flagPregunta) VALUES (?,?,?,?,?,?)",
+                                                            [id_cedula, localStorage.getItem("IdHeader"), foto, getDateWhitZeros(), 0, id_pregunta],
+                                                            function (tx, results) {},
+                                                            function (tx, error) {}
+                                                        );
+                                                    },
+                                                    function (error) {
+                                                        console.log(error);
+                                                    },
+                                                    function (e) {
+                                                        console.log(e);
+                                                    }
+                                                );
+                                            } else {
+                                                databaseHandler.db.transaction(
+                                                    function (tx) {
+                                                        tx.executeSql(
+                                                            "UPDATE Evidencias SET evidencia = ?, fecha = ? WHERE id_cedula = ?, flagPregunta = ?",
+                                                            [foto, getDateWhitZeros(), id_cedula, id_pregunta],
+                                                            function (tx, results) {},
+                                                            function (tx, error) {}
+                                                        );
+                                                    },
+                                                    function (error) {},
+                                                    function () {}
+                                                );
+                                            }
+                                        }
+                                    );
+                                },
+                                function (error) {},
+                                function () {}
+                            );
+                        }
+                        swal("", "Guardado correctamente", "success");
                     },
                     function (tx, error) {
-                        console.error(
-                            "Error al guardar cierre: " + error.message
-                        );
+                        console.error("Error al guardar cierre: " + error.message);
                     }
                 );
             },
@@ -594,14 +704,8 @@ function GuardarPhoto() {
     databaseHandler.db.transaction(
         function (tx) {
             tx.executeSql(
-                "INSERT INTO Evidencias(id_cedula,FKHeader,evidencia,fecha,proceso) VALUES (?,?,?,?,?)",
-                [
-                    id_cedula,
-                    localStorage.getItem("IdHeader"),
-                    foto,
-                    getDateWhitZeros(),
-                    0,
-                ],
+                "INSERT INTO Evidencias(id_cedula,FKHeader,evidencia,fecha,proceso,flagPregunta) VALUES (?,?,?,?,?,?)",
+                [id_cedula, localStorage.getItem("IdHeader"), foto, getDateWhitZeros(), 1, 0],
                 function (tx, results) {
                     databaseHandler.db.transaction(
                         function (tx1) {
@@ -611,19 +715,14 @@ function GuardarPhoto() {
                                 function (tx, results) {
                                     var item = results.rows.item(0);
                                     $("#evidencias_div").css("display", "none");
-                                    $("#div_botones_camara")
-                                        .html(`<div style="min-width: 50px; border-style: none;">
+                                    $("#div_botones_camara").html(`<div style="min-width: 50px; border-style: none;">
                                         <span class="resize-handler"></span>
-                                        <a href="#" onclick="ValidarCapturePhotoLavado()" style="background-color: #fff;border: 3px solid #005D99;color:#005D99" class="boton-equipo">
+                                        <a href="#" onclick="ValidarCapturePhotoInsflota()" style="background-color: #fff;border: 3px solid #005D99;color:#005D99" class="boton-equipo">
                                             Agregar Evidencia <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;color:#005D99">photo_camera</i>
                                         </a>
                                     </div>`);
                                     $("#imagenC").val("");
-                                    swal(
-                                        "",
-                                        "Foto guardada correctamente",
-                                        "success"
-                                    );
+                                    swal("", "Foto guardada correctamente", "success");
                                     $("#facturas").append(
                                         "<tr id='fila" +
                                             item.id_evidencia +
@@ -651,8 +750,8 @@ function GuardarPhoto() {
 
 function continuarCedIns(id_cedula, IdHeader) {
     localStorage.setItem("IdCedula", id_cedula);
+    localStorage.setItem("IdHeader", IdHeader);
     if (IdHeader == 0) {
-        localStorage.setItem("IdHeader", 1);
         app.views.main.router.back("/formFlota4/", {
             force: true,
             ignoreCache: true,
@@ -672,22 +771,14 @@ function eliminarFilaFoto(index, val) {
         databaseHandler.db.transaction(
             function (tx) {
                 tx.executeSql(
-                    "DELETE FROM CAP_Evidencias WHERE id_evidencia = ?",
+                    "DELETE FROM Evidencias WHERE id_evidencia = ?",
                     [index],
                     function (tx, results) {
-                        swal(
-                            "",
-                            "El registro se elimino satisfactoriamente",
-                            "success"
-                        );
+                        swal("", "El registro se elimino satisfactoriamente", "success");
                         $("#fila" + index).remove();
                     },
                     function (tx, error) {
-                        swal(
-                            "Error al eliminar registro",
-                            error.message,
-                            "error"
-                        );
+                        swal("Error al eliminar registro", error.message, "error");
                     }
                 );
             },
@@ -729,20 +820,14 @@ function EnviarCheckListFlota() {
     });
 }
 
-function setComentariosFlota(value) {
+function setComentariosFlota(value, id_pregunta) {
     var id_cedula = localStorage.getItem("IdCedula");
     databaseHandler.db.transaction(
         function (tx) {
             tx.executeSql(
-                "UPDATE datosGeneralesFlota SET comentarios_generales = ? WHERE id_cedula = ?",
-                [value, id_cedula],
-                function (tx, results) {
-                    swal(
-                        "",
-                        "Observaciones guardadas correctamente",
-                        "success"
-                    );
-                },
+                "UPDATE checklistFlota SET comentarios2 = ? WHERE id_cedula = ? AND id_pregunta = ?",
+                [value, id_cedula, id_pregunta],
+                function (tx, results) {},
                 function (tx, error) {
                     console.error("Error al guardar cierre: " + error.message);
                 }
@@ -796,73 +881,48 @@ function capturePhotoModal() {
             on: {
                 open: function (popup) {
                     var permissions = cordova.plugins.permissions;
-                    permissions.checkPermission(
-                        permissions.CAMERA,
-                        function (status) {
-                            if (status.hasPermission) {
-                                cargarEmpresa(
-                                    `./js/camera-field.js`,
-                                    empresaCargada
-                                );
-                                function empresaCargada() {
-                                    cameraStart(onPhotoDataSuccess);
-                                }
-                                function cargarEmpresa(url, callback) {
-                                    var pie =
-                                        document.getElementsByTagName("fwm")[0];
-                                    var script =
-                                        document.createElement("script");
-                                    script.type = "text/javascript";
-                                    script.src = url;
-                                    script.id = "cameraSource";
-                                    script.onload = callback;
-                                    pie.appendChild(script);
-                                }
-                            } else {
-                                permissions.requestPermission(
-                                    permissions.CAMERA,
-                                    success,
-                                    error
-                                );
-                                function error() {
-                                    app.sheet.close(".popup");
-                                    swal(
-                                        "Se Requiere los permisos",
-                                        "Para poder tomar las evidencias fotograficas necesitamos el permiso.",
-                                        "warning"
-                                    );
-                                }
-                                function success(status) {
-                                    if (!status.hasPermission) {
-                                        error();
-                                    } else {
-                                        cargarEmpresa(
-                                            `./js/camera-field.js`,
-                                            empresaCargada
-                                        );
-                                        function empresaCargada() {
-                                            cameraStart(onPhotoDataSuccess);
-                                        }
-                                        function cargarEmpresa(url, callback) {
-                                            var pie =
-                                                document.getElementsByTagName(
-                                                    "fwm"
-                                                )[0];
-                                            var script =
-                                                document.createElement(
-                                                    "script"
-                                                );
-                                            script.type = "text/javascript";
-                                            script.src = url;
-                                            script.id = "cameraSource";
-                                            script.onload = callback;
-                                            pie.appendChild(script);
-                                        }
+                    permissions.checkPermission(permissions.CAMERA, function (status) {
+                        if (status.hasPermission) {
+                            cargarEmpresa(`./js/camera-field.js`, empresaCargada);
+                            function empresaCargada() {
+                                cameraStart(onPhotoDataSuccess);
+                            }
+                            function cargarEmpresa(url, callback) {
+                                var pie = document.getElementsByTagName("fwm")[0];
+                                var script = document.createElement("script");
+                                script.type = "text/javascript";
+                                script.src = url;
+                                script.id = "cameraSource";
+                                script.onload = callback;
+                                pie.appendChild(script);
+                            }
+                        } else {
+                            permissions.requestPermission(permissions.CAMERA, success, error);
+                            function error() {
+                                app.sheet.close(".popup");
+                                swal("Se Requiere los permisos", "Para poder tomar las evidencias fotograficas necesitamos el permiso.", "warning");
+                            }
+                            function success(status) {
+                                if (!status.hasPermission) {
+                                    error();
+                                } else {
+                                    cargarEmpresa(`./js/camera-field.js`, empresaCargada);
+                                    function empresaCargada() {
+                                        cameraStart(onPhotoDataSuccess);
+                                    }
+                                    function cargarEmpresa(url, callback) {
+                                        var pie = document.getElementsByTagName("fwm")[0];
+                                        var script = document.createElement("script");
+                                        script.type = "text/javascript";
+                                        script.src = url;
+                                        script.id = "cameraSource";
+                                        script.onload = callback;
+                                        pie.appendChild(script);
                                     }
                                 }
                             }
                         }
-                    );
+                    });
                 },
                 opened: function (popup) {
                     localStorage.setItem("cameraField", "Active");
@@ -874,7 +934,7 @@ function capturePhotoModal() {
         });
         camera.open();
     } else {
-        navigator.camera.getPicture(onPhotoDataSuccess, onFail, {
+        navigator.camera.getPicture(onPhotoDataSuccessModal, onFail, {
             quality: 100,
             destinationType: destinationType.DATA_URL,
             targetWidth: 1000,
@@ -888,7 +948,7 @@ function ValidarCapturePhotoInsflota() {
     databaseHandler.db.transaction(
         function (tx1) {
             tx1.executeSql(
-                "Select COUNT(id_cedula) as cuenta from Evidencias where id_cedula= ? AND FKHeader = ?",
+                "Select COUNT(id_cedula) as cuenta from Evidencias where id_cedula= ? AND FKHeader = ? AND proceso = 1",
                 [localStorage.getItem("IdCedula"), 1],
                 function (tx, results) {
                     var item = results.rows.item(0);
@@ -907,4 +967,84 @@ function ValidarCapturePhotoInsflota() {
             console.log("error e =>", e);
         }
     );
+}
+
+function TerminarInsFlota() {
+    app.views.main.router.back("/formFlota3/", {
+        force: true,
+        ignoreCache: true,
+        reload: true,
+    });
+}
+
+function guardaComentarios_generales_Flota(val) {
+    var id_cedula = localStorage.getItem("IdCedula");
+    databaseHandler.db.transaction(
+        function (tx) {
+            tx.executeSql(
+                "UPDATE datosGeneralesFlota SET comentarios_generales = ? WHERE id_cedula = ?",
+                [val, id_cedula],
+                function (tx, results) {
+                    swal("", "Observaciones guardadas correctamente", "success");
+                },
+                function (tx, error) {
+                    console.error("Error al guardar: " + error.message);
+                }
+            );
+        },
+        function (error) {},
+        function () {}
+    );
+}
+
+function cambioMili(ids, values) {
+    let value = Number(values);
+    if (value >= 0 && value < 26) {
+        let id_cedula = localStorage.getItem("IdCedula");
+        let id = ids.replace("mili_", "");
+        let fecha = getDateWhitZeros();
+        databaseHandler.db.transaction(
+            function (tx) {
+                tx.executeSql(
+                    "UPDATE Milimetrajes SET valor = ?, fecha = ? WHERE id_mili = ? AND id_cedula = ?",
+                    [value, fecha, id, id_cedula],
+                    function (tx, results) {},
+                    function (tx, error) {
+                        console.error("Error al guardar: " + error.message);
+                    }
+                );
+            },
+            function (error) {},
+            function () {}
+        );
+    } else {
+        $("#" + ids).val("0");
+        swal("", "Debes indicar un número válido, y que este sea menor a 26", "warning");
+    }
+}
+
+function cambioPresion(ids, values) {
+    let value = Number(values);
+    if (value >= 0 && value < 130) {
+        let id_cedula = localStorage.getItem("IdCedula");
+        let id = ids.replace("psi_", "");
+        let fecha = getDateWhitZeros();
+        databaseHandler.db.transaction(
+            function (tx) {
+                tx.executeSql(
+                    "UPDATE Milimetrajes SET valorPresion = ?, fechaPresion = ? WHERE id_mili = ? AND id_cedula = ?",
+                    [value, fecha, id, id_cedula],
+                    function (tx, results) {},
+                    function (tx, error) {
+                        console.error("Error al guardar: " + error.message);
+                    }
+                );
+            },
+            function (error) {},
+            function () {}
+        );
+    } else {
+        $("#" + ids).val("0");
+        swal("", "Debes indicar un número válido, y que este sea menor a 130", "warning");
+    }
 }

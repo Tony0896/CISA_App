@@ -182,6 +182,11 @@ var routes = [
         path: "/formFlota4/",
         componentUrl: "./pages/formFlota4.html",
     },
+    {
+        name: "formFlota5",
+        path: "/formFlota5/",
+        componentUrl: "./pages/formFlota5.html",
+    },
     //fin de Flota
     {
         name: "visualizar",

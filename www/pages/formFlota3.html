@@ -2,84 +2,92 @@
     <div class="page">
         <!-- Navsbars -->
         <nav class="left top-left" style="justify-content: space-between">
-            <a
-                href="javascript:location.reload()"
-                style="
-                    margin-left: 10px;
-                    display: inline-flex;
-                    align-items: center;
-                "
-            >
-                <i
-                    class="icon material-icons md-only"
-                    style="font-weight: 900; font-size: 30px"
-                    >arrow_back</i
-                >
+            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex; align-items: center">
+                <i class="icon material-icons md-only" style="font-weight: 900; font-size: 30px">arrow_back</i>
             </a>
-            <div class="title">Revisión de Imagen</div>
+            <div class="title">Inspección Flota</div>
             <a style="margin-right: 10px">
-                <i
-                    class="icon material-icons md-only"
-                    style="color: #005d99; font-weight: 900"
-                    >arrow_back</i
-                >
+                <i class="icon material-icons md-only" style="color: #005d99; font-weight: 900">arrow_back</i>
             </a>
         </nav>
         <div class="toolbar tabbar toolbar-bottom">
-            <div
-                class="toolbar-inner"
-                style="background-color: #005d99"
-                id="toolbar_down"
-            ></div>
+            <div class="toolbar-inner" style="background-color: #005d99" id="toolbar_down"></div>
         </div>
         <!-- Contenido Page -->
         <div class="page-content" style="height: 98%">
-            <div
-                style="
-                    text-align: center;
-                    justify-content: center;
-                    margin-right: auto;
-                    margin-left: auto;
-                    width: 99%;
-                    margin-top: 30px;
-                "
-            >
-                <h2
-                    class="FWN-titulo-2"
-                    style="margin-bottom: 0px; color: #707070"
-                    id="titulo"
-                ></h2>
-                <h2
-                    class="FWN-titulo-2"
-                    style="margin-bottom: 25px; margin-top: 10px"
-                    id="fase_titulo"
-                ></h2>
+            <div style="text-align: center; justify-content: center; margin-right: auto; margin-left: auto; width: 99%; margin-top: 30px">
+                <h2 class="FWN-titulo-2" style="margin-bottom: 0px; color: #707070" id="titulo"></h2>
+                <h2 class="FWN-titulo-2" style="margin-bottom: 25px; margin-top: 10px" id="fase_titulo"></h2>
                 <div style="text-align: left">
-                    <div
-                        class="list FWM-fixing-form"
-                        id="datos_form"
-                        style="margin-top: 5px"
-                    ></div>
+                    <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px"></div>
 
                     <div class="list FWM-fixing-form" style="margin-top: 5px">
-                        <span class="span FWM-span-form"
-                            >Observaciones adicionales:</span
-                        >
+                        <span class="span FWM-span-form">Observaciones adicionales:</span>
                         <textarea
                             class="FWM-input"
-                            style="
-                                font-family: 'ITC Avant Garde Gothic',
-                                    sans-serif;
-                            "
+                            style="font-family: 'ITC Avant Garde Gothic', sans-serif"
                             id="comentarios_generales"
                             cols="30"
                             rows="10"
-                            onchange="guardaComentarios_generales(this.value)"
+                            onchange="guardaComentarios_generales_Flota(this.value)"
                         ></textarea>
+
+                        <div id="evidencias_div" style="padding-left: 10px; padding-right: 10px; margin-top: 25px; display: none">
+                            <div class="FWM-photo-container">
+                                <div class="border-capture" style="text-align: center">
+                                    <img class="FWM-photo" src="" id="photoIcon" width="45px" />
+                                </div>
+                                <img class="FWM-photo-hide" id="smallImage" src="" />
+                                <input type="hidden" id="imagenC" name="imagenC" />
+                            </div>
+                        </div>
+
                         <div
-                            class="block grid-resizable-demo"
-                            style="top: 25px; margin-bottom: 80px"
-                        ></div>
+                            class="row"
+                            style="text-align: center; margin: 65px 10px 65px 10px; justify-content: space-around"
+                            id="div_botones_camara"
+                        >
+                            <div style="min-width: 50px; border-style: none">
+                                <span class="resize-handler"></span>
+                                <a
+                                    href="#"
+                                    onclick="ValidarCapturePhotoInsflota()"
+                                    style="background-color: #fff; border: 3px solid #005d99; color: #005d99"
+                                    class="boton-equipo"
+                                >
+                                    Agregar Evidencia
+                                    <i class="icon material-icons md-only" style="display: inline-block; margin-left: 12px; color: #005d99"
+                                        >photo_camera</i
+                                    >
+                                </a>
+                            </div>
+                        </div>
+
+                        <h2 style="text-align: center">Evidencias</h2>
+
+                        <div class="card data-table" style="margin-bottom: 50px">
+                            <div class="infinite-scroll-content">
+                                <table id="facturas">
+                                    <thead>
+                                        <tr>
+                                            <th class="numeric-cell" style="text-align: center; background-color: #063e7f; color: white">
+                                                Evidencia
+                                            </th>
+                                            <th class="numeric-cell" style="text-align: center; background-color: #063e7f; color: white">Borrar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <div class="sentencia preloader color-grey infinite-scroll-preloader"></div>
+                                <div
+                                    class="message-nr"
+                                    style="width: 100%; text-align: center; font-family: 'ITC Avant Garde Gothic', sans-serif; font-size: 16px"
+                                >
+                                    <p>Sin registros</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block grid-resizable-demo" style="top: 25px; margin-bottom: 80px"></div>
                     </div>
                 </div>
             </div>
@@ -91,28 +99,30 @@
         on: {
             pageInit: function () {
                 app.preloader.show("red");
+                $(".preloader").hide();
                 var fase = parseInt(localStorage.getItem("fase"));
                 var id_cedula = localStorage.getItem("IdCedula");
                 databaseHandler.db.transaction(
                     function (tx) {
-                        tx.executeSql(
-                            "Select MAX(id_fase) as max_fase from checklistFlota where id_cedula= ?",
-                            [id_cedula],
-                            function (tx, results) {
-                                var item2 = results.rows.item(0);
-                                var max_fase = parseInt(item2.max_fase);
+                        tx.executeSql("Select MAX(id_fase) as max_fase from checklistFlota where id_cedula= ?", [id_cedula], function (tx, results) {
+                            var item2 = results.rows.item(0);
+                            var max_fase = parseInt(item2.max_fase);
+                            if (localStorage.getItem("milis")) {
+                                $("#toolbar_down").append(
+                                    `<a href="#" onclick="IrMilimetrajes();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Anterior</a>
+                                        <a href="#" onclick="EnviarCheckListFlota();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Enviar <i class="icon material-icons md-only" style="display: inline-block;">check</i></a>`
+                                );
+                                $("#toolbar_down").css("background-color", "#239B56");
+                            } else {
                                 $("#toolbar_down").append(
                                     `<a href="#" onclick="moveChecklistFlota(` +
                                         max_fase +
                                         `);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Anterior</a>
-                                        <a href="#" onclick="EnviarCheckListFlota();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Enviar <i class="icon material-icons md-only" style="display: inline-block;">check</i></a>`
+                                            <a href="#" onclick="EnviarCheckListFlota();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Enviar <i class="icon material-icons md-only" style="display: inline-block;">check</i></a>`
                                 );
-                                $("#toolbar_down").css(
-                                    "background-color",
-                                    "#239B56"
-                                );
+                                $("#toolbar_down").css("background-color", "#239B56");
                             }
-                        );
+                        });
                     },
                     function (error) {},
                     function () {}
@@ -121,19 +131,16 @@
                 databaseHandler.db.transaction(
                     function (tx) {
                         tx.executeSql(
-                            "Select * from checklistFlota where id_cedula= ? AND respuesta = 2",
+                            "SELECT * FROM checklistFlota ch LEFT JOIN Evidencias ev ON ev.flagPregunta = ch.id_pregunta WHERE ch.id_cedula= ? AND ch.respuesta = 2",
                             [id_cedula],
                             function (tx, results) {
                                 var length = results.rows.length;
                                 if (length == 0) {
-                                    $("#fase_titulo").html(
-                                        "Sin puntos en mal estado"
-                                    );
+                                    $("#fase_titulo").html("Sin puntos en mal estado");
                                 } else {
-                                    $("#fase_titulo").html(
-                                        "Revisión de puntos en mal estado"
-                                    );
+                                    $("#fase_titulo").html("Revisión de puntos en mal estado");
                                     var comentarios;
+                                    var comentarios2;
                                     for (var i = 0; i < length; i++) {
                                         var item = results.rows.item(i);
                                         comentarios = "";
@@ -142,34 +149,38 @@
                                         } else {
                                             comentarios = "Sin comentarios";
                                         }
+
+                                        comentarios2 = "";
+                                        if (item.comentarios2) {
+                                            comentarios2 = item.comentarios2;
+                                        } else {
+                                            comentarios2 = "Sin comentarios";
+                                        }
                                         $("#datos_form").append(
-                                            `
-                                    <div class='card demo-facebook-card' style='padding-bottom: 5px;'>
-                                        <div class='card-header'>
-                                            <div class='demo-facebook-name' id='demo' style='margin-left:0px;display: flex;'>
-                                                <span class="span-pregunta span FWM-span-form">` +
-                                                item.id_fase +
-                                                `.` +
-                                                item.no_pregunta +
-                                                `</span>&emsp; 
-                                                <span class="span-pregunta span FWM-span-form">` +
-                                                item.revision +
-                                                `</span>
+                                            `<div class='card demo-facebook-card' style='padding-bottom: 5px;'>
+                                            <div class='card-header'>
+                                                <div class='demo-facebook-name' id='demo' style='margin-left:0px;display: flex;flex-direction: column;width: 100%;align-items: center;'>
+                                                    <span class="span-pregunta span FWM-span-form" style="margin-bottom: 0px !important;">${
+                                                        item.nombre_fase
+                                                    }</span>
+                                                    <span class="span-pregunta span FWM-span-form">${item.id_fase}.${item.no_pregunta}&emsp;${
+                                                item.revision
+                                            }</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class='card demo-facebook-card'>
-                                                <div class='demo-facebook-date'></div> 
-                                                <div class='card-footer'><a href='#' >` +
-                                                item.int_ext +
-                                                `</a></div> 
-                                                <div class='card-footer'><a href='#'>` +
-                                                item.nombre_fase +
-                                                `</a></div> 
-                                                <div class='card-footer'><a href='#' >` +
-                                                comentarios +
-                                                `</a></div>
-                                        </div>
-                                    </div> <br>`
+                                            <div class='card demo-facebook-card'>
+                                                <div class='demo-facebook-date'></div>
+                                                <div class='card-footer'><a href='#'>${comentarios}</a></div>
+                                                <div class='card-footer'><a href='#'>${comentarios2}</a></div>
+                                                ${
+                                                    item.evidencia
+                                                        ? `<div class='card-footer' style="text-align: center;display: block;width: 100%;">
+                                                        <img src="${item.evidencia}" style="width: 35%;border-radius: 10px;">
+                                                    </div>`
+                                                        : ""
+                                                }
+                                            </div>
+                                        </div> <br>`
                                         );
                                     }
                                 }
@@ -191,9 +202,37 @@
                                 if (length == 0) {
                                 } else {
                                     var item2 = results.rows.item(0);
-                                    $("#comentarios_generales").val(
-                                        item2.comentarios_generales
-                                    );
+                                    $("#comentarios_generales").val(item2.comentarios_generales);
+                                }
+                            }
+                        );
+                    },
+                    function (error) {},
+                    function () {}
+                );
+
+                databaseHandler.db.transaction(
+                    function (tx1) {
+                        tx1.executeSql(
+                            "Select * from Evidencias where id_cedula= ? AND FKHeader = ? AND proceso = 1 ORDER BY id_evidencia",
+                            [id_cedula, localStorage.getItem("IdHeader")],
+                            function (tx, results) {
+                                var length = results.rows.length;
+                                if (length == 0) {
+                                } else {
+                                    $(".message-nr").css("display", "none");
+                                    for (var i = 0; i < length; i++) {
+                                        var item = results.rows.item(i);
+                                        $("#facturas").append(
+                                            "<tr id='fila" +
+                                                item.id_evidencia +
+                                                "'><td style='text-align: center;'><img src='" +
+                                                item.evidencia +
+                                                "' width='60px' style='margin-top: 4px;'/></td><td style='text-align: center;'><a href='#' onclick='eliminarFilaFoto(" +
+                                                item.id_evidencia +
+                                                ",1);' style='border: none; outline:none;'><i class='icon material-icons md-only' style='display: inline-block;margin-left: 12px;color:#FF0037;font-size: 40px;'>delete_forever</i></a></td></tr>"
+                                        );
+                                    }
                                 }
                             }
                         );

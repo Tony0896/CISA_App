@@ -2,137 +2,52 @@
     <div class="page">
         <!-- Navsbars -->
         <nav class="left top-left" style="justify-content: space-between">
-            <a
-                href="javascript:location.reload()"
-                style="
-                    margin-left: 10px;
-                    display: inline-flex;
-                    align-items: center;
-                "
-            >
-                <i
-                    class="icon material-icons md-only"
-                    style="font-weight: 900; font-size: 30px"
-                    >arrow_back</i
-                >
+            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex; align-items: center">
+                <i class="icon material-icons md-only" style="font-weight: 900; font-size: 30px">arrow_back</i>
             </a>
-            <div class="title">Revisión de Imagen</div>
+            <div class="title">Inspección Flota</div>
             <a style="margin-right: 10px">
-                <i
-                    class="icon material-icons md-only"
-                    style="color: #005d99; font-weight: 900"
-                    >arrow_back</i
-                >
+                <i class="icon material-icons md-only" style="color: #005d99; font-weight: 900">arrow_back</i>
             </a>
         </nav>
         <div class="toolbar tabbar toolbar-bottom">
-            <div
-                class="toolbar-inner"
-                style="background-color: #005d99"
-                id="toolbar_down"
-            >
+            <div class="toolbar-inner" style="background-color: #005d99" id="toolbar_down">
                 <a
                     href="#"
                     onclick="EnviarCheckListFlota();"
-                    style="
-                        margin: auto;
-                        color: #fff;
-                        font-weight: bold;
-                        font-size: 18px;
-                        width: 100%;
-                        text-align: center;
-                    "
-                    >Enviar
-                    <i
-                        class="icon material-icons md-only"
-                        style="display: inline-block"
-                        >check</i
-                    ></a
+                    style="margin: auto; color: #fff; font-weight: bold; font-size: 18px; width: 100%; text-align: center"
+                    >Enviar <i class="icon material-icons md-only" style="display: inline-block">check</i></a
                 >
             </div>
         </div>
         <!-- Contenido Page -->
         <div class="page-content" style="height: 98%">
-            <div
-                style="
-                    text-align: center;
-                    justify-content: center;
-                    margin-right: auto;
-                    margin-left: auto;
-                    width: 99%;
-                    margin-top: 30px;
-                "
-            >
-                <h2
-                    class="FWN-titulo-2"
-                    style="margin-bottom: 0px; color: #707070"
-                    id="titulo"
-                ></h2>
-                <h2
-                    class="FWN-titulo-2"
-                    style="margin-bottom: 25px; margin-top: 10px"
-                    id="fase_titulo"
-                ></h2>
+            <div style="text-align: center; justify-content: center; margin-right: auto; margin-left: auto; width: 99%; margin-top: 30px">
+                <h2 class="FWN-titulo-2" style="margin-bottom: 0px; color: #707070" id="titulo"></h2>
+                <h2 class="FWN-titulo-2" style="margin-bottom: 25px; margin-top: 10px" id="fase_titulo"></h2>
 
                 <div style="text-align: left">
-                    <div
-                        id="evidencias_div"
-                        style="
-                            padding-left: 10px;
-                            padding-right: 10px;
-                            display: none;
-                        "
-                    >
+                    <div id="evidencias_div" style="padding-left: 10px; padding-right: 10px; display: none">
                         <div class="FWM-photo-container">
-                            <div
-                                class="border-capture"
-                                style="text-align: center"
-                            >
-                                <img
-                                    class="FWM-photo"
-                                    src=""
-                                    id="photoIcon"
-                                    width="45px"
-                                />
+                            <div class="border-capture" style="text-align: center">
+                                <img class="FWM-photo" src="" id="photoIcon" width="45px" />
                             </div>
-                            <img
-                                class="FWM-photo-hide"
-                                id="smallImage"
-                                src=""
-                            />
+                            <img class="FWM-photo-hide" id="smallImage" src="" />
                             <input type="hidden" id="imagenC" name="imagenC" />
                         </div>
                     </div>
 
-                    <div
-                        class="row"
-                        style="
-                            text-align: center;
-                            margin: 65px 10px 65px 10px;
-                            justify-content: space-around;
-                        "
-                        id="div_botones_camara"
-                    >
+                    <div class="row" style="text-align: center; margin: 65px 10px 65px 10px; justify-content: space-around" id="div_botones_camara">
                         <div style="min-width: 50px; border-style: none">
                             <span class="resize-handler"></span>
                             <a
                                 href="#"
                                 onclick="ValidarCapturePhotoInsflota()"
-                                style="
-                                    background-color: #fff;
-                                    border: 3px solid #005d99;
-                                    color: #005d99;
-                                "
+                                style="background-color: #fff; border: 3px solid #005d99; color: #005d99"
                                 class="boton-equipo"
                             >
                                 Agregar Evidencia
-                                <i
-                                    class="icon material-icons md-only"
-                                    style="
-                                        display: inline-block;
-                                        margin-left: 12px;
-                                        color: #005d99;
-                                    "
+                                <i class="icon material-icons md-only" style="display: inline-block; margin-left: 12px; color: #005d99"
                                     >photo_camera</i
                                 >
                             </a>
@@ -140,24 +55,16 @@
                     </div>
 
                     <div class="list FWM-fixing-form" style="margin-top: 5px">
-                        <span class="span FWM-span-form"
-                            >Observaciones adicionales:</span
-                        >
+                        <span class="span FWM-span-form">Observaciones adicionales:</span>
                         <textarea
                             class="FWM-input"
-                            style="
-                                font-family: 'ITC Avant Garde Gothic',
-                                    sans-serif;
-                            "
+                            style="font-family: 'ITC Avant Garde Gothic', sans-serif"
                             id="comentarios_generales"
                             cols="30"
                             rows="10"
                             onchange="setComentariosFlota(this.value)"
                         ></textarea>
-                        <div
-                            class="block grid-resizable-demo"
-                            style="top: 25px; margin-bottom: 80px"
-                        ></div>
+                        <div class="block grid-resizable-demo" style="top: 25px; margin-bottom: 80px"></div>
                     </div>
 
                     <h2 style="text-align: center">Evidencias</h2>
@@ -167,42 +74,16 @@
                             <table id="facturas">
                                 <thead>
                                     <tr>
-                                        <th
-                                            class="numeric-cell"
-                                            style="
-                                                text-align: center;
-                                                background-color: #063e7f;
-                                                color: white;
-                                            "
-                                        >
-                                            Evidencia
-                                        </th>
-                                        <th
-                                            class="numeric-cell"
-                                            style="
-                                                text-align: center;
-                                                background-color: #063e7f;
-                                                color: white;
-                                            "
-                                        >
-                                            Borrar
-                                        </th>
+                                        <th class="numeric-cell" style="text-align: center; background-color: #063e7f; color: white">Evidencia</th>
+                                        <th class="numeric-cell" style="text-align: center; background-color: #063e7f; color: white">Borrar</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
-                            <div
-                                class="sentencia preloader color-grey infinite-scroll-preloader"
-                            ></div>
+                            <div class="sentencia preloader color-grey infinite-scroll-preloader"></div>
                             <div
                                 class="message-nr"
-                                style="
-                                    width: 100%;
-                                    text-align: center;
-                                    font-family: 'ITC Avant Garde Gothic',
-                                        sans-serif;
-                                    font-size: 16px;
-                                "
+                                style="width: 100%; text-align: center; font-family: 'ITC Avant Garde Gothic', sans-serif; font-size: 16px"
                             >
                                 <p>Sin registros</p>
                             </div>
@@ -232,9 +113,7 @@
                                 if (length == 0) {
                                 } else {
                                     var item2 = results.rows.item(0);
-                                    $("#comentarios_generales").val(
-                                        item2.comentarios_generales
-                                    );
+                                    $("#comentarios_generales").val(item2.comentarios_generales);
                                 }
                             }
                         );

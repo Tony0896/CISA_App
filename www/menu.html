@@ -3,25 +3,13 @@
     <head>
         <title>Menu</title>
         <meta charset="UTF-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta
-            name="apple-mobile-web-app-status-bar-style"
-            content="black-translucent"
-        />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#2196f3" />
-        <meta
-            http-equiv="Content-Security-Policy"
-            content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:"
-        />
+        <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:" />
         <script type="text/javascript" src="js/raphael-min.js"></script>
-        <link
-            rel="stylesheet"
-            href="lib/framework7/css/framework7.bundle.min.css"
-        />
+        <link rel="stylesheet" href="lib/framework7/css/framework7.bundle.min.css" />
         <link rel="stylesheet" type="text/css" href="css/morris.css" />
         <link rel="stylesheet" href="css/app.css" />
         <link rel="stylesheet" href="css/form.css" />
@@ -36,25 +24,16 @@
         <div id="app">
             <div class="statusbar" style="color: #ffffff"></div>
 
-            <div
-                class="view view-main view-init safe-areas"
-                data-master-detail-breakpoint="800"
-                data-url="/"
-            >
+            <div class="view view-main view-init safe-areas" data-master-detail-breakpoint="800" data-url="/">
                 <div class="page">
                     <nav class="left top-left" style="justify-content: center">
                         <div class="title">Bienvenido</div>
                     </nav>
                     <div class="toolbar tabbar tabbar-labels toolbar-bottom">
-                        <div
-                            class="toolbar-inner"
-                            style="background-color: #005d99"
-                        >
+                        <div class="toolbar-inner" style="background-color: #005d99">
                             <a href="#tab-1" class="tab-link tab-link-active">
                                 <!-- <i class="icon icon-fill f7-icons if-not-md">envelope_fill</i> -->
-                                <i class="icon material-icons md-only"
-                                    >account_circle</i
-                                >
+                                <i class="icon material-icons md-only">account_circle</i>
                                 <span class="tabbar-label">Usuario</span>
                             </a>
                             <a href="#tab-2" class="tab-link">
@@ -64,9 +43,7 @@
                             </a>
                             <a href="#tab-3" class="tab-link">
                                 <!-- <i class="icon f7-icons if-not-md">cloud</i> -->
-                                <i class="icon material-icons md-only"
-                                    >file_upload</i
-                                >
+                                <i class="icon material-icons md-only">file_upload</i>
                                 <span class="tabbar-label">Bandeja</span>
                             </a>
                         </div>
@@ -75,196 +52,78 @@
                     <div class="page-content">
                         <div class="tabs-animated-wrap">
                             <div class="tabs">
-                                <div
-                                    id="tab-1"
-                                    class="page-content tab tab-active bg-color-white"
-                                    style="background-color: rgb(245, 245, 245)"
-                                >
-                                    <div
-                                        class="block"
-                                        style="
-                                            padding-left: 15px;
-                                            padding-top: 0;
-                                            padding-right: 15px;
-                                        "
-                                    >
+                                <div id="tab-1" class="page-content tab tab-active bg-color-white" style="background-color: rgb(245, 245, 245)">
+                                    <div class="block" style="padding-left: 15px; padding-top: 0; padding-right: 15px">
                                         <div class="container_empresa">
-                                            <img
-                                                class="loader-image"
-                                                src="img/logo1.png"
-                                                style="width: 50vw"
-                                                id="img_logo"
-                                            />
+                                            <img class="loader-image" src="img/logo1.png" style="width: 50vw" id="img_logo" />
                                         </div>
                                         <div>
                                             <div id="visitsContainer">
                                                 <div class="list">
                                                     <ul>
-                                                        <li
-                                                            class="container_info"
-                                                        >
-                                                            <div
-                                                                class="item-content"
-                                                            >
-                                                                <i
-                                                                    class="material-icons md-light panel-cerrar"
-                                                                    style="
-                                                                        color: #005d99;
-                                                                    "
-                                                                    >person</i
-                                                                >
-                                                                <div
-                                                                    class="item-title"
-                                                                >
-                                                                    <a
-                                                                        class="panel-text"
-                                                                        id="nombre_usuario"
-                                                                    ></a>
+                                                        <li class="container_info">
+                                                            <div class="item-content">
+                                                                <i class="material-icons md-light panel-cerrar" style="color: #005d99">person</i>
+                                                                <div class="item-title">
+                                                                    <a class="panel-text" id="nombre_usuario"></a>
                                                                 </div>
                                                             </div>
                                                         </li>
 
-                                                        <li
-                                                            class="container_info"
-                                                        >
-                                                            <div
-                                                                class="item-content"
-                                                                id="processclick"
-                                                                onclick="eliminaCache()"
-                                                            >
+                                                        <li class="container_info">
+                                                            <div class="item-content" id="processclick" onclick="eliminaCache()">
                                                                 <i
                                                                     class="material-icons md-light panel-cerrar"
-                                                                    style="
-                                                                        color: #005d99;
-                                                                        margin-right: 22.84px;
-                                                                    "
+                                                                    style="color: #005d99; margin-right: 22.84px"
                                                                     >cloud_done</i
                                                                 >
-                                                                <div
-                                                                    class="item-title"
-                                                                >
-                                                                    <a
-                                                                        class="panel-text"
-                                                                        >Sincronizar
-                                                                        datos</a
-                                                                    >
+                                                                <div class="item-title">
+                                                                    <a class="panel-text">Sincronizar datos</a>
                                                                 </div>
                                                             </div>
                                                         </li>
 
-                                                        <li
-                                                            class="container_info"
-                                                            style="
-                                                                display: block;
-                                                            "
-                                                        >
-                                                            <div
-                                                                class="item-content"
-                                                            >
-                                                                <i
-                                                                    class="material-icons md-light panel-cerrar"
-                                                                    style="
-                                                                        color: #005d99;
-                                                                    "
-                                                                    >extension</i
-                                                                >
-                                                                <div
-                                                                    class="item-title"
-                                                                    style="
-                                                                        width: 100%;
-                                                                    "
-                                                                >
+                                                        <li class="container_info" style="display: block">
+                                                            <div class="item-content">
+                                                                <i class="material-icons md-light panel-cerrar" style="color: #005d99">extension</i>
+                                                                <div class="item-title" style="width: 100%">
                                                                     <select
                                                                         name="menu_activo"
                                                                         id="menu_activo"
                                                                         onchange="cambiamenu();"
-                                                                        style="
-                                                                            border-bottom: 0px;
-                                                                            margin: auto;
-                                                                        "
+                                                                        style="border-bottom: 0px; margin: auto"
                                                                     ></select>
                                                                 </div>
                                                             </div>
                                                         </li>
 
-                                                        <li
-                                                            class="container_info"
-                                                        >
-                                                            <div
-                                                                class="item-content"
-                                                            >
-                                                                <i
-                                                                    class="material-icons md-light panel-cerrar"
-                                                                    style="
-                                                                        color: #005d99;
-                                                                    "
-                                                                    >share</i
-                                                                >
-                                                                <div
-                                                                    class="item-title"
-                                                                >
-                                                                    <a
-                                                                        class="panel-text"
-                                                                        id="version_app"
-                                                                    ></a>
+                                                        <li class="container_info">
+                                                            <div class="item-content">
+                                                                <i class="material-icons md-light panel-cerrar" style="color: #005d99">share</i>
+                                                                <div class="item-title">
+                                                                    <a class="panel-text" id="version_app"></a>
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                        <li
-                                                            class="container_info"
-                                                            onclick="logaout();"
-                                                        >
-                                                            <div
-                                                                class="item-content"
-                                                            >
-                                                                <i
-                                                                    class="material-icons md-light panel-cerrar"
-                                                                    style="
-                                                                        color: #ff0037;
-                                                                    "
-                                                                    >exit_to_app</i
-                                                                >
-                                                                <div
-                                                                    class="item-title"
-                                                                >
-                                                                    <a
-                                                                        class="panel-text"
-                                                                        >Cerrar
-                                                                        sesión</a
-                                                                    >
+                                                        <li class="container_info" onclick="logaout();">
+                                                            <div class="item-content">
+                                                                <i class="material-icons md-light panel-cerrar" style="color: #ff0037">exit_to_app</i>
+                                                                <div class="item-title">
+                                                                    <a class="panel-text">Cerrar sesión</a>
                                                                 </div>
                                                             </div>
                                                         </li>
                                                         <li
                                                             class="container_info"
                                                             onclick="preEliminaTodo();"
-                                                            style="
-                                                                margin-top: 100px;
-                                                                border: 1px
-                                                                    solid
-                                                                    #e0e0e0;
-                                                            "
+                                                            style="margin-top: 100px; border: 1px solid #e0e0e0"
                                                         >
-                                                            <div
-                                                                class="item-content"
-                                                            >
-                                                                <i
-                                                                    class="material-icons md-light panel-cerrar"
-                                                                    style="
-                                                                        color: #ff0037;
-                                                                    "
+                                                            <div class="item-content">
+                                                                <i class="material-icons md-light panel-cerrar" style="color: #ff0037"
                                                                     >delete_forever</i
                                                                 >
-                                                                <div
-                                                                    class="item-title"
-                                                                >
-                                                                    <a
-                                                                        class="panel-text"
-                                                                        >Eliminar
-                                                                        datos de
-                                                                        la
-                                                                        aplicación</a
-                                                                    >
+                                                                <div class="item-title">
+                                                                    <a class="panel-text">Eliminar datos de la aplicación</a>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -275,355 +134,143 @@
                                     </div>
                                 </div>
 
-                                <div
-                                    id="tab-2"
-                                    class="page-content tab bg-color-white"
-                                    style="background-color: rgb(245, 245, 245)"
-                                >
+                                <div id="tab-2" class="page-content tab bg-color-white" style="background-color: rgb(245, 245, 245)">
                                     <div class="block">
-                                        <div
-                                            style="
-                                                text-align: center;
-                                                justify-content: center;
-                                                margin-right: auto;
-                                                margin-left: auto;
-                                                width: 99%;
-                                            "
-                                        >
+                                        <div style="text-align: center; justify-content: center; margin-right: auto; margin-left: auto; width: 99%">
                                             <table style="width: 100%">
-                                                <tr
-                                                    class="menu_imagen menus"
-                                                    style="display: none"
-                                                >
+                                                <tr class="menu_imagen menus" style="display: none">
                                                     <td>
                                                         <div>
-                                                            <a
-                                                                class="item-content item-link entrar principalButton"
-                                                                href="#"
-                                                                onclick="moveMenu();"
-                                                                ><img
-                                                                    src="img/iconsMenu/portapapeles2.svg"
-                                                                    height="60px"
-                                                                />
-                                                                <p
-                                                                    style="
-                                                                        color: #000000;
-                                                                        font-size: 19px;
-                                                                    "
-                                                                >
-                                                                    Nuevo
-                                                                    Checklist
-                                                                </p>
-                                                                <i
-                                                                    class="material-icons md-light"
-                                                                    style="
-                                                                        color: #ff0000;
-                                                                        margin-right: 10px;
-                                                                    "
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();"
+                                                                ><img src="img/iconsMenu/portapapeles2.svg" height="60px" />
+                                                                <p style="color: #000000; font-size: 19px">Nuevo Checklist</p>
+                                                                <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px"
                                                                     >chevron_right</i
                                                                 ></a
                                                             >
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr
-                                                    class="menu_imagen menus"
-                                                    style="display: none"
-                                                >
+                                                <tr class="menu_imagen menus" style="display: none">
                                                     <td>
-                                                        <a
-                                                            class="item-content item-link entrar principalButton"
-                                                            href="/history/"
-                                                            onclick=""
-                                                            ><img
-                                                                src="img/iconsMenu/history.svg"
-                                                                height="60px"
-                                                            />
-                                                            <p
-                                                                style="
-                                                                    color: #000000;
-                                                                "
-                                                            >
-                                                                Historial
-                                                            </p>
-                                                            <i
-                                                                class="material-icons md-light"
-                                                                style="
-                                                                    color: #ff0000;
-                                                                    margin-right: 10px;
-                                                                "
+                                                        <a class="item-content item-link entrar principalButton" href="/history/">
+                                                            <img src="img/iconsMenu/history.svg" height="60px" />
+                                                            <p style="color: #000000">Historial</p>
+                                                            <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
+                                                                chevron_right
+                                                            </i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr class="menu_limpieza menus" style="display: none">
+                                                    <td>
+                                                        <div>
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();">
+                                                                <img src="img/iconsMenu/portapapeles2.svg" height="60px" />
+                                                                <p style="color: #000000; font-size: 19px">Nuevo Checklist</p>
+                                                                <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
+                                                                    chevron_right
+                                                                </i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="menu_limpieza menus" style="display: none">
+                                                    <td>
+                                                        <a class="item-content item-link entrar principalButton" href="/history/"
+                                                            ><img src="img/iconsMenu/history.svg" height="60px" />
+                                                            <p style="color: #000000">Historial</p>
+                                                            <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px"
                                                                 >chevron_right</i
                                                             ></a
                                                         >
                                                     </td>
                                                 </tr>
-                                                <tr
-                                                    class="menu_limpieza menus"
-                                                    style="display: none"
-                                                >
+                                                <tr class="menu_desincorporaciones menus" style="display: none">
                                                     <td>
                                                         <div>
-                                                            <a
-                                                                class="item-content item-link entrar principalButton"
-                                                                href="#"
-                                                                onclick="moveMenu();"
-                                                                ><img
-                                                                    src="img/iconsMenu/portapapeles2.svg"
-                                                                    height="60px"
-                                                                />
-                                                                <p
-                                                                    style="
-                                                                        color: #000000;
-                                                                        font-size: 19px;
-                                                                    "
-                                                                >
-                                                                    Nuevo
-                                                                    Checklist
-                                                                </p>
-                                                                <i
-                                                                    class="material-icons md-light"
-                                                                    style="
-                                                                        color: #ff0000;
-                                                                        margin-right: 10px;
-                                                                    "
-                                                                    >chevron_right</i
-                                                                ></a
-                                                            >
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();">
+                                                                <img src="img/iconsMenu/portapapeles2.svg" height="60px" />
+                                                                <p style="color: #000000; font-size: 19px">Generar Nuevo Reporte</p>
+                                                                <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
+                                                                    chevron_right
+                                                                </i>
+                                                            </a>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                                <tr
-                                                    class="menu_limpieza menus"
-                                                    style="display: none"
-                                                >
-                                                    <td>
-                                                        <a
-                                                            class="item-content item-link entrar principalButton"
-                                                            href="/history/"
-                                                            onclick=""
-                                                            ><img
-                                                                src="img/iconsMenu/history.svg"
-                                                                height="60px"
-                                                            />
-                                                            <p
-                                                                style="
-                                                                    color: #000000;
-                                                                "
-                                                            >
-                                                                Historial
-                                                            </p>
-                                                            <i
-                                                                class="material-icons md-light"
-                                                                style="
-                                                                    color: #ff0000;
-                                                                    margin-right: 10px;
-                                                                "
-                                                                >chevron_right</i
-                                                            ></a
-                                                        >
-                                                    </td>
-                                                </tr>
-                                                <tr
-                                                    class="menu_desincorporaciones menus"
-                                                    style="display: none"
-                                                >
-                                                    <td>
-                                                        <div>
-                                                            <a
-                                                                class="item-content item-link entrar principalButton"
-                                                                href="#"
-                                                                onclick="moveMenu();"
-                                                                ><img
-                                                                    src="img/iconsMenu/portapapeles2.svg"
-                                                                    height="60px"
-                                                                />
-                                                                <p
-                                                                    style="
-                                                                        color: #000000;
-                                                                        font-size: 19px;
-                                                                    "
-                                                                >
-                                                                    Generar
-                                                                    Nuevo
-                                                                    Reporte
-                                                                </p>
-                                                                <i
-                                                                    class="material-icons md-light"
-                                                                    style="
-                                                                        color: #ff0000;
-                                                                        margin-right: 10px;
-                                                                    "
-                                                                    >chevron_right</i
-                                                                ></a
-                                                            >
-                                                        </div>
-                                                        <input
-                                                            type="hidden"
-                                                            placeholder="Select date"
-                                                            readonly="readonly"
-                                                            id="demo-calendar-modal"
-                                                        />
+                                                        <input type="hidden" placeholder="Select date" readonly="readonly" id="demo-calendar-modal" />
                                                     </td>
                                                 </tr>
                                                 <tr class="menu_recaudo menus">
                                                     <td>
                                                         <div>
-                                                            <a
-                                                                class="item-content item-link entrar principalButton"
-                                                                href="#"
-                                                                onclick="moveMenu();"
-                                                                ><img
-                                                                    src="img/iconsMenu/recaudo.svg"
-                                                                    height="60px"
-                                                                />
-                                                                <p
-                                                                    style="
-                                                                        color: #000000;
-                                                                        font-size: 19px;
-                                                                    "
-                                                                >
-                                                                    Nuevo
-                                                                    Recaudo
-                                                                </p>
-                                                                <i
-                                                                    class="material-icons md-light"
-                                                                    style="
-                                                                        color: #ff0000;
-                                                                        margin-right: 10px;
-                                                                    "
-                                                                    >chevron_right</i
-                                                                ></a
-                                                            >
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();">
+                                                                <img src="img/iconsMenu/recaudo.svg" height="60px" />
+                                                                <p style="color: #000000; font-size: 19px">Nuevo Recaudo</p>
+                                                                <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
+                                                                    chevron_right
+                                                                </i>
+                                                            </a>
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr class="menu_recaudo menus">
                                                     <td>
-                                                        <a
-                                                            class="item-content item-link entrar principalButton"
-                                                            href="/history/"
-                                                            onclick=""
-                                                            ><img
-                                                                src="img/iconsMenu/history.svg"
-                                                                height="60px"
-                                                            />
-                                                            <p
-                                                                style="
-                                                                    color: #000000;
-                                                                "
-                                                            >
-                                                                Historial
-                                                            </p>
-                                                            <i
-                                                                class="material-icons md-light"
-                                                                style="
-                                                                    color: #ff0000;
-                                                                    margin-right: 10px;
-                                                                "
-                                                                >chevron_right</i
-                                                            ></a
-                                                        >
+                                                        <a class="item-content item-link entrar principalButton" href="/history/">
+                                                            <img src="img/iconsMenu/history.svg" height="60px" />
+                                                            <p style="color: #000000">Historial</p>
+                                                            <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
+                                                                chevron_right
+                                                            </i>
+                                                        </a>
                                                     </td>
                                                 </tr>
-                                                <tr
-                                                    class="menu_diesel menus"
-                                                    style="display: none"
-                                                >
+                                                <tr class="menu_diesel menus" style="display: none">
                                                     <td>
                                                         <div>
-                                                            <a
-                                                                class="item-content item-link entrar principalButton"
-                                                                href="#"
-                                                                onclick="moveMenu();"
-                                                                ><img
-                                                                    src="img/iconsMenu/bomba_carga.svg"
-                                                                    height="60px"
-                                                                />
-                                                                <p
-                                                                    style="
-                                                                        color: #000000;
-                                                                        font-size: 19px;
-                                                                    "
-                                                                >
-                                                                    Nuevo
-                                                                    Registro
-                                                                </p>
-                                                                <i
-                                                                    class="material-icons md-light"
-                                                                    style="
-                                                                        color: #ff0000;
-                                                                        margin-right: 10px;
-                                                                    "
-                                                                    >chevron_right</i
-                                                                ></a
-                                                            >
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();">
+                                                                <img src="img/iconsMenu/bomba_carga.svg" height="60px" />
+                                                                <p style="color: #000000; font-size: 19px">Nuevo Registro</p>
+                                                                <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
+                                                                    chevron_right
+                                                                </i>
+                                                            </a>
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr
-                                                    class="menu_diesel menus"
-                                                    id="tdHistoralDiesel"
-                                                    style="display: none"
-                                                >
+                                                <tr class="menu_diesel menus" id="tdHistoralDiesel" style="display: none">
                                                     <td>
-                                                        <a
-                                                            class="item-content item-link entrar principalButton"
-                                                            href="/formDiesel1/"
-                                                            onclick=""
-                                                            ><img
-                                                                src="img/iconsMenu/history.svg"
-                                                                height="60px"
-                                                            />
-                                                            <p
-                                                                style="
-                                                                    color: #000000;
-                                                                "
-                                                            >
-                                                                Historial
-                                                            </p>
-                                                            <i
-                                                                class="material-icons md-light"
-                                                                style="
-                                                                    color: #ff0000;
-                                                                    margin-right: 10px;
-                                                                "
-                                                                >chevron_right</i
-                                                            ></a
-                                                        >
+                                                        <a class="item-content item-link entrar principalButton" href="/formDiesel1/">
+                                                            <img src="img/iconsMenu/history.svg" height="60px" />
+                                                            <p style="color: #000000">Historial</p>
+                                                            <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
+                                                                chevron_right
+                                                            </i>
+                                                        </a>
                                                     </td>
                                                 </tr>
-                                                <tr
-                                                    class="menu_InsFlota menus"
-                                                    style="display: none"
-                                                >
+                                                <tr class="menu_InsFlota menus" style="display: none">
                                                     <td>
                                                         <div>
-                                                            <a
-                                                                class="item-content item-link entrar principalButton"
-                                                                href="#"
-                                                                onclick="moveMenu();"
-                                                                ><img
-                                                                    src="img/iconsMenu/portapapeles2.svg"
-                                                                    height="60px"
-                                                                />
-                                                                <p
-                                                                    style="
-                                                                        color: #000000;
-                                                                        font-size: 19px;
-                                                                    "
-                                                                >
-                                                                    Nueva
-                                                                    Revisión
-                                                                </p>
-                                                                <i
-                                                                    class="material-icons md-light"
-                                                                    style="
-                                                                        color: #ff0000;
-                                                                        margin-right: 10px;
-                                                                    "
-                                                                    >chevron_right</i
-                                                                ></a
-                                                            >
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();">
+                                                                <img src="img/iconsMenu/portapapeles2.svg" height="60px" />
+                                                                <p style="color: #000000; font-size: 19px">Nueva Revisión</p>
+                                                                <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
+                                                                    chevron_right
+                                                                </i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="menu_InsFlota menus" style="display: none">
+                                                    <td>
+                                                        <div>
+                                                            <a class="item-content item-link entrar principalButton" href="/history/">
+                                                                <img src="img/iconsMenu/history.svg" height="60px" />
+                                                                <p style="color: #000000">Historial</p>
+                                                                <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
+                                                                    chevron_right
+                                                                </i>
+                                                            </a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -632,75 +279,27 @@
                                     </div>
                                 </div>
 
-                                <div
-                                    id="tab-3"
-                                    class="page-content tab bg-color-white"
-                                    style="background-color: rgb(245, 245, 245)"
-                                >
+                                <div id="tab-3" class="page-content tab bg-color-white" style="background-color: rgb(245, 245, 245)">
                                     <div class="block">
-                                        <div
-                                            style="
-                                                text-align: center;
-                                                justify-content: center;
-                                                margin-right: auto;
-                                                margin-left: auto;
-                                                width: 99%;
-                                            "
-                                        >
+                                        <div style="text-align: center; justify-content: center; margin-right: auto; margin-left: auto; width: 99%">
                                             <div
                                                 class="list sortable"
                                                 id="cedpendientes"
-                                                style="
-                                                    background-color: white;
-                                                    margin-top: 0;
-                                                    margin-bottom: 0;
-                                                "
+                                                style="background-color: white; margin-top: 0; margin-bottom: 0"
                                             >
-                                                <p
-                                                    style="
-                                                        margin-bottom: 15px;
-                                                        font-size: 1.2em;
-                                                    "
-                                                >
-                                                    <label
-                                                        style="
-                                                            color: #005d99;
-                                                            font-family: 'ITC Avant Garde Gothic',
-                                                                sans-serif;
-                                                            font-weight: 600;
-                                                        "
+                                                <p style="margin-bottom: 15px; font-size: 1.2em">
+                                                    <label style="color: #005d99; font-family: 'ITC Avant Garde Gothic', sans-serif; font-weight: 600"
                                                         >Sin Terminar</label
                                                     >
                                                 </p>
-                                                <ul
-                                                    id="pendientes"
-                                                    style="
-                                                        background-color: white;
-                                                    "
-                                                ></ul>
+                                                <ul id="pendientes" style="background-color: white"></ul>
                                                 <hr />
-                                                <p
-                                                    style="
-                                                        margin-bottom: 15px;
-                                                        font-size: 1.2em;
-                                                    "
-                                                >
-                                                    <label
-                                                        style="
-                                                            color: #005d99;
-                                                            font-family: 'ITC Avant Garde Gothic',
-                                                                sans-serif;
-                                                            font-weight: 600;
-                                                        "
+                                                <p style="margin-bottom: 15px; font-size: 1.2em">
+                                                    <label style="color: #005d99; font-family: 'ITC Avant Garde Gothic', sans-serif; font-weight: 600"
                                                         >Por enviar</label
                                                     >
                                                 </p>
-                                                <ul
-                                                    id="bandeja"
-                                                    style="
-                                                        background-color: white;
-                                                    "
-                                                >
+                                                <ul id="bandeja" style="background-color: white">
                                                     <!-- <li><div class='item-content' style="padding-left: 5px !important;margin-bottom: 10px;"><div class='item-media'><i class='icon'><img src='img/circuloVerde.png' width='20px' height='20px' /></i></div> <div class='item-inner'><div class='item-title'>1 Check 19-oct</div> <div class='item-after'></div></div></div></li> -->
                                                 </ul>
                                                 <hr />
@@ -726,10 +325,11 @@
         <script type="text/javascript" src="js/in.js"></script>
         <script type="text/javascript" src="js/productHandler.js"></script>
         <script type="text/javascript" src="js/morris.min.js"></script>
-        <script src="js/metodos/metodos.js"></script>
-        <script src="js/metodos/metodosDiesel.js"></script>
-        <script src="js/metodos/metodosRecaudo.js"></script>
-        <script src="js/metodos/metodosFlota.js"></script>
+        <script src="./js/metodos/metodos.js"></script>
+        <script src="./js/metodos/metodosDiesel.js"></script>
+        <script src="./js/metodos/metodosFlota.js"></script>
+        <script src="./js/metodos/metodosRecaudo.js"></script>
+
         <script src="js/jquery-3.6.2.js"></script>
         <script src="js/qrcode.js"></script>
         <script src="js/sweetalert.min.js"></script>
@@ -742,10 +342,7 @@
         <script src="js/SimpleStarRating.js"></script>
         <script type="text/javascript" charset="utf-8">
             app.tab.show("#tab-2");
-            if (
-                localStorage.getItem("nombre") == null ||
-                localStorage.getItem("Usuario") == null
-            ) {
+            if (localStorage.getItem("nombre") == null || localStorage.getItem("Usuario") == null) {
                 window.localStorage.removeItem("id_usuario");
             }
 
@@ -757,29 +354,20 @@
             window.localStorage.removeItem("empresaID");
             window.localStorage.removeItem("one_step");
             window.localStorage.removeItem("tap_refresh");
+            window.localStorage.removeItem("milis");
 
             var modulos = localStorage.getItem("Modulo").split(",");
             for (i = 0; i < modulos.length; i++) {
                 if (modulos[i] == "Imagen") {
-                    $("#menu_activo").append(
-                        `<option value="Imagen">Revisión Imagen</option>`
-                    );
+                    $("#menu_activo").append(`<option value="Imagen">Revisión Imagen</option>`);
                 } else if (modulos[i] == "Limpieza") {
-                    $("#menu_activo").append(
-                        `<option value="Limpieza">Revisión Limpieza</option>`
-                    );
+                    $("#menu_activo").append(`<option value="Limpieza">Revisión Limpieza</option>`);
                 } else if (modulos[i] == "Recaudo") {
-                    $("#menu_activo").append(
-                        `<option value="Recaudo">Recaudo</option>`
-                    );
+                    $("#menu_activo").append(`<option value="Recaudo">Recaudo</option>`);
                 } else if (modulos[i] == "InsFlota") {
-                    $("#menu_activo").append(
-                        `<option value="InsFlota">Inspección Flota</option>`
-                    );
+                    $("#menu_activo").append(`<option value="InsFlota">Inspección Flota</option>`);
                 } else {
-                    $("#menu_activo").append(
-                        `<option value="${modulos[i]}">${modulos[i]}</option>`
-                    );
+                    $("#menu_activo").append(`<option value="${modulos[i]}">${modulos[i]}</option>`);
                 }
             }
 
@@ -798,16 +386,11 @@
 
             $(".menus").css("display", "none");
 
-            if (
-                localStorage.getItem("Modulos") == "Imagen" ||
-                localStorage.getItem("Modulos") == "Checklist"
-            ) {
+            if (localStorage.getItem("Modulos") == "Imagen" || localStorage.getItem("Modulos") == "Checklist") {
                 $(".menu_imagen").css("display", "grid");
             } else if (localStorage.getItem("Modulos") == "Limpieza") {
                 $(".menu_limpieza").css("display", "grid");
-            } else if (
-                localStorage.getItem("Modulos") == "Desincorporaciones"
-            ) {
+            } else if (localStorage.getItem("Modulos") == "Desincorporaciones") {
                 $(".menu_desincorporaciones").css("display", "grid");
             } else if (localStorage.getItem("Modulos") == "Recaudo") {
                 $(".menu_recaudo").css("display", "grid");
@@ -815,17 +398,12 @@
                 $(".menu_diesel").css("display", "grid");
                 // localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "grid") : $("#tdHistoralDiesel").css("display", "none");
             } else {
-                $(".menu_" + localStorage.getItem("Modulos")).css(
-                    "display",
-                    "grid"
-                );
+                $(".menu_" + localStorage.getItem("Modulos")).css("display", "grid");
             }
 
             $("#menu_activo").val(localStorage.getItem("Modulos"));
 
-            $("#version_app").text(
-                "Versión " + localStorage.getItem("version")
-            );
+            $("#version_app").text("Versión " + localStorage.getItem("version"));
 
             $("#nombre_usuario").html(localStorage.getItem("nombre"));
             function onPhotoDataSuccess(imageData) {
@@ -845,12 +423,10 @@
                     console.log(imageData);
                 }
                 let capturePhoto = "";
-                localStorage.getItem("Modulos") == "InsLavado"
-                    ? (capturePhoto = "capturePhotoLavado")
-                    : (capturePhoto = "capturePhoto");
+                localStorage.getItem("Modulos") == "InsLavado" ? (capturePhoto = "capturePhotoLavado") : (capturePhoto = "capturePhoto");
+                localStorage.getItem("Modulos") == "InsFlota" ? (capturePhoto = "ValidarCapturePhotoInsflota") : (capturePhoto = "capturePhoto");
                 $("#evidencias_div").css("display", "block");
-                $("#div_botones_camara")
-                    .html(`<div style="min-width: 50px; border-style: none;">
+                $("#div_botones_camara").html(`<div style="min-width: 50px; border-style: none;">
                 <span class="resize-handler"></span>
                 <a href="#" onclick="${capturePhoto}()" style="background-color: #005D99;" class="boton-equipo">Volver a tomar Evidencia <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;">photo_camera</i></a>
             </div><div style="min-width: 50px; border-style: none; margin-left: 53px;">
@@ -862,9 +438,34 @@
             function onFail(message) {
                 alert("Failed because: " + message);
             }
+
+            function onPhotoDataSuccessModal(imageData) {
+                var camera = localStorage.getItem("camera");
+                if (camera == 0) {
+                    var smallImage = document.getElementById("smallImage");
+                    smallImage.style.display = "flex";
+                    smallImage.src = imageData;
+                    $("#imagenC").val(imageData);
+                    console.log(imageData);
+                } else {
+                    var smallImage = document.getElementById("smallImage");
+                    smallImage.style.display = "flex";
+                    var nameima = "data:image/jpeg;base64," + imageData;
+                    smallImage.src = "data:image/jpeg;base64," + imageData;
+                    $("#imagenC").val(nameima);
+                    console.log(imageData);
+                }
+                let capturePhoto = "capturePhotoModal";
+
+                $("#evidencias_div").css("display", "block");
+                $("#div_botones_camara").html(`<div style="min-width: 50px; border-style: none;">
+                <a href="#" onclick="${capturePhoto}()" style="background-color: #005D99;" class="boton-equipo">Volver a tomar Evidencia <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;">photo_camera</i></a>
+            </div>`);
+            }
+
             function updateData() {
-                var urlBase2 = "http://192.168.1.75/Desarrollo/CISAApp";
-                // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+                var urlBase2 = "http://192.168.100.5/Desarrollo/CISAApp";
+                // var urlBase2 = "http:/mantto.ci-sa.com.mx/www.CISAAPP.com";
                 if (localStorage.getItem("Modulos")) {
                     if (localStorage.getItem("Modulos") == "Limpieza") {
                         var RutaJSONS = urlBase2 + "/Archivos/JSON_limp/";
@@ -872,9 +473,7 @@
                     } else if (localStorage.getItem("Modulos") == "Imagen") {
                         var RutaJSONS = urlBase2 + "/Archivos/JSON/";
                         var carpeta = "jsons";
-                    } else if (
-                        localStorage.getItem("Modulos") == "Desincorporaciones"
-                    ) {
+                    } else if (localStorage.getItem("Modulos") == "Desincorporaciones") {
                         var RutaJSONS = urlBase2 + "/Archivos/JSON_desin/";
                         var carpeta = "jsons_desin";
                     } else if (localStorage.getItem("Modulos") == "Recaudo") {
@@ -884,13 +483,8 @@
                         var RutaJSONS = urlBase2 + "/Archivos/JSON_diesel/";
                         var carpeta = "jsons_diesel";
                     } else {
-                        var RutaJSONS =
-                            urlBase2 +
-                            "/Archivos/JSON_" +
-                            localStorage.getItem("Modulos") +
-                            "/";
-                        var carpeta =
-                            "jsons_" + localStorage.getItem("Modulos");
+                        var RutaJSONS = urlBase2 + "/Archivos/JSON_" + localStorage.getItem("Modulos") + "/";
+                        var carpeta = "jsons_" + localStorage.getItem("Modulos");
                     }
 
                     $("#processclick").show();
@@ -926,204 +520,121 @@
                         app.dialog.alert("Error al actualizar datos", "Error");
                     }
                     function DownloaderSuccess() {
-                        app.request.get(
-                            cordova.file.dataDirectory + directory,
-                            function (data) {
-                                let termino = "</html>";
-                                let posicion = data
-                                    .toLowerCase()
-                                    .indexOf(termino.toLowerCase());
-                                if (posicion !== -1) {
-                                    swal(
-                                        "",
-                                        "No cuentas con internet!",
-                                        "error"
-                                    );
-                                    app.ptr.done();
-                                    $("#process").hide();
-                                    $("#processclick").html(
-                                        '<i class="material-icons md-light" style="color: #1D4F91;margin-right: 22.84px;">close</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
-                                    );
-                                } else {
-                                    const nameJson = JSON.parse(data);
-                                    var count = 0;
-                                    var progress = 0;
-                                    var dialog = app.dialog.progress(
-                                        "Sincronizando Datos",
-                                        progress
-                                    );
-                                    dialog.setText(
-                                        "Archivo 1 de " + nameJson.length
-                                    );
-                                    nameJson.forEach((valor, indice, array) => {
-                                        window.resolveLocalFileSystemURL(
-                                            cordova.file.dataDirectory,
-                                            function (oEntry) {
-                                                var jsonHijos = new download();
-                                                jsonHijos.Initialize({
-                                                    fileSystem:
-                                                        cordova.file
-                                                            .dataDirectory,
-                                                    folder: carpeta,
-                                                    remove: false,
-                                                    timeout: 0,
-                                                    success: DownloaderSuccess,
-                                                    error: DownloaderError,
-                                                    headers: [
-                                                        {
-                                                            key: "Cache-Control",
-                                                            Value: "no-store",
-                                                        },
-                                                    ],
-                                                });
-                                                jsonHijos.Get(
-                                                    RutaJSONS + valor.jsonName
-                                                );
-                                                function DownloaderError(err) {
-                                                    dialog.close();
-                                                    app.dialog.alert(
-                                                        "Error al actualizar datos",
-                                                        "Error"
-                                                    );
-                                                    console.error(
-                                                        "Error al descargar: " +
-                                                            valor.jsonName +
-                                                            " " +
-                                                            err
-                                                    );
-                                                    $("#processclick").html(
-                                                        '<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
-                                                    );
-                                                    app.dialog.alert(
-                                                        "Error al actualizar datos",
-                                                        "Error"
-                                                    );
-                                                }
-                                                function DownloaderSuccess() {
-                                                    count++;
-                                                    progress += 1;
-                                                    var interval = setInterval(
-                                                        function () {
-                                                            try {
-                                                                dialog.setProgress(
-                                                                    (progress *
-                                                                        100) /
-                                                                        nameJson.length
-                                                                );
-                                                                dialog.setText(
-                                                                    "Archivo " +
-                                                                        progress +
-                                                                        " de " +
-                                                                        nameJson.length
-                                                                );
-                                                                if (
-                                                                    progress ===
-                                                                    nameJson.length
-                                                                ) {
-                                                                    dialog.close();
-                                                                    clearInterval(
-                                                                        interval
-                                                                    );
-                                                                }
-                                                            } catch (e) {
-                                                                clearInterval(
-                                                                    interval
-                                                                );
-                                                                dialog.close();
-                                                            }
-                                                        },
-                                                        300
-                                                    );
-                                                    if (
-                                                        count == nameJson.length
-                                                    ) {
-                                                        app.ptr.done();
-                                                        $("#process").hide();
-                                                        var fecha = new Date();
-                                                        var fFinal =
-                                                            fecha.getFullYear() +
-                                                            "-" +
-                                                            (fecha.getMonth() +
-                                                                1) +
-                                                            "-" +
-                                                            fecha.getDate() +
-                                                            " " +
-                                                            fecha.getHours() +
-                                                            ":" +
-                                                            fecha.getMinutes() +
-                                                            ":" +
-                                                            fecha.getSeconds();
-                                                        databaseHandler.db.transaction(
-                                                            function (tx5) {
-                                                                tx5.executeSql(
-                                                                    "INSERT INTO Actualizaciones (IdUsuario, Fecha) VALUES (?,?)",
-                                                                    [
-                                                                        IdUsuario,
-                                                                        fFinal,
-                                                                    ],
-                                                                    function (
-                                                                        tx5,
-                                                                        results
-                                                                    ) {
-                                                                        databaseHandler.db.transaction(
-                                                                            function (
-                                                                                tx5
-                                                                            ) {
-                                                                                tx5.executeSql(
-                                                                                    "SELECT * FROM Actualizaciones ORDER BY idActualizacion DESC LIMIT 1",
-                                                                                    [],
-                                                                                    function (
-                                                                                        tx5,
-                                                                                        results
-                                                                                    ) {
-                                                                                        var length =
-                                                                                            results
-                                                                                                .rows
-                                                                                                .length;
-                                                                                        var item1 =
-                                                                                            results.rows.item(
-                                                                                                0
-                                                                                            );
-                                                                                        if (
-                                                                                            localStorage.getItem(
-                                                                                                "Modulos"
-                                                                                            ) ==
-                                                                                            "Desincorporaciones"
-                                                                                        ) {
-                                                                                            RevisaHeaders();
-                                                                                        } else if (
-                                                                                            localStorage.getItem(
-                                                                                                "Modulos"
-                                                                                            ) ==
-                                                                                            "Recaudo"
-                                                                                        ) {
-                                                                                            RevisaHeaders_recaudo();
-                                                                                        }
-                                                                                    }
-                                                                                );
-                                                                            },
-                                                                            function (
-                                                                                error
-                                                                            ) {},
-                                                                            function () {}
-                                                                        );
-                                                                    }
-                                                                );
-                                                            },
-                                                            function (error) {},
-                                                            function () {}
-                                                        );
-                                                        $("#processclick").html(
-                                                            '<i class="material-icons md-light" style="color: #1D4F91;margin-right: 22.84px;">cloud_done</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
-                                                        );
+                        app.request.get(cordova.file.dataDirectory + directory, function (data) {
+                            let termino = "</html>";
+                            let posicion = data.toLowerCase().indexOf(termino.toLowerCase());
+                            if (posicion !== -1) {
+                                swal("", "No cuentas con internet!", "error");
+                                app.ptr.done();
+                                $("#process").hide();
+                                $("#processclick").html(
+                                    '<i class="material-icons md-light" style="color: #1D4F91;margin-right: 22.84px;">close</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
+                                );
+                            } else {
+                                const nameJson = JSON.parse(data);
+                                var count = 0;
+                                var progress = 0;
+                                var dialog = app.dialog.progress("Sincronizando Datos", progress);
+                                dialog.setText("Archivo 1 de " + nameJson.length);
+                                nameJson.forEach((valor, indice, array) => {
+                                    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (oEntry) {
+                                        var jsonHijos = new download();
+                                        jsonHijos.Initialize({
+                                            fileSystem: cordova.file.dataDirectory,
+                                            folder: carpeta,
+                                            remove: false,
+                                            timeout: 0,
+                                            success: DownloaderSuccess,
+                                            error: DownloaderError,
+                                            headers: [
+                                                {
+                                                    key: "Cache-Control",
+                                                    Value: "no-store",
+                                                },
+                                            ],
+                                        });
+                                        jsonHijos.Get(RutaJSONS + valor.jsonName);
+                                        function DownloaderError(err) {
+                                            dialog.close();
+                                            app.dialog.alert("Error al actualizar datos", "Error");
+                                            console.error("Error al descargar: " + valor.jsonName + " " + err);
+                                            $("#processclick").html(
+                                                '<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
+                                            );
+                                            app.dialog.alert("Error al actualizar datos", "Error");
+                                        }
+                                        function DownloaderSuccess() {
+                                            count++;
+                                            progress += 1;
+                                            var interval = setInterval(function () {
+                                                try {
+                                                    dialog.setProgress((progress * 100) / nameJson.length);
+                                                    dialog.setText("Archivo " + progress + " de " + nameJson.length);
+                                                    if (progress === nameJson.length) {
+                                                        dialog.close();
+                                                        clearInterval(interval);
                                                     }
+                                                } catch (e) {
+                                                    clearInterval(interval);
+                                                    dialog.close();
                                                 }
+                                            }, 300);
+                                            if (count == nameJson.length) {
+                                                app.ptr.done();
+                                                $("#process").hide();
+                                                var fecha = new Date();
+                                                var fFinal =
+                                                    fecha.getFullYear() +
+                                                    "-" +
+                                                    (fecha.getMonth() + 1) +
+                                                    "-" +
+                                                    fecha.getDate() +
+                                                    " " +
+                                                    fecha.getHours() +
+                                                    ":" +
+                                                    fecha.getMinutes() +
+                                                    ":" +
+                                                    fecha.getSeconds();
+                                                databaseHandler.db.transaction(
+                                                    function (tx5) {
+                                                        tx5.executeSql(
+                                                            "INSERT INTO Actualizaciones (IdUsuario, Fecha) VALUES (?,?)",
+                                                            [IdUsuario, fFinal],
+                                                            function (tx5, results) {
+                                                                databaseHandler.db.transaction(
+                                                                    function (tx5) {
+                                                                        tx5.executeSql(
+                                                                            "SELECT * FROM Actualizaciones ORDER BY idActualizacion DESC LIMIT 1",
+                                                                            [],
+                                                                            function (tx5, results) {
+                                                                                var length = results.rows.length;
+                                                                                var item1 = results.rows.item(0);
+                                                                                if (localStorage.getItem("Modulos") == "Desincorporaciones") {
+                                                                                    RevisaHeaders();
+                                                                                } else if (localStorage.getItem("Modulos") == "Recaudo") {
+                                                                                    RevisaHeaders_recaudo();
+                                                                                }
+                                                                            }
+                                                                        );
+                                                                    },
+                                                                    function (error) {},
+                                                                    function () {}
+                                                                );
+                                                            }
+                                                        );
+                                                    },
+                                                    function (error) {},
+                                                    function () {}
+                                                );
+                                                $("#processclick").html(
+                                                    '<i class="material-icons md-light" style="color: #1D4F91;margin-right: 22.84px;">cloud_done</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
+                                                );
                                             }
-                                        );
+                                        }
                                     });
-                                }
+                                });
                             }
-                        );
+                        });
                     }
                 }
             }
@@ -1137,9 +648,7 @@
                     $(".menu_imagen").css("display", "grid");
                 } else if (localStorage.getItem("Modulos") == "Limpieza") {
                     $(".menu_limpieza").css("display", "grid");
-                } else if (
-                    localStorage.getItem("Modulos") == "Desincorporaciones"
-                ) {
+                } else if (localStorage.getItem("Modulos") == "Desincorporaciones") {
                     $(".menu_desincorporaciones").css("display", "grid");
                 } else if (localStorage.getItem("Modulos") == "Recaudo") {
                     $(".menu_recaudo").css("display", "grid");
@@ -1147,10 +656,7 @@
                     $(".menu_diesel").css("display", "grid");
                     // localStorage.getItem("TipoAcceso") == 'admin' ?  $("#tdHistoralDiesel").css("display", "grid") : $("#tdHistoralDiesel").css("display", "none");
                 } else {
-                    $(".menu_" + localStorage.getItem("Modulos")).css(
-                        "display",
-                        "grid"
-                    );
+                    $(".menu_" + localStorage.getItem("Modulos")).css("display", "grid");
                 }
                 updateData();
                 recargacedulas();
@@ -1177,9 +683,7 @@
                             }
                         },
                         function (error) {
-                            console.error(
-                                "The following error occurred: " + error
-                            );
+                            console.error("The following error occurred: " + error);
                         }
                     );
 
@@ -1188,9 +692,7 @@
                         var tipo = "checklist";
                     } else if (localStorage.getItem("Modulos") == "Limpieza") {
                         var tipo = "Limpieza";
-                    } else if (
-                        localStorage.getItem("Modulos") == "Desincorporaciones"
-                    ) {
+                    } else if (localStorage.getItem("Modulos") == "Desincorporaciones") {
                         var tipo = "Desincorporaciones";
                         let calendarModal;
                         calendarModal = app.calendar.create({
@@ -1211,11 +713,7 @@
                         });
                         databaseHandler.db.transaction(
                             function (tx5) {
-                                tx5.executeSql(
-                                    "SELECT OrigenApertura FROM desincorporaciones LIMIT 1",
-                                    [],
-                                    function (tx5, results) {}
-                                );
+                                tx5.executeSql("SELECT OrigenApertura FROM desincorporaciones LIMIT 1", [], function (tx5, results) {});
                             },
                             function (error) {
                                 databaseHandler.db.transaction(
@@ -1231,11 +729,7 @@
                                 );
                                 databaseHandler.db.transaction(
                                     function (tx5) {
-                                        tx5.executeSql(
-                                            "ALTER TABLE desincorporaciones ADD COLUMN OrigenCierre text",
-                                            [],
-                                            function (tx5, results) {}
-                                        );
+                                        tx5.executeSql("ALTER TABLE desincorporaciones ADD COLUMN OrigenCierre text", [], function (tx5, results) {});
                                     },
                                     function (error) {},
                                     function () {}
@@ -1272,8 +766,7 @@
                                     var length = results.rows.length;
                                     for (var i = 0; i < length; i++) {
                                         var item2 = results.rows.item(i);
-                                        var fechas =
-                                            item2.fecha_entrada.split(" ");
+                                        var fechas = item2.fecha_entrada.split(" ");
                                         if (item2.tipo_cedula == "checklist") {
                                             $("#pendientes").append(
                                                 "<li id='conc" +
@@ -1290,9 +783,7 @@
                                                     item2.tipo_cedula +
                                                     "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
                                             );
-                                        } else if (
-                                            item2.tipo_cedula == "Limpieza"
-                                        ) {
+                                        } else if (item2.tipo_cedula == "Limpieza") {
                                             $("#pendientes").append(
                                                 "<li id='conc" +
                                                     item2.id_cedula +
@@ -1308,10 +799,7 @@
                                                     item2.tipo_cedula +
                                                     "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
                                             );
-                                        } else if (
-                                            item2.tipo_cedula ==
-                                            "Desincorporaciones"
-                                        ) {
+                                        } else if (item2.tipo_cedula == "Desincorporaciones") {
                                             fechas = item2.horario_programado;
                                             $("#pendientes").append(
                                                 "<li id='conc" +
@@ -1324,9 +812,7 @@
                                                     item2.id_cedula +
                                                     "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>"
                                             );
-                                        } else if (
-                                            item2.tipo_cedula == "Recaudo"
-                                        ) {
+                                        } else if (item2.tipo_cedula == "Recaudo") {
                                             $("#pendientes").append(
                                                 "<li id='conc" +
                                                     item2.id_cedula +
@@ -1342,9 +828,7 @@
                                                     item2.tipo_cedula +
                                                     "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
                                             );
-                                        } else if (
-                                            item2.tipo_cedula == "Diesel"
-                                        ) {
+                                        } else if (item2.tipo_cedula == "Diesel") {
                                             $("#pendientes").append(
                                                 "<li id='conc" +
                                                     item2.id_cedula +
@@ -1360,9 +844,7 @@
                                                     item2.tipo_cedula +
                                                     "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
                                             );
-                                        } else if (
-                                            item2.tipo_cedula == "InsFlota"
-                                        ) {
+                                        } else if (item2.tipo_cedula == "InsFlota") {
                                             $("#pendientes").append(
                                                 `<li id='conc${item2.id_cedula}'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> 
                                                     <div>${item2.nombre_cliente} | ${fechas[0]} </div> 
@@ -1375,10 +857,7 @@
                                     }
                                 },
                                 function (tx5, error) {
-                                    console.error(
-                                        "Error al consultar bandeja de salida: " +
-                                            error.message
-                                    );
+                                    console.error("Error al consultar bandeja de salida: " + error.message);
                                 }
                             );
                         },
@@ -1396,8 +875,7 @@
                                     var length = results.rows.length;
                                     for (var i = 0; i < length; i++) {
                                         var item = results.rows.item(i);
-                                        var fechas =
-                                            item.fecha_entrada.split(" ");
+                                        var fechas = item.fecha_entrada.split(" ");
                                         if (tipo == "Recaudo") {
                                             if (item.estatus == 1) {
                                                 $("#bandeja").append(
@@ -1466,10 +944,7 @@
                                     }
                                 },
                                 function (tx5, error) {
-                                    console.error(
-                                        "Error al consultar bandeja de salida: " +
-                                            error.message
-                                    );
+                                    console.error("Error al consultar bandeja de salida: " + error.message);
                                 }
                             );
                         },
@@ -1518,8 +993,7 @@
                                             if (length == 0) {
                                                 updateData();
                                             } else {
-                                                var item1 =
-                                                    results.rows.item(0);
+                                                var item1 = results.rows.item(0);
                                                 var tu = item1.Fecha;
                                                 var sep = tu.split(" ");
                                                 var sep2 = sep[0];
@@ -1531,11 +1005,7 @@
                                                 y = n.getFullYear();
                                                 m = n.getMonth() + 1;
                                                 d = n.getDate();
-                                                if (
-                                                    y == sy &&
-                                                    m == sm &&
-                                                    d == sd
-                                                ) {
+                                                if (y == sy && m == sm && d == sd) {
                                                 } else {
                                                     updateData();
                                                 }
@@ -1575,30 +1045,19 @@
                                         for (var i = 0; i < length; i++) {
                                             localStorage.setItem("sendFlag", 1);
                                             var item2 = results.rows.item(i);
-                                            databaseHandler.db.transaction(
-                                                function (tx7) {
-                                                    tx7.executeSql(
-                                                        "UPDATE cedulas_general SET estatus = 2 WHERE id_cedula = ?",
-                                                        [item2.id_cedula],
-                                                        function (
-                                                            tx7,
-                                                            results
-                                                        ) {
-                                                            llevarTodo(
-                                                                item2.id_cedula,
-                                                                item2.tipo_cedula
-                                                            );
-                                                        }
-                                                    );
-                                                }
-                                            );
+                                            databaseHandler.db.transaction(function (tx7) {
+                                                tx7.executeSql(
+                                                    "UPDATE cedulas_general SET estatus = 2 WHERE id_cedula = ?",
+                                                    [item2.id_cedula],
+                                                    function (tx7, results) {
+                                                        llevarTodo(item2.id_cedula, item2.tipo_cedula);
+                                                    }
+                                                );
+                                            });
                                         }
                                     },
                                     function (tx4, error) {
-                                        console.error(
-                                            "Error al guardar registro: " +
-                                                error.message
-                                        );
+                                        console.error("Error al guardar registro: " + error.message);
                                     }
                                 );
                             },

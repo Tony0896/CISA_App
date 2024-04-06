@@ -14,10 +14,7 @@ var databaseHandler = {
                     [],
                     function (tx, results) {},
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla de cedulas_general: " +
-                                error.message
-                        );
+                        console.error("Error al crear la tabla de cedulas_general: " + error.message);
                     }
                 );
                 tx.executeSql(
@@ -25,10 +22,7 @@ var databaseHandler = {
                     [],
                     function (tx, results) {},
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla de cedulas_general: " +
-                                error.message
-                        );
+                        console.error("Error al crear la tabla de cedulas_general: " + error.message);
                     }
                 );
                 // if(localStorage.getItem("Modulos") == 'Imagen' || localStorage.getItem("Modulos") == 'Checklist' || localStorage.getItem("Modulos") == 'Limpieza'){
@@ -37,9 +31,7 @@ var databaseHandler = {
                     [],
                     function (tx, results) {},
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla" + error.message
-                        );
+                        console.error("Error al crear la tabla" + error.message);
                     }
                 );
                 tx.executeSql(
@@ -47,9 +39,7 @@ var databaseHandler = {
                     [],
                     function (tx, results) {},
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla" + error.message
-                        );
+                        console.error("Error al crear la tabla" + error.message);
                     }
                 );
                 tx.executeSql(
@@ -57,9 +47,7 @@ var databaseHandler = {
                     [],
                     function (tx, results) {},
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla" + error.message
-                        );
+                        console.error("Error al crear la tabla" + error.message);
                     }
                 );
                 tx.executeSql(
@@ -67,9 +55,7 @@ var databaseHandler = {
                     [],
                     function (tx, results) {},
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla" + error.message
-                        );
+                        console.error("Error al crear la tabla" + error.message);
                     }
                 );
                 // } else if(localStorage.getItem("Modulos") == 'Desincorporaciones'){
@@ -80,9 +66,7 @@ var databaseHandler = {
                         // console.log("Se creo desincorporaciones correctamente!");
                     },
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla" + error.message
-                        );
+                        console.error("Error al crear la tabla" + error.message);
                     }
                 );
                 tx.executeSql(
@@ -92,9 +76,7 @@ var databaseHandler = {
                         // console.log("Se creo desincorporacionesD correctamente!");
                     },
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla" + error.message
-                        );
+                        console.error("Error al crear la tabla" + error.message);
                     }
                 );
                 tx.executeSql(
@@ -104,9 +86,7 @@ var databaseHandler = {
                         // console.log("Se creo desincorporacionesD correctamente!");
                     },
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla" + error.message
-                        );
+                        console.error("Error al crear la tabla" + error.message);
                     }
                 );
                 // } else if(localStorage.getItem("Modulos") == 'Recaudo'){
@@ -117,10 +97,7 @@ var databaseHandler = {
                         // console.log("Se creo Servicio tecnico DIPREC correctamente!");
                     },
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla de datos_generales_recaudo: " +
-                                error.message
-                        );
+                        console.error("Error al crear la tabla de datos_generales_recaudo: " + error.message);
                     }
                 );
                 tx.executeSql(
@@ -130,10 +107,7 @@ var databaseHandler = {
                         // console.log("Se creo Servicio tecnico DIPREC correctamente!");
                     },
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla de detalle_recaudo: " +
-                                error.message
-                        );
+                        console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
                     }
                 );
                 tx.executeSql(
@@ -143,10 +117,7 @@ var databaseHandler = {
                         // console.log("Se creo Servicio tecnico DIPREC correctamente!");
                     },
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla de datos_generales_recaudo: " +
-                                error.message
-                        );
+                        console.error("Error al crear la tabla de datos_generales_recaudo: " + error.message);
                     }
                 );
                 tx.executeSql(
@@ -156,53 +127,51 @@ var databaseHandler = {
                         // console.log("Se creo Servicio tecnico DIPREC correctamente!");
                     },
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla de detalle_recaudo: " +
-                                error.message
-                        );
+                        console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
                     }
                 );
                 // }
                 // Inicio Ins Flota
                 tx.executeSql(
-                    "create table if not exists checklistFlota(id_check integer primary key, id_cedula integer, id_pregunta integer, revision text, nombre_fase text, int_ext text, id_fase int, obligatorio int, no_pregunta int, respuesta int, modelo int, comentarios text, multiple int, criterio text, ponderacion text)",
+                    "create table if not exists checklistFlota(id_check integer primary key, id_cedula integer, id_pregunta integer, revision text, nombre_fase text, int_ext text, id_fase int, obligatorio int, no_pregunta int, respuesta int, modelo int, comentarios text, multiple int, criterio text, ponderacion text, comentarios2 text)",
                     [],
                     function (tx, results) {},
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla" + error.message
-                        );
+                        console.error("Error al crear la tabla" + error.message);
                     }
                 );
                 tx.executeSql(
-                    "create table if not exists datosGeneralesFlota(id_dato integer primary key,id_cedula integer, Unidad text, Chasis text, Familia text, marca text, Empresa text, FK_id_unidad int, id_unidad_vs int, FK_id_empresa int, id_modelo_check int, comentarios_generales text, fecha_revision text, flagInspeccion int)",
+                    "create table if not exists datosGeneralesFlota(id_dato integer primary key,id_cedula integer, Unidad text, Chasis text, Familia text, marca text, Empresa text, FK_id_unidad int, id_unidad_vs int, FK_id_empresa int, id_modelo_check int, comentarios_generales text, fecha_revision text, flagInspeccion int, VIN text, ultimoMantenimiento text, tipoMannto text, medidor text, intervalo text)",
                     [],
                     function (tx, results) {},
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla" + error.message
-                        );
+                        console.error("Error al crear la tabla" + error.message);
                     }
                 );
                 tx.executeSql(
-                    "create table if not exists Evidencias(id_evidencia integer primary key, id_cedula integer, FKHeader int, evidencia blob, fecha text, proceso int, flagPregunta)",
+                    "create table if not exists Evidencias(id_evidencia integer primary key, id_cedula integer, FKHeader int, evidencia blob, fecha text, proceso int, flagPregunta text)",
                     [],
                     function (tx, results) {
                         // console.log("Se creo Servicio tecnico DIPREC correctamente!");
                     },
                     function (tx, error) {
-                        console.error(
-                            "Error al crear la tabla de detalle_recaudo: " +
-                                error.message
-                        );
+                        console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
+                    }
+                );
+                tx.executeSql(
+                    "create table if not exists Milimetrajes(id_mili integer primary key, id_cedula integer, posicion int, valor text, fecha text, valorPresion text, fechaPresion text)",
+                    [],
+                    function (tx, results) {
+                        // console.log("Se creo Servicio tecnico DIPREC correctamente!");
+                    },
+                    function (tx, error) {
+                        console.error("Error al crear la tabla de detalle_recaudo: " + error.message);
                     }
                 );
                 //FIN InsFlota
             },
             function (error) {
-                console.error(
-                    "Error al crear la base de datos: " + error.message
-                );
+                console.error("Error al crear la base de datos: " + error.message);
             },
             function () {
                 // console.log("Base de datos creada exitosamente");

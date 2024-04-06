@@ -44,15 +44,7 @@ function iniciarCargasDiesel() {
                     var item = results.rows.item(0);
                     localStorage.setItem("IdCedula", item.Id);
                     var id_cedula = item.Id;
-                    productHandler.addDatosGenerales_Diesel(
-                        id_cedula,
-                        fecha_llegada,
-                        id_usuario,
-                        id_cliente,
-                        estatus,
-                        origen,
-                        nombre_usuario
-                    );
+                    productHandler.addDatosGenerales_Diesel(id_cedula, fecha_llegada, id_usuario, id_cliente, estatus, origen, nombre_usuario);
                     app.views.main.router.navigate({ name: "yallegueDiesel" });
                 },
                 function (tx, error) {
@@ -89,45 +81,10 @@ function llamarUnidadDiesel() {
         var tiempoactual = getDateWhitZeros().split(" ");
         var horasSplit = tiempoactual[1].split(":");
         var fecha = tiempoactual[0].split("-");
-        var hours = add_minutes(
-            new Date(
-                fecha[0],
-                fecha[1],
-                fecha[2],
-                horasSplit[0],
-                horasSplit[1],
-                horasSplit[2]
-            ),
-            1
-        ).getHours();
-        var minutes = add_minutes(
-            new Date(
-                fecha[0],
-                fecha[1],
-                fecha[2],
-                horasSplit[0],
-                horasSplit[1],
-                horasSplit[2]
-            ),
-            1
-        ).getMinutes();
-        var seconds = add_minutes(
-            new Date(
-                fecha[0],
-                fecha[1],
-                fecha[2],
-                horasSplit[0],
-                horasSplit[1],
-                horasSplit[2]
-            ),
-            1
-        ).getSeconds();
-        var houtransform =
-            ("0" + hours).slice(-2) +
-            ":" +
-            ("0" + minutes).slice(-2) +
-            ":" +
-            ("0" + seconds).slice(-2);
+        var hours = add_minutes(new Date(fecha[0], fecha[1], fecha[2], horasSplit[0], horasSplit[1], horasSplit[2]), 1).getHours();
+        var minutes = add_minutes(new Date(fecha[0], fecha[1], fecha[2], horasSplit[0], horasSplit[1], horasSplit[2]), 1).getMinutes();
+        var seconds = add_minutes(new Date(fecha[0], fecha[1], fecha[2], horasSplit[0], horasSplit[1], horasSplit[2]), 1).getSeconds();
+        var houtransform = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
 
         $("#id_unidad").val(id_unidad);
         $("#eco").val(eco);
@@ -153,11 +110,7 @@ function llamarUnidadDiesel() {
             }
         });
     } else {
-        swal(
-            "",
-            "Debes seleccionar primero una unidad para poder continuar",
-            "warning"
-        );
+        swal("", "Debes seleccionar primero una unidad para poder continuar", "warning");
     }
 }
 
@@ -219,35 +172,19 @@ function agregaCarga() {
                                         var item2 = results.rows.item(0);
                                         $("#message-nr").css("display", "none");
                                         var no_bomba = "";
-                                        item2.no_bomba
-                                            ? (no_bomba = item2.no_bomba)
-                                            : (no_bomba = 0);
+                                        item2.no_bomba ? (no_bomba = item2.no_bomba) : (no_bomba = 0);
                                         $("#tb_diesel").append(
-                                            `<tr><td>${
-                                                item2.eco2
-                                            }</td><td>${numberWithCommas(
-                                                item2.carga_total
-                                            )}</td><td>${numberWithCommas(
+                                            `<tr><td>${item2.eco2}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(
                                                 item2.odometro
                                             )}</td><td>${no_bomba}</td><td>${
                                                 item2.tipo_carga
                                             }</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${
                                                 item2.id_detalle
-                                            }','${item2.id_unidad}','${
-                                                item2.eco
-                                            }','${item2.carga_total}','${
-                                                item2.odometro
-                                            }','${item2.no_bomba}','${
+                                            }','${item2.id_unidad}','${item2.eco}','${item2.carga_total}','${item2.odometro}','${item2.no_bomba}','${
                                                 item2.almacen
-                                            }','${item2.h_fin}','${
-                                                item2.h_inicio
-                                            }','${item2.jornada}','${
-                                                item2.operador
-                                            }','${item2.id_operador}','${
+                                            }','${item2.h_fin}','${item2.h_inicio}','${item2.jornada}','${item2.operador}','${item2.id_operador}','${
                                                 item2.vueltas
-                                            }','${item2.tipo_carga}','${
-                                                item2.operador2
-                                            }','${item2.VIN}','2','${
+                                            }','${item2.tipo_carga}','${item2.operador2}','${item2.VIN}','2','${
                                                 item2.eco2
                                             }');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`
                                         );
@@ -257,63 +194,33 @@ function agregaCarga() {
                                                     "SELECT SUM(carga_total) as carga_totales, COUNT(id_cedula) as cuentas FROM detalle_diesel WHERE id_cedula = ?",
                                                     [id_cedula],
                                                     function (tx5, results) {
-                                                        var item3 =
-                                                            results.rows.item(
-                                                                0
-                                                            );
-                                                        $("#total_litros").html(
-                                                            `${numberWithCommas(
-                                                                Number(
-                                                                    item3.carga_totales
-                                                                ).toFixed(2)
-                                                            )}`
-                                                        );
-                                                        $(
-                                                            "#unidades_cargadas"
-                                                        ).html(
-                                                            `${item3.cuentas}`
-                                                        );
+                                                        var item3 = results.rows.item(0);
+                                                        $("#total_litros").html(`${numberWithCommas(Number(item3.carga_totales).toFixed(2))}`);
+                                                        $("#unidades_cargadas").html(`${item3.cuentas}`);
                                                         $("#tb_diesel").append(
                                                             `<tr id="row_totales" style="text-align: center;background-color: #005D99;color: white;font-weight: bold;"><th>Totales</th><th>${numberWithCommas(
-                                                                Number(
-                                                                    item3.carga_totales
-                                                                ).toFixed(2)
+                                                                Number(item3.carga_totales).toFixed(2)
                                                             )}</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>`
                                                         );
-                                                        $("#autocomplete").val(
-                                                            ""
-                                                        );
-                                                        $(
-                                                            "#btn_llamarUnidad"
-                                                        ).removeData();
-                                                        app.sheet.close(
-                                                            "#sheet-modal"
-                                                        );
+                                                        $("#autocomplete").val("");
+                                                        $("#btn_llamarUnidad").removeData();
+                                                        app.sheet.close("#sheet-modal");
                                                     },
                                                     function (tx5, error) {
-                                                        console.error(
-                                                            "Error: " +
-                                                                error.message
-                                                        );
+                                                        console.error("Error: " + error.message);
                                                     }
                                                 );
                                             },
                                             function (error) {
-                                                console.error(
-                                                    "Error: " + error.message
-                                                );
+                                                console.error("Error: " + error.message);
                                             },
                                             function (error) {
-                                                console.error(
-                                                    "Error: " + error.message
-                                                );
+                                                console.error("Error: " + error.message);
                                             }
                                         );
                                     },
                                     function (tx5, error) {
-                                        console.error(
-                                            "Error: " + error.message
-                                        );
+                                        console.error("Error: " + error.message);
                                     }
                                 );
                             },
@@ -338,11 +245,7 @@ function agregaCarga() {
             }
         );
     } else {
-        swal(
-            "",
-            "Debes llenar los campos de litros cargados y el odometro para poder guardar",
-            "warning"
-        );
+        swal("", "Debes llenar los campos de litros cargados y el odometro para poder guardar", "warning");
     }
 }
 
@@ -502,52 +405,26 @@ function actualizaCargaDiesel() {
                                     function (tx5, results) {
                                         var length = results.rows.length;
                                         if (length == 0) {
-                                            $("#message-nr").css(
-                                                "display",
-                                                "block"
-                                            );
-                                            $("#total_litros").html(
-                                                `${numberWithCommas(0)}`
-                                            );
+                                            $("#message-nr").css("display", "block");
+                                            $("#total_litros").html(`${numberWithCommas(0)}`);
                                         } else {
-                                            $("#message-nr").css(
-                                                "display",
-                                                "none"
-                                            );
+                                            $("#message-nr").css("display", "none");
                                             for (var i = 0; i < length; i++) {
-                                                var item2 =
-                                                    results.rows.item(i);
+                                                var item2 = results.rows.item(i);
                                                 var no_bomba = "";
-                                                item2.no_bomba
-                                                    ? (no_bomba =
-                                                          item2.no_bomba)
-                                                    : (no_bomba = 0);
+                                                item2.no_bomba ? (no_bomba = item2.no_bomba) : (no_bomba = 0);
                                                 $("#tb_diesel").append(
-                                                    `<tr><td>${
-                                                        item2.eco2
-                                                    }</td><td>${numberWithCommas(
-                                                        item2.carga_total
-                                                    )}</td><td>${numberWithCommas(
+                                                    `<tr><td>${item2.eco2}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(
                                                         item2.odometro
                                                     )}</td><td>${no_bomba}</td><td>${
                                                         item2.tipo_carga
                                                     }</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${
                                                         item2.id_detalle
-                                                    }','${item2.id_unidad}','${
-                                                        item2.eco
-                                                    }','${
-                                                        item2.carga_total
-                                                    }','${item2.odometro}','${
+                                                    }','${item2.id_unidad}','${item2.eco}','${item2.carga_total}','${item2.odometro}','${
                                                         item2.no_bomba
-                                                    }','${item2.almacen}','${
-                                                        item2.h_fin
-                                                    }','${item2.h_inicio}','${
-                                                        item2.jornada
-                                                    }','${item2.operador}','${
-                                                        item2.id_operador
-                                                    }','${item2.vueltas}','${
-                                                        item2.tipo_carga
-                                                    }','${item2.operador2}','${
+                                                    }','${item2.almacen}','${item2.h_fin}','${item2.h_inicio}','${item2.jornada}','${
+                                                        item2.operador
+                                                    }','${item2.id_operador}','${item2.vueltas}','${item2.tipo_carga}','${item2.operador2}','${
                                                         item2.VIN
                                                     }','2','${
                                                         item2.eco2
@@ -559,72 +436,35 @@ function actualizaCargaDiesel() {
                                                     tx5.executeSql(
                                                         "SELECT SUM(carga_total) as carga_totales, COUNT(id_cedula) as cuentas FROM detalle_diesel WHERE id_cedula = ?",
                                                         [id_cedula],
-                                                        function (
-                                                            tx5,
-                                                            results
-                                                        ) {
-                                                            var item3 =
-                                                                results.rows.item(
-                                                                    0
-                                                                );
-                                                            $(
-                                                                "#total_litros"
-                                                            ).html(
-                                                                `${numberWithCommas(
-                                                                    Number(
-                                                                        item3.carga_totales
-                                                                    ).toFixed(2)
-                                                                )}`
-                                                            );
-                                                            $(
-                                                                "#unidades_cargadas"
-                                                            ).html(
-                                                                `${item3.cuentas}`
-                                                            );
-                                                            $(
-                                                                "#tb_diesel"
-                                                            ).append(
+                                                        function (tx5, results) {
+                                                            var item3 = results.rows.item(0);
+                                                            $("#total_litros").html(`${numberWithCommas(Number(item3.carga_totales).toFixed(2))}`);
+                                                            $("#unidades_cargadas").html(`${item3.cuentas}`);
+                                                            $("#tb_diesel").append(
                                                                 `<tr id="row_totales" style="text-align: center;background-color: #005D99;color: white;font-weight: bold;"><th>Totales</th><th>${numberWithCommas(
-                                                                    Number(
-                                                                        item3.carga_totales
-                                                                    ).toFixed(2)
+                                                                    Number(item3.carga_totales).toFixed(2)
                                                                 )}</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>`
                                                             );
-                                                            $(
-                                                                "#autocomplete"
-                                                            ).val("");
+                                                            $("#autocomplete").val("");
                                                             app.preloader.hide();
-                                                            app.sheet.close(
-                                                                "#sheet-modal-u"
-                                                            );
+                                                            app.sheet.close("#sheet-modal-u");
                                                         },
                                                         function (tx5, error) {
-                                                            console.error(
-                                                                "Error: " +
-                                                                    error.message
-                                                            );
+                                                            console.error("Error: " + error.message);
                                                         }
                                                     );
                                                 },
                                                 function (error) {
-                                                    console.error(
-                                                        "Error: " +
-                                                            error.message
-                                                    );
+                                                    console.error("Error: " + error.message);
                                                 },
                                                 function (error) {
-                                                    console.error(
-                                                        "Error: " +
-                                                            error.message
-                                                    );
+                                                    console.error("Error: " + error.message);
                                                 }
                                             );
                                         }
                                     },
                                     function (tx5, error) {
-                                        console.error(
-                                            "Error: " + error.message
-                                        );
+                                        console.error("Error: " + error.message);
                                     }
                                 );
                             },
@@ -691,18 +531,13 @@ function FinalizarCargaDiesel() {
                                         function (tx5, results) {
                                             var item3 = results.rows.item(0);
                                             var fecha_fin = getDateWhitZeros();
-                                            var promedio = Number(
-                                                item3.carga_totales /
-                                                    item3.cuentas
-                                            ).toFixed(2);
+                                            var promedio = Number(item3.carga_totales / item3.cuentas).toFixed(2);
                                             databaseHandler.db.transaction(
                                                 function (tx) {
                                                     tx.executeSql(
                                                         "UPDATE datos_generales_diesel  SET carga_total  = ?,total_unidades = ?,unidades_cargadas = ?,promedio = ?, fecha_fin = ? WHERE id_cedula = ?",
                                                         [
-                                                            Number(
-                                                                item3.carga_totales
-                                                            ).toFixed(2),
+                                                            Number(item3.carga_totales).toFixed(2),
                                                             item3.cuentas,
                                                             item3.cuentas,
                                                             promedio,
@@ -710,15 +545,10 @@ function FinalizarCargaDiesel() {
                                                             id_cedula,
                                                         ],
                                                         function (tx, results) {
-                                                            window.location.href =
-                                                                "./menu.html";
+                                                            window.location.href = "./menu.html";
                                                         },
                                                         function (tx, error) {
-                                                            swal(
-                                                                "Error al guardar",
-                                                                error.message,
-                                                                "error"
-                                                            );
+                                                            swal("Error al guardar", error.message, "error");
                                                         }
                                                     );
                                                 },
@@ -727,9 +557,7 @@ function FinalizarCargaDiesel() {
                                             );
                                         },
                                         function (tx5, error) {
-                                            console.error(
-                                                "Error: " + error.message
-                                            );
+                                            console.error("Error: " + error.message);
                                         }
                                     );
                                 },
@@ -758,11 +586,7 @@ function check_hours_menores(hora1, hora2) {
     var horas2 = $("#" + hora2).val();
     if (horas2 > horas1) {
     } else {
-        swal(
-            "",
-            "La hora fin no puede ser menor a la hora de inicio de carga.",
-            "warning"
-        );
+        swal("", "La hora fin no puede ser menor a la hora de inicio de carga.", "warning");
         $("#" + hora2).val("");
     }
 }
@@ -788,15 +612,11 @@ function cargarDiesel() {
             function (data) {
                 var content = JSON.parse(data);
                 if (content == 0) {
-                    $("#cedul").html(
-                        `<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`
-                    );
+                    $("#cedul").html(`<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`);
                     app.dialog.close();
                 } else {
                     if (data == "null") {
-                        $("#cedul").html(
-                            `<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`
-                        );
+                        $("#cedul").html(`<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`);
                         app.dialog.close();
                     } else {
                         if (content.length > 0) {
@@ -806,22 +626,15 @@ function cargarDiesel() {
                                 var fecha = content[e].FechaCaptura.split(" ");
                                 var id_interno = content[e].id_interno;
                                 var id_intelesis = content[e].id_intelesis;
-                                var estatusIntelisis =
-                                    content[e].estatusIntelisis;
+                                var estatusIntelisis = content[e].estatusIntelisis;
                                 var procesado = false;
-                                content[e].procesado == 2 ||
-                                content[e].procesado == 3
-                                    ? (procesado = true)
-                                    : (procesado = false);
+                                content[e].procesado == 2 || content[e].procesado == 3 ? (procesado = true) : (procesado = false);
 
                                 id_interno ? (ids[e] = id_interno) : null;
 
                                 if (estatusIntelisis == 2) {
                                     if (ids.length > 0) {
-                                        if (
-                                            ids.filter((x) => x === id_interno)
-                                                .length > 1
-                                        ) {
+                                        if (ids.filter((x) => x === id_interno).length > 1) {
                                         } else {
                                             id_interno
                                                 ? procesado
@@ -858,10 +671,7 @@ function cargarDiesel() {
                                     }
                                 } else {
                                     if (ids.length > 0) {
-                                        if (
-                                            ids.filter((x) => x === id_interno)
-                                                .length > 1
-                                        ) {
+                                        if (ids.filter((x) => x === id_interno).length > 1) {
                                         } else {
                                             id_interno
                                                 ? procesado
@@ -902,9 +712,7 @@ function cargarDiesel() {
                             app.dialog.close();
                         } else {
                             app.dialog.close();
-                            $("#cedul").html(
-                                `<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`
-                            );
+                            $("#cedul").html(`<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`);
                         }
                     }
                 }
@@ -928,15 +736,11 @@ function cargarDiesel() {
             function (data) {
                 var content = JSON.parse(data);
                 if (content == 0) {
-                    $("#cedul").html(
-                        `<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`
-                    );
+                    $("#cedul").html(`<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`);
                     app.dialog.close();
                 } else {
                     if (data == "null") {
-                        $("#cedul").html(
-                            `<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`
-                        );
+                        $("#cedul").html(`<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`);
                         app.dialog.close();
                     } else {
                         if (content.length > 0) {
@@ -946,21 +750,14 @@ function cargarDiesel() {
                                 var fecha = content[e].FechaCaptura.split(" ");
                                 var id_interno = content[e].id_interno;
                                 var id_intelesis = content[e].id_intelesis;
-                                var estatusIntelisis =
-                                    content[e].estatusIntelisis;
+                                var estatusIntelisis = content[e].estatusIntelisis;
                                 var procesado = false;
-                                content[e].procesado == 2 ||
-                                content[e].procesado == 3
-                                    ? (procesado = true)
-                                    : (procesado = false);
+                                content[e].procesado == 2 || content[e].procesado == 3 ? (procesado = true) : (procesado = false);
 
                                 id_interno ? (ids[e] = id_interno) : null;
 
                                 if (ids.length > 0) {
-                                    if (
-                                        ids.filter((x) => x === id_interno)
-                                            .length > 1
-                                    ) {
+                                    if (ids.filter((x) => x === id_interno).length > 1) {
                                     } else {
                                         id_interno
                                             ? procesado
@@ -1000,9 +797,7 @@ function cargarDiesel() {
                             app.dialog.close();
                         } else {
                             app.dialog.close();
-                            $("#cedul").html(
-                                `<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`
-                            );
+                            $("#cedul").html(`<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`);
                         }
                     }
                 }
@@ -1039,15 +834,11 @@ function recarga_Diesel(mes_pdfs, year_pdfs) {
             function (data) {
                 var content = JSON.parse(data);
                 if (content == 0) {
-                    $("#cedul").html(
-                        `<tr><td colspan = "5"><span>No hay datos para mostrar</span></td></tr>`
-                    );
+                    $("#cedul").html(`<tr><td colspan = "5"><span>No hay datos para mostrar</span></td></tr>`);
                     app.dialog.close();
                 } else {
                     if (data == "null") {
-                        $("#cedul").html(
-                            `<tr><td colspan = "5"><span>No hay datos para mostrar</span></td></tr>`
-                        );
+                        $("#cedul").html(`<tr><td colspan = "5"><span>No hay datos para mostrar</span></td></tr>`);
                         app.dialog.close();
                     } else {
                         if (content.length > 0) {
@@ -1057,22 +848,15 @@ function recarga_Diesel(mes_pdfs, year_pdfs) {
                                 var fecha = content[e].FechaCaptura.split(" ");
                                 var id_interno = content[e].id_interno;
                                 var id_intelesis = content[e].id_intelesis;
-                                var estatusIntelisis =
-                                    content[e].estatusIntelisis;
+                                var estatusIntelisis = content[e].estatusIntelisis;
                                 var procesado = false;
-                                content[e].procesado == 2 ||
-                                content[e].procesado == 3
-                                    ? (procesado = true)
-                                    : (procesado = false);
+                                content[e].procesado == 2 || content[e].procesado == 3 ? (procesado = true) : (procesado = false);
 
                                 id_interno ? (ids[e] = id_interno) : null;
 
                                 if (estatusIntelisis == 2) {
                                     if (ids.length > 0) {
-                                        if (
-                                            ids.filter((x) => x === id_interno)
-                                                .length > 1
-                                        ) {
+                                        if (ids.filter((x) => x === id_interno).length > 1) {
                                         } else {
                                             id_interno
                                                 ? procesado
@@ -1109,10 +893,7 @@ function recarga_Diesel(mes_pdfs, year_pdfs) {
                                     }
                                 } else {
                                     if (ids.length > 0) {
-                                        if (
-                                            ids.filter((x) => x === id_interno)
-                                                .length > 1
-                                        ) {
+                                        if (ids.filter((x) => x === id_interno).length > 1) {
                                         } else {
                                             id_interno
                                                 ? procesado
@@ -1152,9 +933,7 @@ function recarga_Diesel(mes_pdfs, year_pdfs) {
                             $("#cedul").html(html);
                             app.dialog.close();
                         } else {
-                            $("#cedul").html(
-                                `<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`
-                            );
+                            $("#cedul").html(`<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`);
                             app.dialog.close();
                         }
                     }
@@ -1181,15 +960,11 @@ function recarga_Diesel(mes_pdfs, year_pdfs) {
             function (data) {
                 var content = JSON.parse(data);
                 if (content == 0) {
-                    $("#cedul").html(
-                        `<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`
-                    );
+                    $("#cedul").html(`<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`);
                     app.dialog.close();
                 } else {
                     if (data == "null") {
-                        $("#cedul").html(
-                            `<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`
-                        );
+                        $("#cedul").html(`<tr><td colspan = "6"><span>No hay datos para mostrar</span></td></tr>`);
                         app.dialog.close();
                     } else {
                         if (content.length > 0) {
@@ -1199,21 +974,14 @@ function recarga_Diesel(mes_pdfs, year_pdfs) {
                                 var fecha = content[e].FechaCaptura.split(" ");
                                 var id_interno = content[e].id_interno;
                                 var id_intelesis = content[e].id_intelesis;
-                                var estatusIntelisis =
-                                    content[e].estatusIntelisis;
+                                var estatusIntelisis = content[e].estatusIntelisis;
                                 var procesado = false;
-                                content[e].procesado == 2 ||
-                                content[e].procesado == 3
-                                    ? (procesado = true)
-                                    : (procesado = false);
+                                content[e].procesado == 2 || content[e].procesado == 3 ? (procesado = true) : (procesado = false);
 
                                 id_interno ? (ids[e] = id_interno) : null;
 
                                 if (ids.length > 0) {
-                                    if (
-                                        ids.filter((x) => x === id_interno)
-                                            .length > 1
-                                    ) {
+                                    if (ids.filter((x) => x === id_interno).length > 1) {
                                     } else {
                                         id_interno
                                             ? procesado
@@ -1253,9 +1021,7 @@ function recarga_Diesel(mes_pdfs, year_pdfs) {
                             app.dialog.close();
                         } else {
                             app.dialog.close();
-                            $("#cedul").html(
-                                `<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`
-                            );
+                            $("#cedul").html(`<tr><td colspan = "3"><span>No hay datos para mostrar</span></td></tr>`);
                         }
                     }
                 }
@@ -1346,27 +1112,18 @@ function viewDetailDiesel2(IdCte, IdCedula, id_intelesis, type) {
                                 });
                             } else {
                                 // the mov in intelisis not is concluido
-                                if (
-                                    localStorage.getItem("TipoAcceso") ==
-                                    "admin"
-                                ) {
-                                    app.views.main.router.back(
-                                        "/formDiesel2/",
-                                        {
-                                            force: true,
-                                            ignoreCache: true,
-                                            reload: true,
-                                        }
-                                    );
+                                if (localStorage.getItem("TipoAcceso") == "admin") {
+                                    app.views.main.router.back("/formDiesel2/", {
+                                        force: true,
+                                        ignoreCache: true,
+                                        reload: true,
+                                    });
                                 } else {
-                                    app.views.main.router.back(
-                                        "/formDiesel3/",
-                                        {
-                                            force: true,
-                                            ignoreCache: true,
-                                            reload: true,
-                                        }
-                                    );
+                                    app.views.main.router.back("/formDiesel3/", {
+                                        force: true,
+                                        ignoreCache: true,
+                                        reload: true,
+                                    });
                                 }
                             }
                         } else {
@@ -1466,31 +1223,18 @@ function actualizaCargaDiesel2() {
                         if (dat2 > 0) {
                             app.sheet.close("#sheet-modal-u");
                             swal("Actualizado", "", "success");
-                            $("#trdiesel_" + id_carga)
-                                .html(`<td>${eco2}</td><td>${numberWithCommas(
-                                carga
-                            )}</td><td>${numberWithCommas(
+                            $("#trdiesel_" + id_carga).html(`<td>${eco2}</td><td>${numberWithCommas(carga)}</td><td>${numberWithCommas(
                                 odometro
                             )}</td><td>${bomba}</td><td>${tipo_carga}</td><td> 
                             <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${id_carga}','${id_unidad}','${eco}','${carga}','${odometro}','${bomba}','${almacen}','${h_fin}','${h_inicio}','${jornada}','${operador}','${id_operador}','${vueltas}','${tipo_carga}','${operador2}','${VIN}','3','${eco2}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button>
                             <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="borrarCargaDiesel('${id_carga}','${id_unidad}','${eco}','${carga}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>delete_forever</i></button>
                             </td>`);
-                            var carga_total_diesel = Number(
-                                $("#carga_total_diesel").val()
-                            );
-                            carga_total_diesel
-                                ? null
-                                : (carga_total_diesel = 0);
-                            carga_total_diesel = Number(
-                                carga_total_diesel - carga_back
-                            );
-                            carga_total_diesel = Number(
-                                carga_total_diesel + Number(carga)
-                            );
+                            var carga_total_diesel = Number($("#carga_total_diesel").val());
+                            carga_total_diesel ? null : (carga_total_diesel = 0);
+                            carga_total_diesel = Number(carga_total_diesel - carga_back);
+                            carga_total_diesel = Number(carga_total_diesel + Number(carga));
                             $("#carga_total_diesel").val(carga_total_diesel);
-                            $("#text_carga_Diesel").html(
-                                numberWithCommas(carga_total_diesel)
-                            );
+                            $("#text_carga_Diesel").html(numberWithCommas(carga_total_diesel));
                         }
                     }
                 }
@@ -1504,12 +1248,7 @@ function actualizaCargaDiesel2() {
     }
 }
 
-function reprocesarIntelisis1(
-    IdCte,
-    IdCedula,
-    id_intelesis,
-    estatus_intelesis
-) {
+function reprocesarIntelisis1(IdCte, IdCedula, id_intelesis, estatus_intelesis) {
     //Procesa con id de intelesis
     //console.log('Reprocesa1', IdCte, IdCedula, id_intelesis);
     $(".icons_diesel").css("pointer-events", "none");
@@ -1554,38 +1293,23 @@ function reprocesarIntelisis1(
                 if (dat1 == "CEDULA") {
                     if (dat2 > 0) {
                         if (dat2 == 2) {
-                            swal(
-                                "Este registro ya no se puede reprocesar",
-                                "",
-                                "warning"
-                            );
+                            swal("Este registro ya no se puede reprocesar", "", "warning");
                             $(".icons_diesel").css("pointer-events", "all");
                             var mes_pdfs = $(".mes_pdfs").val();
                             var year_pdfs = $("#year").val();
                             recarga_Diesel(mes_pdfs, year_pdfs);
                         } else if (dat2 == 4) {
-                            swal(
-                                "Este registro ya no se puede reprocesar",
-                                "",
-                                "warning"
-                            );
+                            swal("Este registro ya no se puede reprocesar", "", "warning");
                             $(".icons_diesel").css("pointer-events", "all");
                             var mes_pdfs = $(".mes_pdfs").val();
                             var year_pdfs = $("#year").val();
                             recarga_Diesel(mes_pdfs, year_pdfs);
                         } else {
-                            swal(
-                                "Trabajando en el reproceso...",
-                                "",
-                                "warning"
-                            );
+                            swal("Trabajando en el reproceso...", "", "warning");
                             $.ajax({
                                 type: "POST",
                                 async: true,
-                                url:
-                                    url +
-                                    "/processDiesel.php?proceso=5&subProcess=2&estatusIntel=" +
-                                    dat2,
+                                url: url + "/processDiesel.php?proceso=5&subProcess=2&estatusIntel=" + dat2,
                                 dataType: "html",
                                 data: { datos: JSON.stringify(datos) },
                                 success: function (respuesta) {
@@ -1595,23 +1319,11 @@ function reprocesarIntelisis1(
                                         var dat2 = respu1[1];
                                         if (dat1 == "CEDULA") {
                                             if (dat2 > 0) {
-                                                swal(
-                                                    "Completado",
-                                                    "",
-                                                    "success"
-                                                );
-                                                $(".icons_diesel").css(
-                                                    "pointer-events",
-                                                    "all"
-                                                );
-                                                var mes_pdfs =
-                                                    $(".mes_pdfs").val();
-                                                var year_pdfs =
-                                                    $("#year").val();
-                                                recarga_Diesel(
-                                                    mes_pdfs,
-                                                    year_pdfs
-                                                );
+                                                swal("Completado", "", "success");
+                                                $(".icons_diesel").css("pointer-events", "all");
+                                                var mes_pdfs = $(".mes_pdfs").val();
+                                                var year_pdfs = $("#year").val();
+                                                recarga_Diesel(mes_pdfs, year_pdfs);
                                             } else {
                                                 AlmacenarError(respuesta);
                                             }
@@ -1621,29 +1333,16 @@ function reprocesarIntelisis1(
                                     }
                                 },
                                 error: function () {
-                                    console.log(
-                                        "Error en la comunicacion con el servidor"
-                                    );
-                                    swal(
-                                        "Error de comunicación a Internet",
-                                        "",
-                                        "error"
-                                    );
-                                    $(".icons_diesel").css(
-                                        "pointer-events",
-                                        "all"
-                                    );
+                                    console.log("Error en la comunicacion con el servidor");
+                                    swal("Error de comunicación a Internet", "", "error");
+                                    $(".icons_diesel").css("pointer-events", "all");
                                 },
                             });
                         }
                         //swal("Aún existe el registro en Intelisis","","warning");
                     } else if (dat2 == 0) {
                         // AlmacenarError(respuesta);
-                        swal(
-                            "Algo salió mal intenta más tarde.",
-                            "",
-                            "warning"
-                        );
+                        swal("Algo salió mal intenta más tarde.", "", "warning");
                         $(".icons_diesel").css("pointer-events", "all");
                     }
                 } else {
@@ -1659,12 +1358,7 @@ function reprocesarIntelisis1(
     });
 }
 
-function reprocesarIntelisis2(
-    IdCte,
-    IdCedula,
-    id_intelesis,
-    estatus_intelesis
-) {
+function reprocesarIntelisis2(IdCte, IdCedula, id_intelesis, estatus_intelesis) {
     //Procesa cuando no se competo la carga
     //console.log('Reprocesa2', IdCte, IdCedula, id_intelesis);
     $(".icons_diesel").css("pointer-events", "none");
@@ -1820,12 +1514,7 @@ function guardarUnion() {
         $(".td_input").css("display", "none");
         $(".div_button_diesel").css("display", "none");
         $(".radio_diesel").prop("checked", false);
-        enviaUnion(
-            $("#diesel_IdCte").val(),
-            $("#diesel_IdCedula").val(),
-            $("#diesel_FechaCaptura").val(),
-            quita_coma
-        );
+        enviaUnion($("#diesel_IdCte").val(), $("#diesel_IdCedula").val(), $("#diesel_FechaCaptura").val(), quita_coma);
     } else {
         swal("", "Debes seleccionar al menos una opción", "warning");
     }
@@ -1984,36 +1673,21 @@ function agregaCarga2() {
                             $("#btn_llamarUnidad").removeData();
                             app.sheet.close("#sheet-modal");
                             swal("Agregado", "", "success");
-                            $("#disesl_detalle")
-                                .append(`<tr id="trdiesel_${dat2}"><td>${eco2}</td><td>${numberWithCommas(
+                            $("#disesl_detalle").append(`<tr id="trdiesel_${dat2}"><td>${eco2}</td><td>${numberWithCommas(
                                 carga_total
-                            )}</td><td>${numberWithCommas(
-                                odometro
-                            )}</td><td>${no_bomba}</td><td>${tipo_carga}</td><td> 
+                            )}</td><td>${numberWithCommas(odometro)}</td><td>${no_bomba}</td><td>${tipo_carga}</td><td> 
                                 <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${dat2}','${id_unidad}','${eco}','${carga_total}','${odometro}','${no_bomba}','${almacen}','${h_fin}','${h_inicio}','${jornada}','${operador}','${id_operador}','${vueltas}','${tipo_carga}','${operador2}','${VIN}','3','${eco2}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button>
                                 <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="borrarCargaDiesel('${dat2}','${id_unidad}','${eco}','${carga_total}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>delete_forever</i></button>
                             </td></tr>`);
-                            var carga_total_diesel = Number(
-                                $("#carga_total_diesel").val()
-                            );
-                            carga_total_diesel
-                                ? null
-                                : (carga_total_diesel = 0);
-                            carga_total_diesel = Number(
-                                carga_total_diesel + Number(carga_total)
-                            );
+                            var carga_total_diesel = Number($("#carga_total_diesel").val());
+                            carga_total_diesel ? null : (carga_total_diesel = 0);
+                            carga_total_diesel = Number(carga_total_diesel + Number(carga_total));
                             $("#carga_total_diesel").val(carga_total_diesel);
-                            $("#text_carga_Diesel").html(
-                                numberWithCommas(carga_total_diesel)
-                            );
+                            $("#text_carga_Diesel").html(numberWithCommas(carga_total_diesel));
 
-                            let text_unidades_cargadas = Number(
-                                $("#text_unidades_cargadas").text()
-                            );
+                            let text_unidades_cargadas = Number($("#text_unidades_cargadas").text());
                             text_unidades_cargadas++;
-                            $("#text_unidades_cargadas").html(
-                                text_unidades_cargadas
-                            );
+                            $("#text_unidades_cargadas").html(text_unidades_cargadas);
                         }
                     }
                 }
@@ -2023,11 +1697,7 @@ function agregaCarga2() {
             },
         });
     } else {
-        swal(
-            "",
-            "Debes llenar los campos de litros cargados y el odometro para poder guardar",
-            "warning"
-        );
+        swal("", "Debes llenar los campos de litros cargados y el odometro para poder guardar", "warning");
     }
 }
 function borrarCargaDiesel(id, id_unidad, eco, carga) {
@@ -2084,30 +1754,15 @@ function borrarCargaDiesel(id, id_unidad, eco, carga) {
                             if (dat2 > 0) {
                                 swal("Eliminado correctamente", "", "success");
                                 $("#trdiesel_" + id).remove();
-                                var carga_total_diesel = Number(
-                                    $("#carga_total_diesel").val()
-                                );
-                                carga_total_diesel
-                                    ? null
-                                    : (carga_total_diesel = 0);
-                                carga_total_diesel = Number(
-                                    carga_total_diesel - Number(carga)
-                                );
-                                $("#carga_total_diesel").val(
-                                    carga_total_diesel
-                                );
-                                $("#text_carga_Diesel").html(
-                                    numberWithCommas(carga_total_diesel)
-                                );
+                                var carga_total_diesel = Number($("#carga_total_diesel").val());
+                                carga_total_diesel ? null : (carga_total_diesel = 0);
+                                carga_total_diesel = Number(carga_total_diesel - Number(carga));
+                                $("#carga_total_diesel").val(carga_total_diesel);
+                                $("#text_carga_Diesel").html(numberWithCommas(carga_total_diesel));
 
-                                let text_unidades_cargadas = Number(
-                                    $("#text_unidades_cargadas").text()
-                                );
-                                text_unidades_cargadas =
-                                    text_unidades_cargadas - 1;
-                                $("#text_unidades_cargadas").html(
-                                    text_unidades_cargadas
-                                );
+                                let text_unidades_cargadas = Number($("#text_unidades_cargadas").text());
+                                text_unidades_cargadas = text_unidades_cargadas - 1;
+                                $("#text_unidades_cargadas").html(text_unidades_cargadas);
                             }
                         }
                     }

@@ -29,9 +29,7 @@ var productHandler = {
                         // console.log("Registro de cedula creado exitosamente");
                     },
                     function (tx, error) {
-                        console.error(
-                            "Error registrar cedula general:" + error.message
-                        );
+                        console.error("Error registrar cedula general:" + error.message);
                     }
                 );
             },
@@ -56,19 +54,7 @@ var productHandler = {
             function (tx) {
                 tx.executeSql(
                     "insert into datos_generales_checklist(id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [
-                        id_cedula,
-                        Unidad,
-                        Chasis,
-                        Familia,
-                        marca,
-                        Empresa,
-                        FK_id_unidad,
-                        id_unidad_vs,
-                        FK_id_empresa,
-                        id_modelo_check,
-                        fecha_revision,
-                    ],
+                    [id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision],
                     function (tx, results) {
                         //console.log("Frio correcto");
                     },
@@ -103,19 +89,7 @@ var productHandler = {
             function (tx) {
                 tx.executeSql(
                     "insert into checklist(id_cedula, id_pregunta, revision, nombre_fase, int_ext, id_fase, obligatorio, no_pregunta, respuesta, modelo, multiple) values(?,?,?,?,?,?,?,?,?,?,?)",
-                    [
-                        id_cedula,
-                        id_pregunta,
-                        revision,
-                        nombre_fase,
-                        nombre_seccion,
-                        fase,
-                        obligatorio,
-                        no_pregunta,
-                        respuesta,
-                        modelos,
-                        multiple,
-                    ],
+                    [id_cedula, id_pregunta, revision, nombre_fase, nombre_seccion, fase, obligatorio, no_pregunta, respuesta, modelos, multiple],
                     function (tx, results) {
                         if (aux == aux2) {
                             app.dialog.close();
@@ -157,19 +131,7 @@ var productHandler = {
             function (tx) {
                 tx.executeSql(
                     "insert into datos_generales_revlimp(id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [
-                        id_cedula,
-                        Unidad,
-                        Chasis,
-                        Familia,
-                        marca,
-                        Empresa,
-                        FK_id_unidad,
-                        id_unidad_vs,
-                        FK_id_empresa,
-                        id_modelo_check,
-                        fecha_revision,
-                    ],
+                    [id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision],
                     function (tx, results) {
                         //console.log("Frio correcto");
                     },
@@ -204,19 +166,7 @@ var productHandler = {
             function (tx) {
                 tx.executeSql(
                     "insert into checklist_revlimp(id_cedula, id_pregunta, revision, nombre_fase, int_ext, id_fase, obligatorio, no_pregunta, respuesta, modelo, multiple) values(?,?,?,?,?,?,?,?,?,?,?)",
-                    [
-                        id_cedula,
-                        id_pregunta,
-                        revision,
-                        nombre_fase,
-                        nombre_seccion,
-                        fase,
-                        obligatorio,
-                        no_pregunta,
-                        respuesta,
-                        modelos,
-                        multiple,
-                    ],
+                    [id_cedula, id_pregunta, revision, nombre_fase, nombre_seccion, fase, obligatorio, no_pregunta, respuesta, modelos, multiple],
                     function (tx, results) {
                         if (aux == aux2) {
                             app.dialog.close();
@@ -587,12 +537,7 @@ var productHandler = {
             function () {}
         );
     },
-    addDatosGenerales_Recaudo: function (
-        id_cedula,
-        fecha,
-        id_usuario,
-        id_empresa
-    ) {
+    addDatosGenerales_Recaudo: function (id_cedula, fecha, id_usuario, id_empresa) {
         databaseHandler.db.transaction(
             function (tx) {
                 tx.executeSql(
@@ -954,28 +899,12 @@ var productHandler = {
             function () {}
         );
     },
-    addDatosGenerales_Diesel: function (
-        id_cedula,
-        fecha,
-        id_usuario,
-        id_empresa,
-        estatus,
-        origen,
-        nombre_usuario
-    ) {
+    addDatosGenerales_Diesel: function (id_cedula, fecha, id_usuario, id_empresa, estatus, origen, nombre_usuario) {
         databaseHandler.db.transaction(
             function (tx) {
                 tx.executeSql(
                     "insert into datos_generales_diesel(id_cedula, fecha, id_usuario, id_empresa,estatus, origen, nombre_usuario) values(?, ?, ?, ?, ?, ?, ?)",
-                    [
-                        id_cedula,
-                        fecha,
-                        id_usuario,
-                        id_empresa,
-                        estatus,
-                        origen,
-                        nombre_usuario,
-                    ],
+                    [id_cedula, fecha, id_usuario, id_empresa, estatus, origen, nombre_usuario],
                     function (tx, results) {
                         //console.log("Frio correcto");
                     },
@@ -1002,12 +931,17 @@ var productHandler = {
         FK_id_empresa,
         id_modelo_check,
         fecha_revision,
-        flag
+        flag,
+        VIN,
+        ultimoMantenimiento,
+        tipoMannto,
+        medidor,
+        intervalo
     ) {
         databaseHandler.db.transaction(
             function (tx) {
                 tx.executeSql(
-                    "insert into datosGeneralesFlota(id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision, flagInspeccion) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "insert into datosGeneralesFlota(id_cedula, Unidad, Chasis, Familia, marca, Empresa, FK_id_unidad, id_unidad_vs, FK_id_empresa, id_modelo_check, fecha_revision, flagInspeccion, VIN, ultimoMantenimiento, tipoMannto, medidor, intervalo) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     [
                         id_cedula,
                         Unidad,
@@ -1021,13 +955,20 @@ var productHandler = {
                         id_modelo_check,
                         fecha_revision,
                         flag,
+                        VIN,
+                        ultimoMantenimiento,
+                        tipoMannto,
+                        medidor,
+                        intervalo,
                     ],
                     function (tx, results) {
-                        app.views.main.router.back("/formFlota4/", {
-                            force: true,
-                            ignoreCache: true,
-                            reload: true,
-                        });
+                        if (flag == 0) {
+                            app.views.main.router.back("/formFlota4/", {
+                                force: true,
+                                ignoreCache: true,
+                                reload: true,
+                            });
+                        }
                         localStorage.setItem("IdHeader", flag);
                         // if (flag == 0) {
                         //     databaseHandler.db.transaction(

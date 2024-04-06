@@ -1,0 +1,202 @@
+<template>
+    <div class="page">
+        <!-- Navsbars -->
+        <nav class="left top-left" style="justify-content: space-between">
+            <a href="javascript:location.reload()" style="margin-left: 10px; display: inline-flex; align-items: center">
+                <i class="icon material-icons md-only" style="font-weight: 900; font-size: 30px">arrow_back</i>
+            </a>
+            <div class="title">Inspección Flota</div>
+            <a style="margin-right: 10px">
+                <i class="icon material-icons md-only" style="color: #005d99; font-weight: 900">arrow_back</i>
+            </a>
+        </nav>
+        <div class="toolbar tabbar toolbar-bottom">
+            <div class="toolbar-inner" style="background-color: #005d99" id="toolbar_down"></div>
+        </div>
+        <!-- Contenido Page -->
+        <div class="page-content" style="height: 98%">
+            <div style="text-align: center; justify-content: center; margin-right: auto; margin-left: auto; width: 99%; margin-top: 30px">
+                <div style="text-align: left">
+                    <div class="list FWM-fixing-form" style="margin-top: 5px">
+                        <h2 class="FWN-titulo-2" style="margin-bottom: 0px; margin-top: 10px; text-align: center" id="fase_titulo">
+                            Milimetrajes de llantas
+                        </h2>
+                        <div id="datos_form"></div>
+                    </div>
+                    <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px">
+                        <h2 class="FWN-titulo-2" style="margin-bottom: 0px; margin-top: 10px; text-align: center" id="fase_titulo2">
+                            Presión de llantas
+                        </h2>
+                        <div id="datos_form2"></div>
+                    </div>
+                </div>
+                <div class="block grid-resizable-demo" style="top: 25px; margin-bottom: 100px"></div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    return {
+        on: {
+            pageInit: function () {
+                app.preloader.show("red");
+                localStorage.setItem("page", 2);
+                localStorage.setItem("milis", 1);
+                var fase = parseInt(localStorage.getItem("fase"));
+                var id_cedula = localStorage.getItem("IdCedula");
+                let empresa = localStorage.getItem("empresa");
+                let NomJson = "milimetrajes" + empresa;
+                let modelo = 0;
+                let html = "",
+                    htmlMili = "",
+                    htmlPresion = "";
+
+                databaseHandler.db.transaction(
+                    function (tx5) {
+                        tx5.executeSql(
+                            "Select modelo from checklistFlota where id_cedula= ? LIMIT 1",
+                            [localStorage.getItem("IdCedula")],
+                            function (tx5, results) {
+                                var item2 = results.rows.item(0);
+                                modelo = item2.modelo;
+                                databaseHandler.db.transaction(
+                                    function (tx1) {
+                                        tx1.executeSql("Select * from Milimetrajes where id_cedula= ?", [id_cedula], function (tx, results) {
+                                            var length = results.rows.length;
+                                            if (length == 0) {
+                                                let cantidad = 0;
+                                                let encontro = false;
+                                                app.request({
+                                                    url: cordova.file.dataDirectory + "jsons_InsFlota/" + NomJson + ".json",
+                                                    method: "GET",
+                                                    dataType: "json",
+                                                    success: function (data) {
+                                                        for (let j = 0; j < data.length; j++) {
+                                                            if (data[j].IDFormato == modelo) {
+                                                                cantidad = data[j].cantidad;
+                                                                encontro = true;
+                                                            }
+                                                        }
+                                                        if (encontro) {
+                                                            for (let i = 0; i < cantidad; i++) {
+                                                                databaseHandler.db.transaction(
+                                                                    function (tx) {
+                                                                        tx.executeSql(
+                                                                            "INSERT INTO Milimetrajes(id_cedula, posicion, valor, fecha, valorPresion, fechaPresion) VALUES (?, ?, ?, ?, ?, ?)",
+                                                                            [id_cedula, i + 1, 0, getDateWhitZeros(), 0, getDateWhitZeros()],
+                                                                            function (tx, results) {
+                                                                                if (i + 1 == cantidad) {
+                                                                                    recargaPosiciiones();
+                                                                                }
+                                                                            },
+                                                                            function (tx, error) {}
+                                                                        );
+                                                                    },
+                                                                    function (error) {
+                                                                        console.log(error);
+                                                                    },
+                                                                    function (e) {}
+                                                                );
+                                                            }
+                                                        }
+                                                    },
+                                                });
+                                            } else {
+                                                for (var i = 0; i < length; i++) {
+                                                    var item = results.rows.item(i);
+                                                    $("#datos_form").append(`
+                                                    <div style="display: flex; margin-top: 5px; flex-direction: column">
+                                                        <div>
+                                                            <span class="span-pregunta span FWM-span-form">Milimetraje Llanta posicion ${item.posicion}</span>
+                                                        </div>
+                                                        <div style="display: flex">
+                                                            <input type="number" id="mili_${item.id_mili}" class="FWM-input" style="padding-right: 5px; width: 50%" value="${item.valor}" onchange="cambioMili(this.id, this.value)"/>
+                                                        </div>
+                                                    </div>`);
+
+                                                    $("#datos_form2").append(`
+                                                    <div style="display: flex; margin-top: 5px; flex-direction: column">
+                                                        <div>
+                                                            <span class="span-pregunta span FWM-span-form">Presión Llanta posicion ${item.posicion}</span>
+                                                        </div>
+                                                        <div style="display: flex">
+                                                            <input type="number" id="psi_${item.id_mili}" class="FWM-input" style="padding-right: 5px; width: 50%" value="${item.valorPresion}" onchange="cambioPresion(this.id, this.value)"/>
+                                                        </div>
+                                                    </div>`);
+                                                }
+                                            }
+                                        });
+                                    },
+                                    function (error) {},
+                                    function () {}
+                                );
+                            },
+                            function (tx5, error) {}
+                        );
+                    },
+                    function (error) {},
+                    function () {}
+                );
+
+                $("#toolbar_down").append(
+                    `<a href="#" onclick="moveChecklistFlota(` +
+                        fase +
+                        `);" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Anterior</a>
+                    <a href="#" onclick="TerminarInsFlota();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;width: 100%;text-align: center;">Terminar <i class="icon material-icons md-only" style="display: inline-block;">check</i></a>`
+                );
+
+                app.preloader.hide();
+
+                function recargaPosiciiones() {
+                    let html = "";
+                    databaseHandler.db.transaction(
+                        function (tx5) {
+                            tx5.executeSql(
+                                "Select modelo from checklistFlota where id_cedula= ? LIMIT 1",
+                                [localStorage.getItem("IdCedula")],
+                                function (tx5, results) {
+                                    var item2 = results.rows.item(0);
+                                    modelo = item2.modelo;
+                                    databaseHandler.db.transaction(
+                                        function (tx1) {
+                                            tx1.executeSql("Select * from Milimetrajes where id_cedula= ?", [id_cedula], function (tx, results) {
+                                                var length = results.rows.length;
+                                                for (var i = 0; i < length; i++) {
+                                                    var item = results.rows.item(i);
+                                                    $("#datos_form").append(`
+                                                    <div style="display: flex; margin-top: 5px; flex-direction: column">
+                                                        <div>
+                                                            <span class="span-pregunta span FWM-span-form">Milimetraje Llanta posicion ${item.posicion}</span>
+                                                        </div>
+                                                        <div style="display: flex">
+                                                            <input type="number" id="mili_${item.id_mili}" class="FWM-input" style="padding-right: 5px; width: 50%" value="${item.valor}" onchange="cambioMili(this.id, this.value)"/>
+                                                        </div>
+                                                    </div>`);
+
+                                                    $("#datos_form2").append(`
+                                                    <div style="display: flex; margin-top: 5px; flex-direction: column">
+                                                        <div>
+                                                            <span class="span-pregunta span FWM-span-form">Presión Llanta posicion ${item.posicion}</span>
+                                                        </div>
+                                                        <div style="display: flex">
+                                                            <input type="number" id="psi_${item.id_mili}" class="FWM-input" style="padding-right: 5px; width: 50%" value="${item.valorPresion}" onchange="cambioPresion(this.id, this.value)"/>
+                                                        </div>
+                                                    </div>`);
+                                                }
+                                            });
+                                        },
+                                        function (error) {},
+                                        function () {}
+                                    );
+                                },
+                                function (tx5, error) {}
+                            );
+                        },
+                        function (error) {},
+                        function () {}
+                    );
+                }
+            },
+        },
+    };
+</script>
