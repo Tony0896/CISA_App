@@ -371,7 +371,7 @@ function CreaModalOptionFlota(id, opciones, mul, titulo_modal) {
     var NomDescCli = "danios";
     var html = "";
 
-    app.request.get(cordova.file.dataDirectory + "jsons/" + NomDescCli + ".json", function (data) {
+    app.request.get(cordova.file.dataDirectory + "jsons_InsFlota/" + NomDescCli + ".json", function (data) {
         var content2 = JSON.parse(data);
         for (var x = 0; x < content2.length; x++) {
             html += `<label class="label_modal">

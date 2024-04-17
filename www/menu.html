@@ -63,6 +63,15 @@
                                                     <ul>
                                                         <li class="container_info">
                                                             <div class="item-content">
+                                                                <i class="material-icons md-light panel-cerrar" style="color: #ff0037">storage</i>
+                                                                <div class="item-title">
+                                                                    <a class="panel-text">BASE DE CONEXION DEV</a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                        <li class="container_info">
+                                                            <div class="item-content">
                                                                 <i class="material-icons md-light panel-cerrar" style="color: #005d99">person</i>
                                                                 <div class="item-title">
                                                                     <a class="panel-text" id="nombre_usuario"></a>
@@ -105,6 +114,7 @@
                                                                 </div>
                                                             </div>
                                                         </li>
+
                                                         <li class="container_info" onclick="logaout();">
                                                             <div class="item-content">
                                                                 <i class="material-icons md-light panel-cerrar" style="color: #ff0037">exit_to_app</i>
@@ -113,6 +123,7 @@
                                                                 </div>
                                                             </div>
                                                         </li>
+
                                                         <li
                                                             class="container_info"
                                                             onclick="preEliminaTodo();"
@@ -464,8 +475,8 @@
             }
 
             function updateData() {
-                var urlBase2 = "http://192.168.100.5/Desarrollo/CISAApp";
-                // var urlBase2 = "http:/mantto.ci-sa.com.mx/www.CISAAPP.com";
+                // var urlBase2 = "http://192.168.100.5/Desarrollo/CISAApp";
+                var urlBase2 = "http:/mantto.ci-sa.com.mx/www.CISAAPP.com";
                 if (localStorage.getItem("Modulos")) {
                     if (localStorage.getItem("Modulos") == "Limpieza") {
                         var RutaJSONS = urlBase2 + "/Archivos/JSON_limp/";
