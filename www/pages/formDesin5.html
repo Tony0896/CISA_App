@@ -10,57 +10,73 @@
                 <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
             </a>
         </nav> -->
-        <div class="navbar" style="background-color: #005D99;height: 5px;">
-            <div class="left top-left" style="justify-content: space-between;">
-                <a onclick="regresarDesincorporacion();" style="margin-left: 10px; display: inline-flex;align-items: center;">
-                    <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+        <div class="navbar" style="background-color: #005d99; height: 5px">
+            <div class="left top-left" style="justify-content: space-between">
+                <a onclick="regresarDesincorporacion();" style="margin-left: 10px; display: inline-flex; align-items: center">
+                    <i class="icon material-icons md-only" style="font-weight: 900; font-size: 30px">arrow_back</i>
                 </a>
-                <div class="title" style="font-size: 18px;">Registro de Apoyos</div>
-                <a style="margin-right: 10px;">
-                    <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+                <div class="title" style="font-size: 18px">Registro de Apoyos</div>
+                <a style="margin-right: 10px">
+                    <i class="icon material-icons md-only" style="color: #005d99; font-weight: 900">arrow_back</i>
                 </a>
             </div>
         </div>
-        
-        <div class="toolbar tabbar toolbar-bottom" >
-            <div class="toolbar-inner" style="background-color: #005D99;" id="toolbar_down">
-                <a href="#" onclick="GuardarTRFApoyos();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Guardar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+
+        <div class="toolbar tabbar toolbar-bottom">
+            <div class="toolbar-inner" style="background-color: #005d99" id="toolbar_down">
+                <a href="#" onclick="GuardarTRFApoyos();" style="margin: auto; color: #fff; font-weight: bold; font-size: 18px"
+                    >Guardar <i class="icon material-icons md-only" style="display: inline-block">chevron_right</i></a
+                >
             </div>
         </div>
         <!-- Contenido Page -->
-        <div class="page-content" style="height: 98%;border-radius: 0px !important">
-            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 30px;">
-                <div style="text-align: left;">
-                    <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px;">
-                        <h2 style="text-align: center;">Datos de Desincorporación</h2>
+        <div class="page-content" style="height: 98%; border-radius: 0px !important">
+            <div style="text-align: center; justify-content: center; margin-right: auto; margin-left: auto; width: 99%; margin-top: 30px">
+                <div style="text-align: left">
+                    <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px">
+                        <h2 style="text-align: center">Datos de Desincorporación</h2>
 
-                        <hr style="margin-top: 30px;margin-bottom: 30px;">
-                        
-                        <input type="hidden" id="UnidadID">
-                        <input type="hidden" id="id_operador">
-                        <input type="hidden" id="id_apoyo">
-                        <input type="hidden" id="estatus_servs">
+                        <hr style="margin-top: 30px; margin-bottom: 30px" />
 
-                        <label for="" class="span FWM-span-form" style="text-align: center;"><input type="checkbox" onclick="CheckApoyoTipo(0)" id="TipoUnidad" style="transform: scale(1.4);margin-right: 15px;">Apoyo por tipo de unidad</label>
-                        <label for="" class="span FWM-span-form" style="text-align: center;"><input type="checkbox" onclick="CheckApoyoTipo(1)" id="Apoyo" style="transform: scale(1.4);margin-right: 15px;">Apoyo</label>
+                        <input type="hidden" id="UnidadID" />
+                        <input type="hidden" id="id_operador" />
+                        <input type="hidden" id="id_apoyo" />
+                        <input type="hidden" id="estatus_servs" />
+
+                        <label for="" class="span FWM-span-form" style="text-align: center"
+                            ><input
+                                type="checkbox"
+                                onclick="CheckApoyoTipo(0)"
+                                id="TipoUnidad"
+                                style="transform: scale(1.4); margin-right: 15px"
+                            />Apoyo por tipo de unidad</label
+                        >
+                        <label for="" class="span FWM-span-form" style="text-align: center"
+                            ><input
+                                type="checkbox"
+                                onclick="CheckApoyoTipo(1)"
+                                id="Apoyo"
+                                style="transform: scale(1.4); margin-right: 15px"
+                            />Apoyo</label
+                        >
 
                         <span class="span FWM-span-form" name="">Hora</span>
-                        <input class="FWM-input obligatorio" type="time" id="Hora" name="Hora"/>
-                        
+                        <input class="FWM-input obligatorio" type="time" id="Hora" name="Hora" />
+
                         <span class="span FWM-span-form" name="">Itinerario</span>
-                        <input class="FWM-input obligatorio" type="text" id="Itinerario" name="Itinerario" maxlength="20"/>
+                        <input class="FWM-input obligatorio" type="text" id="Itinerario" name="Itinerario" maxlength="20" />
 
                         <span class="span FWM-span-form" name="">Unidad</span>
-                        <input class="FWM-input obligatorio" type="text" id="Unidad" name="Unidad"/>
-                        
+                        <input class="FWM-input obligatorio" type="text" id="Unidad" name="Unidad" />
+
                         <span class="span FWM-span-form" name="">Kilometraje Unidad</span>
-                        <input class="FWM-input" type="number" id="kilometrajeUnidad" name="Kilometraje Unidad"/>
+                        <input class="FWM-input" type="number" id="kilometrajeUnidad" name="Kilometraje Unidad" />
 
                         <span class="span FWM-span-form" name="">Operador</span>
-                        <input class="FWM-input obligatorio" type="text" id="Operador" name="Operador"/>
+                        <input class="FWM-input obligatorio" type="text" id="Operador" name="Operador" />
 
                         <span class="span FWM-span-form" name="">Ubicación</span>
-                        <input class="FWM-input obligatorio" type="text" id="Ubicacion" name="Ubicación"/>
+                        <input class="FWM-input obligatorio" type="text" id="Ubicacion" name="Ubicación" />
 
                         <span class="span FWM-span-form" name="">Sentido</span>
                         <!-- <input class="FWM-input obligatorio" type="text" id="sentido" name="Sentido"/> -->
@@ -73,97 +89,96 @@
                         </select>
 
                         <span class="span FWM-span-form" name="">Tramo de Apoyo</span>
-                        <input class="FWM-input obligatorio" type="text" id="TramoDeApoyo" name="Tramo de Apoyo" maxlength="255"/>
+                        <input class="FWM-input obligatorio" type="text" id="TramoDeApoyo" name="Tramo de Apoyo" maxlength="255" />
 
                         <span class="span FWM-span-form" name="">Kilometraje de Apoyo</span>
-                        <input class="FWM-input" type="number" id="kilometrajeApoyo" name="Kilometraje de Apoyo"/>
-
+                        <input class="FWM-input" type="number" id="kilometrajeApoyo" name="Kilometraje de Apoyo" />
                     </div>
-                    <div style="margin-bottom: 100px;"></div>
+                    <div style="margin-bottom: 100px"></div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-return {
-    on: {      
-        pageInit: function () {
-            var id_desD = localStorage.getItem("id_detalle_folio");
-            var id_cedula = localStorage.getItem("IdCedula");
-            var estatus_servs = localStorage.getItem("estatus_servs");
+    return {
+        on: {
+            pageInit: function () {
+                var id_desD = localStorage.getItem("id_detalle_folio");
+                var id_cedula = localStorage.getItem("IdCedula");
+                var estatus_servs = localStorage.getItem("estatus_servs");
 
-            if(id_desD){
-                $("#id_apoyo").val(id_desD);
-                $("#estatus_servs").val(estatus_servs);
-                
-                $("#Apoyo").prop("disabled", true);
-                $("#TipoUnidad").prop("disabled", true);
-                $("#Hora").prop("readonly", true);
-                $("#Itinerario").prop("readonly", true);
-                $("#Unidad").prop("readonly", true);
-                $("#kilometrajeUnidad").prop("readonly", true);
-                $("#Operador").prop("readonly", true);
-                $("#Ubicacion").prop("readonly", true);
-                $("#Sentido").prop("disabled", true);
+                if (id_desD) {
+                    $("#id_apoyo").val(id_desD);
+                    $("#estatus_servs").val(estatus_servs);
 
-                databaseHandler.db.transaction(
-                    function (tx) {
-                    tx.executeSql(
-                        "Select * from TRFapoyo where id_cedula = ? AND id_apoyo = ?",
-                        [id_cedula, id_desD],
-                        function (tx, results) {
-                            var item = results.rows.item(0);
-                            if(item.TipoUnidad == 1){
-                                $("#TipoUnidad").prop("checked", true);
-                            } else {
-                                $("#TipoUnidad").prop("checked", false);
-                            }
-                            if(item.Apoyo == 1){
-                                $("#Apoyo").prop("checked", true);
-                            } else {
-                                $("#Apoyo").prop("checked", false);
-                            }
-                            $("#Hora").val(item.Hora);
-                            $("#Itinerario").val(item.Itinerario);
-                            $("#Unidad").val(item.Unidad);
-                            $("#kilometrajeUnidad").val(item.kilometrajeUnidad);
-                            $("#Operador").val(item.Operador);
-                            $("#Ubicacion").val(item.Ubicacion);
-                            $("#Sentido").val(item.Sentido);
-                            $("#TramoDeApoyo").val(item.TramoDeApoyo);
-                            $("#kilometrajeApoyo").val(item.kilometrajeApoyo);
-                            $("#estatus_servs").val(item.estatus_servidor)
+                    $("#Apoyo").prop("disabled", true);
+                    $("#TipoUnidad").prop("disabled", true);
+                    $("#Hora").prop("readonly", true);
+                    $("#Itinerario").prop("readonly", true);
+                    $("#Unidad").prop("readonly", true);
+                    $("#kilometrajeUnidad").prop("readonly", true);
+                    $("#Operador").prop("readonly", true);
+                    $("#Ubicacion").prop("readonly", true);
+                    $("#Sentido").prop("disabled", true);
+
+                    databaseHandler.db.transaction(
+                        function (tx) {
+                            tx.executeSql(
+                                "Select * from TRFapoyo where id_cedula = ? AND id_apoyo = ?",
+                                [id_cedula, id_desD],
+                                function (tx, results) {
+                                    var item = results.rows.item(0);
+                                    if (item.TipoUnidad == 1) {
+                                        $("#TipoUnidad").prop("checked", true);
+                                    } else {
+                                        $("#TipoUnidad").prop("checked", false);
+                                    }
+                                    if (item.Apoyo == 1) {
+                                        $("#Apoyo").prop("checked", true);
+                                    } else {
+                                        $("#Apoyo").prop("checked", false);
+                                    }
+                                    $("#Hora").val(item.Hora);
+                                    $("#Itinerario").val(item.Itinerario);
+                                    $("#Unidad").val(item.Unidad);
+                                    $("#kilometrajeUnidad").val(item.kilometrajeUnidad);
+                                    $("#Operador").val(item.Operador);
+                                    $("#Ubicacion").val(item.Ubicacion);
+                                    $("#Sentido").val(item.Sentido);
+                                    $("#TramoDeApoyo").val(item.TramoDeApoyo);
+                                    $("#kilometrajeApoyo").val(item.kilometrajeApoyo);
+                                    $("#estatus_servs").val(item.estatus_servidor);
+                                },
+                                function (tx, error) {}
+                            );
                         },
-                        function (tx, error) {}
+                        function (error) {},
+                        function () {}
                     );
-                    },
-                    function (error) {},
-                    function () {}
-                );
 
-                localStorage.removeItem("id_detalle_folio");
-                localStorage.removeItem("estatus_servs");
-            }
-            
-            var empresa = localStorage.getItem("empresa");
-            var self = this;
-            var app = self.$app;
-            var carpeta = 'jsons_desin';
-            var empresaID = localStorage.getItem("empresaID");
+                    localStorage.removeItem("id_detalle_folio");
+                    localStorage.removeItem("estatus_servs");
+                }
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////                       UNIDADES                       //////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                var NomJson = 'Unidades_'+empresa;
+                var empresa = localStorage.getItem("empresa");
+                var self = this;
+                var app = self.$app;
+                var carpeta = "jsons_desin";
+                var empresaID = localStorage.getItem("empresaID");
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////                       UNIDADES                       //////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                var NomJson = "Unidades_" + empresa;
                 self.autocompleteDropdownAjax = app.autocomplete.create({
-                    inputEl: '#Unidad',
-                    openIn: 'dropdown',
+                    inputEl: "#Unidad",
+                    openIn: "dropdown",
                     preloader: true, //enable preloader
-                    valueProperty: 'id_unidad', //object's "value" property name
-                    textProperty:  'buscador', //object's "text" property name
+                    valueProperty: "id_unidad", //object's "value" property name
+                    textProperty: "buscador", //object's "text" property name
                     limit: 10, //limit to [number] results
-                    dropdownPlaceholderText: 'Selecciona una Unidad...',
+                    dropdownPlaceholderText: "Selecciona una Unidad...",
                     source: function (query, render) {
                         var autocomplete = this;
                         var results = [];
@@ -173,56 +188,57 @@ return {
                         }
                         autocomplete.preloaderShow();
                         app.request({
-                            url: cordova.file.dataDirectory + carpeta + "/"+NomJson+".json", 
-                            method: 'GET',
-                            dataType: 'json',
+                            url: cordova.file.dataDirectory + carpeta + "/" + NomJson + ".json",
+                            method: "GET",
+                            dataType: "json",
                             data: {
                                 query: query,
-                            },success: function (data) {
+                            },
+                            success: function (data) {
                                 for (var i = 0; i < data.length; i++) {
-                                    if(data[i].empresa == empresaID){
+                                    if (data[i].empresa == empresaID) {
                                         if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
                                     }
                                 }
                                 autocomplete.preloaderHide();
-                                render(results); 
-                            }
-                        }); 
-                    }
+                                render(results);
+                            },
+                        });
+                    },
                 });
 
-                $('#Unidad').change(function () {
+                $("#Unidad").change(function () {
                     var unidad = $("#Unidad").val();
                     var encontro = false;
-                    app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson+".json", function (data) {
+                    app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson + ".json", function (data) {
                         var content2 = JSON.parse(data);
-                        for(var x = 0; x < content2.length; x++) {
-                            if(content2[x].id_unidad == unidad){
+                        for (var x = 0; x < content2.length; x++) {
+                            if (content2[x].id_unidad == unidad) {
                                 $("#Unidad").val(content2[x].buscador);
                                 $("#UnidadID").val(content2[x].id_unidad);
                                 encontro = true;
-                            }         
+                            }
                         }
-                        if(!encontro){
+                        if (!encontro) {
                             $("#Unidad").val("");
                             $("#UnidadID").val("");
                         }
                     });
-                }); 
+                });
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////                      OPERADORES                      //////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-                var NomJson2 = 'Operadores_'+empresa;
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////                      OPERADORES                      //////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                var NomJson2 = "Operadores_" + empresa;
                 self.autocompleteDropdownAjax = app.autocomplete.create({
-                    inputEl: '#Operador',
-                    openIn: 'dropdown',
+                    inputEl: "#Operador",
+                    openIn: "dropdown",
                     preloader: true, //enable preloader
-                    valueProperty: 'id_ope', //object's "value" property name
-                    textProperty:  'buscador', //object's "text" property name
+                    valueProperty: "id_ope", //object's "value" property name
+                    textProperty: "buscador", //object's "text" property name
                     limit: 10, //limit to [number] results
-                    dropdownPlaceholderText: 'Selecciona una Operador...',
+                    dropdownPlaceholderText: "Selecciona una Operador...",
                     source: function (query, render) {
                         var autocomplete = this;
                         var results = [];
@@ -232,54 +248,55 @@ return {
                         }
                         autocomplete.preloaderShow();
                         app.request({
-                            url: cordova.file.dataDirectory + carpeta + "/"+NomJson2+".json", 
-                            method: 'GET',
-                            dataType: 'json',
+                            url: cordova.file.dataDirectory + carpeta + "/" + NomJson2 + ".json",
+                            method: "GET",
+                            dataType: "json",
                             data: {
                                 query: query,
-                            },success: function (data) {
+                            },
+                            success: function (data) {
                                 for (var i = 0; i < data.length; i++) {
                                     if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
                                 }
                                 autocomplete.preloaderHide();
-                                render(results); 
-                            }
-                        }); 
-                    }
+                                render(results);
+                            },
+                        });
+                    },
                 });
 
-                $('#Operador').change(function () {
+                $("#Operador").change(function () {
                     var operador = $("#Operador").val();
                     var encontro = false;
-                    app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson2+".json", function (data) {
+                    app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson2 + ".json", function (data) {
                         var content5 = JSON.parse(data);
-                        for(var x = 0; x < content5.length; x++) {
-                            if(content5[x].id_ope == operador){
+                        for (var x = 0; x < content5.length; x++) {
+                            if (content5[x].id_ope == operador) {
                                 $("#Operador").val(content5[x].buscador);
                                 $("#id_operador").val(content5[x].id_ope);
                                 encontro = true;
-                            }         
+                            }
                         }
-                        if(!encontro){
+                        if (!encontro) {
                             $("#Operador").val("");
                             $("#id_operador").val("");
                         }
                     });
-                }); 
-                
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////                     UBICACIONES                      //////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                });
 
-                var NomJson3 = 'Ubicaciones_'+empresa;
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////                     UBICACIONES                      //////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                var NomJson3 = "Ubicaciones_" + empresa;
                 self.autocompleteDropdownAjax = app.autocomplete.create({
-                    inputEl: '#Ubicacion',
-                    openIn: 'dropdown',
+                    inputEl: "#Ubicacion",
+                    openIn: "dropdown",
                     preloader: true, //enable preloader
-                    valueProperty: 'ID', //object's "value" property name
-                    textProperty:  'buscador', //object's "text" property name
+                    valueProperty: "ID", //object's "value" property name
+                    textProperty: "buscador", //object's "text" property name
                     limit: 10, //limit to [number] results
-                    dropdownPlaceholderText: 'Selecciona una Ubicación...',
+                    dropdownPlaceholderText: "Selecciona una Ubicación...",
                     source: function (query, render) {
                         var autocomplete = this;
                         var results = [];
@@ -289,40 +306,40 @@ return {
                         }
                         autocomplete.preloaderShow();
                         app.request({
-                            url: cordova.file.dataDirectory + carpeta + "/"+NomJson3+".json", 
-                            method: 'GET',
-                            dataType: 'json',
+                            url: cordova.file.dataDirectory + carpeta + "/" + NomJson3 + ".json",
+                            method: "GET",
+                            dataType: "json",
                             data: {
                                 query: query,
-                            },success: function (data) {
+                            },
+                            success: function (data) {
                                 for (var i = 0; i < data.length; i++) {
                                     if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
                                 }
                                 autocomplete.preloaderHide();
-                                render(results); 
-                            }
-                        }); 
-                    }
+                                render(results);
+                            },
+                        });
+                    },
                 });
 
-                $('#Ubicacion').change(function () {
+                $("#Ubicacion").change(function () {
                     var ubicacion = $("#Ubicacion").val();
                     var encontro = false;
-                    app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson3+".json", function (data) {
+                    app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson3 + ".json", function (data) {
                         var content3 = JSON.parse(data);
-                        for(var x = 0; x < content3.length; x++) {
-                            if(content3[x].ID == ubicacion){
+                        for (var x = 0; x < content3.length; x++) {
+                            if (content3[x].ID == ubicacion) {
                                 $("#Ubicacion").val(content3[x].Ubicacion);
                                 encontro = true;
-                            }         
+                            }
                         }
-                        if(!encontro){
+                        if (!encontro) {
                             $("#Ubicacion").val("");
                         }
                     });
                 });
-
-        }
-    }
-}
+            },
+        },
+    };
 </script>

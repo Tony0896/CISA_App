@@ -1,5 +1,6 @@
 <style>
-    .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+    .table-striped > tbody > tr:nth-child(2n + 1) > td,
+    .table-striped > tbody > tr:nth-child(2n + 1) > th {
         background-color: #e9f4ff;
     }
 </style>
@@ -16,328 +17,330 @@
             </a>
         </nav> -->
 
-        <div class="navbar" style="background-color: #005D99;height: 5px;">
-            <div class="left top-left" style="justify-content: space-between;">
-                <a onclick="regresarDesincorporacion();" style="margin-left: 10px; display: inline-flex;align-items: center;">
-                    <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+        <div class="navbar" style="background-color: #005d99; height: 5px">
+            <div class="left top-left" style="justify-content: space-between">
+                <a onclick="regresarDesincorporacion();" style="margin-left: 10px; display: inline-flex; align-items: center">
+                    <i class="icon material-icons md-only" style="font-weight: 900; font-size: 30px">arrow_back</i>
                 </a>
-                <div class="title" style="font-size: 18px;">Sustitución de Unidades</div>
-                <a style="margin-right: 10px;">
-                    <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+                <div class="title" style="font-size: 18px">Sustitución de Unidades</div>
+                <a style="margin-right: 10px">
+                    <i class="icon material-icons md-only" style="color: #005d99; font-weight: 900">arrow_back</i>
                 </a>
             </div>
         </div>
 
-        <div class="toolbar tabbar toolbar-bottom" >
-            <div class="toolbar-inner" style="background-color: #005D99;" id="toolbar_down">
-                <a href="#" onclick="regresarDesincorporacion();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Regresar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+        <div class="toolbar tabbar toolbar-bottom">
+            <div class="toolbar-inner" style="background-color: #005d99" id="toolbar_down">
+                <a href="#" onclick="regresarDesincorporacion();" style="margin: auto; color: #fff; font-weight: bold; font-size: 18px"
+                    >Regresar <i class="icon material-icons md-only" style="display: inline-block">chevron_right</i></a
+                >
             </div>
         </div>
         <!-- Contenido Page -->
-        <div class="page-content" style="height: 98%;border-radius: 0px !important">
-            <div style="text-align: left;">
-                <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px;">
+        <div class="page-content" style="height: 98%; border-radius: 0px !important">
+            <div style="text-align: left">
+                <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px">
+                    <hr style="margin-top: 30px; margin-bottom: 30px" />
 
-                    <hr style="margin-top: 30px;margin-bottom: 30px;">
+                    <input type="hidden" id="detalle_incorpora" />
 
-                    <input type="hidden" id="detalle_incorpora">
-
-                    <table id="table-general" class="table-striped" cellpadding="10" style="width: 100%;margin: 0;padding: 0;">
+                    <table id="table-general" class="table-striped" cellpadding="10" style="width: 100%; margin: 0; padding: 0">
                         <tbody id="table-general-conten">
                             <tr>
-                                <th style="color: #505759; width: 60%;">¿Es Jornada no Incorporada?:</th>
-                                <td><span id="jornadas" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759; width: 60%">¿Es Jornada no Incorporada?:</th>
+                                <td><span id="jornadas" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">¿Es apoyo?:</th>
-                                <td><span id="apoyo" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">¿Es apoyo?:</th>
+                                <td><span id="apoyo" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Itinerario:</th>
-                                <td><span id="Itinerario" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Itinerario:</th>
+                                <td><span id="Itinerario" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Unidad de Desincorporación:</th>
-                                <td><span id="UnidadDesin" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Unidad de Desincorporación:</th>
+                                <td><span id="UnidadDesin" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Unidad de Incorporación:</th>
-                                <td><span id="UnidadInc" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Unidad de Incorporación:</th>
+                                <td><span id="UnidadInc" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Hora de Desincorporación:</th>
-                                <td><span id="HoraDes" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Hora de Desincorporación:</th>
+                                <td><span id="HoraDes" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Hora de Incorporación:</th>
-                                <td><span id="HoraInc" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Hora de Incorporación:</th>
+                                <td><span id="HoraInc" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Km de Desincorporación:</th>
-                                <td><span id="KmDes" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Km de Desincorporación:</th>
+                                <td><span id="KmDes" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Km de Incorporación:</th>
-                                <td><span id="KmInc" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Km de Incorporación:</th>
+                                <td><span id="KmInc" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Operador de Desincorporación:</th>
-                                <td><span id="OperadorDes" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Operador de Desincorporación:</th>
+                                <td><span id="OperadorDes" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Operador de Incorporación:</th>
-                                <td><span id="OperadorInc" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Operador de Incorporación:</th>
+                                <td><span id="OperadorInc" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Ubicación de Desincorporación:</th>
-                                <td><span id="UbicacionDes" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Ubicación de Desincorporación:</th>
+                                <td><span id="UbicacionDes" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Ubicacion de Incorporación:</th>
-                                <td><span id="UbicacionInc" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Ubicacion de Incorporación:</th>
+                                <td><span id="UbicacionInc" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Sentido de Desincorporación:</th>
-                                <td><span id="SentidoDes" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Sentido de Desincorporación:</th>
+                                <td><span id="SentidoDes" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Sentido de Incorporación:</th>
-                                <td><span id="SentidoInc" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Sentido de Incorporación:</th>
+                                <td><span id="SentidoInc" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Falla:</th>
-                                <td><span id="Falla" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Falla:</th>
+                                <td><span id="Falla" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Detalle Falla:</th>
-                                <td><span id="DetalleFalla" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Detalle Falla:</th>
+                                <td><span id="DetalleFalla" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Inclumplimiento:</th>
-                                <td><span id="Inclumplimiento" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Inclumplimiento:</th>
+                                <td><span id="Inclumplimiento" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Km Perdidos:</th>
-                                <td><span id="KmPerdidos" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Km Perdidos:</th>
+                                <td><span id="KmPerdidos" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Folio de Inicial:</th>
-                                <td><span id="FolioDes" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Folio de Inicial:</th>
+                                <td><span id="FolioDes" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
-                                <th style="color: #505759;">Folio de Final:</th>
-                                <td><span id="FolioInc" style="color: #063E7F;"></span></td>
+                                <th style="color: #505759">Folio de Final:</th>
+                                <td><span id="FolioInc" style="color: #063e7f"></span></td>
                             </tr>
 
                             <!-- id_cedula
                             id_desD -->
-
                         </tbody>
                     </table>
-
                 </div>
-                <div style="margin-bottom: 100px;"></div>
+                <div style="margin-bottom: 100px"></div>
             </div>
         </div>
     </div>
 </template>
 <script>
-return {
-    on: {      
-        pageInit: function () {
-            app.preloader.show('red');
-            
-            $("#detalle_incorpora").val(localStorage.getItem("detalle_incorpora"));
+    return {
+        on: {
+            pageInit: function () {
+                app.preloader.show("red");
 
-            var id_cedula = localStorage.getItem("IdCedula");
-            var id_desD = localStorage.getItem("detalle_incorpora");
-            databaseHandler.db.transaction(
-                function (tx) {
-                tx.executeSql(
-                    "Select * from desincorporacionesD where id_cedula = ? AND id_desD = ?",
-                    [id_cedula, id_desD],
-                    function (tx, results) {
-                        var item = results.rows.item(0);
-                        if(item.DetalleFalla){
-                            $("#DetalleFalla").text(item.DetalleFalla);
-                        } else {
-                            $("#DetalleFalla").text(" - - ");
-                        }
-                        
-                        if(item.Falla){
-                            $("#Falla").text(item.Falla);
-                        } else {
-                            $("#Falla").text(" - - ");
-                        }
-                        
-                        if(item.HoraDes){
-                            $("#HoraDes").text(item.HoraDes);
-                        } else {
-                            $("#HoraDes").text(" - - ");
-                        }
-                        
-                        if(item.HoraInc){
-                            $("#HoraInc").text(item.HoraInc);
-                        } else {
-                            $("#HoraInc").text(" - - ");
-                        }
+                $("#detalle_incorpora").val(localStorage.getItem("detalle_incorpora"));
 
-                        if(item.Inclumplimiento){
-                            $("#Inclumplimiento").text(item.Inclumplimiento);
-                        } else {
-                            $("#Inclumplimiento").text(" - - ");
-                        }
-                        
-                        if(item.Itinerario){
-                            $("#Itinerario").text(item.Itinerario);
-                        } else {
-                            $("#Itinerario").text(" - - ");
-                        }
-                        if(item.KmDes){
-                            $("#KmDes").text(item.KmDes);
-                        } else {
-                            $("#KmDes").text(" - - ");
-                        }
-                        if(item.KmInc){
-                            $("#KmInc").text(item.KmInc);
-                        } else {
-                            $("#KmInc").text(" - - ");
-                        }
-                        if(item.KmPerdidos){
-                            $("#KmPerdidos").text(item.KmPerdidos);
-                        } else {
-                            $("#KmPerdidos").text(" - - ");
-                        }
-                        if(item.id_operador_des){
-                            if(item.OperadorDes){
-                                $("#OperadorDes").text(item.OperadorDes);
-                            }  else {
-                                $("#OperadorDes").text(" - - ");
-                            }
-                        } else {
-                            var empresa = localStorage.getItem("empresa");
-                            var NomJson = 'Operadores_'+empresa;
-                            app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson+".json", function (data) {
-                                var content2 = JSON.parse(data);
-                                if (content2 == null){}else{
-                                    for(var x = 0; x < content2.length; x++) {
-                                        if(item.OperadorDes == content2[x].id_ope){
-                                            var name = content2[x].buscador;
-                                            var antiguo_ID = item.OperadorDes;
-                                            $("#OperadorDes").text(content2[x].buscador);
-                                            databaseHandler.db.transaction(
-                                                function(tx){
-                                                    tx.executeSql("UPDATE desincorporacionesD SET id_operador_des = ?, OperadorDes= ? where id_cedula = ? AND id_desD = ?",
-                                                        [antiguo_ID, name, id_cedula, id_desD],
-                                                        function(tx, results){ },
-                                                        function(tx, error){ }
-                                                    );
-                                                },
-                                                function(error){},
-                                                function(){}
-                                            );  
-                                        }
-                                    }
+                var id_cedula = localStorage.getItem("IdCedula");
+                var id_desD = localStorage.getItem("detalle_incorpora");
+                databaseHandler.db.transaction(
+                    function (tx) {
+                        tx.executeSql(
+                            "Select * from desincorporacionesD where id_cedula = ? AND id_desD = ?",
+                            [id_cedula, id_desD],
+                            function (tx, results) {
+                                var item = results.rows.item(0);
+                                if (item.DetalleFalla) {
+                                    $("#DetalleFalla").text(item.DetalleFalla);
+                                } else {
+                                    $("#DetalleFalla").text(" - - ");
                                 }
-                            });
-                        }
-                        if(item.id_operador_inc){
-                            if(item.OperadorInc){
-                                $("#OperadorInc").text(item.OperadorInc);
-                            } else {
-                                $("#OperadorInc").text(" - - ");
-                            }
-                        } else {
-                            var empresa = localStorage.getItem("empresa");
-                            var NomJson = 'Operadores_'+empresa;
-                            app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson+".json", function (data) {
-                                var content2 = JSON.parse(data);
-                                if (content2 == null){}else{
-                                    for(var x = 0; x < content2.length; x++) {
-                                        if(item.OperadorInc == content2[x].id_ope){
-                                            var name = content2[x].buscador;
-                                            var antiguo_ID = item.OperadorInc;
-                                            $("#OperadorInc").text(content2[x].buscador);
-                                            databaseHandler.db.transaction(
-                                                function(tx){
-                                                    tx.executeSql("UPDATE desincorporacionesD SET id_operador_inc = ?, OperadorInc= ? where id_cedula = ? AND id_desD = ?",
-                                                        [antiguo_ID, name, id_cedula, id_desD],
-                                                        function(tx, results){ },
-                                                        function(tx, error){ }
-                                                    );
-                                                },
-                                                function(error){},
-                                                function(){}
-                                            );  
-                                        }
-                                    }
+
+                                if (item.Falla) {
+                                    $("#Falla").text(item.Falla);
+                                } else {
+                                    $("#Falla").text(" - - ");
                                 }
-                            });
-                        }
 
-                        if(item.SentidoDes){
-                            $("#SentidoDes").text(item.SentidoDes);
-                        } else {
-                            $("#SentidoDes").text(" - - ");
-                        }
-                        if(item.SentidoInc){
-                            $("#SentidoInc").text(item.SentidoInc);
-                        } else {
-                            $("#SentidoInc").text(" - - ");
-                        }
-                        if(item.UbicacionDes){
-                            $("#UbicacionDes").text(item.UbicacionDes);
-                        } else {
-                            $("#UbicacionDes").text(" - - ");
-                        }
-                        if(item.UbicacionInc){
-                            $("#UbicacionInc").text(item.UbicacionInc);
-                        } else {
-                            $("#UbicacionInc").text(" - - ");
-                        }
-                        if(item.UnidadDesin){
-                            $("#UnidadDesin").text(item.UnidadDesin);
-                        } else {
-                            $("#UnidadDesin").text(" - - ");
-                        }
-                        if(item.UnidadInc){
-                            $("#UnidadInc").text(item.UnidadInc);
-                        } else {
-                            $("#UnidadInc").text(" - - ");
-                        }
-                        if(item.apoyo == 1){
-                            $("#apoyo").text("Sí");
-                        } else {
-                            $("#apoyo").text("No");
-                        }
+                                if (item.HoraDes) {
+                                    $("#HoraDes").text(item.HoraDes);
+                                } else {
+                                    $("#HoraDes").text(" - - ");
+                                }
 
-                        if(item.jornadas == 1){
-                            $("#jornadas").text("Sí");
-                        } else {
-                            $("#jornadas").text("No");
-                        }
+                                if (item.HoraInc) {
+                                    $("#HoraInc").text(item.HoraInc);
+                                } else {
+                                    $("#HoraInc").text(" - - ");
+                                }
 
-                        if(item.FolioDes){
-                            $("#FolioDes").text(item.FolioDes);
-                        } else {
-                            $("#FolioDes").text("N/A");
-                        }
+                                if (item.Inclumplimiento) {
+                                    $("#Inclumplimiento").text(item.Inclumplimiento);
+                                } else {
+                                    $("#Inclumplimiento").text(" - - ");
+                                }
 
-                        if(item.FolioInc){
-                            $("#FolioInc").text(item.FolioInc);
-                        } else {
-                            $("#FolioInc").text("N/A");
-                        }
+                                if (item.Itinerario) {
+                                    $("#Itinerario").text(item.Itinerario);
+                                } else {
+                                    $("#Itinerario").text(" - - ");
+                                }
+                                if (item.KmDes) {
+                                    $("#KmDes").text(item.KmDes);
+                                } else {
+                                    $("#KmDes").text(" - - ");
+                                }
+                                if (item.KmInc) {
+                                    $("#KmInc").text(item.KmInc);
+                                } else {
+                                    $("#KmInc").text(" - - ");
+                                }
+                                if (item.KmPerdidos) {
+                                    $("#KmPerdidos").text(item.KmPerdidos);
+                                } else {
+                                    $("#KmPerdidos").text(" - - ");
+                                }
+                                if (item.id_operador_des) {
+                                    if (item.OperadorDes) {
+                                        $("#OperadorDes").text(item.OperadorDes);
+                                    } else {
+                                        $("#OperadorDes").text(" - - ");
+                                    }
+                                } else {
+                                    var empresa = localStorage.getItem("empresa");
+                                    var NomJson = "Operadores_" + empresa;
+                                    app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson + ".json", function (data) {
+                                        var content2 = JSON.parse(data);
+                                        if (content2 == null) {
+                                        } else {
+                                            for (var x = 0; x < content2.length; x++) {
+                                                if (item.OperadorDes == content2[x].id_ope) {
+                                                    var name = content2[x].buscador;
+                                                    var antiguo_ID = item.OperadorDes;
+                                                    $("#OperadorDes").text(content2[x].buscador);
+                                                    databaseHandler.db.transaction(
+                                                        function (tx) {
+                                                            tx.executeSql(
+                                                                "UPDATE desincorporacionesD SET id_operador_des = ?, OperadorDes= ? where id_cedula = ? AND id_desD = ?",
+                                                                [antiguo_ID, name, id_cedula, id_desD],
+                                                                function (tx, results) {},
+                                                                function (tx, error) {}
+                                                            );
+                                                        },
+                                                        function (error) {},
+                                                        function () {}
+                                                    );
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                                if (item.id_operador_inc) {
+                                    if (item.OperadorInc) {
+                                        $("#OperadorInc").text(item.OperadorInc);
+                                    } else {
+                                        $("#OperadorInc").text(" - - ");
+                                    }
+                                } else {
+                                    var empresa = localStorage.getItem("empresa");
+                                    var NomJson = "Operadores_" + empresa;
+                                    app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson + ".json", function (data) {
+                                        var content2 = JSON.parse(data);
+                                        if (content2 == null) {
+                                        } else {
+                                            for (var x = 0; x < content2.length; x++) {
+                                                if (item.OperadorInc == content2[x].id_ope) {
+                                                    var name = content2[x].buscador;
+                                                    var antiguo_ID = item.OperadorInc;
+                                                    $("#OperadorInc").text(content2[x].buscador);
+                                                    databaseHandler.db.transaction(
+                                                        function (tx) {
+                                                            tx.executeSql(
+                                                                "UPDATE desincorporacionesD SET id_operador_inc = ?, OperadorInc= ? where id_cedula = ? AND id_desD = ?",
+                                                                [antiguo_ID, name, id_cedula, id_desD],
+                                                                function (tx, results) {},
+                                                                function (tx, error) {}
+                                                            );
+                                                        },
+                                                        function (error) {},
+                                                        function () {}
+                                                    );
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
 
+                                if (item.SentidoDes) {
+                                    $("#SentidoDes").text(item.SentidoDes);
+                                } else {
+                                    $("#SentidoDes").text(" - - ");
+                                }
+                                if (item.SentidoInc) {
+                                    $("#SentidoInc").text(item.SentidoInc);
+                                } else {
+                                    $("#SentidoInc").text(" - - ");
+                                }
+                                if (item.UbicacionDes) {
+                                    $("#UbicacionDes").text(item.UbicacionDes);
+                                } else {
+                                    $("#UbicacionDes").text(" - - ");
+                                }
+                                if (item.UbicacionInc) {
+                                    $("#UbicacionInc").text(item.UbicacionInc);
+                                } else {
+                                    $("#UbicacionInc").text(" - - ");
+                                }
+                                if (item.UnidadDesin) {
+                                    $("#UnidadDesin").text(item.UnidadDesin);
+                                } else {
+                                    $("#UnidadDesin").text(" - - ");
+                                }
+                                if (item.UnidadInc) {
+                                    $("#UnidadInc").text(item.UnidadInc);
+                                } else {
+                                    $("#UnidadInc").text(" - - ");
+                                }
+                                if (item.apoyo == 1) {
+                                    $("#apoyo").text("Sí");
+                                } else {
+                                    $("#apoyo").text("No");
+                                }
+
+                                if (item.jornadas == 1) {
+                                    $("#jornadas").text("Sí");
+                                } else {
+                                    $("#jornadas").text("No");
+                                }
+
+                                if (item.FolioDes) {
+                                    $("#FolioDes").text(item.FolioDes);
+                                } else {
+                                    $("#FolioDes").text("N/A");
+                                }
+
+                                if (item.FolioInc) {
+                                    $("#FolioInc").text(item.FolioInc);
+                                } else {
+                                    $("#FolioInc").text("N/A");
+                                }
+                            },
+                            function (tx, error) {}
+                        );
                     },
-                    function (tx, error) {}
+                    function (error) {},
+                    function () {}
                 );
-                },
-                function (error) {},
-                function () {}
-            );
-            app.preloader.hide();
-        }
-    }
-}
+                app.preloader.hide();
+            },
+        },
+    };
 </script>

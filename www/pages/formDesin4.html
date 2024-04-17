@@ -1,192 +1,202 @@
 <template>
     <div class="page">
         <!-- Navsbars -->
-        <nav class="left top-left" style="justify-content: space-between;">
-            <a onclick="regresarDesincorporacion();" style="margin-left: 10px; display: inline-flex;align-items: center;">
-                <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+        <nav class="left top-left" style="justify-content: space-between">
+            <a onclick="regresarDesincorporacion();" style="margin-left: 10px; display: inline-flex; align-items: center">
+                <i class="icon material-icons md-only" style="font-weight: 900; font-size: 30px">arrow_back</i>
             </a>
             <div class="title">Sustitución de Unidades</div>
-            <a style="margin-right: 10px;">
-                <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+            <a style="margin-right: 10px">
+                <i class="icon material-icons md-only" style="color: #005d99; font-weight: 900">arrow_back</i>
             </a>
         </nav>
-        <div class="toolbar tabbar toolbar-bottom" >
-            <div class="toolbar-inner" style="background-color: #005D99;" id="toolbar_down">
-                <a href="#" onclick="ActualizaFolio();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Guardar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+        <div class="toolbar tabbar toolbar-bottom">
+            <div class="toolbar-inner" style="background-color: #005d99" id="toolbar_down">
+                <a href="#" onclick="ActualizaFolio();" style="margin: auto; color: #fff; font-weight: bold; font-size: 18px"
+                    >Guardar <i class="icon material-icons md-only" style="display: inline-block">chevron_right</i></a
+                >
             </div>
         </div>
         <!-- Contenido Page -->
-        <div class="page-content" style="height: 98%;border-radius: 0px !important">
-            <div style="text-align: center; justify-content:center; margin-right:auto; margin-left:auto; width: 99%;margin-top: 30px;">
-                <div style="text-align: left;">
-                    <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px;">
-                        <h2 style="text-align: center;" id="title">Datos de Desincorporación</h2>
+        <div class="page-content" style="height: 98%; border-radius: 0px !important">
+            <div style="text-align: center; justify-content: center; margin-right: auto; margin-left: auto; width: 99%; margin-top: 30px">
+                <div style="text-align: left">
+                    <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px">
+                        <h2 style="text-align: center" id="title">Datos de Desincorporación</h2>
 
-                        <hr style="margin-top: 30px;margin-bottom: 30px;">
-                        
-                        <input type="hidden" id="id_des">
-                        <input type="hidden" id="estatus_servidor">
+                        <hr style="margin-top: 30px; margin-bottom: 30px" />
+
+                        <input type="hidden" id="id_des" />
+                        <input type="hidden" id="estatus_servidor" />
 
                         <span class="span FWM-span-form" name="">Hora</span>
-                        <input class="FWM-input obligatorio" type="time" id="hora_des" name="Hora" readonly/>
+                        <input class="FWM-input obligatorio" type="time" id="hora_des" name="Hora" readonly />
 
                         <span class="span FWM-span-form" name="">Unidad</span>
-                        <input class="FWM-input obligatorio" type="text" id="unidad_des" name="Unidad" readonly/>
+                        <input class="FWM-input obligatorio" type="text" id="unidad_des" name="Unidad" readonly />
 
                         <span class="span FWM-span-form" name="">Itinerario</span>
-                        <input class="FWM-input obligatorio" type="text" id="itinerario" name="Itinerario" readonly/>
+                        <input class="FWM-input obligatorio" type="text" id="itinerario" name="Itinerario" readonly />
 
                         <span class="span FWM-span-form" name="">Operador</span>
-                        <input class="FWM-input obligatorio" type="text" id="operador_des" name="Operador" readonly/>
+                        <input class="FWM-input obligatorio" type="text" id="operador_des" name="Operador" readonly />
 
                         <span class="span FWM-span-form" name="">Kilometraje Unidad</span>
-                        <input class="FWM-input" type="number" id="km_unidad" name="Kilometraje Unidad" readonly/>
+                        <input class="FWM-input" type="number" id="km_unidad" name="Kilometraje Unidad" readonly />
 
                         <span class="span FWM-span-form opta">Incumplimiento</span>
                         <textarea class="FWM-input obligatorio opta" name="Incumplimiento" id="incumplimiento" cols="30" rows="10"></textarea>
 
-                        <span class="span FWM-span-form opta" >Kilometros perdidos</span>
-                        <input class="FWM-input obligatorio opta" name="Kilometros perdidos" type="number" id="km_perdidos" onchange="validaMenor500(this.id, this.value)"/>
+                        <span class="span FWM-span-form opta">Kilometros perdidos</span>
+                        <input
+                            class="FWM-input obligatorio opta"
+                            name="Kilometros perdidos"
+                            type="number"
+                            id="km_perdidos"
+                            onchange="validaMenor500(this.id, this.value)"
+                        />
 
                         <span class="span FWM-span-form" id="txt_folio">Folio inicial</span>
-                        <input class="FWM-input" type="text" id="folio_inicial" name="Folio inicial"/>
+                        <input class="FWM-input" type="text" id="folio_inicial" name="Folio inicial" />
                     </div>
-                    <div style="margin-bottom: 100px;"></div>
+                    <div style="margin-bottom: 100px"></div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-return {
-    on: {      
-        pageInit: function () {
-            var folio = localStorage.getItem("Folio");
-            var id_desD = localStorage.getItem("id_detalle_folio");
-            var id_cedula = localStorage.getItem("IdCedula");
+    return {
+        on: {
+            pageInit: function () {
+                var folio = localStorage.getItem("Folio");
+                var id_desD = localStorage.getItem("id_detalle_folio");
+                var id_cedula = localStorage.getItem("IdCedula");
 
-            $("#id_des").val(id_desD);
+                $("#id_des").val(id_desD);
 
-            if (folio == 1){
-                $(".opta").css("display", "none");
-                $("#title").html("Datos de Desincorporación");
-                $("#txt_folio").html("Folio Inicial");
+                if (folio == 1) {
+                    $(".opta").css("display", "none");
+                    $("#title").html("Datos de Desincorporación");
+                    $("#txt_folio").html("Folio Inicial");
 
-                databaseHandler.db.transaction(
-                    function (tx) {
-                    tx.executeSql(
-                        "Select * from desincorporacionesD where id_cedula = ? AND id_desD = ?",
-                        [id_cedula, id_desD],
-                        function (tx, results) {
-                            var item = results.rows.item(0);
-                            $("#hora_des").val(item.HoraDes);
-                            $("#unidad_des").val(item.UnidadDesin);
-                            $("#itinerario").val(item.Itinerario);
-                            $("#km_unidad").val(item.KmDes);
-                            $("#folio_inicial").val(item.FolioDes);
-                            $("#estatus_servidor").val(item.estatus_servidor);
-                            $("#incumplimiento").val(item.Inclumplimiento);
-                            $("#km_perdidos").val(item.KmPerdidos);
-                            if(item.id_operador_des){
-                                $("#operador_des").val(item.OperadorDes);
-                            } else {
-                                var empresa = localStorage.getItem("empresa");
-                                var NomJson = 'Operadores_'+empresa;
-                                app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson+".json", function (data) {
-                                    var content2 = JSON.parse(data);
-                                    if (content2 == null){}else{
-                                        for(var x = 0; x < content2.length; x++) {
-                                            if(item.OperadorDes == content2[x].id_ope){
-                                                var name = content2[x].buscador;
-                                                var antiguo_ID = item.OperadorDes;
-                                                $("#operador_des").val(content2[x].buscador);
-                                                databaseHandler.db.transaction(
-                                                    function(tx){
-                                                        tx.executeSql("UPDATE desincorporacionesD SET id_operador_des = ?, OperadorDes= ? where id_cedula = ? AND id_desD = ?",
-                                                            [antiguo_ID, name, id_cedula, id_desD],
-                                                            function(tx, results){
+                    databaseHandler.db.transaction(
+                        function (tx) {
+                            tx.executeSql(
+                                "Select * from desincorporacionesD where id_cedula = ? AND id_desD = ?",
+                                [id_cedula, id_desD],
+                                function (tx, results) {
+                                    var item = results.rows.item(0);
+                                    $("#hora_des").val(item.HoraDes);
+                                    $("#unidad_des").val(item.UnidadDesin);
+                                    $("#itinerario").val(item.Itinerario);
+                                    $("#km_unidad").val(item.KmDes);
+                                    $("#folio_inicial").val(item.FolioDes);
+                                    $("#estatus_servidor").val(item.estatus_servidor);
+                                    $("#incumplimiento").val(item.Inclumplimiento);
+                                    $("#km_perdidos").val(item.KmPerdidos);
+                                    if (item.id_operador_des) {
+                                        $("#operador_des").val(item.OperadorDes);
+                                    } else {
+                                        var empresa = localStorage.getItem("empresa");
+                                        var NomJson = "Operadores_" + empresa;
+                                        app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson + ".json", function (data) {
+                                            var content2 = JSON.parse(data);
+                                            if (content2 == null) {
+                                            } else {
+                                                for (var x = 0; x < content2.length; x++) {
+                                                    if (item.OperadorDes == content2[x].id_ope) {
+                                                        var name = content2[x].buscador;
+                                                        var antiguo_ID = item.OperadorDes;
+                                                        $("#operador_des").val(content2[x].buscador);
+                                                        databaseHandler.db.transaction(
+                                                            function (tx) {
+                                                                tx.executeSql(
+                                                                    "UPDATE desincorporacionesD SET id_operador_des = ?, OperadorDes= ? where id_cedula = ? AND id_desD = ?",
+                                                                    [antiguo_ID, name, id_cedula, id_desD],
+                                                                    function (tx, results) {},
+                                                                    function (tx, error) {
+                                                                        swal("Error al guardar", error.message, "error");
+                                                                    }
+                                                                );
                                                             },
-                                                            function(tx, error){
-                                                                swal("Error al guardar",error.message,"error");
-                                                            }
+                                                            function (error) {},
+                                                            function () {}
                                                         );
-                                                    },
-                                                    function(error){},
-                                                    function(){}
-                                                );  
+                                                    }
+                                                }
                                             }
-                                        }
+                                        });
                                     }
-                                });
-                            }
+                                },
+                                function (tx, error) {}
+                            );
                         },
-                        function (tx, error) {}
+                        function (error) {},
+                        function () {}
                     );
-                    },
-                    function (error) {},
-                    function () {}
-                );
-            } else if (folio == 2){
-                $(".opta").css("display", "block");
-                $("#title").html("Datos de Incorporación");
-                $("#txt_folio").html("Folio Final");
-                databaseHandler.db.transaction(
-                    function (tx) {
-                    tx.executeSql(
-                        "Select * from desincorporacionesD where id_cedula = ? AND id_desD = ?",
-                        [id_cedula, id_desD],
-                        function (tx, results) {
-                            var item = results.rows.item(0);
-                            $("#hora_des").val(item.HoraInc);
-                            $("#unidad_des").val(item.UnidadInc);
-                            $("#itinerario").val(item.Itinerario);
-                            $("#operador_des").val(item.OperadorInc);
-                            $("#km_unidad").val(item.KmInc);
-                            $("#folio_inicial").val(item.FolioInc);
-                            $("#estatus_servidor").val(item.estatus_servidor);
-                            $("#incumplimiento").val(item.Inclumplimiento);
-                            $("#km_perdidos").val(item.KmPerdidos);
-                            if(item.id_operador_inc){
-                                $("#operador_des").val(item.OperadorInc);
-                            } else {
-                                var empresa = localStorage.getItem("empresa");
-                                var NomJson = 'Operadores_'+empresa;
-                                app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson+".json", function (data) {
-                                    var content2 = JSON.parse(data);
-                                    if (content2 == null){}else{
-                                        for(var x = 0; x < content2.length; x++) {
-                                            if(item.OperadorInc == content2[x].id_ope){
-                                                var name = content2[x].buscador;
-                                                var antiguo_ID = item.OperadorInc;
-                                                $("#operador_des").val(content2[x].buscador);
-                                                databaseHandler.db.transaction(
-                                                    function(tx){
-                                                        tx.executeSql("UPDATE desincorporacionesD SET id_operador_inc = ?, OperadorInc= ? where id_cedula = ? AND id_desD = ?",
-                                                            [antiguo_ID, name, id_cedula, id_desD],
-                                                            function(tx, results){
+                } else if (folio == 2) {
+                    $(".opta").css("display", "block");
+                    $("#title").html("Datos de Incorporación");
+                    $("#txt_folio").html("Folio Final");
+                    databaseHandler.db.transaction(
+                        function (tx) {
+                            tx.executeSql(
+                                "Select * from desincorporacionesD where id_cedula = ? AND id_desD = ?",
+                                [id_cedula, id_desD],
+                                function (tx, results) {
+                                    var item = results.rows.item(0);
+                                    $("#hora_des").val(item.HoraInc);
+                                    $("#unidad_des").val(item.UnidadInc);
+                                    $("#itinerario").val(item.Itinerario);
+                                    $("#operador_des").val(item.OperadorInc);
+                                    $("#km_unidad").val(item.KmInc);
+                                    $("#folio_inicial").val(item.FolioInc);
+                                    $("#estatus_servidor").val(item.estatus_servidor);
+                                    $("#incumplimiento").val(item.Inclumplimiento);
+                                    $("#km_perdidos").val(item.KmPerdidos);
+                                    if (item.id_operador_inc) {
+                                        $("#operador_des").val(item.OperadorInc);
+                                    } else {
+                                        var empresa = localStorage.getItem("empresa");
+                                        var NomJson = "Operadores_" + empresa;
+                                        app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson + ".json", function (data) {
+                                            var content2 = JSON.parse(data);
+                                            if (content2 == null) {
+                                            } else {
+                                                for (var x = 0; x < content2.length; x++) {
+                                                    if (item.OperadorInc == content2[x].id_ope) {
+                                                        var name = content2[x].buscador;
+                                                        var antiguo_ID = item.OperadorInc;
+                                                        $("#operador_des").val(content2[x].buscador);
+                                                        databaseHandler.db.transaction(
+                                                            function (tx) {
+                                                                tx.executeSql(
+                                                                    "UPDATE desincorporacionesD SET id_operador_inc = ?, OperadorInc= ? where id_cedula = ? AND id_desD = ?",
+                                                                    [antiguo_ID, name, id_cedula, id_desD],
+                                                                    function (tx, results) {},
+                                                                    function (tx, error) {
+                                                                        swal("Error al guardar", error.message, "error");
+                                                                    }
+                                                                );
                                                             },
-                                                            function(tx, error){
-                                                                swal("Error al guardar",error.message,"error");
-                                                            }
+                                                            function (error) {},
+                                                            function () {}
                                                         );
-                                                    },
-                                                    function(error){},
-                                                    function(){}
-                                                );  
+                                                    }
+                                                }
                                             }
-                                        }
+                                        });
                                     }
-                                });
-                            }
+                                },
+                                function (tx, error) {}
+                            );
                         },
-                        function (tx, error) {}
+                        function (error) {},
+                        function () {}
                     );
-                    },
-                    function (error) {},
-                    function () {}
-                );
-            } 
-        }
-    }
-}
+                }
+            },
+        },
+    };
 </script>

@@ -11,80 +11,95 @@
             </a>
         </nav> -->
 
-        <div class="navbar" style="background-color: #005D99;height: 5px;">
-            <div class="left top-left" style="justify-content: space-between;">
-                <a onclick="regresarDesincorporacion();" style="margin-left: 10px; display: inline-flex;align-items: center;">
-                    <i class="icon material-icons md-only" style="font-weight: 900;font-size: 30px;">arrow_back</i>
+        <div class="navbar" style="background-color: #005d99; height: 5px">
+            <div class="left top-left" style="justify-content: space-between">
+                <a onclick="regresarDesincorporacion();" style="margin-left: 10px; display: inline-flex; align-items: center">
+                    <i class="icon material-icons md-only" style="font-weight: 900; font-size: 30px">arrow_back</i>
                 </a>
-                <div class="title" style="font-size: 18px;">Sustitución de Unidades</div>
-                <a style="margin-right: 10px;">
-                    <i class="icon material-icons md-only" style="color: #005D99; font-weight: 900;">arrow_back</i>
+                <div class="title" style="font-size: 18px">Sustitución de Unidades</div>
+                <a style="margin-right: 10px">
+                    <i class="icon material-icons md-only" style="color: #005d99; font-weight: 900">arrow_back</i>
                 </a>
             </div>
         </div>
 
-        <div class="toolbar tabbar toolbar-bottom" >
-            <div class="toolbar-inner" style="background-color: #005D99;" id="toolbar_down">
-                <a href="#" onclick="GuardaIncorporacion();" style="margin: auto;color: #fff;font-weight: bold;font-size: 18px;">Guardar <i class="icon material-icons md-only" style="display: inline-block;">chevron_right</i></a>
+        <div class="toolbar tabbar toolbar-bottom">
+            <div class="toolbar-inner" style="background-color: #005d99" id="toolbar_down">
+                <a href="#" onclick="GuardaIncorporacion();" style="margin: auto; color: #fff; font-weight: bold; font-size: 18px"
+                    >Guardar <i class="icon material-icons md-only" style="display: inline-block">chevron_right</i></a
+                >
             </div>
         </div>
         <!-- Contenido Page -->
-        <div class="page-content" style="height: 98%;border-radius: 0px !important">
-            <div style="text-align: left;">
-                <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px;">
-                    <h2 style="text-align: center;">Datos de Incorporación</h2>
+        <div class="page-content" style="height: 98%; border-radius: 0px !important">
+            <div style="text-align: left">
+                <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px">
+                    <h2 style="text-align: center">Datos de Incorporación</h2>
 
-                    <hr style="margin-top: 30px;margin-bottom: 30px;">
+                    <hr style="margin-top: 30px; margin-bottom: 30px" />
 
-                    <input type="hidden" id="detalle_incorpora">
-                    <input type="hidden" id="UnidadIncID">
-                    <input type="hidden" id="id_operador_inc">
-                    
-                    <label for="" class="span FWM-span-form" style="text-align: center;"><input type="checkbox" id="check_jornada" onchange="check_jornada(1)" style="transform: scale(1.4);margin-right: 15px;">Jornada Sin incorporación</label>
+                    <input type="hidden" id="detalle_incorpora" />
+                    <input type="hidden" id="UnidadIncID" />
+                    <input type="hidden" id="id_operador_inc" />
 
-                    <span class="span FWM-span-form" >Hora Desincorporación</span>
-                    <input class="FWM-input" type="time" id="hora_des" name="Hora Desincorporación" readonly/>
-                        
-                    <span class="span FWM-span-form" >Hora incorporación</span>
-                    <input class="FWM-input obligatorio opta" name="Hora incorporación" type="time" id="hora_inc" onchange="check_hour(this.value);"/>
+                    <label for="" class="span FWM-span-form" style="text-align: center"
+                        ><input
+                            type="checkbox"
+                            id="check_jornada"
+                            onchange="check_jornada(1)"
+                            style="transform: scale(1.4); margin-right: 15px"
+                        />Jornada Sin incorporación</label
+                    >
 
-                    <span class="span FWM-span-form" >Unidad Desincorporación</span>
-                    <input class="FWM-input" type="text" id="unidad_des" readonly/>
+                    <span class="span FWM-span-form">Hora Desincorporación</span>
+                    <input class="FWM-input" type="time" id="hora_des" name="Hora Desincorporación" readonly />
 
-                    <span class="span FWM-span-form" >Unidad Incorporación</span>
-                    <input class="FWM-input obligatorio opta" name="Unidad Incorporación" type="text" id="unidad_inc"/>
+                    <span class="span FWM-span-form">Hora incorporación</span>
+                    <input
+                        class="FWM-input obligatorio opta"
+                        name="Hora incorporación"
+                        type="time"
+                        id="hora_inc"
+                        onchange="check_hour(this.value);"
+                    />
 
-                    <span class="span FWM-span-form" >Kilometraje Unidad Desincorporación</span>
-                    <input class="FWM-input" type="text" id="km_des" readonly/>
+                    <span class="span FWM-span-form">Unidad Desincorporación</span>
+                    <input class="FWM-input" type="text" id="unidad_des" readonly />
 
-                    <span class="span FWM-span-form" >Kilometraje Unidad Incorporación</span>
-                    <input class="FWM-input opta" name="Kilometraje Unidad Incorporación" type="number" id="km_inc"/>
+                    <span class="span FWM-span-form">Unidad Incorporación</span>
+                    <input class="FWM-input obligatorio opta" name="Unidad Incorporación" type="text" id="unidad_inc" />
 
-                    <span class="span FWM-span-form" >Itinerario</span>
-                    <input class="FWM-input" type="text" id="itinerario" readonly/>
+                    <span class="span FWM-span-form">Kilometraje Unidad Desincorporación</span>
+                    <input class="FWM-input" type="text" id="km_des" readonly />
 
-                    <span class="span FWM-span-form" >Operador Desincorporación</span>
-                    <input class="FWM-input" type="text" id="operador_des" readonly/>
+                    <span class="span FWM-span-form">Kilometraje Unidad Incorporación</span>
+                    <input class="FWM-input opta" name="Kilometraje Unidad Incorporación" type="number" id="km_inc" />
 
-                    <span class="span FWM-span-form" >Operador Incorporación</span>
-                    <input class="FWM-input obligatorio opta" name="Operador Incorporación" type="text" id="operador_inc"/>
+                    <span class="span FWM-span-form">Itinerario</span>
+                    <input class="FWM-input" type="text" id="itinerario" readonly />
 
-                    <span class="span FWM-span-form" >Falla</span>
-                    <input class="FWM-input" type="text" id="falla" readonly/>
+                    <span class="span FWM-span-form">Operador Desincorporación</span>
+                    <input class="FWM-input" type="text" id="operador_des" readonly />
 
-                    <span class="span FWM-span-form" >Detalle de la Falla</span>
-                    <input class="FWM-input" type="text" id="detalle_falla" readonly/>
+                    <span class="span FWM-span-form">Operador Incorporación</span>
+                    <input class="FWM-input obligatorio opta" name="Operador Incorporación" type="text" id="operador_inc" />
 
-                    <span class="span FWM-span-form" >Ubicación Desincorporación</span>
-                    <input class="FWM-input" type="text" id="ubicacion_des" readonly/>
+                    <span class="span FWM-span-form">Falla</span>
+                    <input class="FWM-input" type="text" id="falla" readonly />
 
-                    <span class="span FWM-span-form" >Ubicación Incorporación</span>
-                    <input class="FWM-input obligatorio opta" name="Ubicación Incorporación" type="text" id="ubicacion_inc"/>
+                    <span class="span FWM-span-form">Detalle de la Falla</span>
+                    <input class="FWM-input" type="text" id="detalle_falla" readonly />
 
-                    <span class="span FWM-span-form" >Sentido Desincorporación</span>
-                    <input class="FWM-input" type="text" id="sentido_des" readonly/>
+                    <span class="span FWM-span-form">Ubicación Desincorporación</span>
+                    <input class="FWM-input" type="text" id="ubicacion_des" readonly />
 
-                    <span class="span FWM-span-form" >Sentido Incorporación</span>
+                    <span class="span FWM-span-form">Ubicación Incorporación</span>
+                    <input class="FWM-input obligatorio opta" name="Ubicación Incorporación" type="text" id="ubicacion_inc" />
+
+                    <span class="span FWM-span-form">Sentido Desincorporación</span>
+                    <input class="FWM-input" type="text" id="sentido_des" readonly />
+
+                    <span class="span FWM-span-form">Sentido Incorporación</span>
                     <!-- <input class="FWM-input obligatorio opta" name="Sentido Incorporación" type="text" id="sentido_inc"/> -->
                     <select class="FWM-input obligatorio opta" id="sentido_inc" name="Sentido Incorporación">
                         <option value="0">Selecciona una opción</option>
@@ -94,230 +109,243 @@
                         <option value="Poniente - Oriente">Poniente - Oriente</option>
                     </select>
 
-                    <span class="span FWM-span-form" >Incumplimiento</span>
-                    <textarea class="FWM-input obligatorio opta" name="Incumplimiento" id="incumplimiento" cols="30" rows="10" maxlength="255"></textarea>
+                    <span class="span FWM-span-form">Incumplimiento</span>
+                    <textarea
+                        class="FWM-input obligatorio opta"
+                        name="Incumplimiento"
+                        id="incumplimiento"
+                        cols="30"
+                        rows="10"
+                        maxlength="255"
+                    ></textarea>
 
-                    <span class="span FWM-span-form" >Kilometros perdidos</span>
-                    <input class="FWM-input opta" name="Kilometros perdidos" type="number" id="km_perdidos" onchange="validaMenor500(this.id, this.value)"/>
+                    <span class="span FWM-span-form">Kilometros perdidos</span>
+                    <input
+                        class="FWM-input opta"
+                        name="Kilometros perdidos"
+                        type="number"
+                        id="km_perdidos"
+                        onchange="validaMenor500(this.id, this.value)"
+                    />
 
-                    <span class="span FWM-span-form" >Folio final</span>
-                    <input class="FWM-input" name="Folio final" type="text" id="folio_final" maxlength="25"/>
-
+                    <span class="span FWM-span-form">Folio final</span>
+                    <input class="FWM-input" name="Folio final" type="text" id="folio_final" maxlength="25" />
                 </div>
-                <div style="margin-bottom: 100px;"></div>
+                <div style="margin-bottom: 100px"></div>
             </div>
         </div>
     </div>
 </template>
 <script>
-return {
-    on: {      
-        pageInit: function () {
-            
-            $("#detalle_incorpora").val(localStorage.getItem("detalle_incorpora"));
+    return {
+        on: {
+            pageInit: function () {
+                $("#detalle_incorpora").val(localStorage.getItem("detalle_incorpora"));
 
-            var id_cedula = localStorage.getItem("IdCedula");
-            var id_desD = localStorage.getItem("detalle_incorpora");
-            databaseHandler.db.transaction(
-                function (tx) {
-                tx.executeSql(
-                    "Select * from desincorporacionesD where id_cedula = ? AND id_desD = ?",
-                    [id_cedula, id_desD],
-                    function (tx, results) {
-                        var item = results.rows.item(0);
-                        $("#hora_des").val(item.HoraDes)
-                        $("#unidad_des").val(item.UnidadDesin)
-                        $("#itinerario").val(item.Itinerario);
-                        $("#operador_des").val(item.OperadorDes);
-                        $("#falla").val(item.Falla);
-                        $("#detalle_falla").val(item.DetalleFalla);
-                        $("#ubicacion_des").val(item.UbicacionDes);
-                        $("#sentido_des").val(item.SentidoDes);
-                        $("#km_des").val(item.KmDes);
+                var id_cedula = localStorage.getItem("IdCedula");
+                var id_desD = localStorage.getItem("detalle_incorpora");
+                databaseHandler.db.transaction(
+                    function (tx) {
+                        tx.executeSql(
+                            "Select * from desincorporacionesD where id_cedula = ? AND id_desD = ?",
+                            [id_cedula, id_desD],
+                            function (tx, results) {
+                                var item = results.rows.item(0);
+                                $("#hora_des").val(item.HoraDes);
+                                $("#unidad_des").val(item.UnidadDesin);
+                                $("#itinerario").val(item.Itinerario);
+                                $("#operador_des").val(item.OperadorDes);
+                                $("#falla").val(item.Falla);
+                                $("#detalle_falla").val(item.DetalleFalla);
+                                $("#ubicacion_des").val(item.UbicacionDes);
+                                $("#sentido_des").val(item.SentidoDes);
+                                $("#km_des").val(item.KmDes);
+                            },
+                            function (tx, error) {}
+                        );
                     },
-                    function (tx, error) {}
+                    function (error) {},
+                    function () {}
                 );
-                },
-                function (error) {},
-                function () {}
-            );
 
-            var empresa = localStorage.getItem("empresa");
-            var self = this;
-            var app = self.$app;  
-            var carpeta = 'jsons_desin';
-            var empresaID = localStorage.getItem("empresaID");
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////                       UNIDADES                       //////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var NomJson = 'Unidades_'+empresa;
-            self.autocompleteDropdownAjax = app.autocomplete.create({
-                inputEl: '#unidad_inc',
-                openIn: 'dropdown',
-                preloader: true, //enable preloader
-                valueProperty: 'id_unidad', //object's "value" property name
-                textProperty:  'buscador', //object's "text" property name
-                limit: 10, //limit to [number] results
-                dropdownPlaceholderText: 'Selecciona una Unidad...',
-                source: function (query, render) {
-                    var autocomplete = this;
-                    var results = [];
-                    if (query.length === 0) {
-                        render(results);
-                        return;
-                    }
-                    autocomplete.preloaderShow();
-                    app.request({
-                        url: cordova.file.dataDirectory + carpeta + "/"+NomJson+".json", 
-                        method: 'GET',
-                        dataType: 'json',
-                        data: {
-                            query: query,
-                        },success: function (data) {
-                            for (var i = 0; i < data.length; i++) {
-                                if(data[i].empresa == empresaID){
+                var empresa = localStorage.getItem("empresa");
+                var self = this;
+                var app = self.$app;
+                var carpeta = "jsons_desin";
+                var empresaID = localStorage.getItem("empresaID");
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////                       UNIDADES                       //////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                var NomJson = "Unidades_" + empresa;
+                self.autocompleteDropdownAjax = app.autocomplete.create({
+                    inputEl: "#unidad_inc",
+                    openIn: "dropdown",
+                    preloader: true, //enable preloader
+                    valueProperty: "id_unidad", //object's "value" property name
+                    textProperty: "buscador", //object's "text" property name
+                    limit: 10, //limit to [number] results
+                    dropdownPlaceholderText: "Selecciona una Unidad...",
+                    source: function (query, render) {
+                        var autocomplete = this;
+                        var results = [];
+                        if (query.length === 0) {
+                            render(results);
+                            return;
+                        }
+                        autocomplete.preloaderShow();
+                        app.request({
+                            url: cordova.file.dataDirectory + carpeta + "/" + NomJson + ".json",
+                            method: "GET",
+                            dataType: "json",
+                            data: {
+                                query: query,
+                            },
+                            success: function (data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i].empresa == empresaID) {
+                                        if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                    }
+                                }
+                                autocomplete.preloaderHide();
+                                render(results);
+                            },
+                        });
+                    },
+                });
+
+                $("#unidad_inc").change(function () {
+                    var unidad = $("#unidad_inc").val();
+                    var encontro = false;
+                    app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson + ".json", function (data) {
+                        var content2 = JSON.parse(data);
+                        for (var x = 0; x < content2.length; x++) {
+                            if (content2[x].id_unidad == unidad) {
+                                $("#unidad_inc").val(content2[x].buscador);
+                                $("#UnidadIncID").val(content2[x].id_unidad);
+                                encontro = true;
+                            }
+                        }
+                        if (!encontro) {
+                            $("#unidad_inc").val("");
+                            $("#UnidadIncID").val("");
+                        }
+                    });
+                });
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////                      OPERADORES                      //////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                var NomJson2 = "Operadores_" + empresa;
+                self.autocompleteDropdownAjax = app.autocomplete.create({
+                    inputEl: "#operador_inc",
+                    openIn: "dropdown",
+                    preloader: true, //enable preloader
+                    valueProperty: "id_ope", //object's "value" property name
+                    textProperty: "buscador", //object's "text" property name
+                    limit: 10, //limit to [number] results
+                    dropdownPlaceholderText: "Selecciona una Operador...",
+                    source: function (query, render) {
+                        var autocomplete = this;
+                        var results = [];
+                        if (query.length === 0) {
+                            render(results);
+                            return;
+                        }
+                        autocomplete.preloaderShow();
+                        app.request({
+                            url: cordova.file.dataDirectory + carpeta + "/" + NomJson2 + ".json",
+                            method: "GET",
+                            dataType: "json",
+                            data: {
+                                query: query,
+                            },
+                            success: function (data) {
+                                for (var i = 0; i < data.length; i++) {
                                     if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
                                 }
-                            }
-                            autocomplete.preloaderHide();
-                            render(results); 
-                        }
-                    }); 
-                }
-            });
-
-            $('#unidad_inc').change(function () {
-                var unidad = $("#unidad_inc").val();
-                var encontro = false;
-                app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson+".json", function (data) {
-                    var content2 = JSON.parse(data);
-                    for(var x = 0; x < content2.length; x++) {
-                        if(content2[x].id_unidad == unidad){
-                            $("#unidad_inc").val(content2[x].buscador);
-                            $("#UnidadIncID").val(content2[x].id_unidad);
-                            encontro = true;
-                        }         
-                    }
-                    if(!encontro){
-                        $("#unidad_inc").val("");
-                        $("#UnidadIncID").val("");
-                    }
+                                autocomplete.preloaderHide();
+                                render(results);
+                            },
+                        });
+                    },
                 });
-            }); 
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////                      OPERADORES                      //////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var NomJson2 = 'Operadores_'+empresa;
-            self.autocompleteDropdownAjax = app.autocomplete.create({
-                inputEl: '#operador_inc',
-                openIn: 'dropdown',
-                preloader: true, //enable preloader
-                valueProperty: 'id_ope', //object's "value" property name
-                textProperty:  'buscador', //object's "text" property name
-                limit: 10, //limit to [number] results
-                dropdownPlaceholderText: 'Selecciona una Operador...',
-                source: function (query, render) {
-                    var autocomplete = this;
-                    var results = [];
-                    if (query.length === 0) {
-                        render(results);
-                        return;
-                    }
-                    autocomplete.preloaderShow();
-                    app.request({
-                        url: cordova.file.dataDirectory + carpeta + "/"+NomJson2+".json", 
-                        method: 'GET',
-                        dataType: 'json',
-                        data: {
-                            query: query,
-                        },success: function (data) {
-                            for (var i = 0; i < data.length; i++) {
-                                if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                $("#operador_inc").change(function () {
+                    var operador = $("#operador_inc").val();
+                    var encontro = false;
+                    app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson2 + ".json", function (data) {
+                        var content5 = JSON.parse(data);
+                        for (var x = 0; x < content5.length; x++) {
+                            if (content5[x].id_ope == operador) {
+                                $("#operador_inc").val(content5[x].buscador);
+                                $("#id_operador_inc").val(content5[x].id_ope);
+                                encontro = true;
                             }
-                            autocomplete.preloaderHide();
-                            render(results); 
                         }
-                    }); 
-                }
-            });
-
-            $('#operador_inc').change(function () {
-                var operador = $("#operador_inc").val();
-                var encontro = false;
-                app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson2+".json", function (data) {
-                    var content5 = JSON.parse(data);
-                    for(var x = 0; x < content5.length; x++) {
-                        if(content5[x].id_ope == operador){
-                            $("#operador_inc").val(content5[x].buscador);
-                            $("#id_operador_inc").val(content5[x].id_ope);
-                            encontro = true;
-                        }         
-                    }
-                    if(!encontro){
-                        $("#operador_inc").val("");
-                        $("#id_operador_inc").val("");
-                    }
+                        if (!encontro) {
+                            $("#operador_inc").val("");
+                            $("#id_operador_inc").val("");
+                        }
+                    });
                 });
-            }); 
-            
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////                     UBICACIONES                      //////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            var NomJson3 = 'Ubicaciones_'+empresa;
-            self.autocompleteDropdownAjax = app.autocomplete.create({
-                inputEl: '#ubicacion_inc',
-                openIn: 'dropdown',
-                preloader: true, //enable preloader
-                valueProperty: 'ID', //object's "value" property name
-                textProperty:  'buscador', //object's "text" property name
-                limit: 10, //limit to [number] results
-                dropdownPlaceholderText: 'Selecciona una Ubicación...',
-                source: function (query, render) {
-                    var autocomplete = this;
-                    var results = [];
-                    if (query.length === 0) {
-                        render(results);
-                        return;
-                    }
-                    autocomplete.preloaderShow();
-                    app.request({
-                        url: cordova.file.dataDirectory + carpeta + "/"+NomJson3+".json", 
-                        method: 'GET',
-                        dataType: 'json',
-                        data: {
-                            query: query,
-                        },success: function (data) {
-                            for (var i = 0; i < data.length; i++) {
-                                if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////                     UBICACIONES                      //////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                var NomJson3 = "Ubicaciones_" + empresa;
+                self.autocompleteDropdownAjax = app.autocomplete.create({
+                    inputEl: "#ubicacion_inc",
+                    openIn: "dropdown",
+                    preloader: true, //enable preloader
+                    valueProperty: "ID", //object's "value" property name
+                    textProperty: "buscador", //object's "text" property name
+                    limit: 10, //limit to [number] results
+                    dropdownPlaceholderText: "Selecciona una Ubicación...",
+                    source: function (query, render) {
+                        var autocomplete = this;
+                        var results = [];
+                        if (query.length === 0) {
+                            render(results);
+                            return;
+                        }
+                        autocomplete.preloaderShow();
+                        app.request({
+                            url: cordova.file.dataDirectory + carpeta + "/" + NomJson3 + ".json",
+                            method: "GET",
+                            dataType: "json",
+                            data: {
+                                query: query,
+                            },
+                            success: function (data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                }
+                                autocomplete.preloaderHide();
+                                render(results);
+                            },
+                        });
+                    },
+                });
+
+                $("#ubicacion_inc").change(function () {
+                    var ubicacion = $("#ubicacion_inc").val();
+                    var encontro = false;
+                    app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson3 + ".json", function (data) {
+                        var content3 = JSON.parse(data);
+                        for (var x = 0; x < content3.length; x++) {
+                            if (content3[x].ID == ubicacion) {
+                                $("#ubicacion_inc").val(content3[x].Ubicacion);
+                                encontro = true;
                             }
-                            autocomplete.preloaderHide();
-                            render(results); 
                         }
-                    }); 
-                }
-            });
-
-            $('#ubicacion_inc').change(function () {
-                var ubicacion = $("#ubicacion_inc").val();
-                var encontro = false;
-                app.request.get(cordova.file.dataDirectory + "jsons_desin/"+NomJson3+".json", function (data) {
-                    var content3 = JSON.parse(data);
-                    for(var x = 0; x < content3.length; x++) {
-                        if(content3[x].ID == ubicacion){
-                            $("#ubicacion_inc").val(content3[x].Ubicacion);
-                            encontro = true;
-                        }         
-                    }
-                    if(!encontro){
-                        $("#ubicacion_inc").val("");
-                    }
+                        if (!encontro) {
+                            $("#ubicacion_inc").val("");
+                        }
+                    });
                 });
-            });     
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        }
-    }
-}
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            },
+        },
+    };
 </script>
