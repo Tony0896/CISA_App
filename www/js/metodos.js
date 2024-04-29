@@ -2276,6 +2276,7 @@ function InsertaDetails(id_cedula, id_servidor) {
                         content3[x].Apoyo,
                         content3[x].TipoUnidad,
                         content3[x].Hora,
+                        content3[x].HoraFin,
                         content3[x].UnidadID,
                         content3[x].Unidad,
                         content3[x].Ubicacion,
@@ -2448,6 +2449,29 @@ function CerrarReporte() {
         function (error) {},
         function () {}
     );
+
+    databaseHandler.db.transaction(
+        function (tx5) {
+            tx5.executeSql(
+                "SELECT id_cedula FROM TRFapoyo WHERE id_cedula = ? AND (HoraFin = '' OR HoraFin IS NULL)",
+                [localStorage.getItem("IdCedula")],
+                function (tx5, results) {
+                    var length = results.rows.length;
+                    console.log(length);
+                    if (length == 0) {
+                    } else {
+                        swal("", "Aún tienes Apoyos con la hora fin vacía, asigna una hora para poder finalizar el reporte.", "warning");
+                        return false;
+                    }
+                },
+                function (tx5, error) {
+                    console.error("Error al consultar bandeja de salida: " + error.message);
+                }
+            );
+        },
+        function (error) {},
+        function () {}
+    );
     swal({
         title: "Aviso",
         text: "¿Estas seguro de querer cerrar el reporte?",
@@ -2593,6 +2617,7 @@ function GuardarTRFApoyos() {
         var Usuario = localStorage.getItem("Usuario");
         var id_operador = $("#id_operador").val();
         var Hora = $("#Hora").val();
+        var HoraFin = $("#HoraFin").val();
         var Itinerario = $("#Itinerario").val();
         var Unidad = $("#Unidad").val();
         var kilometrajeUnidad = $("#kilometrajeUnidad").val();
@@ -2622,6 +2647,15 @@ function GuardarTRFApoyos() {
             return false;
         }
 
+        if (HoraFin) {
+            if (HoraFin > Hora) {
+            } else {
+                swal("", "La hora fin no puede ser menor a la hora de inicio del apoyo.", "warning");
+                $("#HoraFin").val("");
+                return false;
+            }
+        }
+
         swal({
             title: "Aviso",
             text: "¿Estas seguro de querer guardar el registro?",
@@ -2642,8 +2676,8 @@ function GuardarTRFApoyos() {
                     databaseHandler.db.transaction(
                         function (tx) {
                             tx.executeSql(
-                                "UPDATE TRFapoyo SET TramoDeApoyo = ?, kilometrajeApoyo = ?, estatus_servidor = ? WHERE id_apoyo = ?",
-                                [TramoDeApoyo, kilometrajeApoyo, estatus_servidor, id_apoyo],
+                                "UPDATE TRFapoyo SET TramoDeApoyo = ?, kilometrajeApoyo = ?, estatus_servidor = ?, HoraFin = ? WHERE id_apoyo = ?",
+                                [TramoDeApoyo, kilometrajeApoyo, estatus_servidor, HoraFin, id_apoyo],
                                 function (tx, results) {
                                     swal("", "Guardado correctamente", "success");
                                     setTimeout(function () {
@@ -2667,12 +2701,13 @@ function GuardarTRFApoyos() {
                     databaseHandler.db.transaction(
                         function (tx) {
                             tx.executeSql(
-                                "insert into TRFapoyo (id_cedula, Apoyo, TipoUnidad, Hora, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                                "insert into TRFapoyo (id_cedula, Apoyo, TipoUnidad, Hora, HoraFin, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                                 [
                                     id_cedula,
                                     Apoyo,
                                     TipoUnidad,
                                     Hora,
+                                    HoraFin,
                                     UnidadID,
                                     Unidad,
                                     Itinerario,
@@ -2724,8 +2759,8 @@ function edit_apoyo(val, estatus) {
 }
 function sincronizaDatos() {
     var EmpresaID = localStorage.getItem("empresa");
-    // var urlBase2 = "http://192.168.100.4/Desarrollo/CISAApp";
-    var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+    var urlBase2 = "http://192.168.100.5/Desarrollo/CISAApp";
+    // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
     var url = urlBase2 + "/Exec/datos_desin.php?empresa=" + EmpresaID;
     var url2 = urlBase2 + "/Exec/datos_desin_H.php?empresa=" + EmpresaID;
 

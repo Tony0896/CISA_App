@@ -111,6 +111,7 @@
                                             </th>
                                             <th class="numeric-cell" style="text-align: center; background-color: #005d99; color: white">Unidad</th>
                                             <th class="numeric-cell" style="text-align: center; background-color: #005d99; color: white">Hora</th>
+                                            <th class="numeric-cell" style="text-align: center; background-color: #005d99; color: white">Hora Fin</th>
                                             <th class="numeric-cell" style="text-align: center; background-color: #005d99; color: white">Tramo</th>
                                             <th class="numeric-cell" style="text-align: center; background-color: #005d99; color: white">
                                                 Kilometraje
@@ -298,6 +299,25 @@
                                             var style2 = "text-align: center;font-weight: bold;";
                                         }
 
+                                        if (item.HoraFin) {
+                                            if (item.HoraFin.split(":").length == 3) {
+                                                var partes = item.HoraFin.split(":");
+                                                var HoraFin = partes[0] + ":" + partes[1];
+                                                if (partes[0] == "00:00") {
+                                                    HoraFin = "- -";
+                                                }
+                                            } else {
+                                                var HoraFin = item.HoraFin;
+                                                if (HoraFin == "00:00") {
+                                                    HoraFin = "- -";
+                                                }
+                                            }
+                                            var style5 = "text-align: center;";
+                                        } else {
+                                            var HoraFin = "- -";
+                                            var style5 = "text-align: center;font-weight: bold;";
+                                        }
+
                                         if (item.TramoDeApoyo) {
                                             var TramoDeApoyo = item.TramoDeApoyo;
                                             var style3 = "text-align: center;";
@@ -317,19 +337,19 @@
 
                                         if (item.estatus_servidor == 0) {
                                             $("#tb_apoyos").append(
-                                                `<tr id="trd_${item.id_apoyo}"><td style="padding: 0;text-align: center;"><i class="material-icons md-light panel-cerrar" style="color: #FF0037;margin-right: 0px !important; padding: 20px;padding-right: 0px;" id="bolac_${item.id_apoyo}">fiber_manual_record</i></td><td style="text-align: center;">${item.Itinerario}</td><td style="${style1}">${Unidad}</td><td style="${style2}">${Hora}</td><td style="${style3}">${TramoDeApoyo}</td><td style="${style4}">${kilometrajeApoyo}</td><td style='padding: 0px 15px;'><a href='#' onclick='edit_apoyo(${item.id_apoyo},0)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#FF0037'>edit</i></a></td></tr>`
+                                                `<tr id="trd_${item.id_apoyo}"><td style="padding: 0;text-align: center;"><i class="material-icons md-light panel-cerrar" style="color: #FF0037;margin-right: 0px !important; padding: 20px;padding-right: 0px;" id="bolac_${item.id_apoyo}">fiber_manual_record</i></td><td style="text-align: center;">${item.Itinerario}</td><td style="${style1}">${Unidad}</td><td style="${style2}">${Hora}</td><td style="${style5}">${HoraFin}</td><td style="${style3}">${TramoDeApoyo}</td><td style="${style4}">${kilometrajeApoyo}</td><td style='padding: 0px 15px;'><a href='#' onclick='edit_apoyo(${item.id_apoyo},0)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#FF0037'>edit</i></a></td></tr>`
                                             );
                                         } else if (item.estatus_servidor == 1) {
                                             $("#tb_apoyos").append(
-                                                `<tr id="trd_${item.id_apoyo}"><td style="padding: 0;text-align: center;"><i class="material-icons md-light panel-cerrar" style="color: #F39C12;margin-right: 0px !important; padding: 20px;padding-right: 0px;" id="bolac_${item.id_apoyo}">fiber_manual_record</i></td><td style="text-align: center;">${item.Itinerario}</td><td style="${style1}">${Unidad}</td><td style="${style2}">${Hora}</td><td style="${style3}">${TramoDeApoyo}</td><td style="${style4}">${kilometrajeApoyo}</td><td style='padding: 0px 15px;'><a href='#' onclick='edit_apoyo(${item.id_apoyo},1)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#FF0037'>edit</i></a></td></tr>`
+                                                `<tr id="trd_${item.id_apoyo}"><td style="padding: 0;text-align: center;"><i class="material-icons md-light panel-cerrar" style="color: #F39C12;margin-right: 0px !important; padding: 20px;padding-right: 0px;" id="bolac_${item.id_apoyo}">fiber_manual_record</i></td><td style="text-align: center;">${item.Itinerario}</td><td style="${style1}">${Unidad}</td><td style="${style2}">${Hora}</td><td style="${style5}">${HoraFin}</td><td style="${style3}">${TramoDeApoyo}</td><td style="${style4}">${kilometrajeApoyo}</td><td style='padding: 0px 15px;'><a href='#' onclick='edit_apoyo(${item.id_apoyo},1)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#FF0037'>edit</i></a></td></tr>`
                                             );
                                         } else if (item.estatus_servidor == 2) {
                                             $("#tb_apoyos").append(
-                                                `<tr id="trd_${item.id_apoyo}"><td style="padding: 0;text-align: center;"><i class="material-icons md-light panel-cerrar" style="color: #F39C12;margin-right: 0px !important; padding: 20px;padding-right: 0px;" id="bolac_${item.id_apoyo}">fiber_manual_record</i></td><td style="text-align: center;">${item.Itinerario}</td><td style="${style1}">${Unidad}</td><td style="${style2}">${Hora}</td><td style="${style3}">${TramoDeApoyo}</td><td style="${style4}">${kilometrajeApoyo}</td><td style='padding: 0px 15px;'><a href='#' onclick='edit_apoyo(${item.id_apoyo},2)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#FF0037'>edit</i></a></td></tr>`
+                                                `<tr id="trd_${item.id_apoyo}"><td style="padding: 0;text-align: center;"><i class="material-icons md-light panel-cerrar" style="color: #F39C12;margin-right: 0px !important; padding: 20px;padding-right: 0px;" id="bolac_${item.id_apoyo}">fiber_manual_record</i></td><td style="text-align: center;">${item.Itinerario}</td><td style="${style1}">${Unidad}</td><td style="${style2}">${Hora}</td><td style="${style5}">${HoraFin}</td><td style="${style3}">${TramoDeApoyo}</td><td style="${style4}">${kilometrajeApoyo}</td><td style='padding: 0px 15px;'><a href='#' onclick='edit_apoyo(${item.id_apoyo},2)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#FF0037'>edit</i></a></td></tr>`
                                             );
                                         } else if (item.estatus_servidor == 4) {
                                             $("#tb_apoyos").append(
-                                                `<tr id="trd_${item.id_apoyo}"><td style="padding: 0;text-align: center;"><i class="material-icons md-light panel-cerrar" style="color: #2ECC71;margin-right: 0px !important; padding: 20px;padding-right: 0px;" id="bolac_${item.id_apoyo}">fiber_manual_record</i></td><td style="text-align: center;">${item.Itinerario}</td><td style="${style1}">${Unidad}</td><td style="${style2}">${Hora}</td><td style="${style3}">${TramoDeApoyo}</td><td style="${style4}">${kilometrajeApoyo}</td><td style='padding: 0px 15px;'><a href='#' onclick='edit_apoyo(${item.id_apoyo},3)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#FF0037'>edit</i></a></td></tr>`
+                                                `<tr id="trd_${item.id_apoyo}"><td style="padding: 0;text-align: center;"><i class="material-icons md-light panel-cerrar" style="color: #2ECC71;margin-right: 0px !important; padding: 20px;padding-right: 0px;" id="bolac_${item.id_apoyo}">fiber_manual_record</i></td><td style="text-align: center;">${item.Itinerario}</td><td style="${style1}">${Unidad}</td><td style="${style2}">${Hora}</td><td style="${style5}">${HoraFin}</td><td style="${style3}">${TramoDeApoyo}</td><td style="${style4}">${kilometrajeApoyo}</td><td style='padding: 0px 15px;'><a href='#' onclick='edit_apoyo(${item.id_apoyo},3)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#FF0037'>edit</i></a></td></tr>`
                                             );
                                         }
                                     }

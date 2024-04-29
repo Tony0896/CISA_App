@@ -364,8 +364,8 @@
 
             $("#nombre_usuario").html(localStorage.getItem("nombre"));
             function updateData() {
-                // var urlBase2 = "http://192.168.100.4/Desarrollo/CISAApp";
-                var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+                var urlBase2 = "http://192.168.100.5/Desarrollo/CISAApp";
+                // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
                 if (localStorage.getItem("Modulos")) {
                     if (localStorage.getItem("Modulos") == "Limpieza") {
                         var RutaJSONS = urlBase2 + "/Archivos/JSON_limp/";
@@ -636,6 +636,22 @@
                                             [],
                                             function (tx5, results) {}
                                         );
+                                    },
+                                    function (error) {},
+                                    function () {}
+                                );
+                            },
+                            function () {}
+                        );
+
+                        databaseHandler.db.transaction(
+                            function (tx5) {
+                                tx5.executeSql("SELECT HoraFin FROM TRFapoyo LIMIT 1", [], function (tx5, results) {});
+                            },
+                            function (error) {
+                                databaseHandler.db.transaction(
+                                    function (tx5) {
+                                        tx5.executeSql("ALTER TABLE TRFapoyo ADD COLUMN HoraFin text", [], function (tx5, results) {});
                                     },
                                     function (error) {},
                                     function () {}

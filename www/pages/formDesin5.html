@@ -60,8 +60,11 @@
                             />Apoyo</label
                         >
 
-                        <span class="span FWM-span-form" name="">Hora</span>
-                        <input class="FWM-input obligatorio" type="time" id="Hora" name="Hora" />
+                        <span class="span FWM-span-form" name="">Hora Inicio de Apoyo</span>
+                        <input class="FWM-input obligatorio" type="time" id="Hora" name="Hora Inicio de Apoyo" />
+
+                        <span class="span FWM-span-form" name="">Hora Fin de Apoyo</span>
+                        <input class="FWM-input" type="time" id="HoraFin" name="Hora Fin de Apoyo" />
 
                         <span class="span FWM-span-form" name="">Itinerario</span>
                         <input class="FWM-input obligatorio" type="text" id="Itinerario" name="Itinerario" maxlength="20" />
@@ -140,6 +143,7 @@
                                         $("#Apoyo").prop("checked", false);
                                     }
                                     $("#Hora").val(item.Hora);
+                                    $("#HoraFin").val(item.HoraFin);
                                     $("#Itinerario").val(item.Itinerario);
                                     $("#Unidad").val(item.Unidad);
                                     $("#kilometrajeUnidad").val(item.kilometrajeUnidad);
