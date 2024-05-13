@@ -394,6 +394,8 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                                 HoraCapturaD: horas,
                                                                 id_servidord: item2.id_servidor,
                                                                 jornadaSIncorporacion: item2.jornadaSIncorporacion,
+                                                                SU_TipoUnidad: item2.SU_TipoUnidad,
+                                                                id_TRFapoyo: item2.id_TRFapoyo,
                                                             };
                                                         }
                                                         databaseHandler.db.transaction(
@@ -433,6 +435,7 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                                                 id_operador: item3.id_operador,
                                                                                 kilometrajeApoyo: item3.kilometrajeApoyo,
                                                                                 kilometrajeUnidad: item3.kilometrajeUnidad,
+                                                                                id_desD: item3.id_desD,
                                                                             };
                                                                         }
                                                                         $.ajax({
@@ -1322,6 +1325,8 @@ function llevarDatosTrafico(id_cedula, tipo, id_servidor) {
                             HoraCapturaD: horas,
                             id_servidord: item2.id_servidor,
                             jornadaSIncorporacion: item2.jornadaSIncorporacion,
+                            SU_TipoUnidad: item2.SU_TipoUnidad,
+                            id_TRFapoyo: item2.id_TRFapoyo,
                         };
                         var estatus = item2.estatus_servidor;
                         var urlphp = url + "/guardarTrafico_d.php?tipo=" + estatus;
@@ -1440,6 +1445,7 @@ function llevarDatosTrafico(id_cedula, tipo, id_servidor) {
                             id_operador: item2.id_operador,
                             kilometrajeApoyo: item2.kilometrajeApoyo,
                             kilometrajeUnidad: item2.kilometrajeUnidad,
+                            id_desD: item2.id_desD,
                         };
 
                         var estatus = item2.estatus_servidor;

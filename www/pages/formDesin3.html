@@ -130,6 +130,10 @@
                                 <th style="color: #505759">Folio de Final:</th>
                                 <td><span id="FolioInc" style="color: #063e7f"></span></td>
                             </tr>
+                            <tr>
+                                <th style="color: #505759">¿Es Sustitución por tipo de Unidad?:</th>
+                                <td><span id="SU_TipoUnidadInc" style="color: #063e7f"></span></td>
+                            </tr>
 
                             <!-- id_cedula
                             id_desD -->
@@ -332,6 +336,8 @@
                                 } else {
                                     $("#FolioInc").text("N/A");
                                 }
+
+                                item.SU_TipoUnidad == 1 ? $("#SU_TipoUnidadInc").text("Sí") : $("#SU_TipoUnidadInc").text("No");
                             },
                             function (tx, error) {}
                         );

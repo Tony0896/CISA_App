@@ -63,6 +63,15 @@
                                                     <ul>
                                                         <li class="container_info">
                                                             <div class="item-content">
+                                                                <i class="material-icons md-light panel-cerrar" style="color: #ff0037">storage</i>
+                                                                <div class="item-title">
+                                                                    <a class="panel-text">BASE DE CONEXION QA</a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                        <li class="container_info">
+                                                            <div class="item-content">
                                                                 <i class="material-icons md-light panel-cerrar" style="color: #005d99">person</i>
                                                                 <div class="item-title"><a class="panel-text" id="nombre_usuario"></a></div>
                                                             </div>
@@ -364,7 +373,7 @@
 
             $("#nombre_usuario").html(localStorage.getItem("nombre"));
             function updateData() {
-                var urlBase2 = "http://192.168.100.5/Desarrollo/CISAApp";
+                var urlBase2 = "http://192.168.100.2/Desarrollo/CISAApp";
                 // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
                 if (localStorage.getItem("Modulos")) {
                     if (localStorage.getItem("Modulos") == "Limpieza") {
@@ -652,6 +661,31 @@
                                 databaseHandler.db.transaction(
                                     function (tx5) {
                                         tx5.executeSql("ALTER TABLE TRFapoyo ADD COLUMN HoraFin text", [], function (tx5, results) {});
+                                    },
+                                    function (error) {},
+                                    function () {}
+                                );
+                                databaseHandler.db.transaction(
+                                    function (tx5) {
+                                        tx5.executeSql("ALTER TABLE TRFapoyo ADD COLUMN id_desD int", [], function (tx5, results) {});
+                                    },
+                                    function (error) {},
+                                    function () {}
+                                );
+                                databaseHandler.db.transaction(
+                                    function (tx5) {
+                                        tx5.executeSql(
+                                            "ALTER TABLE desincorporacionesD ADD COLUMN SU_TipoUnidad int",
+                                            [],
+                                            function (tx5, results) {}
+                                        );
+                                    },
+                                    function (error) {},
+                                    function () {}
+                                );
+                                databaseHandler.db.transaction(
+                                    function (tx5) {
+                                        tx5.executeSql("ALTER TABLE desincorporacionesD ADD COLUMN id_TRFapoyo int", [], function (tx5, results) {});
                                     },
                                     function (error) {},
                                     function () {}

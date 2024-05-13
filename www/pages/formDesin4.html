@@ -136,6 +136,9 @@
                         function () {}
                     );
                 } else if (folio == 2) {
+                    $("#datos_form").append(
+                        `<label for="" class="span FWM-span-form" style="text-align: center"> <input type="checkbox" id="SU_TipoUnidadView" style="transform: scale(1.4); margin-right: 15px" disabled/> ¿Es Sustitución por tipo de Unidad? </label>`
+                    );
                     $(".opta").css("display", "block");
                     $("#title").html("Datos de Incorporación");
                     $("#txt_folio").html("Folio Final");
@@ -155,6 +158,9 @@
                                     $("#estatus_servidor").val(item.estatus_servidor);
                                     $("#incumplimiento").val(item.Inclumplimiento);
                                     $("#km_perdidos").val(item.KmPerdidos);
+                                    item.SU_TipoUnidad == 1
+                                        ? $("#SU_TipoUnidadView").prop("checked", true)
+                                        : $("#SU_TipoUnidadView").prop("checked", false);
                                     if (item.id_operador_inc) {
                                         $("#operador_des").val(item.OperadorInc);
                                     } else {

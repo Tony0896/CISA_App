@@ -2331,6 +2331,7 @@ function GuardaIncorporacion() {
                 var id_cedula = localStorage.getItem("IdCedula");
                 var id_desD = localStorage.getItem("detalle_incorpora");
                 var Usuarioinc = localStorage.getItem("Usuario");
+                let SU_TipoUnidad = 0;
                 databaseHandler.db.transaction(
                     function (tx) {
                         tx.executeSql(
@@ -2343,10 +2344,13 @@ function GuardaIncorporacion() {
                                 } else if (item.estatus_servidor == 2) {
                                     var new_estatus = 3;
                                 }
+                                if ($("#SU_TipoUnidad").prop("checked") == true) {
+                                    SU_TipoUnidad = 1;
+                                }
                                 databaseHandler.db.transaction(
                                     function (tx) {
                                         tx.executeSql(
-                                            "UPDATE desincorporacionesD SET HoraInc = ?, UnidadIncID = ?, UnidadInc = ?, SentidoInc = ?, UbicacionInc = ?, Inclumplimiento = ?, OperadorInc = ?, KmInc = ?, FolioInc = ?, Usuarioinc = ?, KmPerdidos = ?, HoraIncR = ?, estatus_servidor = ?, id_operador_inc = ?, jornadaSIncorporacion = ? WHERE id_cedula = ? AND id_desD = ?",
+                                            "UPDATE desincorporacionesD SET HoraInc = ?, UnidadIncID = ?, UnidadInc = ?, SentidoInc = ?, UbicacionInc = ?, Inclumplimiento = ?, OperadorInc = ?, KmInc = ?, FolioInc = ?, Usuarioinc = ?, KmPerdidos = ?, HoraIncR = ?, estatus_servidor = ?, id_operador_inc = ?, jornadaSIncorporacion = ?, SU_TipoUnidad = ? WHERE id_cedula = ? AND id_desD = ?",
                                             [
                                                 HoraInc,
                                                 UnidadIncID,
@@ -2363,15 +2367,72 @@ function GuardaIncorporacion() {
                                                 new_estatus,
                                                 id_operador_inc,
                                                 jornadaSIncorporacion,
+                                                SU_TipoUnidad,
                                                 id_cedula,
                                                 id_desD,
                                             ],
                                             function (tx, results) {
-                                                swal("", "Guardado correctamente", "success");
-                                                setTimeout(function () {
-                                                    swal.close();
-                                                    app.views.main.router.back("/yallegue_desin/", { force: true, ignoreCache: true, reload: true });
-                                                }, 1500);
+                                                databaseHandler.db.transaction(
+                                                    function (tx) {
+                                                        tx.executeSql(
+                                                            "Select id_apoyo from TRFapoyo where id_cedula = ? AND id_desD = ?",
+                                                            [id_cedula, id_desD],
+                                                            function (tx, results) {
+                                                                let length = results.rows.length;
+                                                                if (length == 0) {
+                                                                    let Itinerario = $("#itinerario").val();
+                                                                    if ($("#SU_TipoUnidad").prop("checked") == true) {
+                                                                        GuardarTRFApoyosAuto(
+                                                                            id_cedula,
+                                                                            0,
+                                                                            1,
+                                                                            HoraInc,
+                                                                            "",
+                                                                            UnidadIncID,
+                                                                            UnidadInc,
+                                                                            Itinerario,
+                                                                            SentidoInc,
+                                                                            UbicacionInc,
+                                                                            OperadorInc,
+                                                                            id_operador_inc,
+                                                                            KmInc,
+                                                                            Usuarioinc,
+                                                                            0,
+                                                                            0,
+                                                                            getDateWhitZeros(),
+                                                                            "",
+                                                                            "",
+                                                                            id_desD
+                                                                        );
+                                                                    } else {
+                                                                        swal("", "Guardado correctamente", "success");
+                                                                        setTimeout(function () {
+                                                                            swal.close();
+                                                                            app.views.main.router.back("/yallegue_desin/", {
+                                                                                force: true,
+                                                                                ignoreCache: true,
+                                                                                reload: true,
+                                                                            });
+                                                                        }, 1500);
+                                                                    }
+                                                                } else {
+                                                                    swal("", "Guardado correctamente", "success");
+                                                                    setTimeout(function () {
+                                                                        swal.close();
+                                                                        app.views.main.router.back("/yallegue_desin/", {
+                                                                            force: true,
+                                                                            ignoreCache: true,
+                                                                            reload: true,
+                                                                        });
+                                                                    }, 1500);
+                                                                }
+                                                            },
+                                                            function (tx, error) {}
+                                                        );
+                                                    },
+                                                    function (error) {},
+                                                    function () {}
+                                                );
                                             },
                                             function (tx, error) {}
                                         );
@@ -2457,7 +2518,7 @@ function CerrarReporte() {
                 [localStorage.getItem("IdCedula")],
                 function (tx5, results) {
                     var length = results.rows.length;
-                    console.log(length);
+
                     if (length == 0) {
                     } else {
                         swal("", "Aún tienes Apoyos con la hora fin vacía, asigna una hora para poder finalizar el reporte.", "warning");
@@ -2638,7 +2699,6 @@ function GuardarTRFApoyos() {
             var Apoyo = 0;
         }
 
-        var estatus_servidor = 0;
         var id_servidor = 0;
         var HoraCaptura = getDateWhitZeros();
 
@@ -2656,53 +2716,117 @@ function GuardarTRFApoyos() {
             }
         }
 
-        swal({
-            title: "Aviso",
-            text: "¿Estas seguro de querer guardar el registro?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((RESP) => {
-            if (RESP == true) {
-                if ($("#id_apoyo").val()) {
-                    var id_apoyo = $("#id_apoyo").val();
-                    if ($("#estatus_servs").val() == 0) {
-                        estatus_servidor = 0;
-                    } else if ($("#estatus_servs").val() == 2) {
-                        estatus_servidor = 1;
-                    } else if ($("#estatus_servs").val() == 4) {
-                        estatus_servidor = 1;
-                    }
-                    databaseHandler.db.transaction(
-                        function (tx) {
-                            tx.executeSql(
-                                "UPDATE TRFapoyo SET TramoDeApoyo = ?, kilometrajeApoyo = ?, estatus_servidor = ?, HoraFin = ? WHERE id_apoyo = ?",
-                                [TramoDeApoyo, kilometrajeApoyo, estatus_servidor, HoraFin, id_apoyo],
-                                function (tx, results) {
-                                    swal("", "Guardado correctamente", "success");
-                                    setTimeout(function () {
-                                        swal.close();
-                                        app.views.main.router.back("/yallegue_desin/", { force: true, ignoreCache: true, reload: true });
-                                    }, 1500);
-                                },
-                                function (tx, error) {
-                                    console.error("Error al consultar bandeja de salida: " + error.message);
+        if ($("#id_apoyo").val()) {
+            var id_apoyo = $("#id_apoyo").val();
+            databaseHandler.db.transaction(
+                function (tx5) {
+                    tx5.executeSql(
+                        "SELECT id_cedula FROM desincorporacionesD WHERE id_cedula = ? AND id_TRFapoyo = ?",
+                        [localStorage.getItem("IdCedula"), id_apoyo],
+                        function (tx5, results) {
+                            var length = results.rows.length;
+
+                            if (length == 0) {
+                                if (HoraFin && TramoDeApoyo && kilometrajeApoyo && TipoUnidad == 1) {
+                                    swal({
+                                        title: "Aviso",
+                                        text: "¿Este registro genera una desincorporación?",
+                                        icon: "warning",
+                                        buttons: {
+                                            catch: {
+                                                text: "No",
+                                                value: "catch",
+                                                className: "btnDefault",
+                                            },
+                                            defeat: {
+                                                text: "Si genera",
+                                                className: "btnRed",
+                                            },
+                                        },
+                                        dangerMode: true,
+                                    }).then((value) => {
+                                        switch (value) {
+                                            case "defeat":
+                                                swal("", "Favor de llenar ahora los datos de la falla", "warning");
+                                                $(".divDesincorporacion").css("display", "block");
+                                                $("#toolbar_down").html(
+                                                    `<a href="#" onclick="GuardarTRFApoyosDeincorpora();" style="margin: auto; color: #fff; font-weight: bold; font-size: 18px"> Guardar Apoyo y Desincorporación <i class="icon material-icons md-only" style="display: inline-block">chevron_right</i> </a>`
+                                                );
+
+                                                break;
+
+                                            case "catch":
+                                                swal({
+                                                    title: "Aviso",
+                                                    text: "¿Estas seguro de querer guardar el registro?",
+                                                    icon: "warning",
+                                                    buttons: true,
+                                                    dangerMode: true,
+                                                }).then((RESP) => {
+                                                    if (RESP == true) {
+                                                        GuardaDataApoyo(
+                                                            id_cedula,
+                                                            Apoyo,
+                                                            TipoUnidad,
+                                                            Hora,
+                                                            HoraFin,
+                                                            UnidadID,
+                                                            Unidad,
+                                                            Itinerario,
+                                                            Sentido,
+                                                            Ubicacion,
+                                                            Operador,
+                                                            id_operador,
+                                                            kilometrajeUnidad,
+                                                            Usuario,
+                                                            id_servidor,
+                                                            HoraCaptura,
+                                                            TramoDeApoyo,
+                                                            kilometrajeApoyo
+                                                        );
+                                                    }
+                                                });
+                                                break;
+
+                                            default:
+                                                console.log("nada");
+                                        }
+                                    });
+                                } else {
+                                    swal({
+                                        title: "Aviso",
+                                        text: "¿Estas seguro de querer guardar el registro?",
+                                        icon: "warning",
+                                        buttons: true,
+                                        dangerMode: true,
+                                    }).then((RESP) => {
+                                        if (RESP == true) {
+                                            GuardaDataApoyo(
+                                                id_cedula,
+                                                Apoyo,
+                                                TipoUnidad,
+                                                Hora,
+                                                HoraFin,
+                                                UnidadID,
+                                                Unidad,
+                                                Itinerario,
+                                                Sentido,
+                                                Ubicacion,
+                                                Operador,
+                                                id_operador,
+                                                kilometrajeUnidad,
+                                                Usuario,
+                                                id_servidor,
+                                                HoraCaptura,
+                                                TramoDeApoyo,
+                                                kilometrajeApoyo
+                                            );
+                                        }
+                                        // TRFapoyo(id_cedula, Apoyo, TipoUnidad, Hora, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo);
+                                    });
                                 }
-                            );
-                        },
-                        function (error) {
-                            console.error("Error al consultar bandeja de salida: " + error.message);
-                        },
-                        function (error) {
-                            console.error("Error al consultar bandeja de salida: " + error.message);
-                        }
-                    );
-                } else {
-                    databaseHandler.db.transaction(
-                        function (tx) {
-                            tx.executeSql(
-                                "insert into TRFapoyo (id_cedula, Apoyo, TipoUnidad, Hora, HoraFin, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                                [
+                            } else {
+                                GuardaDataApoyo(
                                     id_cedula,
                                     Apoyo,
                                     TipoUnidad,
@@ -2717,35 +2841,121 @@ function GuardarTRFApoyos() {
                                     id_operador,
                                     kilometrajeUnidad,
                                     Usuario,
-                                    estatus_servidor,
                                     id_servidor,
                                     HoraCaptura,
                                     TramoDeApoyo,
-                                    kilometrajeApoyo,
-                                ],
-                                function (tx, results) {
-                                    swal("", "Guardado correctamente", "success");
-                                    setTimeout(function () {
-                                        swal.close();
-                                        app.views.main.router.back("/yallegue_desin/", { force: true, ignoreCache: true, reload: true });
-                                    }, 1500);
-                                },
-                                function (tx, error) {
-                                    console.error("Error al consultar bandeja de salida: " + error.message);
-                                }
-                            );
+                                    kilometrajeApoyo
+                                );
+                            }
                         },
-                        function (error) {
-                            console.error("Error al consultar bandeja de salida: " + error.message);
-                        },
-                        function (error) {
+                        function (tx5, error) {
                             console.error("Error al consultar bandeja de salida: " + error.message);
                         }
                     );
-                }
+                },
+                function (error) {},
+                function () {}
+            );
+        } else {
+            if (HoraFin && TramoDeApoyo && kilometrajeApoyo && TipoUnidad == 1) {
+                swal({
+                    title: "Aviso",
+                    text: "¿Este registro genera una desincorporación?",
+                    icon: "warning",
+                    buttons: {
+                        catch: {
+                            text: "No",
+                            value: "catch",
+                            className: "btnDefault",
+                        },
+                        defeat: {
+                            text: "Si genera",
+                            className: "btnRed",
+                        },
+                    },
+                    dangerMode: true,
+                }).then((value) => {
+                    switch (value) {
+                        case "defeat":
+                            swal("", "Favor de llenar ahora los datos de la falla", "warning");
+                            $(".divDesincorporacion").css("display", "block");
+                            $("#toolbar_down").html(
+                                `<a href="#" onclick="GuardarTRFApoyosDeincorpora();" style="margin: auto; color: #fff; font-weight: bold; font-size: 18px"> Guardar Apoyo y Desincorporación <i class="icon material-icons md-only" style="display: inline-block">chevron_right</i> </a>`
+                            );
+
+                            break;
+
+                        case "catch":
+                            swal({
+                                title: "Aviso",
+                                text: "¿Estas seguro de querer guardar el registro?",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                            }).then((RESP) => {
+                                if (RESP == true) {
+                                    GuardaDataApoyo(
+                                        id_cedula,
+                                        Apoyo,
+                                        TipoUnidad,
+                                        Hora,
+                                        HoraFin,
+                                        UnidadID,
+                                        Unidad,
+                                        Itinerario,
+                                        Sentido,
+                                        Ubicacion,
+                                        Operador,
+                                        id_operador,
+                                        kilometrajeUnidad,
+                                        Usuario,
+                                        id_servidor,
+                                        HoraCaptura,
+                                        TramoDeApoyo,
+                                        kilometrajeApoyo
+                                    );
+                                }
+                            });
+                            break;
+
+                        default:
+                            console.log("nada");
+                    }
+                });
+            } else {
+                swal({
+                    title: "Aviso",
+                    text: "¿Estas seguro de querer guardar el registro?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((RESP) => {
+                    if (RESP == true) {
+                        GuardaDataApoyo(
+                            id_cedula,
+                            Apoyo,
+                            TipoUnidad,
+                            Hora,
+                            HoraFin,
+                            UnidadID,
+                            Unidad,
+                            Itinerario,
+                            Sentido,
+                            Ubicacion,
+                            Operador,
+                            id_operador,
+                            kilometrajeUnidad,
+                            Usuario,
+                            id_servidor,
+                            HoraCaptura,
+                            TramoDeApoyo,
+                            kilometrajeApoyo
+                        );
+                    }
+                    // TRFapoyo(id_cedula, Apoyo, TipoUnidad, Hora, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo);
+                });
             }
-            // TRFapoyo(id_cedula, Apoyo, TipoUnidad, Hora, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo);
-        });
+        }
     } else {
         swal("", "Debes llenar estos campos para poder guardar: " + quita_coma, "warning");
         return false;
@@ -2759,7 +2969,7 @@ function edit_apoyo(val, estatus) {
 }
 function sincronizaDatos() {
     var EmpresaID = localStorage.getItem("empresa");
-    var urlBase2 = "http://192.168.100.5/Desarrollo/CISAApp";
+    var urlBase2 = "http://192.168.100.4/Desarrollo/CISAApp";
     // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
     var url = urlBase2 + "/Exec/datos_desin.php?empresa=" + EmpresaID;
     var url2 = urlBase2 + "/Exec/datos_desin_H.php?empresa=" + EmpresaID;
@@ -6052,3 +6262,320 @@ function borrarCargaDiesel(id, id_unidad, eco, carga) {
     });
 }
 //Fin Diesel
+//Mejoras SU
+function GuardarTRFApoyosAuto(
+    id_cedula,
+    Apoyo,
+    TipoUnidad,
+    Hora,
+    HoraFin,
+    UnidadID,
+    Unidad,
+    Itinerario,
+    Sentido,
+    Ubicacion,
+    Operador,
+    id_operador,
+    kilometrajeUnidad,
+    Usuario,
+    estatus_servidor,
+    id_servidor,
+    HoraCaptura,
+    TramoDeApoyo,
+    kilometrajeApoyo,
+    id_desD
+) {
+    databaseHandler.db.transaction(
+        function (tx) {
+            tx.executeSql(
+                "insert into TRFapoyo (id_cedula, Apoyo, TipoUnidad, Hora, HoraFin, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo, id_desD) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [
+                    id_cedula,
+                    Apoyo,
+                    TipoUnidad,
+                    Hora,
+                    HoraFin,
+                    UnidadID,
+                    Unidad,
+                    Itinerario,
+                    Sentido,
+                    Ubicacion,
+                    Operador,
+                    id_operador,
+                    kilometrajeUnidad,
+                    Usuario,
+                    estatus_servidor,
+                    id_servidor,
+                    HoraCaptura,
+                    TramoDeApoyo,
+                    kilometrajeApoyo,
+                    id_desD,
+                ],
+                function (tx, results) {
+                    swal("", "Guardado correctamente", "success");
+                    setTimeout(function () {
+                        swal.close();
+                        app.views.main.router.back("/yallegue_desin/", { force: true, ignoreCache: true, reload: true });
+                    }, 1500);
+                },
+                function (tx, error) {
+                    console.error("Error al consultar bandeja de salida: " + error.message);
+                }
+            );
+        },
+        function (error) {
+            console.error("Error al consultar bandeja de salida: " + error.message);
+        },
+        function (error) {
+            console.error("Error al consultar bandeja de salida: " + error.message);
+        }
+    );
+}
+
+function GuardaDataApoyo(
+    id_cedula,
+    Apoyo,
+    TipoUnidad,
+    Hora,
+    HoraFin,
+    UnidadID,
+    Unidad,
+    Itinerario,
+    Sentido,
+    Ubicacion,
+    Operador,
+    id_operador,
+    kilometrajeUnidad,
+    Usuario,
+    id_servidor,
+    HoraCaptura,
+    TramoDeApoyo,
+    kilometrajeApoyo
+) {
+    var estatus_servidor = 0;
+    if ($("#id_apoyo").val()) {
+        var id_apoyo = $("#id_apoyo").val();
+        if ($("#estatus_servs").val() == 0) {
+            estatus_servidor = 0;
+        } else if ($("#estatus_servs").val() == 2) {
+            estatus_servidor = 1;
+        } else if ($("#estatus_servs").val() == 4) {
+            estatus_servidor = 1;
+        }
+        databaseHandler.db.transaction(
+            function (tx) {
+                tx.executeSql(
+                    "UPDATE TRFapoyo SET TramoDeApoyo = ?, kilometrajeApoyo = ?, estatus_servidor = ?, HoraFin = ? WHERE id_apoyo = ?",
+                    [TramoDeApoyo, kilometrajeApoyo, estatus_servidor, HoraFin, id_apoyo],
+                    function (tx, results) {
+                        swal("", "Guardado correctamente", "success");
+                        setTimeout(function () {
+                            swal.close();
+                            app.views.main.router.back("/yallegue_desin/", {
+                                force: true,
+                                ignoreCache: true,
+                                reload: true,
+                            });
+                        }, 1500);
+                    },
+                    function (tx, error) {
+                        console.error("Error al consultar bandeja de salida: " + error.message);
+                    }
+                );
+            },
+            function (error) {
+                console.error("Error al consultar bandeja de salida: " + error.message);
+            },
+            function (error) {
+                console.error("Error al consultar bandeja de salida: " + error.message);
+            }
+        );
+    } else {
+        databaseHandler.db.transaction(
+            function (tx) {
+                tx.executeSql(
+                    "insert into TRFapoyo (id_cedula, Apoyo, TipoUnidad, Hora, HoraFin, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [
+                        id_cedula,
+                        Apoyo,
+                        TipoUnidad,
+                        Hora,
+                        HoraFin,
+                        UnidadID,
+                        Unidad,
+                        Itinerario,
+                        Sentido,
+                        Ubicacion,
+                        Operador,
+                        id_operador,
+                        kilometrajeUnidad,
+                        Usuario,
+                        estatus_servidor,
+                        id_servidor,
+                        HoraCaptura,
+                        TramoDeApoyo,
+                        kilometrajeApoyo,
+                    ],
+                    function (tx, results) {
+                        swal("", "Guardado correctamente", "success");
+                        setTimeout(function () {
+                            swal.close();
+                            app.views.main.router.back("/yallegue_desin/", {
+                                force: true,
+                                ignoreCache: true,
+                                reload: true,
+                            });
+                        }, 1500);
+                    },
+                    function (tx, error) {
+                        console.error("Error al consultar bandeja de salida: " + error.message);
+                    }
+                );
+            },
+            function (error) {
+                console.error("Error al consultar bandeja de salida: " + error.message);
+            },
+            function (error) {
+                console.error("Error al consultar bandeja de salida: " + error.message);
+            }
+        );
+    }
+}
+
+function GuardarTRFApoyosDeincorpora() {
+    var values = get_datos_completos("datos_form");
+    var quita_coma = values.response;
+    var valido = values.valido;
+    if (valido) {
+        var id_cedula = localStorage.getItem("IdCedula");
+        var Usuario = localStorage.getItem("Usuario");
+        var id_operador = $("#id_operador").val();
+        var Hora = $("#Hora").val();
+        var HoraFin = $("#HoraFin").val();
+        var Itinerario = $("#Itinerario").val();
+        var Unidad = $("#Unidad").val();
+        var kilometrajeUnidad = $("#kilometrajeUnidad").val();
+        var Operador = $("#Operador").val();
+        var Ubicacion = $("#Ubicacion").val();
+        var Sentido = $("#Sentido").val();
+        var TramoDeApoyo = $("#TramoDeApoyo").val();
+        var kilometrajeApoyo = $("#kilometrajeApoyo").val();
+        var UnidadID = $("#UnidadID").val();
+        var Falla = $("#falla").val();
+        var DetalleFalla = $("#detalle_falla").val();
+        var folio_inicial = $("#folio_inicial").val();
+
+        if ($("#TipoUnidad").prop("checked") == true) {
+            var TipoUnidad = 1;
+        } else {
+            var TipoUnidad = 0;
+        }
+        if ($("#Apoyo").prop("checked") == true) {
+            var Apoyo = 1;
+        } else {
+            var Apoyo = 0;
+        }
+
+        var id_servidor = 0;
+        var HoraCaptura = getDateWhitZeros();
+
+        if (Apoyo == 0 && TipoUnidad == 0) {
+            swal("", "Debes marcar una opción del tipo de apoyo.", "warning");
+            return false;
+        }
+
+        if (HoraFin) {
+            if (HoraFin > Hora) {
+            } else {
+                swal("", "La hora fin no puede ser menor a la hora de inicio del apoyo.", "warning");
+                $("#HoraFin").val("");
+                return false;
+            }
+        }
+
+        if (!Falla) {
+            swal("", "Debes indicar la falla.", "warning");
+            return false;
+        }
+
+        if (!DetalleFalla) {
+            swal("", "Debes indicar el detalle de la falla.", "warning");
+            return false;
+        }
+
+        var id_apoyo = $("#id_apoyo").val();
+
+        swal({
+            title: "Aviso",
+            text: "¿Estas seguro de querer guardar el registro?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((RESP) => {
+            databaseHandler.db.transaction(
+                function (tx) {
+                    tx.executeSql(
+                        "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, id_operador_des, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, id_TRFapoyo) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        [
+                            id_cedula,
+                            1,
+                            0,
+                            HoraFin,
+                            UnidadID,
+                            Unidad,
+                            Itinerario,
+                            Falla,
+                            DetalleFalla,
+                            Sentido,
+                            Ubicacion,
+                            Operador,
+                            id_operador,
+                            kilometrajeUnidad,
+                            folio_inicial,
+                            Usuario,
+                            0,
+                            0,
+                            HoraCaptura,
+                            id_apoyo,
+                        ],
+                        function (tx, results) {
+                            GuardaDataApoyo(
+                                id_cedula,
+                                Apoyo,
+                                TipoUnidad,
+                                Hora,
+                                HoraFin,
+                                UnidadID,
+                                Unidad,
+                                Itinerario,
+                                Sentido,
+                                Ubicacion,
+                                Operador,
+                                id_operador,
+                                kilometrajeUnidad,
+                                Usuario,
+                                id_servidor,
+                                HoraCaptura,
+                                TramoDeApoyo,
+                                kilometrajeApoyo
+                            );
+                        },
+                        function (tx, error) {
+                            console.error("Error al consultar bandeja de salida: " + error.message);
+                        }
+                    );
+                },
+                function (error) {
+                    console.error("Error al consultar bandeja de salida: " + error.message);
+                },
+                function (error) {
+                    console.error("Error al consultar bandeja de salida: " + error.message);
+                }
+            );
+        });
+    } else {
+        swal("", "Debes llenar estos campos para poder guardar: " + quita_coma, "warning");
+        return false;
+    }
+}
+// FIN Mejoras SU

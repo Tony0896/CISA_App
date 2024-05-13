@@ -34,31 +34,23 @@
             <div style="text-align: center; justify-content: center; margin-right: auto; margin-left: auto; width: 99%; margin-top: 30px">
                 <div style="text-align: left">
                     <div class="list FWM-fixing-form" id="datos_form" style="margin-top: 5px">
-                        <h2 style="text-align: center">Datos de Desincorporación</h2>
+                        <h2 style="text-align: center">Datos de Apoyo</h2>
 
-                        <hr style="margin-top: 30px; margin-bottom: 30px" />
+                        <br />
 
                         <input type="hidden" id="UnidadID" />
                         <input type="hidden" id="id_operador" />
                         <input type="hidden" id="id_apoyo" />
                         <input type="hidden" id="estatus_servs" />
 
-                        <label for="" class="span FWM-span-form" style="text-align: center"
-                            ><input
-                                type="checkbox"
-                                onclick="CheckApoyoTipo(0)"
-                                id="TipoUnidad"
-                                style="transform: scale(1.4); margin-right: 15px"
-                            />Apoyo por tipo de unidad</label
-                        >
-                        <label for="" class="span FWM-span-form" style="text-align: center"
-                            ><input
-                                type="checkbox"
-                                onclick="CheckApoyoTipo(1)"
-                                id="Apoyo"
-                                style="transform: scale(1.4); margin-right: 15px"
-                            />Apoyo</label
-                        >
+                        <label for="" class="span FWM-span-form" style="text-align: center; display: none">
+                            <input type="checkbox" onclick="CheckApoyoTipo(0)" id="TipoUnidad" style="transform: scale(1.4); margin-right: 15px" />
+                            Apoyo por tipo de unidad
+                        </label>
+
+                        <label for="" class="span FWM-span-form" style="text-align: center; display: none">
+                            <input type="checkbox" onclick="CheckApoyoTipo(1)" id="Apoyo" checked /> Apoyo
+                        </label>
 
                         <span class="span FWM-span-form" name="">Hora Inicio de Apoyo</span>
                         <input class="FWM-input obligatorio" type="time" id="Hora" name="Hora Inicio de Apoyo" />
@@ -82,7 +74,6 @@
                         <input class="FWM-input obligatorio" type="text" id="Ubicacion" name="Ubicación" />
 
                         <span class="span FWM-span-form" name="">Sentido</span>
-                        <!-- <input class="FWM-input obligatorio" type="text" id="sentido" name="Sentido"/> -->
                         <select class="FWM-input obligatorio" id="Sentido" name="Sentido">
                             <option value="0">Selecciona una opción</option>
                             <option value="Norte - Sur">Norte - Sur</option>
@@ -96,6 +87,21 @@
 
                         <span class="span FWM-span-form" name="">Kilometraje de Apoyo</span>
                         <input class="FWM-input" type="number" id="kilometrajeApoyo" name="Kilometraje de Apoyo" />
+
+                        <div class="divDesincorporacion" style="display: none">
+                            <span class="span FWM-span-form" name="">Falla</span>
+                            <input class="FWM-input" type="text" id="falla" name="Falla" />
+                        </div>
+
+                        <div class="divDesincorporacion" style="display: none">
+                            <span class="span FWM-span-form" name="">Detalle de la Falla</span>
+                            <textarea class="FWM-input" id="detalle_falla" cols="30" rows="10" name="Detalle de la Falla" maxlength="255"> </textarea>
+                        </div>
+
+                        <div class="divDesincorporacion" style="display: none">
+                            <span class="span FWM-span-form" name="">Folio inicial</span>
+                            <input class="FWM-input" type="text" id="folio_inicial" name="Folio inicial" maxlength="25" />
+                        </div>
                     </div>
                     <div style="margin-bottom: 100px"></div>
                 </div>
@@ -148,6 +154,7 @@
                                     $("#Unidad").val(item.Unidad);
                                     $("#kilometrajeUnidad").val(item.kilometrajeUnidad);
                                     $("#Operador").val(item.Operador);
+                                    $("#id_operador").val(item.id_operador);
                                     $("#Ubicacion").val(item.Ubicacion);
                                     $("#Sentido").val(item.Sentido);
                                     $("#TramoDeApoyo").val(item.TramoDeApoyo);
@@ -343,6 +350,63 @@
                         }
                     });
                 });
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////                        FALLAS                        //////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                var NomJson4 = "Fallas";
+                self.autocompleteDropdownAjax = app.autocomplete.create({
+                    inputEl: "#falla",
+                    openIn: "dropdown",
+                    preloader: true, //enable preloader
+                    valueProperty: "id_danio", //object's "value" property name
+                    textProperty: "tipo_danio", //object's "text" property name
+                    limit: 10, //limit to [number] results
+                    dropdownPlaceholderText: "Selecciona una Falla...",
+                    source: function (query, render) {
+                        var autocomplete = this;
+                        var results = [];
+                        if (query.length === 0) {
+                            render(results);
+                            return;
+                        }
+                        autocomplete.preloaderShow();
+                        app.request({
+                            url: cordova.file.dataDirectory + carpeta + "/" + NomJson4 + ".json",
+                            method: "GET",
+                            dataType: "json",
+                            data: {
+                                query: query,
+                            },
+                            success: function (data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i].tipo_danio.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                }
+                                autocomplete.preloaderHide();
+                                render(results);
+                            },
+                        });
+                    },
+                });
+
+                $("#falla").change(function () {
+                    var falla = $("#falla").val();
+                    var encontro = false;
+                    app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson4 + ".json", function (data) {
+                        var content4 = JSON.parse(data);
+                        for (var x = 0; x < content4.length; x++) {
+                            if (content4[x].id_danio == falla) {
+                                $("#falla").val(content4[x].tipo_danio);
+                                encontro = true;
+                            }
+                        }
+                        if (!encontro) {
+                            $("#falla").val("");
+                        }
+                    });
+                });
+
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             },
         },
     };
