@@ -11,6 +11,12 @@ function logaout() {
     });
 }
 
+function cambiaCamara() {
+    let camara = $("#camara_activa").val();
+    localStorage.setItem("camera", camara);
+    swal("", "Se cambio la configuracion de la camara.", "success");
+}
+
 function deleteForm() {
     document.getElementById("demo-form").reset();
 }
@@ -104,24 +110,25 @@ function capturePhoto() {
                         <canvas id="camera-frame" style="display: none;"></canvas>
                         <video id="camera-view" autoplay playsinline class="raster" style="display: none;"></video>
                         <img src="" id="phototaked">
-                        <div>
-                            <div class="left-action">
-                                <div class="cancel popup-close" id="cancelCamera" onClick="onCancelCamera()"><img class="image-cancel" src="img/cerrar_camera.svg"></div>
-                                <div class="cancel " id="cancelPicure" onClick="onCancelPicture()"><img class="image-cancel" src="img/cerrar_camera.svg"></div>
+
+                        <div style="position: relative; display: flex; flex-direction: row; justify-content: space-around;margin-top: 80vh;">
+                            <div>
+                                <div id="cancelCamera" onClick="onCancelCamera()"><img class="image-cancel" src="img/cerrar_camera.svg" style="margin-left: 0;"></div>
+                                <div id="cancelPicure" onClick="onCancelPicture()" style="display:none;background-color: #c2c2c242;width: 58px;height: 58px;border-radius: 100%;"><img class="image-cancel" src="img/cerrar_camera.svg"></div>
                             </div>
-                            <div class="camera">
-                                <div class="take" id="take" onclick="onTake()">
+                            <div>
+                                <div class="take" id="take" onclick="onTake()" style="right: auto;">
                                     <div class="bubble-take"></div>
                                 </div>
-                                <div class="select" id="select" style="display: none;" onClick="onDone()"><img id="img-select" src="img/validar_camera.svg"></div>
                             </div>
-                            <div class="right-action">
-                                <div class="switch" id="switch" onClick="onSwitch()"><img class="image-switch" src="img/flip.svg"></div>
+                            <div>
+                                <div id="switch" onClick="onSwitch()"><img class="image-switch" src="img/flip.svg" style="margin-left: 0;"></div>
+                                <div id="select" style="display: none;border-radius: 100%;background-color: #c2c2c242;width: 58px !important;height: 58px !important;" onClick="onDone()"><img id="img-select" src="img/validar_camera.svg"></div>
                             </div>
                         </div>
                         
                         <div class="actions">
-                            <div class="action torch" id="torch" onClick="onTorch()"><img id="flash" src="img/flash_off.svg" width="30px" style="display:none;"></div>
+                            <div class="action torch" id="torch" onClick="onTorch()" style="display:none;"><img id="flash" src="img/flash_off.svg" width="30px"></div>
                             <div class="action rotate-right" id="rotateRight" onClick="onRotateRight()" style="display:none"><img id="flash" src="img/rotate-right.svg" width="30px"></div>
                             <div class="action rotate-left" id="rotateLeft" onClick="onRotateLeft()" style="display:none"><img id="flash" src="img/rotate-left.svg" width="30px"></div>
                         </div>
@@ -330,7 +337,7 @@ function capturaFirma() {
                             <div class="cancel" id="cancelPicure" onClick="onCancelPicture()"><img class="image-cancel" src="img/cerrar_camera.svg"></div>
                         </div>
                         <div class="actions">
-                            <div class="action torch" id="torch" onClick="onTorch()"><img id="flash" src="img/flash_off.svg" width="30px"></div>
+                            <div class="action torch" id="torch" onClick="onTorch()" style="display:none"><img id="flash" src="img/flash_off.svg" width="30px"></div>
                             <div class="action rotate-right" id="rotateRight" onClick="onRotateRight()" style="display:none"><img id="flash" src="img/rotate-right.svg" width="30px"></div>
                             <div class="action rotate-left" id="rotateLeft" onClick="onRotateLeft()" style="display:none"><img id="flash" src="img/rotate-left.svg" width="30px"></div>
                         </div>

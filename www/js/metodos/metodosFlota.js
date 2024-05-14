@@ -715,7 +715,7 @@ function GuardarPhoto() {
                                 function (tx, results) {
                                     var item = results.rows.item(0);
                                     $("#evidencias_div").css("display", "none");
-                                    $("#div_botones_camara").html(`<div style="min-width: 50px; border-style: none;">
+                                    $("#div_botones_camara").html(`<div style="min-width: 50px; border-style: none; margin: auto;">
                                         <span class="resize-handler"></span>
                                         <a href="#" onclick="ValidarCapturePhotoInsflota()" style="background-color: #fff;border: 3px solid #005D99;color:#005D99" class="boton-equipo">
                                             Agregar Evidencia <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;color:#005D99">photo_camera</i>
