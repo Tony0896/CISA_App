@@ -373,8 +373,8 @@
 
             $("#nombre_usuario").html(localStorage.getItem("nombre"));
             function updateData() {
-                var urlBase2 = "http://192.168.100.2/Desarrollo/CISAApp";
-                // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+                // var urlBase2 = "http://192.168.100.2/Desarrollo/CISAApp";
+                var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
                 if (localStorage.getItem("Modulos")) {
                     if (localStorage.getItem("Modulos") == "Limpieza") {
                         var RutaJSONS = urlBase2 + "/Archivos/JSON_limp/";
@@ -383,7 +383,7 @@
                         var RutaJSONS = urlBase2 + "/Archivos/JSON/";
                         var carpeta = "jsons";
                     } else if (localStorage.getItem("Modulos") == "Desincorporaciones") {
-                        var RutaJSONS = urlBase2 + "/Archivos/JSON_desin/";
+                        var RutaJSONS = urlBase2 + "/Archivos_dev/JSON_desin/";
                         var carpeta = "jsons_desin";
                     } else if (localStorage.getItem("Modulos") == "Recaudo") {
                         var RutaJSONS = urlBase2 + "/Archivos/JSON_recaudo/";

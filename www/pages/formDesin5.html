@@ -152,9 +152,11 @@
                                     $("#HoraFin").val(item.HoraFin);
                                     $("#Itinerario").val(item.Itinerario);
                                     $("#Unidad").val(item.Unidad);
+                                    $("#UnidadID").val(item.UnidadID);
                                     $("#kilometrajeUnidad").val(item.kilometrajeUnidad);
                                     $("#Operador").val(item.Operador);
-                                    $("#id_operador").val(item.id_operador);
+                                    item.Operador ? traeOperador() : null;
+                                    $("#id_operador").val(item.Operador);
                                     $("#Ubicacion").val(item.Ubicacion);
                                     $("#Sentido").val(item.Sentido);
                                     $("#TramoDeApoyo").val(item.TramoDeApoyo);
@@ -407,6 +409,27 @@
                 });
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                function traeOperador() {
+                    // var empresa = localStorage.getItem("empresa");
+                    // var NomJson2 = "Operadores_" + empresa;
+                    // var operador = $("#Operador").val();
+                    // var encontro = false;
+                    // app.request.get(cordova.file.dataDirectory + "jsons_desin/" + NomJson2 + ".json", function (data) {
+                    //     var content5 = JSON.parse(data);
+                    //     for (var x = 0; x < content5.length; x++) {
+                    //         if (content5[x].id_ope == operador) {
+                    //             $("#Operador").val(content5[x].buscador);
+                    //             $("#id_operador").val(content5[x].id_ope);
+                    //             encontro = true;
+                    //         }
+                    //     }
+                    //     if (!encontro) {
+                    //         $("#Operador").val("");
+                    //         $("#id_operador").val("");
+                    //     }
+                    // });
+                }
             },
         },
     };

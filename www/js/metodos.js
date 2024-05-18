@@ -2255,6 +2255,7 @@ function InsertaDetails(id_cedula, id_servidor) {
                         content2[x].Origen,
                         content2[x].UbicacionI,
                         content2[x].JornadaSinIncorporacion,
+                        content2[x].SU_TipoUnidad,
                         x,
                         content2.length,
                         id_cedula
@@ -2721,16 +2722,15 @@ function GuardarTRFApoyos() {
             databaseHandler.db.transaction(
                 function (tx5) {
                     tx5.executeSql(
-                        "SELECT id_cedula FROM desincorporacionesD WHERE id_cedula = ? AND id_TRFapoyo = ?",
+                        "Select id_cedula from TRFapoyo where id_cedula = ? AND id_apoyo = ? AND HoraFin is not null AND TramoDeApoyo is not null AND kilometrajeApoyo is not null AND HoraFin <> '' AND TramoDeApoyo <> '' AND kilometrajeApoyo <> ''",
                         [localStorage.getItem("IdCedula"), id_apoyo],
                         function (tx5, results) {
                             var length = results.rows.length;
-
                             if (length == 0) {
                                 if (HoraFin && TramoDeApoyo && kilometrajeApoyo && TipoUnidad == 1) {
                                     swal({
                                         title: "Aviso",
-                                        text: "¿Este registro genera una desincorporación?",
+                                        text: "¿Este apoyo genera una desincorporación?",
                                         icon: "warning",
                                         buttons: {
                                             catch: {
@@ -2860,7 +2860,7 @@ function GuardarTRFApoyos() {
             if (HoraFin && TramoDeApoyo && kilometrajeApoyo && TipoUnidad == 1) {
                 swal({
                     title: "Aviso",
-                    text: "¿Este registro genera una desincorporación?",
+                    text: "¿Este apoyo genera una desincorporación?",
                     icon: "warning",
                     buttons: {
                         catch: {
@@ -2969,10 +2969,10 @@ function edit_apoyo(val, estatus) {
 }
 function sincronizaDatos() {
     var EmpresaID = localStorage.getItem("empresa");
-    var urlBase2 = "http://192.168.100.4/Desarrollo/CISAApp";
-    // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
-    var url = urlBase2 + "/Exec/datos_desin.php?empresa=" + EmpresaID;
-    var url2 = urlBase2 + "/Exec/datos_desin_H.php?empresa=" + EmpresaID;
+    // var urlBase2 = "http://192.168.100.4/Desarrollo/CISAApp";
+    var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+    var url = urlBase2 + "/Exec_dev/datos_desin.php?empresa=" + EmpresaID;
+    var url2 = urlBase2 + "/Exec_dev/datos_desin_H.php?empresa=" + EmpresaID;
 
     fetch(url).then((response) => {});
 
@@ -6512,66 +6512,68 @@ function GuardarTRFApoyosDeincorpora() {
             buttons: true,
             dangerMode: true,
         }).then((RESP) => {
-            databaseHandler.db.transaction(
-                function (tx) {
-                    tx.executeSql(
-                        "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, id_operador_des, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, id_TRFapoyo) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                        [
-                            id_cedula,
-                            1,
-                            0,
-                            HoraFin,
-                            UnidadID,
-                            Unidad,
-                            Itinerario,
-                            Falla,
-                            DetalleFalla,
-                            Sentido,
-                            Ubicacion,
-                            Operador,
-                            id_operador,
-                            kilometrajeUnidad,
-                            folio_inicial,
-                            Usuario,
-                            0,
-                            0,
-                            HoraCaptura,
-                            id_apoyo,
-                        ],
-                        function (tx, results) {
-                            GuardaDataApoyo(
+            if (RESP == true) {
+                databaseHandler.db.transaction(
+                    function (tx) {
+                        tx.executeSql(
+                            "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, id_operador_des, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, id_TRFapoyo) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                            [
                                 id_cedula,
-                                Apoyo,
-                                TipoUnidad,
-                                Hora,
+                                1,
+                                0,
                                 HoraFin,
                                 UnidadID,
                                 Unidad,
                                 Itinerario,
+                                Falla,
+                                DetalleFalla,
                                 Sentido,
                                 Ubicacion,
                                 Operador,
                                 id_operador,
                                 kilometrajeUnidad,
+                                folio_inicial,
                                 Usuario,
-                                id_servidor,
+                                0,
+                                0,
                                 HoraCaptura,
-                                TramoDeApoyo,
-                                kilometrajeApoyo
-                            );
-                        },
-                        function (tx, error) {
-                            console.error("Error al consultar bandeja de salida: " + error.message);
-                        }
-                    );
-                },
-                function (error) {
-                    console.error("Error al consultar bandeja de salida: " + error.message);
-                },
-                function (error) {
-                    console.error("Error al consultar bandeja de salida: " + error.message);
-                }
-            );
+                                id_apoyo,
+                            ],
+                            function (tx, results) {
+                                GuardaDataApoyo(
+                                    id_cedula,
+                                    Apoyo,
+                                    TipoUnidad,
+                                    Hora,
+                                    HoraFin,
+                                    UnidadID,
+                                    Unidad,
+                                    Itinerario,
+                                    Sentido,
+                                    Ubicacion,
+                                    Operador,
+                                    id_operador,
+                                    kilometrajeUnidad,
+                                    Usuario,
+                                    id_servidor,
+                                    HoraCaptura,
+                                    TramoDeApoyo,
+                                    kilometrajeApoyo
+                                );
+                            },
+                            function (tx, error) {
+                                console.error("Error al consultar bandeja de salida: " + error.message);
+                            }
+                        );
+                    },
+                    function (error) {
+                        console.error("Error al consultar bandeja de salida: " + error.message);
+                    },
+                    function (error) {
+                        console.error("Error al consultar bandeja de salida: " + error.message);
+                    }
+                );
+            }
         });
     } else {
         swal("", "Debes llenar estos campos para poder guardar: " + quita_coma, "warning");
