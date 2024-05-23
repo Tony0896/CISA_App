@@ -421,7 +421,7 @@ function CreaModalOptionFlota(id, opciones, mul, titulo_modal) {
                             <span class="resize-handler"></span>
                             <a
                                 href="#"
-                                onclick="capturePhotoModal()"
+                                onclick="ValidarCapturePhotoInsflota2()"
                                 style=" background-color: #fff; border: 3px solid #005d99; color: #005d99;" class="boton-equipo">
                                 Agregar Evidencia
                                 <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;color: #005d99;">
@@ -969,6 +969,10 @@ function ValidarCapturePhotoInsflota() {
     );
 }
 
+function ValidarCapturePhotoInsflota2() {
+    capturePhotoModalFlota();
+}
+
 function TerminarInsFlota() {
     app.views.main.router.back("/formFlota3/", {
         force: true,
@@ -1046,5 +1050,112 @@ function cambioPresion(ids, values) {
     } else {
         $("#" + ids).val("0");
         swal("", "Debes indicar un número válido, y que este sea menor a 130", "warning");
+    }
+}
+
+function capturePhotoModalFlota() {
+    var camera = localStorage.getItem("camera");
+    if (camera == 0) {
+        var camera = app.popup.create({
+            content: `
+                <div class="popup" id="camera" style="display: block;width: 100%;height: 100%;margin-top: 0px;margin-left: 0px;top: 0;left: 0; z-index: 12501;">
+                    <div class="app">
+                    <div id="deviceready camera-Field-frame">
+                        <div class="top"></div>
+                        <canvas id="camera-frame" style="display: none;"></canvas>
+                        <video id="camera-view" autoplay playsinline class="raster" style="display: none;"></video>
+                        <img src="" id="phototaked">
+
+                        <div style="position: relative; display: flex; flex-direction: row; justify-content: space-around;margin-top: 80vh;">
+                            <div>
+                                <div id="cancelCamera" onClick="onCancelCamera()"><img class="image-cancel" src="img/cerrar_camera.svg" style="margin-left: 0;"></div>
+                                <div id="cancelPicure" onClick="onCancelPicture()" style="display:none;background-color: #c2c2c242;width: 58px;height: 58px;border-radius: 100%;"><img class="image-cancel" src="img/cerrar_camera.svg"></div>
+                            </div>
+                            <div>
+                                <div class="take" id="take" onclick="onTake()" style="right: auto;">
+                                    <div class="bubble-take"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div id="switch" onClick="onSwitch()"><img class="image-switch" src="img/flip.svg" style="margin-left: 0;"></div>
+                                <div id="select" style="display: none;border-radius: 100%;background-color: #c2c2c242;width: 58px !important;height: 58px !important;" onClick="onDone()"><img id="img-select" src="img/validar_camera.svg"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="actions">
+                            <div class="action torch" id="torch" onClick="onTorch()" style="display:none;"><img id="flash" src="img/flash_off.svg" width="30px"></div>
+                            <div class="action rotate-right" id="rotateRight" onClick="onRotateRight()" style="display:none"><img id="flash" src="img/rotate-right.svg" width="30px"></div>
+                            <div class="action rotate-left" id="rotateLeft" onClick="onRotateLeft()" style="display:none"><img id="flash" src="img/rotate-left.svg" width="30px"></div>
+                        </div>
+                        
+                        <input type="hidden" id="deviceOrientation" name="deviceOrientation"/>
+                    </div>
+                    <fwm></fwm>
+                    </div>
+                </div>
+                `,
+            on: {
+                open: function (popup) {
+                    var permissions = cordova.plugins.permissions;
+                    permissions.checkPermission(permissions.CAMERA, function (status) {
+                        if (status.hasPermission) {
+                            cargarEmpresa(`./js/camera-field.js`, empresaCargada);
+                            function empresaCargada() {
+                                cameraStart(onPhotoDataSuccessModal);
+                            }
+                            function cargarEmpresa(url, callback) {
+                                var pie = document.getElementsByTagName("fwm")[0];
+                                var script = document.createElement("script");
+                                script.type = "text/javascript";
+                                script.src = url;
+                                script.id = "cameraSource";
+                                script.onload = callback;
+                                pie.appendChild(script);
+                            }
+                        } else {
+                            permissions.requestPermission(permissions.CAMERA, success, error);
+                            function error() {
+                                app.sheet.close(".popup");
+                                swal("Se Requiere los permisos", "Para poder tomar las evidencias fotograficas necesitamos el permiso.", "warning");
+                            }
+                            function success(status) {
+                                if (!status.hasPermission) {
+                                    error();
+                                } else {
+                                    cargarEmpresa(`./js/camera-field.js`, empresaCargada);
+                                    function empresaCargada() {
+                                        cameraStart(onPhotoDataSuccessModal);
+                                    }
+                                    function cargarEmpresa(url, callback) {
+                                        var pie = document.getElementsByTagName("fwm")[0];
+                                        var script = document.createElement("script");
+                                        script.type = "text/javascript";
+                                        script.src = url;
+                                        script.id = "cameraSource";
+                                        script.onload = callback;
+                                        pie.appendChild(script);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                opened: function (popup) {
+                    localStorage.setItem("cameraField", "Active");
+                },
+                closed: function (popup) {
+                    window.localStorage.removeItem("cameraField");
+                },
+            },
+        });
+        camera.open();
+    } else {
+        navigator.camera.getPicture(onPhotoDataSuccessModal, onFail, {
+            quality: 100,
+            destinationType: destinationType.DATA_URL,
+            targetWidth: 1000,
+            targetHeight: 1000,
+            correctOrientation: true,
+        });
     }
 }
