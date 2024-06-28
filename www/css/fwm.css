@@ -755,6 +755,7 @@ background: transparent;
   margin-left: 0px;
   margin-right: 0px;
   width: auto;
+  margin-bottom: 20px !important;
 }
 .radios.checked{
   color: #005D99;
@@ -869,4 +870,12 @@ table th {
   color: #fff !important;
   font-weight: bold;
   font-size: 14px !important;
+}
+.md .dialog {
+  border-radius: 10px;
+  border: 2px solid #FF0037;
+}
+
+.dialog-button {
+  color: #005D99;
 }

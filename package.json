@@ -36,9 +36,6 @@
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-cache-clear": {},
       "cordova-sqlite-storage": {},
-      "cordova-plugin-camera": {
-        "ANDROIDX_CORE_VERSION": "1.6.+"
-      },
       "cordova-plugin-geolocation": {
         "GPS_REQUIRED": "true"
       },
@@ -48,7 +45,10 @@
       },
       "cordova-plugin-file": {},
       "cordova-plugin-downloader": {},
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-camera": {
+        "ANDROIDX_CORE_VERSION": "1.6.+"
+      }
     }
   },
   "dependencies": {
