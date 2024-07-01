@@ -738,6 +738,7 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                             let fecha = item1.fecha.replace(" ", "T");
                                             let fecha_fin = item1.fecha_fin.replace(" ", "T");
                                             let fecha_envio = getDateWhitZeros();
+                                            let fechaReal = item1.fechaReal.replace(" ", "T");
                                             fecha_envio = fecha_envio.replace(" ", "T");
                                             datos_generales_diesel[i] = {
                                                 Valor: i,
@@ -751,6 +752,7 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                 unidades_cargadas: item1.unidades_cargadas,
                                                 promedio: item1.promedio,
                                                 origen: item1.origen,
+                                                fechaReal: fechaReal,
                                                 fecha_fin: fecha_fin,
                                                 nombre_empresa: NombreEmpresa(item1.id_empresa),
                                                 fecha_envio: fecha_envio,

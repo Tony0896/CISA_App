@@ -899,12 +899,12 @@ var productHandler = {
             function () {}
         );
     },
-    addDatosGenerales_Diesel: function (id_cedula, fecha, id_usuario, id_empresa, estatus, origen, nombre_usuario) {
+    addDatosGenerales_Diesel: function (id_cedula, fecha, id_usuario, id_empresa, estatus, origen, nombre_usuario, fechaReal) {
         databaseHandler.db.transaction(
             function (tx) {
                 tx.executeSql(
-                    "insert into datos_generales_diesel(id_cedula, fecha, id_usuario, id_empresa,estatus, origen, nombre_usuario) values(?, ?, ?, ?, ?, ?, ?)",
-                    [id_cedula, fecha, id_usuario, id_empresa, estatus, origen, nombre_usuario],
+                    "insert into datos_generales_diesel(id_cedula, fecha, id_usuario, id_empresa,estatus, origen, nombre_usuario, fechaReal) values(?, ?, ?, ?, ?, ?, ?, ?)",
+                    [id_cedula, fecha, id_usuario, id_empresa, estatus, origen, nombre_usuario, fechaReal],
                     function (tx, results) {
                         //console.log("Frio correcto");
                     },
