@@ -266,6 +266,7 @@
                                                             </a>
                                                         </div>
                                                     </td>
+                                                    <input type="hidden" placeholder="Select date" readonly="readonly" id="demo-calendar-modal1" />
                                                 </tr>
                                                 <tr class="menu_diesel menus" id="tdHistoralDiesel" style="display: none">
                                                     <td>
@@ -496,7 +497,7 @@
             }
 
             function updateData() {
-                // var urlBase2 = "http://192.168.100.5/Desarrollo/CISAApp";
+                // var urlBase2 = "http://192.168.100.8/CISAApp";
                 var urlBase2 = "http:/mantto.ci-sa.com.mx/www.CISAAPP.com";
                 if (localStorage.getItem("Modulos")) {
                     if (localStorage.getItem("Modulos") == "Limpieza") {
@@ -783,7 +784,57 @@
                     } else if (localStorage.getItem("Modulos") == "Recaudo") {
                         var tipo = "Recaudo";
                     } else if (localStorage.getItem("Modulos") == "Diesel") {
+                        databaseHandler.db.transaction(
+                            function (tx5) {
+                                tx5.executeSql("SELECT fechaReal FROM datos_generales_diesel LIMIT 1", [], function (tx5, results) {});
+                            },
+                            function (error) {
+                                databaseHandler.db.transaction(
+                                    function (tx5) {
+                                        tx5.executeSql(
+                                            "ALTER TABLE datos_generales_diesel ADD COLUMN fechaReal text",
+                                            [],
+                                            function (tx5, results) {}
+                                        );
+                                    },
+                                    function (error) {},
+                                    function () {}
+                                );
+                            },
+                            function () {}
+                        );
                         var tipo = "Diesel";
+                        let calendarModal;
+                        calendarModal = app.calendar.create({
+                            inputEl: "#demo-calendar-modal1",
+                            openIn: "customModal",
+                            header: true,
+                            footer: true,
+                            headerPlaceholder: "Selecciona un día",
+                            maxDate: [new Date()],
+                            value: [new Date()],
+                            monthNames: [
+                                "Enero",
+                                "Febrero",
+                                "Marzo",
+                                "Abril",
+                                "Mayo",
+                                "Junio",
+                                "Julio",
+                                "Agosto",
+                                "Septiembre",
+                                "Octubre",
+                                "Noviembre",
+                                "Diciembre",
+                            ],
+                            dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                            toolbarCloseText: "Ok",
+                            on: {
+                                closed: () => {
+                                    preingresoDiesel();
+                                },
+                            },
+                        });
                     } else {
                         var tipo = localStorage.getItem("Modulos");
                     }

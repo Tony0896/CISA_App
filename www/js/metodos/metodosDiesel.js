@@ -1,5 +1,11 @@
 //Inicio Diesel
 function preingresoDiesel() {
+    let hoy = $("#demo-calendar-modal1").val();
+    if (!hoy) {
+        swal("", "Debes seleccionar un día", "warning");
+        return false;
+    }
+
     swal({
         title: "Aviso",
         text: "¿Estas seguro de querer empezar un nuevo registro para Cargas de Diesel?",
@@ -14,9 +20,12 @@ function preingresoDiesel() {
 }
 
 function iniciarCargasDiesel() {
+    let hoy = $("#demo-calendar-modal1").val();
+
     var id_usuario = localStorage.getItem("Usuario");
     var nombre_usuario = localStorage.getItem("nombre");
-    var fecha_llegada = getDateWhitZeros();
+    var fecha_llegada = hoy + " 00:00:00";
+    var fechaReal = getDateWhitZeros();
     var horario_programado = fecha_llegada;
     var nombre_cliente = NombreEmpresa(localStorage.getItem("empresa"));
     var estatus = 0;
@@ -44,7 +53,16 @@ function iniciarCargasDiesel() {
                     var item = results.rows.item(0);
                     localStorage.setItem("IdCedula", item.Id);
                     var id_cedula = item.Id;
-                    productHandler.addDatosGenerales_Diesel(id_cedula, fecha_llegada, id_usuario, id_cliente, estatus, origen, nombre_usuario);
+                    productHandler.addDatosGenerales_Diesel(
+                        id_cedula,
+                        fecha_llegada,
+                        id_usuario,
+                        id_cliente,
+                        estatus,
+                        origen,
+                        nombre_usuario,
+                        fechaReal
+                    );
                     app.views.main.router.navigate({ name: "yallegueDiesel" });
                 },
                 function (tx, error) {
@@ -494,91 +512,115 @@ function actualizaCargaDiesel() {
 }
 
 function FinalizarCargaDiesel() {
-    swal({
-        title: "Aviso",
-        text: "¿Estas seguro de querer finalizar la carga de Diesel?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    }).then((RESP) => {
-        if (RESP == true) {
-            var id_cedula = localStorage.getItem("IdCedula");
-            var fecha = new Date();
-            var fecha_salida =
-                fecha.getFullYear() +
-                "-" +
-                (fecha.getMonth() + 1) +
-                "-" +
-                fecha.getDate() +
-                " " +
-                fecha.getHours() +
-                ":" +
-                fecha.getMinutes() +
-                ":" +
-                fecha.getSeconds();
-            var estatus = 1;
-            databaseHandler.db.transaction(
-                function (tx) {
-                    tx.executeSql(
-                        "UPDATE cedulas_general SET fecha_salida  = ?,estatus = ? WHERE id_cedula = ?",
-                        [fecha_salida, estatus, id_cedula],
-                        function (tx, results) {
-                            databaseHandler.db.transaction(
-                                function (tx5) {
-                                    tx5.executeSql(
-                                        "SELECT SUM(carga_total) as carga_totales, COUNT(id_cedula) as cuentas FROM detalle_diesel WHERE id_cedula = ?",
-                                        [id_cedula],
-                                        function (tx5, results) {
-                                            var item3 = results.rows.item(0);
-                                            var fecha_fin = getDateWhitZeros();
-                                            var promedio = Number(item3.carga_totales / item3.cuentas).toFixed(2);
-                                            databaseHandler.db.transaction(
-                                                function (tx) {
-                                                    tx.executeSql(
-                                                        "UPDATE datos_generales_diesel  SET carga_total  = ?,total_unidades = ?,unidades_cargadas = ?,promedio = ?, fecha_fin = ? WHERE id_cedula = ?",
-                                                        [
-                                                            Number(item3.carga_totales).toFixed(2),
-                                                            item3.cuentas,
-                                                            item3.cuentas,
-                                                            promedio,
-                                                            fecha_fin,
-                                                            id_cedula,
-                                                        ],
-                                                        function (tx, results) {
-                                                            window.location.href = "./menu.html";
-                                                        },
-                                                        function (tx, error) {
-                                                            swal("Error al guardar", error.message, "error");
-                                                        }
-                                                    );
-                                                },
-                                                function (error) {},
-                                                function () {}
-                                            );
-                                        },
-                                        function (tx5, error) {
-                                            console.error("Error: " + error.message);
-                                        }
-                                    );
-                                },
-                                function (error) {
-                                    console.error("Error: " + error.message);
-                                },
-                                function (error) {
-                                    console.error("Error: " + error.message);
-                                }
-                            );
-                        },
-                        function (tx, error) {
-                            swal("Error al guardar", error.message, "error");
-                        }
-                    );
+    var id_cedula = localStorage.getItem("IdCedula");
+    databaseHandler.db.transaction(
+        function (tx5) {
+            tx5.executeSql(
+                "SELECT COUNT(id_cedula) as cuenta FROM detalle_diesel WHERE id_cedula = ?",
+                [id_cedula],
+                function (tx5, results) {
+                    var item = results.rows.item(0);
+                    if (item.cuenta > 0) {
+                        swal({
+                            title: "Aviso",
+                            text: "¿Estas seguro de querer finalizar la carga de Diesel?",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((RESP) => {
+                            if (RESP == true) {
+                                var fecha = new Date();
+                                var fecha_salida =
+                                    fecha.getFullYear() +
+                                    "-" +
+                                    (fecha.getMonth() + 1) +
+                                    "-" +
+                                    fecha.getDate() +
+                                    " " +
+                                    fecha.getHours() +
+                                    ":" +
+                                    fecha.getMinutes() +
+                                    ":" +
+                                    fecha.getSeconds();
+                                var estatus = 1;
+                                databaseHandler.db.transaction(
+                                    function (tx) {
+                                        tx.executeSql(
+                                            "UPDATE cedulas_general SET fecha_salida  = ?,estatus = ? WHERE id_cedula = ?",
+                                            [fecha_salida, estatus, id_cedula],
+                                            function (tx, results) {
+                                                databaseHandler.db.transaction(
+                                                    function (tx5) {
+                                                        tx5.executeSql(
+                                                            "SELECT SUM(carga_total) as carga_totales, COUNT(id_cedula) as cuentas FROM detalle_diesel WHERE id_cedula = ?",
+                                                            [id_cedula],
+                                                            function (tx5, results) {
+                                                                var item3 = results.rows.item(0);
+                                                                var fecha_fin = getDateWhitZeros();
+                                                                var promedio = Number(item3.carga_totales / item3.cuentas).toFixed(2);
+                                                                databaseHandler.db.transaction(
+                                                                    function (tx) {
+                                                                        tx.executeSql(
+                                                                            "UPDATE datos_generales_diesel  SET carga_total  = ?,total_unidades = ?,unidades_cargadas = ?,promedio = ?, fecha_fin = ? WHERE id_cedula = ?",
+                                                                            [
+                                                                                Number(item3.carga_totales).toFixed(2),
+                                                                                item3.cuentas,
+                                                                                item3.cuentas,
+                                                                                promedio,
+                                                                                fecha_fin,
+                                                                                id_cedula,
+                                                                            ],
+                                                                            function (tx, results) {
+                                                                                window.location.href = "./menu.html";
+                                                                            },
+                                                                            function (tx, error) {
+                                                                                swal("Error al guardar", error.message, "error");
+                                                                            }
+                                                                        );
+                                                                    },
+                                                                    function (error) {},
+                                                                    function () {}
+                                                                );
+                                                            },
+                                                            function (tx5, error) {
+                                                                console.error("Error: " + error.message);
+                                                            }
+                                                        );
+                                                    },
+                                                    function (error) {
+                                                        console.error("Error: " + error.message);
+                                                    },
+                                                    function (error) {
+                                                        console.error("Error: " + error.message);
+                                                    }
+                                                );
+                                            },
+                                            function (tx, error) {
+                                                swal("Error al guardar", error.message, "error");
+                                            }
+                                        );
+                                    },
+                                    function (error) {},
+                                    function () {}
+                                );
+                            }
+                        });
+                    } else {
+                        swal("", "No tienes aún unidades registradas.", "warning");
+                    }
                 },
-                function (error) {},
-                function () {}
+                function (tx5, error) {
+                    console.error("Error: " + error.message);
+                }
             );
+        },
+        function (error) {
+            console.error("Error: " + error.message);
+        },
+        function (error) {
+            console.error("Error: " + error.message);
         }
-    });
+    );
 }
 
 function check_hours_menores(hora1, hora2) {
@@ -1682,6 +1724,7 @@ function agregaCarga2() {
                             var carga_total_diesel = Number($("#carga_total_diesel").val());
                             carga_total_diesel ? null : (carga_total_diesel = 0);
                             carga_total_diesel = Number(carga_total_diesel + Number(carga_total));
+                            carga_total_diesel = Number(carga_total_diesel).toFixed(2);
                             $("#carga_total_diesel").val(carga_total_diesel);
                             $("#text_carga_Diesel").html(numberWithCommas(carga_total_diesel));
 
@@ -1773,5 +1816,8 @@ function borrarCargaDiesel(id, id_unidad, eco, carga) {
             });
         }
     });
+}
+function prepreingresoDiesel() {
+    $("#demo-calendar-modal1").trigger("click");
 }
 //Fin Diesel
