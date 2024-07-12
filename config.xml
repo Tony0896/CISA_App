@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.cisa.cisapp" version="2.0.12" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.cisa.cisapp" version="2.0.13" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>CISA APP</name>
     <description>CISA APP</description>
     <author email="jacruz@ci-sa.com.mx" href="https://ci-sa.com.mx">
@@ -26,8 +26,8 @@
         <preference name="AndroidInsecureFileModeEnabled" value="true" />
         <preference name="StatusBarOverlaysWebView" value="false" />
         <preference name="android-minSdkVersion" value="25" />
-        <preference name="android-targetSdkVersion" value="33" />
-        <preference name="android-compileSdkVersion" value="33" />
+        <preference name="android-targetSdkVersion" value="34" />
+        <preference name="android-compileSdkVersion" value="34" />
         <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/icon/android/playstore.png"/>
         <preference name="AndroidWindowSplashScreenBackground" value="#155169" />
         <icon src="www/img/logo1.png"/>

@@ -1724,6 +1724,7 @@ function agregaCarga2() {
                             var carga_total_diesel = Number($("#carga_total_diesel").val());
                             carga_total_diesel ? null : (carga_total_diesel = 0);
                             carga_total_diesel = Number(carga_total_diesel + Number(carga_total));
+                            carga_total_diesel = Number(carga_total_diesel).toFixed(2);
                             $("#carga_total_diesel").val(carga_total_diesel);
                             $("#text_carga_Diesel").html(numberWithCommas(carga_total_diesel));
 
