@@ -368,12 +368,13 @@
                 databaseHandler.db.transaction(
                     function (tx5) {
                         tx5.executeSql(
-                            "SELECT empresa FROM desincorporaciones WHERE id_cedula = ?",
+                            "SELECT empresa, fechaApertura FROM desincorporaciones WHERE id_cedula = ?",
                             [id_cedula],
                             function (tx5, results) {
                                 var item2 = results.rows.item(0);
                                 var empresaID = getIDEmpresa(item2.empresa);
                                 localStorage.setItem("empresaID", empresaID);
+                                localStorage.setItem("fechaApertura_SU", item2.fechaApertura);
                             },
                             function (tx5, error) {}
                         );

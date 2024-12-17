@@ -35,6 +35,9 @@
                         <span class="span FWM-span-form" name="">Unidad</span>
                         <input class="FWM-input obligatorio" type="text" id="unidad_des" name="Unidad" readonly />
 
+                        <span class="span FWM-span-form" name="">Ruta</span>
+                        <input class="FWM-input obligatorio" type="text" id="Ruta" name="Ruta" readonly />
+
                         <span class="span FWM-span-form" name="">Itinerario</span>
                         <input class="FWM-input obligatorio" type="text" id="itinerario" name="Itinerario" readonly />
 
@@ -87,9 +90,11 @@
                                 [id_cedula, id_desD],
                                 function (tx, results) {
                                     var item = results.rows.item(0);
+                                    console.log("paso 1 =>", item);
                                     $("#hora_des").val(item.HoraDes);
                                     $("#unidad_des").val(item.UnidadDesin);
                                     $("#itinerario").val(item.Itinerario);
+                                    $("#Ruta").val(item.Ruta);
                                     $("#km_unidad").val(item.KmDes);
                                     $("#folio_inicial").val(item.FolioDes);
                                     $("#estatus_servidor").val(item.estatus_servidor);
@@ -149,6 +154,7 @@
                                 [id_cedula, id_desD],
                                 function (tx, results) {
                                     var item = results.rows.item(0);
+                                    console.log("paso 2 =>", item);
                                     $("#hora_des").val(item.HoraInc);
                                     $("#unidad_des").val(item.UnidadInc);
                                     $("#itinerario").val(item.Itinerario);

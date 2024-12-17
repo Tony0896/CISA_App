@@ -51,22 +51,29 @@
                             />Jornada no incorporada</label
                         >
 
-                        <span class="span FWM-span-form" name="">Hora</span>
+                        <span class="span FWM-span-form">Hora</span>
                         <input class="FWM-input obligatorio" type="time" id="hora_des" name="Hora" />
 
-                        <span class="span FWM-span-form" name="">Unidad</span>
+                        <span class="span FWM-span-form">Unidad</span>
                         <input class="FWM-input obligatorio" type="text" id="unidad_des" name="Unidad" />
 
-                        <span class="span FWM-span-form" name="">Itinerario</span>
-                        <input class="FWM-input obligatorio" type="text" id="itinerario" name="Itinerario" maxlength="20" />
+                        <span class="span FWM-span-form">Ruta</span>
+                        <select class="FWM-input obligatorio" id="Ruta" name="Ruta">
+                            <option value="0">Selecciona una opción</option>
+                        </select>
 
-                        <span class="span FWM-span-form" name="">Operador</span>
+                        <span class="span FWM-span-form">Itinerario</span>
+                        <select class="FWM-input obligatorio" id="itinerario" name="Itinerario">
+                            <option value="0">Selecciona una opción</option>
+                        </select>
+
+                        <span class="span FWM-span-form">Operador</span>
                         <input class="FWM-input obligatorio" type="text" id="operador_des" name="Operador" />
 
-                        <span class="span FWM-span-form" name="">Falla</span>
+                        <span class="span FWM-span-form">Falla</span>
                         <input class="FWM-input obligatorio" type="text" id="falla" name="Falla" />
 
-                        <span class="span FWM-span-form" name="">Detalle de la Falla</span>
+                        <span class="span FWM-span-form">Detalle de la Falla</span>
                         <textarea
                             class="FWM-input obligatorio"
                             id="detalle_falla"
@@ -76,10 +83,10 @@
                             maxlength="255"
                         ></textarea>
 
-                        <span class="span FWM-span-form" name="">Ubicación</span>
+                        <span class="span FWM-span-form">Ubicación</span>
                         <input class="FWM-input obligatorio" type="text" id="ubicacion" name="Ubicación" />
 
-                        <span class="span FWM-span-form" name="">Sentido</span>
+                        <span class="span FWM-span-form">Sentido</span>
                         <!-- <input class="FWM-input obligatorio" type="text" id="sentido" name="Sentido"/> -->
                         <select class="FWM-input obligatorio" id="sentido" name="Sentido">
                             <option value="0">Selecciona una opción</option>
@@ -89,10 +96,10 @@
                             <option value="Poniente - Oriente">Poniente - Oriente</option>
                         </select>
 
-                        <span class="span FWM-span-form" name="">Kilometraje Unidad</span>
+                        <span class="span FWM-span-form">Kilometraje Unidad</span>
                         <input class="FWM-input" type="number" id="km_unidad" name="Kilometraje Unidad" />
 
-                        <span class="span FWM-span-form" name="">Folio inicial</span>
+                        <span class="span FWM-span-form">Folio inicial</span>
                         <input class="FWM-input" type="text" id="folio_inicial" name="Folio inicial" maxlength="25" />
 
                         <br />
@@ -344,7 +351,47 @@
                     });
                 });
 
+                let fechaActual = localStorage.getItem("fechaApertura_SU");
+
+                $("#Ruta").html(`<option value="0">Selecciona una opción</option>`);
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////                        FALLAS                        //////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                app.request({
+                    url: cordova.file.dataDirectory + "jsons_desin/Cat_Rutas.json",
+                    method: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        data.forEach((element) => {
+                            if (fechaActual == element.Id_Fecha) {
+                                $("#Ruta").append(`<option value="${element.Ruta}">${element.Ruta}</option>`);
+                            }
+                        });
+                    },
+                });
+
+                $("#Ruta").change(() => {
+                    $("#itinerario").html(`<option value="0">Selecciona una opción</option>`);
+                    let Ruta = $("#Ruta").val();
+                    app.request({
+                        url: cordova.file.dataDirectory + "jsons_desin/Cat_JornadasRutas.json",
+                        method: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            data.forEach((element) => {
+                                if (Ruta == element.Ruta && fechaActual == element.Id_Fecha) {
+                                    $("#itinerario").append(`<option value="${element.Id_Jornada}">${element.Jornada}</option>`);
+                                }
+                            });
+                        },
+                    });
+                });
+
+                $("#itinerario").change(() => {
+                    console.log($("#Ruta").val());
+                    console.log($("#itinerario").val());
+                    console.log($("#itinerario option:selected").text());
+                });
             },
         },
     };

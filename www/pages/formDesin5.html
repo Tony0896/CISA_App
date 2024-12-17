@@ -52,28 +52,37 @@
                             <input type="checkbox" onclick="CheckApoyoTipo(1)" id="Apoyo" checked /> Apoyo
                         </label>
 
-                        <span class="span FWM-span-form" name="">Hora Inicio de Apoyo</span>
+                        <span class="span FWM-span-form">Hora Inicio de Apoyo</span>
                         <input class="FWM-input obligatorio" type="time" id="Hora" name="Hora Inicio de Apoyo" />
 
-                        <span class="span FWM-span-form" name="">Hora Fin de Apoyo</span>
+                        <span class="span FWM-span-form">Hora Fin de Apoyo</span>
                         <input class="FWM-input" type="time" id="HoraFin" name="Hora Fin de Apoyo" />
 
-                        <span class="span FWM-span-form" name="">Itinerario</span>
-                        <input class="FWM-input obligatorio" type="text" id="Itinerario" name="Itinerario" maxlength="20" />
+                        <span class="span FWM-span-form">Ruta</span>
+                        <select class="FWM-input obligatorio" id="Ruta" name="Ruta">
+                            <option value="0">Selecciona una opción</option>
+                        </select>
+                        <input class="FWM-input" type="text" id="Ruta_Red" name="Ruta" style="display: none" readonly />
 
-                        <span class="span FWM-span-form" name="">Unidad</span>
+                        <span class="span FWM-span-form">Itinerario</span>
+                        <select class="FWM-input obligatorio" id="Itinerario" name="Itinerario">
+                            <option value="0">Selecciona una opción</option>
+                        </select>
+                        <input class="FWM-input" type="text" id="Itinerario_Red" name="Itinerario" style="display: none" readonly />
+
+                        <span class="span FWM-span-form">Unidad</span>
                         <input class="FWM-input obligatorio" type="text" id="Unidad" name="Unidad" />
 
-                        <span class="span FWM-span-form" name="">Kilometraje Unidad</span>
-                        <input class="FWM-input" type="number" id="kilometrajeUnidad" name="Kilometraje Unidad" />
+                        <span class="span FWM-span-form">Kilometraje Unidad</span>
+                        <input class="FWM-input obligatorio" type="number" id="kilometrajeUnidad" name="Kilometraje Unidad" />
 
-                        <span class="span FWM-span-form" name="">Operador</span>
+                        <span class="span FWM-span-form">Operador</span>
                         <input class="FWM-input obligatorio" type="text" id="Operador" name="Operador" />
 
-                        <span class="span FWM-span-form" name="">Ubicación</span>
+                        <span class="span FWM-span-form">Ubicación</span>
                         <input class="FWM-input obligatorio" type="text" id="Ubicacion" name="Ubicación" />
 
-                        <span class="span FWM-span-form" name="">Sentido</span>
+                        <span class="span FWM-span-form">Sentido</span>
                         <select class="FWM-input obligatorio" id="Sentido" name="Sentido">
                             <option value="0">Selecciona una opción</option>
                             <option value="Norte - Sur">Norte - Sur</option>
@@ -82,24 +91,24 @@
                             <option value="Poniente - Oriente">Poniente - Oriente</option>
                         </select>
 
-                        <span class="span FWM-span-form" name="">Tramo de Apoyo</span>
+                        <span class="span FWM-span-form">Tramo de Apoyo</span>
                         <input class="FWM-input obligatorio" type="text" id="TramoDeApoyo" name="Tramo de Apoyo" maxlength="255" />
 
-                        <span class="span FWM-span-form" name="">Kilometraje de Apoyo</span>
+                        <span class="span FWM-span-form">Kilometraje de Apoyo</span>
                         <input class="FWM-input" type="number" id="kilometrajeApoyo" name="Kilometraje de Apoyo" />
 
                         <div class="divDesincorporacion" style="display: none">
-                            <span class="span FWM-span-form" name="">Falla</span>
+                            <span class="span FWM-span-form">Falla</span>
                             <input class="FWM-input" type="text" id="falla" name="Falla" />
                         </div>
 
                         <div class="divDesincorporacion" style="display: none">
-                            <span class="span FWM-span-form" name="">Detalle de la Falla</span>
+                            <span class="span FWM-span-form">Detalle de la Falla</span>
                             <textarea class="FWM-input" id="detalle_falla" cols="30" rows="10" name="Detalle de la Falla" maxlength="255"> </textarea>
                         </div>
 
                         <div class="divDesincorporacion" style="display: none">
-                            <span class="span FWM-span-form" name="">Folio inicial</span>
+                            <span class="span FWM-span-form">Folio inicial</span>
                             <input class="FWM-input" type="text" id="folio_inicial" name="Folio inicial" maxlength="25" />
                         </div>
                     </div>
@@ -116,69 +125,12 @@
                 var id_desD = localStorage.getItem("id_detalle_folio");
                 var id_cedula = localStorage.getItem("IdCedula");
                 var estatus_servs = localStorage.getItem("estatus_servs");
-
-                if (id_desD) {
-                    $("#id_apoyo").val(id_desD);
-                    $("#estatus_servs").val(estatus_servs);
-
-                    $("#Apoyo").prop("disabled", true);
-                    $("#TipoUnidad").prop("disabled", true);
-                    $("#Hora").prop("readonly", true);
-                    $("#Itinerario").prop("readonly", true);
-                    $("#Unidad").prop("readonly", true);
-                    $("#kilometrajeUnidad").prop("readonly", true);
-                    $("#Operador").prop("readonly", true);
-                    $("#Ubicacion").prop("readonly", true);
-                    $("#Sentido").prop("disabled", true);
-
-                    databaseHandler.db.transaction(
-                        function (tx) {
-                            tx.executeSql(
-                                "Select * from TRFapoyo where id_cedula = ? AND id_apoyo = ?",
-                                [id_cedula, id_desD],
-                                function (tx, results) {
-                                    var item = results.rows.item(0);
-                                    if (item.TipoUnidad == 1) {
-                                        $("#TipoUnidad").prop("checked", true);
-                                    } else {
-                                        $("#TipoUnidad").prop("checked", false);
-                                    }
-                                    if (item.Apoyo == 1) {
-                                        $("#Apoyo").prop("checked", true);
-                                    } else {
-                                        $("#Apoyo").prop("checked", false);
-                                    }
-                                    $("#Hora").val(item.Hora);
-                                    $("#HoraFin").val(item.HoraFin);
-                                    $("#Itinerario").val(item.Itinerario);
-                                    $("#Unidad").val(item.Unidad);
-                                    $("#UnidadID").val(item.UnidadID);
-                                    $("#kilometrajeUnidad").val(item.kilometrajeUnidad);
-                                    $("#Operador").val(item.Operador);
-                                    item.Operador ? traeOperador() : null;
-                                    $("#id_operador").val(item.id_operador);
-                                    $("#Ubicacion").val(item.Ubicacion);
-                                    $("#Sentido").val(item.Sentido);
-                                    $("#TramoDeApoyo").val(item.TramoDeApoyo);
-                                    $("#kilometrajeApoyo").val(item.kilometrajeApoyo);
-                                    $("#estatus_servs").val(item.estatus_servidor);
-                                },
-                                function (tx, error) {}
-                            );
-                        },
-                        function (error) {},
-                        function () {}
-                    );
-
-                    localStorage.removeItem("id_detalle_folio");
-                    localStorage.removeItem("estatus_servs");
-                }
-
                 var empresa = localStorage.getItem("empresa");
                 var self = this;
                 var app = self.$app;
                 var carpeta = "jsons_desin";
                 var empresaID = localStorage.getItem("empresaID");
+                let fechaActual = localStorage.getItem("fechaApertura_SU");
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 /////////////////////////////////////////                       UNIDADES                       //////////////////////////////////////////////////////////////
@@ -429,6 +381,114 @@
                     //         $("#id_operador").val("");
                     //     }
                     // });
+                }
+                $("#Ruta").html(`<option value="0">Selecciona una opción</option>`);
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////                        Cat_Rutas                        //////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                app.request({
+                    url: cordova.file.dataDirectory + "jsons_desin/Cat_Rutas.json",
+                    method: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        data.forEach((element) => {
+                            if (fechaActual == element.Id_Fecha) {
+                                $("#Ruta").append(`<option value="${element.Ruta}">${element.Ruta}</option>`);
+                            }
+                        });
+                    },
+                });
+
+                $("#Ruta").change(() => {
+                    $("#Itinerario").html(`<option value="0">Selecciona una opción</option>`);
+                    let Ruta = $("#Ruta").val();
+                    app.request({
+                        url: cordova.file.dataDirectory + "jsons_desin/Cat_JornadasRutas.json",
+                        method: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            data.forEach((element) => {
+                                if (Ruta == element.Ruta && fechaActual == element.Id_Fecha) {
+                                    $("#Itinerario").append(`<option value="${element.Id_Jornada}">${element.Jornada}</option>`);
+                                }
+                            });
+                        },
+                    });
+                });
+
+                $("#Itinerario").change(() => {
+                    console.log($("#Ruta").val());
+                    console.log($("#Itinerario").val());
+                    console.log($("#Itinerario option:selected").text());
+                });
+
+                if (id_desD) {
+                    $("#id_apoyo").val(id_desD);
+                    $("#estatus_servs").val(estatus_servs);
+
+                    $("#Apoyo").prop("disabled", true);
+                    $("#TipoUnidad").prop("disabled", true);
+                    $("#Hora").prop("readonly", true);
+                    $("#Itinerario").css("display", "none");
+                    $("#Itinerario_Red").css("display", "block");
+
+                    $("#Ruta").css("display", "none");
+                    $("#Ruta_Red").css("display", "block");
+
+                    $("#Unidad").prop("readonly", true);
+                    $("#kilometrajeUnidad").prop("readonly", true);
+                    $("#Operador").prop("readonly", true);
+                    $("#Ubicacion").prop("readonly", true);
+                    $("#Sentido").prop("disabled", true);
+
+                    databaseHandler.db.transaction(
+                        function (tx) {
+                            tx.executeSql(
+                                "Select * from TRFapoyo where id_cedula = ? AND id_apoyo = ?",
+                                [id_cedula, id_desD],
+                                function (tx, results) {
+                                    var item = results.rows.item(0);
+                                    if (item.TipoUnidad == 1) {
+                                        $("#TipoUnidad").prop("checked", true);
+                                    } else {
+                                        $("#TipoUnidad").prop("checked", false);
+                                    }
+                                    if (item.Apoyo == 1) {
+                                        $("#Apoyo").prop("checked", true);
+                                    } else {
+                                        $("#Apoyo").prop("checked", false);
+                                    }
+                                    $("#Hora").val(item.Hora);
+                                    $("#HoraFin").val(item.HoraFin);
+                                    $("#Itinerario_Red").val(item.Itinerario);
+                                    $("#Ruta_Red").val(item.Ruta);
+                                    $("#Unidad").val(item.Unidad);
+                                    $("#UnidadID").val(item.UnidadID);
+                                    $("#kilometrajeUnidad").val(item.kilometrajeUnidad);
+                                    $("#Operador").val(item.Operador);
+                                    item.Operador ? traeOperador() : null;
+                                    $("#id_operador").val(item.id_operador);
+                                    $("#Ubicacion").val(item.Ubicacion);
+                                    $("#Sentido").val(item.Sentido);
+                                    $("#TramoDeApoyo").val(item.TramoDeApoyo);
+                                    $("#kilometrajeApoyo").val(item.kilometrajeApoyo);
+                                    $("#estatus_servs").val(item.estatus_servidor);
+                                    llenaCamposFaltantesApoyo(item.Ruta, item.Id_Jornada);
+                                },
+                                function (tx, error) {}
+                            );
+                        },
+                        function (error) {},
+                        function () {}
+                    );
+
+                    localStorage.removeItem("id_detalle_folio");
+                    localStorage.removeItem("estatus_servs");
+                } else {
+                    $("#Itinerario_Red").css("display", "none");
+                    $("#Itinerario").css("display", "block");
+                    $("#Ruta_Red").css("display", "none");
+                    $("#Ruta").css("display", "block");
                 }
             },
         },

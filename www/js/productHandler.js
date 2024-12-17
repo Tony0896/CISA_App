@@ -296,10 +296,52 @@ var productHandler = {
         UbicacionI,
         JornadaSinIncorporacion,
         SU_TipoUnidad,
+        Ruta,
+        Id_Jornada,
         x,
         length,
         id_cedula
     ) {
+        // if (IDCabecero == 6308) {
+        //     console.log("<=======================>");
+        //     console.log("ID", ID);
+        //     console.log("IDCabecero", IDCabecero);
+        //     console.log("Apoyo", Apoyo);
+        //     console.log("JornadasNoIncorporadas", JornadasNoIncorporadas);
+        //     console.log("HoraD", HoraD);
+        //     console.log("HoraI", HoraI);
+        //     console.log("UnidadDID", UnidadDID);
+        //     console.log("UnidadD", UnidadD);
+        //     console.log("UnidadIID", UnidadIID);
+        //     console.log("UnidadI", UnidadI);
+        //     console.log("Itinerario", Itinerario);
+        //     console.log("Motivo", Motivo);
+        //     console.log("Falla", Falla);
+        //     console.log("SentidoD", SentidoD);
+        //     console.log("SentidoI", SentidoI);
+        //     console.log("UbicacionD", UbicacionD);
+        //     console.log("Incumplimiento", Incumplimiento);
+        //     console.log("OperadorD", OperadorD);
+        //     console.log("OperadorI", OperadorI);
+        //     console.log("KmD", KmD);
+        //     console.log("KmI", KmI);
+        //     console.log("KmPerdidos", KmPerdidos);
+        //     console.log("FolioD", FolioD);
+        //     console.log("FolioI", FolioI);
+        //     console.log("UsuarioI", UsuarioI);
+        //     console.log("UsuarioD", UsuarioD);
+        //     console.log("HoraCapturaD", HoraCapturaD);
+        //     console.log("HoraCapturaI", HoraCapturaI);
+        //     console.log("Origen", Origen);
+        //     console.log("UbicacionI", UbicacionI);
+        //     console.log("JornadaSinIncorporacion", JornadaSinIncorporacion);
+        //     console.log("SU_TipoUnidad", SU_TipoUnidad);
+        //     console.log("Ruta", Ruta);
+        //     console.log("Id_Jornada", Id_Jornada);
+        //     console.log("x", x);
+        //     console.log("length", length);
+        //     console.log("id_cedula", id_cedula);
+        // }
         databaseHandler.db.transaction(
             function (tx) {
                 tx.executeSql(
@@ -321,7 +363,7 @@ var productHandler = {
                                     }
                                     tx.executeSql(
                                         //
-                                        "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, HoraInc, UnidadIncID, UnidadInc, SentidoInc, Inclumplimiento, OperadorInc, KmInc, KmPerdidos, FolioInc, Usuarioinc, HoraIncR, UbicacionInc, jornadaSIncorporacion, SU_TipoUnidad) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                                        "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, HoraInc, UnidadIncID, UnidadInc, SentidoInc, Inclumplimiento, OperadorInc, KmInc, KmPerdidos, FolioInc, Usuarioinc, HoraIncR, UbicacionInc, jornadaSIncorporacion, SU_TipoUnidad, Ruta, Id_Jornada) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                                         [
                                             id_cedula,
                                             Apoyo,
@@ -355,6 +397,8 @@ var productHandler = {
                                             UbicacionI,
                                             JornadaSinIncorporacion,
                                             SU_TipoUnidad,
+                                            Ruta,
+                                            Id_Jornada,
                                         ],
                                         function (tx, results) {
                                             // console.log("inserta")
@@ -378,7 +422,7 @@ var productHandler = {
                                         }
                                     }
                                     tx.executeSql(
-                                        "UPDATE desincorporacionesD SET apoyo = ?, jornadas = ?, HoraDes = ?, UnidadDesinID = ?, UnidadDesin = ?, Itinerario = ?, Falla = ?, DetalleFalla = ?, SentidoDes = ?, UbicacionDes = ?, OperadorDes = ?, KmDes = ?, FolioDes = ?, UsuarioDes = ?,estatus_servidor = ?, HoraDesR = ?, HoraInc = ?, UnidadIncID = ?, UnidadInc = ?, SentidoInc = ?, Inclumplimiento = ?, OperadorInc = ?, KmInc = ?, KmPerdidos = ?, FolioInc = ?, Usuarioinc = ?, HoraIncR = ?, UbicacionInc = ?, jornadaSIncorporacion = ?, SU_TipoUnidad = ? WHERE id_servidor = ?",
+                                        "UPDATE desincorporacionesD SET apoyo = ?, jornadas = ?, HoraDes = ?, UnidadDesinID = ?, UnidadDesin = ?, Itinerario = ?, Falla = ?, DetalleFalla = ?, SentidoDes = ?, UbicacionDes = ?, OperadorDes = ?, KmDes = ?, FolioDes = ?, UsuarioDes = ?,estatus_servidor = ?, HoraDesR = ?, HoraInc = ?, UnidadIncID = ?, UnidadInc = ?, SentidoInc = ?, Inclumplimiento = ?, OperadorInc = ?, KmInc = ?, KmPerdidos = ?, FolioInc = ?, Usuarioinc = ?, HoraIncR = ?, UbicacionInc = ?, jornadaSIncorporacion = ?, SU_TipoUnidad = ?, Ruta = ?, Id_Jornada = ? WHERE id_servidor = ?",
                                         [
                                             Apoyo,
                                             JornadasNoIncorporadas,
@@ -410,6 +454,8 @@ var productHandler = {
                                             UbicacionI,
                                             JornadaSinIncorporacion,
                                             SU_TipoUnidad,
+                                            Ruta,
+                                            Id_Jornada,
                                             ID,
                                         ],
                                         function (tx, results) {
@@ -449,6 +495,8 @@ var productHandler = {
         Usuario,
         HoraCaptura,
         Origen,
+        Ruta,
+        Id_Jornada,
         x,
         length,
         id_cedula
@@ -466,7 +514,7 @@ var productHandler = {
                                     var estatus_servidor = 4;
                                     tx.executeSql(
                                         //
-                                        "insert into TRFapoyo(id_cedula,estatus_servidor, id_servidor, Apoyo, TipoUnidad, Hora, HoraFin, UnidadID,Unidad,Ubicacion,Itinerario,TramoDeApoyo,Sentido,kilometrajeUnidad,kilometrajeApoyo,Operador,Usuario,HoraCaptura) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                                        "insert into TRFapoyo(id_cedula,estatus_servidor, id_servidor, Apoyo, TipoUnidad, Hora, HoraFin, UnidadID,Unidad,Ubicacion,Itinerario,TramoDeApoyo,Sentido,kilometrajeUnidad,kilometrajeApoyo,Operador,Usuario,HoraCaptura,Ruta,Id_Jornada) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                                         [
                                             id_cedula,
                                             estatus_servidor,
@@ -486,6 +534,8 @@ var productHandler = {
                                             Operador,
                                             Usuario,
                                             HoraCaptura,
+                                            Ruta,
+                                            Id_Jornada,
                                         ],
                                         function (tx, results) {
                                             // console.log("inserta")
@@ -501,7 +551,7 @@ var productHandler = {
                                 function (tx) {
                                     var estatus_servidor = 4;
                                     tx.executeSql(
-                                        "UPDATE TRFapoyo SET estatus_servidor = ?, Apoyo = ?, TipoUnidad = ?, Hora = ?, HoraFin = ?, UnidadID = ?,Unidad = ?,Ubicacion = ?,Itinerario = ?,TramoDeApoyo = ?,Sentido = ?,kilometrajeUnidad = ?,kilometrajeApoyo = ?,Operador = ?,Usuario = ?,HoraCaptura = ? WHERE id_servidor = ?",
+                                        "UPDATE TRFapoyo SET estatus_servidor = ?, Apoyo = ?, TipoUnidad = ?, Hora = ?, HoraFin = ?, UnidadID = ?,Unidad = ?,Ubicacion = ?,Itinerario = ?,TramoDeApoyo = ?,Sentido = ?,kilometrajeUnidad = ?,kilometrajeApoyo = ?,Operador = ?,Usuario = ?,HoraCaptura = ?, Ruta = ?, Id_Jornada = ? WHERE id_servidor = ?",
                                         [
                                             estatus_servidor,
                                             Apoyo,
@@ -519,6 +569,8 @@ var productHandler = {
                                             Operador,
                                             Usuario,
                                             HoraCaptura,
+                                            Ruta,
+                                            Id_Jornada,
                                             ID,
                                         ],
                                         function (tx, results) {},

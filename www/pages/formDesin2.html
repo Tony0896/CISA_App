@@ -75,6 +75,10 @@
                     <span class="span FWM-span-form">Kilometraje Unidad Incorporación</span>
                     <input class="FWM-input opta" name="Kilometraje Unidad Incorporación" type="number" id="km_inc" />
 
+                    <span class="span FWM-span-form">Ruta</span>
+                    <input class="FWM-input" type="text" id="Ruta" readonly />
+                    <input type="hidden" id="Id_Jornada" />
+
                     <span class="span FWM-span-form">Itinerario</span>
                     <input class="FWM-input" type="text" id="itinerario" readonly />
 
@@ -159,6 +163,8 @@
                                 $("#hora_des").val(item.HoraDes);
                                 $("#unidad_des").val(item.UnidadDesin);
                                 $("#itinerario").val(item.Itinerario);
+                                $("#Ruta").val(item.Ruta);
+                                $("#Id_Jornada").val(item.Id_Jornada);
                                 $("#operador_des").val(item.OperadorDes);
                                 $("#falla").val(item.Falla);
                                 $("#detalle_falla").val(item.DetalleFalla);

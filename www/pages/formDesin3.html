@@ -55,6 +55,10 @@
                                 <td><span id="apoyo" style="color: #063e7f"></span></td>
                             </tr>
                             <tr>
+                                <th style="color: #505759">Ruta:</th>
+                                <td><span id="Ruta" style="color: #063e7f"></span></td>
+                            </tr>
+                            <tr>
                                 <th style="color: #505759">Itinerario:</th>
                                 <td><span id="Itinerario" style="color: #063e7f"></span></td>
                             </tr>
@@ -197,6 +201,13 @@
                                 } else {
                                     $("#Itinerario").text(" - - ");
                                 }
+
+                                if (item.Ruta) {
+                                    $("#Ruta").text(item.Ruta);
+                                } else {
+                                    $("#Ruta").text(" - - ");
+                                }
+
                                 if (item.KmDes) {
                                     $("#KmDes").text(item.KmDes);
                                 } else {

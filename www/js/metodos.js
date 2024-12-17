@@ -75,7 +75,33 @@ function restorientation() {
 function eliminaCache() {
     var success = function (status) {
         $("#process").hide();
-        updateData();
+        let Modulos = localStorage.getItem("Modulos");
+        if (Modulos == "Desincorporaciones") {
+            swal("", "Trabajando...", "success");
+            let EmpresaID = localStorage.getItem("empresa");
+            // let urlBase2 = "http://192.168.100.4/CISAApp";
+            // let urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+            let urlBase2 = "http://172.19.0.148/CISAAPP";
+            let url = urlBase2 + "/Exec/datos_desin.php?empresa=" + EmpresaID;
+            let url2 = urlBase2 + "/Exec/datos_desin_H.php?empresa=" + EmpresaID;
+
+            fetch(url)
+                .then((response) => {
+                    fetch(url2)
+                        .then((response) => {
+                            updateData();
+                            swal.close();
+                        })
+                        .catch((err) => {
+                            swal("", "Sin Conexión", "error");
+                            swal.close();
+                        });
+                })
+                .catch((err) => {
+                    swal("", "Sin Conexión", "error");
+                    swal.close();
+                });
+        }
     };
     var error = function (status) {
         $("#process").hide();
@@ -1605,7 +1631,7 @@ function GuardaDesincorporacion() {
         var HoraDes = $("#hora_des").val();
         var UnidadDesinID = $("#UnidadDesinID").val();
         var UnidadDesin = $("#unidad_des").val();
-        var Itinerario = $("#itinerario").val();
+        var Itinerario = $("#itinerario option:selected").text();
         var OperadorDes = $("#operador_des").val();
         var id_operador_des = $("#id_operador_des").val();
         var Falla = $("#falla").val();
@@ -1614,6 +1640,8 @@ function GuardaDesincorporacion() {
         var KmDes = $("#km_unidad").val();
         var FolioDes = $("#folio_inicial").val();
         var UbicacionDes = $("#ubicacion").val();
+        var Ruta = $("#Ruta").val();
+        var Id_Jornada = $("#itinerario").val();
         if ($("#check_jornada").prop("checked") == true) {
             var jornadas = 1;
         } else {
@@ -1639,7 +1667,7 @@ function GuardaDesincorporacion() {
                     function (tx) {
                         tx.executeSql(
                             //
-                            "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, id_operador_des, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                            "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, id_operador_des, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, Ruta, Id_Jornada) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                             [
                                 id_cedula,
                                 apoyo,
@@ -1660,6 +1688,8 @@ function GuardaDesincorporacion() {
                                 estatus_servidor,
                                 id_servidor,
                                 fecha,
+                                Ruta,
+                                Id_Jornada,
                             ],
                             function (tx, results) {
                                 swal("", "Guardado correctamente", "success");
@@ -1881,6 +1911,7 @@ function iniciarDesincorporaciones() {
                                 var fechaApertura = hoy;
                                 var estatus = 0;
                                 var geolocation = "";
+                                var estatusd1 = "Abierto";
 
                                 var tipo_cedula = "Desincorporaciones";
                                 productHandler.addCedulayb(
@@ -1996,7 +2027,7 @@ function RevisaHeaders() {
 }
 
 function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura, usuarioCierre, FechaApertura, OrigenApertura, OrigenCierre) {
-    // console.log(id, empresa, folio, fecha, estatus, usuarioApertura, usuarioCierre, FechaApertura, OrigenApertura, OrigenCierre)
+    console.log(id, empresa, folio, fecha, estatus, usuarioApertura, usuarioCierre, FechaApertura, OrigenApertura, OrigenCierre);
     databaseHandler.db.transaction(
         function (tx5) {
             tx5.executeSql(
@@ -2011,11 +2042,16 @@ function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura
                         var estatus = 0;
                         var geolocation = "";
                         var tipo_cedula = "Desincorporaciones";
+                        if (usuarioCierre) {
+                            var estatusd1 = "Concluido";
+                        } else {
+                            var estatusd1 = "Abierto";
+                        }
                         productHandler.addCedulayb(
                             id_usuario,
                             nombre_usuario,
                             fecha,
-                            geolocation,
+                            estatusd1,
                             id_cliente,
                             empresa,
                             FechaApertura,
@@ -2056,7 +2092,7 @@ function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura
                                                 usuarioApertura,
                                                 2,
                                                 id,
-                                                fecha,
+                                                FechaApertura,
                                                 OrigenApertura,
                                                 OrigenCierre
                                             );
@@ -2149,15 +2185,18 @@ function PintaCedulas(estatus, tipo) {
                         for (var i = 0; i < length; i++) {
                             var item2 = results.rows.item(i);
                             var fechas = item2.horario_programado;
-                            var html =
-                                html +
-                                `<li id='conc${
-                                    item2.id_cedula
-                                }'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> ${
-                                    item2.nombre_cliente + "| " + fechas
-                                }</div> </div><div class='item-after'><a href='#' onclick='continuarCed(${
-                                    item2.id_cedula
-                                },3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>`;
+                            estatusRegistro = item2.geolocalizacion_entrada;
+                            if (estatusRegistro != "Concluido") {
+                                var html =
+                                    html +
+                                    `<li id='conc${
+                                        item2.id_cedula
+                                    }'><div class='item-content'><div class='item-media'><i class='icon'><img src='img/circuloNaranja.png' width='20px' height='20px' /></i></div><div class='item-inner'><div class='item-title'> <div> ${
+                                        item2.nombre_cliente + "| " + fechas
+                                    }</div> </div><div class='item-after'><a href='#' onclick='continuarCed(${
+                                        item2.id_cedula
+                                    },3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>`;
+                            }
                         }
                         $("#pendientes").html(html);
                     },
@@ -2256,6 +2295,8 @@ function InsertaDetails(id_cedula, id_servidor) {
                         content2[x].UbicacionI,
                         content2[x].JornadaSinIncorporacion,
                         content2[x].SU_TipoUnidad,
+                        content2[x].Ruta,
+                        content2[x].Id_Jornada,
                         x,
                         content2.length,
                         id_cedula
@@ -2290,6 +2331,8 @@ function InsertaDetails(id_cedula, id_servidor) {
                         content3[x].Usuario,
                         content3[x].HoraCaptura,
                         content3[x].Origen,
+                        content3[x].Ruta,
+                        content3[x].Id_Jornada,
                         x,
                         content3.length,
                         id_cedula
@@ -2382,6 +2425,8 @@ function GuardaIncorporacion() {
                                                                 let length = results.rows.length;
                                                                 if (length == 0) {
                                                                     let Itinerario = $("#itinerario").val();
+                                                                    let Ruta = $("#Ruta").val();
+                                                                    let Id_Jornada = $("#Id_Jornada").val();
                                                                     if ($("#SU_TipoUnidad").prop("checked") == true) {
                                                                         GuardarTRFApoyosAuto(
                                                                             id_cedula,
@@ -2403,7 +2448,9 @@ function GuardaIncorporacion() {
                                                                             getDateWhitZeros(),
                                                                             "",
                                                                             "",
-                                                                            id_desD
+                                                                            id_desD,
+                                                                            Ruta,
+                                                                            Id_Jornada
                                                                         );
                                                                     } else {
                                                                         swal("", "Guardado correctamente", "success");
@@ -2680,7 +2727,7 @@ function GuardarTRFApoyos() {
         var id_operador = $("#id_operador").val();
         var Hora = $("#Hora").val();
         var HoraFin = $("#HoraFin").val();
-        var Itinerario = $("#Itinerario").val();
+        var Itinerario = $("#Itinerario option:selected").text();
         var Unidad = $("#Unidad").val();
         var kilometrajeUnidad = $("#kilometrajeUnidad").val();
         var Operador = $("#Operador").val();
@@ -2689,6 +2736,8 @@ function GuardarTRFApoyos() {
         var TramoDeApoyo = $("#TramoDeApoyo").val();
         var kilometrajeApoyo = $("#kilometrajeApoyo").val();
         var UnidadID = $("#UnidadID").val();
+        var Ruta = $("#Ruta").val();
+        var Id_Jornada = $("#Itinerario").val();
         if ($("#TipoUnidad").prop("checked") == true) {
             var TipoUnidad = 1;
         } else {
@@ -2782,7 +2831,9 @@ function GuardarTRFApoyos() {
                                                             id_servidor,
                                                             HoraCaptura,
                                                             TramoDeApoyo,
-                                                            kilometrajeApoyo
+                                                            kilometrajeApoyo,
+                                                            Ruta,
+                                                            Id_Jornada
                                                         );
                                                     }
                                                 });
@@ -2819,7 +2870,9 @@ function GuardarTRFApoyos() {
                                                 id_servidor,
                                                 HoraCaptura,
                                                 TramoDeApoyo,
-                                                kilometrajeApoyo
+                                                kilometrajeApoyo,
+                                                Ruta,
+                                                Id_Jornada
                                             );
                                         }
                                         // TRFapoyo(id_cedula, Apoyo, TipoUnidad, Hora, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo);
@@ -2844,7 +2897,9 @@ function GuardarTRFApoyos() {
                                     id_servidor,
                                     HoraCaptura,
                                     TramoDeApoyo,
-                                    kilometrajeApoyo
+                                    kilometrajeApoyo,
+                                    Ruta,
+                                    Id_Jornada
                                 );
                             }
                         },
@@ -2912,7 +2967,9 @@ function GuardarTRFApoyos() {
                                         id_servidor,
                                         HoraCaptura,
                                         TramoDeApoyo,
-                                        kilometrajeApoyo
+                                        kilometrajeApoyo,
+                                        Ruta,
+                                        Id_Jornada
                                     );
                                 }
                             });
@@ -2949,7 +3006,9 @@ function GuardarTRFApoyos() {
                             id_servidor,
                             HoraCaptura,
                             TramoDeApoyo,
-                            kilometrajeApoyo
+                            kilometrajeApoyo,
+                            Ruta,
+                            Id_Jornada
                         );
                     }
                     // TRFapoyo(id_cedula, Apoyo, TipoUnidad, Hora, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo);
@@ -2969,8 +3028,9 @@ function edit_apoyo(val, estatus) {
 }
 function sincronizaDatos() {
     var EmpresaID = localStorage.getItem("empresa");
-    // var urlBase2 = "http://192.168.100.4/Desarrollo/CISAApp";
-    var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+    // var urlBase2 = "http://192.168.100.4/CISAApp";
+    // var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+    var urlBase2 = "http://172.19.0.148/CISAAPP";
     var url = urlBase2 + "/Exec_dev/datos_desin.php?empresa=" + EmpresaID;
     var url2 = urlBase2 + "/Exec_dev/datos_desin_H.php?empresa=" + EmpresaID;
 
@@ -6283,12 +6343,14 @@ function GuardarTRFApoyosAuto(
     HoraCaptura,
     TramoDeApoyo,
     kilometrajeApoyo,
-    id_desD
+    id_desD,
+    Ruta,
+    Id_Jornada
 ) {
     databaseHandler.db.transaction(
         function (tx) {
             tx.executeSql(
-                "insert into TRFapoyo (id_cedula, Apoyo, TipoUnidad, Hora, HoraFin, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo, id_desD) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "insert into TRFapoyo (id_cedula, Apoyo, TipoUnidad, Hora, HoraFin, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo, id_desD, Ruta, Id_Jornada) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 [
                     id_cedula,
                     Apoyo,
@@ -6310,6 +6372,8 @@ function GuardarTRFApoyosAuto(
                     TramoDeApoyo,
                     kilometrajeApoyo,
                     id_desD,
+                    Ruta,
+                    Id_Jornada,
                 ],
                 function (tx, results) {
                     swal("", "Guardado correctamente", "success");
@@ -6350,7 +6414,9 @@ function GuardaDataApoyo(
     id_servidor,
     HoraCaptura,
     TramoDeApoyo,
-    kilometrajeApoyo
+    kilometrajeApoyo,
+    Ruta,
+    Id_Jornada
 ) {
     var estatus_servidor = 0;
     if ($("#id_apoyo").val()) {
@@ -6394,7 +6460,7 @@ function GuardaDataApoyo(
         databaseHandler.db.transaction(
             function (tx) {
                 tx.executeSql(
-                    "insert into TRFapoyo (id_cedula, Apoyo, TipoUnidad, Hora, HoraFin, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "insert into TRFapoyo (id_cedula, Apoyo, TipoUnidad, Hora, HoraFin, UnidadID, Unidad, Itinerario, Sentido, Ubicacion, Operador, id_operador, kilometrajeUnidad, Usuario, estatus_servidor, id_servidor, HoraCaptura, TramoDeApoyo, kilometrajeApoyo, Ruta, Id_Jornada) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     [
                         id_cedula,
                         Apoyo,
@@ -6415,6 +6481,8 @@ function GuardaDataApoyo(
                         HoraCaptura,
                         TramoDeApoyo,
                         kilometrajeApoyo,
+                        Ruta,
+                        Id_Jornada,
                     ],
                     function (tx, results) {
                         swal("", "Guardado correctamente", "success");
@@ -6452,7 +6520,7 @@ function GuardarTRFApoyosDeincorpora() {
         var id_operador = $("#id_operador").val();
         var Hora = $("#Hora").val();
         var HoraFin = $("#HoraFin").val();
-        var Itinerario = $("#Itinerario").val();
+        var Itinerario = $("#Itinerario option:selected").text();
         var Unidad = $("#Unidad").val();
         var kilometrajeUnidad = $("#kilometrajeUnidad").val();
         var Operador = $("#Operador").val();
@@ -6464,6 +6532,28 @@ function GuardarTRFApoyosDeincorpora() {
         var Falla = $("#falla").val();
         var DetalleFalla = $("#detalle_falla").val();
         var folio_inicial = $("#folio_inicial").val();
+        var Ruta = $("#Ruta").val();
+        var Id_Jornada = $("#Itinerario").val();
+
+        console.log("id_cedula =>", id_cedula);
+        console.log("Usuario =>", Usuario);
+        console.log("id_operador =>", id_operador);
+        console.log("Hora =>", Hora);
+        console.log("HoraFin =>", HoraFin);
+        console.log("Itinerario =>", Itinerario);
+        console.log("Unidad =>", Unidad);
+        console.log("kilometrajeUnidad =>", kilometrajeUnidad);
+        console.log("Operador =>", Operador);
+        console.log("Ubicacion =>", Ubicacion);
+        console.log("Sentido =>", Sentido);
+        console.log("TramoDeApoyo =>", TramoDeApoyo);
+        console.log("kilometrajeApoyo =>", kilometrajeApoyo);
+        console.log("UnidadID =>", UnidadID);
+        console.log("Falla =>", Falla);
+        console.log("DetalleFalla =>", DetalleFalla);
+        console.log("folio_inicial =>", folio_inicial);
+        console.log("Ruta =>", Ruta);
+        console.log("Id_Jornada =>", Id_Jornada);
 
         if ($("#TipoUnidad").prop("checked") == true) {
             var TipoUnidad = 1;
@@ -6516,7 +6606,7 @@ function GuardarTRFApoyosDeincorpora() {
                 databaseHandler.db.transaction(
                     function (tx) {
                         tx.executeSql(
-                            "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, id_operador_des, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, id_TRFapoyo) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                            "insert into desincorporacionesD(id_cedula, apoyo, jornadas, HoraDes, UnidadDesinID, UnidadDesin, Itinerario, Falla, DetalleFalla, SentidoDes, UbicacionDes, OperadorDes, id_operador_des, KmDes, FolioDes, UsuarioDes,estatus_servidor, id_servidor, HoraDesR, id_TRFapoyo, Ruta, Id_Jornada) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                             [
                                 id_cedula,
                                 1,
@@ -6538,6 +6628,8 @@ function GuardarTRFApoyosDeincorpora() {
                                 0,
                                 HoraCaptura,
                                 id_apoyo,
+                                Ruta,
+                                Id_Jornada,
                             ],
                             function (tx, results) {
                                 GuardaDataApoyo(
@@ -6558,7 +6650,9 @@ function GuardarTRFApoyosDeincorpora() {
                                     id_servidor,
                                     HoraCaptura,
                                     TramoDeApoyo,
-                                    kilometrajeApoyo
+                                    kilometrajeApoyo,
+                                    Ruta,
+                                    Id_Jornada
                                 );
                             },
                             function (tx, error) {
@@ -6579,5 +6673,26 @@ function GuardarTRFApoyosDeincorpora() {
         swal("", "Debes llenar estos campos para poder guardar: " + quita_coma, "warning");
         return false;
     }
+}
+function llenaCamposFaltantesApoyo(Ruta, Id_Jornada) {
+    console.log(Ruta, Id_Jornada);
+    $("#Ruta").val(Ruta);
+    $("#Itinerario").html(`<option value="0">Selecciona una opción</option>`);
+    app.request({
+        url: cordova.file.dataDirectory + "jsons_desin/Cat_JornadasRutas.json",
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            data.forEach((element) => {
+                if (Ruta == element.Ruta) {
+                    if (Id_Jornada == element.Id_Jornada) {
+                        $("#Itinerario").append(`<option value="${element.Id_Jornada}" selected>${element.Jornada}</option>`);
+                    } else {
+                        $("#Itinerario").append(`<option value="${element.Id_Jornada}">${element.Jornada}</option>`);
+                    }
+                }
+            });
+        },
+    });
 }
 // FIN Mejoras SU
