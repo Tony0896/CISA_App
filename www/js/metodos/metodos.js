@@ -1618,67 +1618,14 @@ function getDateWhitZeros() {
     return MyDateString;
 }
 function NombreEmpresa(val) {
-    if (val == 1) {
-        return "ACHSA";
-    } else if (val == 2) {
-        return "ATROL";
-    } else if (val == 3) {
-        return "CCA";
-    } else if (val == 4) {
-        return "CISA";
-    } else if (val == 5) {
-        return "COAVE";
-    } else if (val == 6) {
-        return "COPE";
-    } else if (val == 7) {
-        return "CORENSA";
-    } else if (val == 8) {
-        return "COREV";
-    } else if (val == 9) {
-        return "COTAN";
-    } else if (val == 10) {
-        return "COTOBUSA";
-    } else if (val == 11) {
-        return "MIHSA";
-    } else if (val == 12) {
-        return "RECSA";
-    } else if (val == 13) {
-        return "SIMES";
-    } else if (val == 14) {
-        return "SKYBUS";
-    } else if (val == 15) {
-        return "STMP";
-    } else if (val == 16) {
-        return "TCGSA";
-    } else if (val == 17) {
-        return "TREPSA";
-    } else if (val == 18) {
-        return "VYCSA";
-    } else if (val == 19) {
-        return "TUZOBUS";
-    } else if (val == 20) {
-        return "BUSSI";
-    } else if (val == 22) {
-        return "ESASA";
-    } else if (val == 26) {
-        return "CORET";
-    } else if (val == 35) {
-        return "AMTM";
-    } else if (val == 37) {
-        return "AULSA";
-    } else if (val == 39) {
-        return "COTXS";
-    } else if (val == 41) {
-        return "CODIV";
-    } else if (val == 44) {
-        return "IXTAP";
-    } else if (val == 45) {
-        return "MTY";
-    } else if (val == 46) {
-        return "SITRA";
-    } else {
-        return "";
+    const empresasJSON = localStorage.getItem("empresasGPO");
+    if (!empresasJSON) {
+        console.warn("No hay datos de empresas en localStorage");
+        return "Empresa no encontrada";
     }
+
+    const empresas = JSON.parse(empresasJSON);
+    return empresas[val] || "";
 }
 //inicio de Desincorporacion
 function NuevaDesincorporacion() {
@@ -1899,68 +1846,7 @@ function iniciarDesincorporaciones() {
     }
 
     var id_cliente = localStorage.getItem("empresa");
-
-    if (id_cliente == 1) {
-        var nombre_cliente = "ACHSA";
-    } else if (id_cliente == 2) {
-        var nombre_cliente = "ATROL";
-    } else if (id_cliente == 3) {
-        var nombre_cliente = "CCA";
-    } else if (id_cliente == 4) {
-        var nombre_cliente = "CISA";
-    } else if (id_cliente == 5) {
-        var nombre_cliente = "COAVE";
-    } else if (id_cliente == 6) {
-        var nombre_cliente = "COPE";
-    } else if (id_cliente == 7) {
-        var nombre_cliente = "CORENSA";
-    } else if (id_cliente == 8) {
-        var nombre_cliente = "COREV";
-    } else if (id_cliente == 9) {
-        var nombre_cliente = "COTAN";
-    } else if (id_cliente == 10) {
-        var nombre_cliente = "COTOBUSA";
-    } else if (id_cliente == 11) {
-        var nombre_cliente = "MIHSA";
-    } else if (id_cliente == 12) {
-        var nombre_cliente = "RECSA";
-    } else if (id_cliente == 13) {
-        var nombre_cliente = "SIMES";
-    } else if (id_cliente == 14) {
-        var nombre_cliente = "SKYBUS";
-    } else if (id_cliente == 15) {
-        var nombre_cliente = "STMP";
-    } else if (id_cliente == 16) {
-        var nombre_cliente = "TCGSA";
-    } else if (id_cliente == 17) {
-        var nombre_cliente = "TREPSA";
-    } else if (id_cliente == 18) {
-        var nombre_cliente = "VYCSA";
-    } else if (id_cliente == 19) {
-        var nombre_cliente = "TUZOBUS";
-    } else if (id_cliente == 20) {
-        var nombre_cliente = "BUSSI";
-    } else if (id_cliente == 22) {
-        var nombre_cliente = "ESASA";
-    } else if (id_cliente == 26) {
-        var nombre_cliente = "CORET";
-    } else if (id_cliente == 35) {
-        var nombre_cliente = "AMTM";
-    } else if (id_cliente == 37) {
-        var nombre_cliente = "AULSA";
-    } else if (id_cliente == 39) {
-        var nombre_cliente = "COTXS";
-    } else if (id_cliente == 41) {
-        var nombre_cliente = "CODIV";
-    } else if (id_cliente == 44) {
-        var nombre_cliente = "IXTAP";
-    } else if (id_cliente == 45) {
-        var nombre_cliente = "MTY";
-    } else if (id_cliente == 46) {
-        var nombre_cliente = "SITRA";
-    } else {
-        var nombre_cliente = "N/A";
-    }
+    var nombre_cliente = NombreEmpresa(id_cliente);
 
     databaseHandler.db.transaction(
         function (tx) {
@@ -2893,70 +2779,12 @@ function CheckApoyoTipo(val) {
         }
     }
 }
-function getIDEmpresa(val) {
-    if (val == "ACHSA") {
-        return 1;
-    } else if (val == "ATROL") {
-        return 2;
-    } else if (val == "CCA") {
-        return 3;
-    } else if (val == "CISA") {
-        return 4;
-    } else if (val == "COAVE") {
-        return 5;
-    } else if (val == "COPE") {
-        return 6;
-    } else if (val == "CORENSA") {
-        return 7;
-    } else if (val == "COREV") {
-        return 8;
-    } else if (val == "COTAN") {
-        return 9;
-    } else if (val == "COTOBUSA") {
-        return 10;
-    } else if (val == "MIHSA") {
-        return 11;
-    } else if (val == "RECSA") {
-        return 12;
-    } else if (val == "SIMES") {
-        return 13;
-    } else if (val == "SKYBUS") {
-        return 14;
-    } else if (val == "STMP") {
-        return 15;
-    } else if (val == "TCGSA") {
-        return 16;
-    } else if (val == "TREPSA") {
-        return 17;
-    } else if (val == "VYCSA") {
-        return 18;
-    } else if (val == "TUZOBUS") {
-        return 19;
-    } else if (val == "BUSSI") {
-        return 20;
-    } else if (val == "ESASA") {
-        return 22;
-    } else if (val == "CORET") {
-        return 26;
-    } else if (val == "AMTM") {
-        return 35;
-    } else if (val == "AULSA") {
-        return 37;
-    } else if (val == "COTXS") {
-        return 39;
-    } else if (val == "REFORMA") {
-        return 40;
-    } else if (val == "CODIV") {
-        return 41;
-    } else if (val == "IXTAP") {
-        return 44;
-    } else if (val == "MTY") {
-        return 45;
-    } else if (val == "SITRA") {
-        return 46;
-    } else if (val == "logo1") {
-        return 0;
-    }
+function getIDEmpresa(nombre) {
+    const empresasJSON = localStorage.getItem("empresasArray");
+    if (!empresasJSON) return null;
+    const empresasArray = JSON.parse(empresasJSON);
+    const empresa = empresasArray.find((item) => item.Empresa === nombre);
+    return empresa ? empresa.ID_empresa : null;
 }
 
 function validaMenor500(ID, value) {

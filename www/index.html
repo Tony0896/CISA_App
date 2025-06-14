@@ -1,7 +1,7 @@
 <script>
     // Validar si ya habia iniciado sesion
     var Usuario = localStorage.getItem("Usuario");
-    localStorage.setItem("version", "2.0.12");
+    localStorage.setItem("version", "2.0.15");
     // var url = "http://192.168.100.8/CISAApp/Archivos/App";
     var url = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/App";
     localStorage.setItem("url", url);
@@ -81,6 +81,38 @@
                                 }
                             },
                         });
+                        $.ajax({
+                            type: "POST",
+                            url: url + "/loginDatos.php",
+                            data: { metodo: 4 },
+                        })
+                            .done(function (data) {
+                                let results = JSON.parse(data);
+                                let success = results.success;
+                                let result = results.result;
+                                let code = results.code;
+                                switch (success) {
+                                    case true:
+                                        if (code === 200) {
+                                            const empresasMap = {};
+                                            result.forEach((item) => {
+                                                empresasMap[item.ID_empresa] = item.Empresa;
+                                            });
+                                            localStorage.setItem("empresasGPO", JSON.stringify(empresasMap));
+                                            localStorage.setItem("empresasArray", JSON.stringify(result));
+                                        } else {
+                                            swal("", "No cuentas con internet!", "warning");
+                                        }
+                                        break;
+
+                                    case false:
+                                        swal("", "Algo salio mal!", "error");
+                                        break;
+                                }
+                            })
+                            .fail(function (jqXHR, textStatus, errorThrown) {
+                                swal("", "No cuentas con internet!", "error");
+                            });
                     } else {
                         $("#empresa").html(`<option value="">Selecciona una empresa</option>`);
                     }
