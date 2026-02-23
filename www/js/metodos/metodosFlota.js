@@ -56,7 +56,7 @@ function IniciaCheckListFlota() {
                         nombre_cliente,
                         horario_programado,
                         estatus,
-                        tipo_cedula
+                        tipo_cedula,
                     );
                     databaseHandler.db.transaction(
                         function (tx) {
@@ -88,7 +88,7 @@ function IniciaCheckListFlota() {
                                         ultimoMantenimiento,
                                         tipoMannto,
                                         medidor,
-                                        intervalo
+                                        intervalo,
                                     );
                                     let NomJson = "datos_check_desc" + empresa;
                                     app.request({
@@ -125,7 +125,7 @@ function IniciaCheckListFlota() {
                                                             aux2,
                                                             data[j].multiple,
                                                             data[j].criterio,
-                                                            data[j].ponderacion
+                                                            data[j].ponderacion,
                                                         );
                                                     }
                                                 }
@@ -135,11 +135,11 @@ function IniciaCheckListFlota() {
                                 },
                                 function (tx, error) {
                                     console.log("Error al guardar cedula: " + error.message);
-                                }
+                                },
                             );
                         },
                         function (error) {},
-                        function () {}
+                        function () {},
                     );
                 }
             });
@@ -180,7 +180,7 @@ function IniciaCheckListFlota() {
                         nombre_cliente,
                         horario_programado,
                         estatus,
-                        tipo_cedula
+                        tipo_cedula,
                     );
                     databaseHandler.db.transaction(
                         function (tx) {
@@ -203,16 +203,16 @@ function IniciaCheckListFlota() {
                                         FK_id_empresa,
                                         id_modelo_check,
                                         fecha_revision,
-                                        flag
+                                        flag,
                                     );
                                 },
                                 function (tx, error) {
                                     console.log("Error al guardar cedula: " + error.message);
-                                }
+                                },
                             );
                         },
                         function (error) {},
-                        function () {}
+                        function () {},
                     );
                 }
             });
@@ -292,21 +292,21 @@ function actualizaRespuestasFlota(id, paso) {
                                     function (tx, results) {},
                                     function (tx, error) {
                                         console.error("Error al guardar cierre: " + error.message);
-                                    }
+                                    },
                                 );
                             },
                             function (error) {},
-                            function () {}
+                            function () {},
                         );
                     }
                 },
                 function (tx, error) {
                     console.error("Error al guardar cierre: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 
@@ -541,11 +541,11 @@ function CreaModalOptionFlota(id, opciones, mul, titulo_modal) {
                                                 <a href="#" onclick="capturePhotoModal()" style="background-color: #005D99;" class="boton-equipo">Volver a tomar Evidencia <i class="icon material-icons md-only" style="display: inline-block;margin-left: 12px;">photo_camera</i></a>
                                             </div>`);
                                     }
-                                }
+                                },
                             );
                         },
                         function (error) {},
-                        function () {}
+                        function () {},
                     );
 
                     databaseHandler.db.transaction(
@@ -573,11 +573,11 @@ function CreaModalOptionFlota(id, opciones, mul, titulo_modal) {
                                         });
                                         $("#comentarios_generales").val(item.comentarios2);
                                     }
-                                }
+                                },
                             );
                         },
                         function (error) {},
-                        function () {}
+                        function () {},
                     );
                 },
             },
@@ -652,7 +652,7 @@ function agregaComentariosFlota(id_pregunta, mul) {
                                                             "INSERT INTO Evidencias(id_cedula,FKHeader,evidencia,fecha,proceso,flagPregunta) VALUES (?,?,?,?,?,?)",
                                                             [id_cedula, localStorage.getItem("IdHeader"), foto, getDateWhitZeros(), 0, id_pregunta],
                                                             function (tx, results) {},
-                                                            function (tx, error) {}
+                                                            function (tx, error) {},
                                                         );
                                                     },
                                                     function (error) {
@@ -660,7 +660,7 @@ function agregaComentariosFlota(id_pregunta, mul) {
                                                     },
                                                     function (e) {
                                                         console.log(e);
-                                                    }
+                                                    },
                                                 );
                                             } else {
                                                 databaseHandler.db.transaction(
@@ -669,29 +669,29 @@ function agregaComentariosFlota(id_pregunta, mul) {
                                                             "UPDATE Evidencias SET evidencia = ?, fecha = ? WHERE id_cedula = ?, flagPregunta = ?",
                                                             [foto, getDateWhitZeros(), id_cedula, id_pregunta],
                                                             function (tx, results) {},
-                                                            function (tx, error) {}
+                                                            function (tx, error) {},
                                                         );
                                                     },
                                                     function (error) {},
-                                                    function () {}
+                                                    function () {},
                                                 );
                                             }
-                                        }
+                                        },
                                     );
                                 },
                                 function (error) {},
-                                function () {}
+                                function () {},
                             );
                         }
                         swal("", "Guardado correctamente", "success");
                     },
                     function (tx, error) {
                         console.error("Error al guardar cierre: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else {
         swal("", "Selecciona almenos un daño para poder guardar", "warning");
@@ -730,21 +730,21 @@ function GuardarPhoto() {
                                             item.evidencia +
                                             "' width='60px' style='margin-top: 4px;'/></td><td style='text-align: center;'><a href='#' onclick='eliminarFilaFoto(" +
                                             item.id_evidencia +
-                                            ",1);' style='border: none; outline:none;'><i class='icon material-icons md-only' style='display: inline-block;margin-left: 12px;color:#FF0037;font-size: 40px;'>delete_forever</i></a></td></tr>"
+                                            ",1);' style='border: none; outline:none;'><i class='icon material-icons md-only' style='display: inline-block;margin-left: 12px;color:#FF0037;font-size: 40px;'>delete_forever</i></a></td></tr>",
                                     );
                                     $(".message-nr").css("display", "none");
-                                }
+                                },
                             );
                         },
                         function (error) {},
-                        function () {}
+                        function () {},
                     );
                 },
-                function (tx, error) {}
+                function (tx, error) {},
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 
@@ -779,11 +779,11 @@ function eliminarFilaFoto(index, val) {
                     },
                     function (tx, error) {
                         swal("Error al eliminar registro", error.message, "error");
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     }
 }
@@ -810,11 +810,11 @@ function EnviarCheckListFlota() {
                         },
                         function (tx, error) {
                             swal("Error al guardar", error.message, "error");
-                        }
+                        },
                     );
                 },
                 function (error) {},
-                function () {}
+                function () {},
             );
         }
     });
@@ -830,11 +830,11 @@ function setComentariosFlota(value, id_pregunta) {
                 function (tx, results) {},
                 function (tx, error) {
                     console.error("Error al guardar cierre: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 
@@ -957,7 +957,7 @@ function ValidarCapturePhotoInsflota() {
                     } else {
                         swal("", "Solo puedes agregar máx. 3 fotos", "warning");
                     }
-                }
+                },
             );
         },
         function (error) {
@@ -965,7 +965,7 @@ function ValidarCapturePhotoInsflota() {
         },
         function (e) {
             console.log("error e =>", e);
-        }
+        },
     );
 }
 
@@ -993,11 +993,11 @@ function guardaComentarios_generales_Flota(val) {
                 },
                 function (tx, error) {
                     console.error("Error al guardar: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 
@@ -1015,11 +1015,11 @@ function cambioMili(ids, values) {
                     function (tx, results) {},
                     function (tx, error) {
                         console.error("Error al guardar: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else {
         $("#" + ids).val("0");
@@ -1041,11 +1041,11 @@ function cambioPresion(ids, values) {
                     function (tx, results) {},
                     function (tx, error) {
                         console.error("Error al guardar: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else {
         $("#" + ids).val("0");

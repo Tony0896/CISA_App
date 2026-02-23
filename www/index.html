@@ -1,16 +1,16 @@
 <script>
     // Validar si ya habia iniciado sesion
     var Usuario = localStorage.getItem("Usuario");
-    localStorage.setItem("version", "2.0.15");
+    localStorage.setItem("version", "2.0.17");
     // var url = "http://192.168.100.8/CISAApp/Archivos/App";
-    var url = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/App";
+    var url = "https://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/App";
     localStorage.setItem("url", url);
     if (Usuario) {
         localStorage.setItem("sendFlag", 0);
         window.location.href = "menu.html";
     }
 </script>
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <title>Login</title>
     <head>
@@ -255,7 +255,7 @@
                     </div>
 
                     <div class="wrap-input100 validate-input m-b-18">
-                        <select id="empresa" class="input100" style="height: 59px; border-width: 0" onchange="cambiaimgempresa(this.value);">
+                        <select id="empresa" class="input100" style="height: 59px; border-width: 0" onchange="cambiaimgempresa(this.value)">
                             <option value="">Selecciona una empresa</option>
                         </select>
                     </div>

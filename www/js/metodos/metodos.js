@@ -69,7 +69,7 @@ function validateScan() {
             orientation: "portrait",
             disableAnimations: true,
             disableSuccessBeep: false,
-        }
+        },
     );
 }
 function restorientation() {
@@ -259,13 +259,13 @@ function EliminarActualizacionesAntiguas() {
                             function (tx4, results) {},
                             function (tx4, error) {
                                 console.errror("Error al eliminar: " + error.message);
-                            }
+                            },
                         );
                     },
                     function (error) {
                         console.error("Error al seleccionar actualzaciones:" + error.message);
                     },
-                    function () {}
+                    function () {},
                 );
             }
         });
@@ -628,7 +628,7 @@ function recarga_history(mes_pdfs, year_pdfs) {
             $(".preloader").remove();
             $("#content-page").css("display", "none");
             $("#nointernet-page").css("display", "block");
-        }
+        },
     );
 }
 function recargacedulas() {
@@ -670,7 +670,7 @@ function recargacedulas() {
                                     item2.id_cedula +
                                     ",`" +
                                     item2.tipo_cedula +
-                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
+                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>",
                             );
                         } else if (item2.tipo_cedula == "Limpieza") {
                             $("#pendientes").append(
@@ -686,7 +686,7 @@ function recargacedulas() {
                                     item2.id_cedula +
                                     ",`" +
                                     item2.tipo_cedula +
-                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
+                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>",
                             );
                         } else if (item2.tipo_cedula == "Desincorporaciones") {
                             $("#pendientes").append(
@@ -698,7 +698,7 @@ function recargacedulas() {
                                     fechas[0] +
                                     "</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" +
                                     item2.id_cedula +
-                                    "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>"
+                                    "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>",
                             );
                         } else if (item2.tipo_cedula == "Recaudo") {
                             $("#pendientes").append(
@@ -714,7 +714,7 @@ function recargacedulas() {
                                     item2.id_cedula +
                                     ",`" +
                                     item2.tipo_cedula +
-                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
+                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>",
                             );
                         } else if (item2.tipo_cedula == "Diesel") {
                             $("#pendientes").append(
@@ -730,18 +730,18 @@ function recargacedulas() {
                                     item2.id_cedula +
                                     ",`" +
                                     item2.tipo_cedula +
-                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
+                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>",
                             );
                         }
                     }
                 },
                 function (tx5, error) {
                     console.error("Error al consultar bandeja de salida: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 
@@ -859,7 +859,7 @@ function IniciaCheckList() {
             nombre_cliente,
             horario_programado,
             estatus,
-            tipo_cedula
+            tipo_cedula,
         );
         databaseHandler.db.transaction(
             function (tx) {
@@ -885,7 +885,7 @@ function IniciaCheckList() {
                             id_unidad_vs,
                             FK_id_empresa,
                             id_modelo_check,
-                            fecha_revision
+                            fecha_revision,
                         );
                         var NomJson = "datos_check_desc" + empresa;
                         app.request({
@@ -921,7 +921,7 @@ function IniciaCheckList() {
                                                 data[j].modelos,
                                                 aux,
                                                 aux2,
-                                                data[j].multiple
+                                                data[j].multiple,
                                             );
                                         }
                                     }
@@ -931,11 +931,11 @@ function IniciaCheckList() {
                     },
                     function (tx, error) {
                         console.log("Error al guardar cedula: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else {
         swal("", "Selecciona una unidad para poder ingresar.", "warning");
@@ -1032,11 +1032,11 @@ function actualizacheck(id) {
                     function (tx, results) {},
                     function (tx, error) {
                         console.error("Error al guardar cierre: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else if (check.includes("2")) {
         var respuesta = 2;
@@ -1049,11 +1049,11 @@ function actualizacheck(id) {
                     function (tx, results) {},
                     function (tx, error) {
                         console.error("Error al guardar cierre: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     }
 }
@@ -1121,11 +1121,11 @@ function agregaComentarios(id_pregunta, mul) {
                     },
                     function (tx, error) {
                         console.error("Error al guardar cierre: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else {
         swal("", "Selecciona almenos un daño para poder guardar", "warning");
@@ -1144,11 +1144,11 @@ function guardaComentarios_generales(val) {
                 },
                 function (tx, error) {
                     console.error("Error al guardar cierre: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 
@@ -1186,11 +1186,11 @@ function EnviarCheckList() {
                         },
                         function (tx, error) {
                             swal("Error al guardar", error.message, "error");
-                        }
+                        },
                     );
                 },
                 function (error) {},
-                function () {}
+                function () {},
             );
         }
     });
@@ -1403,7 +1403,7 @@ function IniciaCheckListLimp() {
             nombre_cliente,
             horario_programado,
             estatus,
-            tipo_cedula
+            tipo_cedula,
         );
         databaseHandler.db.transaction(
             function (tx) {
@@ -1429,7 +1429,7 @@ function IniciaCheckListLimp() {
                             id_unidad_vs,
                             FK_id_empresa,
                             id_modelo_check,
-                            fecha_revision
+                            fecha_revision,
                         );
                         var NomJson = "datos_check_desc" + empresa;
                         app.request({
@@ -1465,7 +1465,7 @@ function IniciaCheckListLimp() {
                                                 data[j].modelos,
                                                 aux,
                                                 aux2,
-                                                data[j].multiple
+                                                data[j].multiple,
                                             );
                                         }
                                     }
@@ -1475,11 +1475,11 @@ function IniciaCheckListLimp() {
                     },
                     function (tx, error) {
                         console.log("Error al guardar cedula: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else {
         swal("", "Selecciona una unidad para poder ingresar.", "warning");
@@ -1549,11 +1549,11 @@ function actualizacheck_limp(id) {
                     function (tx, results) {},
                     function (tx, error) {
                         console.error("Error al guardar cierre: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else if (check.includes("2")) {
         var respuesta = 2;
@@ -1566,11 +1566,11 @@ function actualizacheck_limp(id) {
                     function (tx, results) {},
                     function (tx, error) {
                         console.error("Error al guardar cierre: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     }
 }
@@ -1593,11 +1593,11 @@ function guardaComentarios_generales_limp(val) {
                 },
                 function (tx, error) {
                     console.error("Error al guardar cierre: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 //fin de Revision Limpieza
@@ -1721,7 +1721,7 @@ function GuardaDesincorporacion() {
                             },
                             function (tx, error) {
                                 console.error("Error al consultar bandeja de salida: " + error.message);
-                            }
+                            },
                         );
                     },
                     function (error) {
@@ -1729,7 +1729,7 @@ function GuardaDesincorporacion() {
                     },
                     function (error) {
                         console.error("Error al consultar bandeja de salida: " + error.message);
-                    }
+                    },
                 );
             }
         });
@@ -1882,7 +1882,7 @@ function iniciarDesincorporaciones() {
                                     nombre_cliente,
                                     fechaApertura,
                                     estatus,
-                                    tipo_cedula
+                                    tipo_cedula,
                                 );
 
                                 databaseHandler.db.transaction(
@@ -1905,17 +1905,17 @@ function iniciarDesincorporaciones() {
                                                     0,
                                                     fechaApertura,
                                                     "MOBILE",
-                                                    null
+                                                    null,
                                                 );
                                                 app.views.main.router.navigate({
                                                     name: "yallegue_desin",
                                                 });
                                             },
-                                            function (tx, error) {}
+                                            function (tx, error) {},
                                         );
                                     },
                                     function (error) {},
-                                    function () {}
+                                    function () {},
                                 );
                             }
                         });
@@ -1923,11 +1923,11 @@ function iniciarDesincorporaciones() {
                         swal("", "Actualmente ya existe un registro este día. Puedes acceder a el en la sección de bandeja de salida", "warning");
                     }
                 },
-                function (tx, error) {}
+                function (tx, error) {},
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 function RevisaHeaders() {
@@ -1978,7 +1978,7 @@ function RevisaHeaders() {
                         usuarioCierre,
                         FechaApertura,
                         OrigenApertura,
-                        OrigenCierre
+                        OrigenCierre,
                     );
                     // }
                 }
@@ -2012,7 +2012,7 @@ function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura
                             empresa,
                             FechaApertura,
                             estatus,
-                            tipo_cedula
+                            tipo_cedula,
                         );
                         databaseHandler.db.transaction(
                             function (tx) {
@@ -2035,7 +2035,7 @@ function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura
                                                 id,
                                                 usuarioCierre,
                                                 OrigenApertura,
-                                                OrigenCierre
+                                                OrigenCierre,
                                             );
                                             PintaCedulas(0, "Desincorporaciones");
                                         } else {
@@ -2050,17 +2050,17 @@ function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura
                                                 id,
                                                 fecha,
                                                 OrigenApertura,
-                                                OrigenCierre
+                                                OrigenCierre,
                                             );
                                             PintaCedulas(0, "Desincorporaciones");
                                         }
                                         InsertaDetails(id_cedula, id);
                                     },
-                                    function (tx, error) {}
+                                    function (tx, error) {},
                                 );
                             },
                             function (error) {},
-                            function () {}
+                            function () {},
                         );
                     } else {
                         var item2 = results.rows.item(0);
@@ -2084,18 +2084,18 @@ function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura
                                                         function (tx, results) {},
                                                         function (tx, error) {
                                                             swal("Error al guardar", error.message, "error");
-                                                        }
+                                                        },
                                                     );
                                                 },
                                                 function (error) {},
-                                                function () {}
+                                                function () {},
                                             );
                                         },
-                                        function (tx, error) {}
+                                        function (tx, error) {},
                                     );
                                 },
                                 function (error) {},
-                                function () {}
+                                function () {},
                             );
                         } else {
                             var estatusd = "Abierto";
@@ -2109,22 +2109,22 @@ function GuardaHeaderDesktop(id, empresa, folio, fecha, estatus, usuarioApertura
                                             PintaCedulas(0, "Desincorporaciones");
                                             InsertaDetails(id_cedula, item2.id_servidor);
                                         },
-                                        function (tx, error) {}
+                                        function (tx, error) {},
                                     );
                                 },
                                 function (error) {},
-                                function () {}
+                                function () {},
                             );
                         }
                     }
                 },
                 function (tx5, error) {
                     console.error("Error al consultar bandeja de salida: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 
@@ -2155,11 +2155,11 @@ function PintaCedulas(estatus, tipo) {
                     },
                     function (tx5, error) {
                         console.error("Error al consultar bandeja de salida: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else if (tipo == "Recaudo") {
         databaseHandler.db.transaction(
@@ -2193,7 +2193,7 @@ function PintaCedulas(estatus, tipo) {
                     },
                     function (tx5, error) {
                         console.error("Error al consultar bandeja de salida: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
@@ -2201,7 +2201,7 @@ function PintaCedulas(estatus, tipo) {
             },
             function (error) {
                 console.error("Error al consultar bandeja de salida: " + error.message);
-            }
+            },
         );
     }
 }
@@ -2249,7 +2249,7 @@ function InsertaDetails(id_cedula, id_servidor) {
                         content2[x].JornadaSinIncorporacion,
                         x,
                         content2.length,
-                        id_cedula
+                        id_cedula,
                     );
                 }
             }
@@ -2282,7 +2282,7 @@ function InsertaDetails(id_cedula, id_servidor) {
                         content3[x].Origen,
                         x,
                         content3.length,
-                        id_cedula
+                        id_cedula,
                     );
                 }
             }
@@ -2368,18 +2368,18 @@ function GuardaIncorporacion() {
                                                     });
                                                 }, 1500);
                                             },
-                                            function (tx, error) {}
+                                            function (tx, error) {},
                                         );
                                     },
                                     function (error) {},
-                                    function () {}
+                                    function () {},
                                 );
                             },
-                            function (tx, error) {}
+                            function (tx, error) {},
                         );
                     },
                     function (error) {},
-                    function () {}
+                    function () {},
                 );
             }
         });
@@ -2446,11 +2446,11 @@ function CerrarReporte() {
                 },
                 function (tx5, error) {
                     console.error("Error al consultar bandeja de salida: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
     swal({
         title: "Aviso",
@@ -2481,20 +2481,20 @@ function CerrarReporte() {
                                         },
                                         function (tx, error) {
                                             swal("Error al guardar", error.message, "error");
-                                        }
+                                        },
                                     );
                                 },
                                 function (error) {},
-                                function () {}
+                                function () {},
                             );
                         },
                         function (tx, error) {
                             swal("Error al guardar", error.message, "error");
-                        }
+                        },
                     );
                 },
                 function (error) {},
-                function () {}
+                function () {},
             );
         }
     });
@@ -2570,11 +2570,11 @@ function ActualizaFolio() {
                         });
                     }, 1500);
                 },
-                function (tx, error) {}
+                function (tx, error) {},
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 function check_hour(val) {
@@ -2677,7 +2677,7 @@ function GuardarTRFApoyos() {
                                 },
                                 function (tx, error) {
                                     console.error("Error al consultar bandeja de salida: " + error.message);
-                                }
+                                },
                             );
                         },
                         function (error) {
@@ -2685,7 +2685,7 @@ function GuardarTRFApoyos() {
                         },
                         function (error) {
                             console.error("Error al consultar bandeja de salida: " + error.message);
-                        }
+                        },
                     );
                 } else {
                     databaseHandler.db.transaction(
@@ -2725,7 +2725,7 @@ function GuardarTRFApoyos() {
                                 },
                                 function (tx, error) {
                                     console.error("Error al consultar bandeja de salida: " + error.message);
-                                }
+                                },
                             );
                         },
                         function (error) {
@@ -2733,7 +2733,7 @@ function GuardarTRFApoyos() {
                         },
                         function (error) {
                             console.error("Error al consultar bandeja de salida: " + error.message);
-                        }
+                        },
                     );
                 }
             }
@@ -2757,7 +2757,7 @@ function edit_apoyo(val, estatus) {
 function sincronizaDatos() {
     var EmpresaID = localStorage.getItem("empresa");
     // var urlBase2 = "http://192.168.100.8/CISAApp";
-    var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
+    var urlBase2 = "https://mantto.ci-sa.com.mx/www.CISAAPP.com";
     var url = urlBase2 + "/Exec/datos_desin.php?empresa=" + EmpresaID;
     var url2 = urlBase2 + "/Exec/datos_desin_H.php?empresa=" + EmpresaID;
 
@@ -2796,3 +2796,42 @@ function validaMenor500(ID, value) {
 }
 
 // fin desincorporaciones
+
+function validaEmpresasGPO() {
+    const empresasJSON = localStorage.getItem("empresasGPO");
+    if (!empresasJSON) {
+        var url = "https://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/App";
+        $.ajax({
+            type: "POST",
+            url: url + "/loginDatos.php",
+            data: { metodo: 4 },
+        })
+            .done(function (data) {
+                let results = JSON.parse(data);
+                let success = results.success;
+                let result = results.result;
+                let code = results.code;
+                switch (success) {
+                    case true:
+                        if (code === 200) {
+                            const empresasMap = {};
+                            result.forEach((item) => {
+                                empresasMap[item.ID_empresa] = item.Empresa;
+                            });
+                            localStorage.setItem("empresasGPO", JSON.stringify(empresasMap));
+                            localStorage.setItem("empresasArray", JSON.stringify(result));
+                        } else {
+                            swal("", "No cuentas con internet!", "warning");
+                        }
+                        break;
+
+                    case false:
+                        swal("", "Algo salio mal!", "error");
+                        break;
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                swal("", "No cuentas con internet!", "error");
+            });
+    }
+}

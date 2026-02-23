@@ -42,7 +42,7 @@ function iniciarCargasDiesel() {
         nombre_cliente,
         horario_programado,
         estatus,
-        tipo_cedula
+        tipo_cedula,
     );
     databaseHandler.db.transaction(
         function (tx) {
@@ -61,17 +61,17 @@ function iniciarCargasDiesel() {
                         estatus,
                         origen,
                         nombre_usuario,
-                        fechaReal
+                        fechaReal,
                     );
                     app.views.main.router.navigate({ name: "yallegueDiesel" });
                 },
                 function (tx, error) {
                     console.log("Error al guardar cedula: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 
@@ -193,7 +193,7 @@ function agregaCarga() {
                                         item2.no_bomba ? (no_bomba = item2.no_bomba) : (no_bomba = 0);
                                         $("#tb_diesel").append(
                                             `<tr><td>${item2.eco2}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(
-                                                item2.odometro
+                                                item2.odometro,
                                             )}</td><td>${no_bomba}</td><td>${
                                                 item2.tipo_carga
                                             }</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${
@@ -204,7 +204,7 @@ function agregaCarga() {
                                                 item2.vueltas
                                             }','${item2.tipo_carga}','${item2.operador2}','${item2.VIN}','2','${
                                                 item2.eco2
-                                            }');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`
+                                            }');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`,
                                         );
                                         databaseHandler.db.transaction(
                                             function (tx5) {
@@ -217,8 +217,8 @@ function agregaCarga() {
                                                         $("#unidades_cargadas").html(`${item3.cuentas}`);
                                                         $("#tb_diesel").append(
                                                             `<tr id="row_totales" style="text-align: center;background-color: #005D99;color: white;font-weight: bold;"><th>Totales</th><th>${numberWithCommas(
-                                                                Number(item3.carga_totales).toFixed(2)
-                                                            )}</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>`
+                                                                Number(item3.carga_totales).toFixed(2),
+                                                            )}</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>`,
                                                         );
                                                         $("#autocomplete").val("");
                                                         $("#btn_llamarUnidad").removeData();
@@ -226,7 +226,7 @@ function agregaCarga() {
                                                     },
                                                     function (tx5, error) {
                                                         console.error("Error: " + error.message);
-                                                    }
+                                                    },
                                                 );
                                             },
                                             function (error) {
@@ -234,12 +234,12 @@ function agregaCarga() {
                                             },
                                             function (error) {
                                                 console.error("Error: " + error.message);
-                                            }
+                                            },
                                         );
                                     },
                                     function (tx5, error) {
                                         console.error("Error: " + error.message);
-                                    }
+                                    },
                                 );
                             },
                             function (error) {
@@ -247,12 +247,12 @@ function agregaCarga() {
                             },
                             function (error) {
                                 console.error("Error: " + error.message);
-                            }
+                            },
                         );
                     },
                     function (tx, error) {
                         console.error("Error: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
@@ -260,7 +260,7 @@ function agregaCarga() {
             },
             function (error) {
                 console.error("Error: " + error.message);
-            }
+            },
         );
     } else {
         swal("", "Debes llenar los campos de litros cargados y el odometro para poder guardar", "warning");
@@ -285,7 +285,7 @@ function editarCargaDiesel(
     operador2,
     VIN,
     type,
-    eco2
+    eco2,
 ) {
     if (type) {
         app.sheet.open("#sheet-modal-u");
@@ -433,7 +433,7 @@ function actualizaCargaDiesel() {
                                                 item2.no_bomba ? (no_bomba = item2.no_bomba) : (no_bomba = 0);
                                                 $("#tb_diesel").append(
                                                     `<tr><td>${item2.eco2}</td><td>${numberWithCommas(item2.carga_total)}</td><td>${numberWithCommas(
-                                                        item2.odometro
+                                                        item2.odometro,
                                                     )}</td><td>${no_bomba}</td><td>${
                                                         item2.tipo_carga
                                                     }</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${
@@ -446,7 +446,7 @@ function actualizaCargaDiesel() {
                                                         item2.VIN
                                                     }','2','${
                                                         item2.eco2
-                                                    }');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`
+                                                    }');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>`,
                                                 );
                                             }
                                             databaseHandler.db.transaction(
@@ -460,8 +460,8 @@ function actualizaCargaDiesel() {
                                                             $("#unidades_cargadas").html(`${item3.cuentas}`);
                                                             $("#tb_diesel").append(
                                                                 `<tr id="row_totales" style="text-align: center;background-color: #005D99;color: white;font-weight: bold;"><th>Totales</th><th>${numberWithCommas(
-                                                                    Number(item3.carga_totales).toFixed(2)
-                                                                )}</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>`
+                                                                    Number(item3.carga_totales).toFixed(2),
+                                                                )}</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>`,
                                                             );
                                                             $("#autocomplete").val("");
                                                             app.preloader.hide();
@@ -469,7 +469,7 @@ function actualizaCargaDiesel() {
                                                         },
                                                         function (tx5, error) {
                                                             console.error("Error: " + error.message);
-                                                        }
+                                                        },
                                                     );
                                                 },
                                                 function (error) {
@@ -477,13 +477,13 @@ function actualizaCargaDiesel() {
                                                 },
                                                 function (error) {
                                                     console.error("Error: " + error.message);
-                                                }
+                                                },
                                             );
                                         }
                                     },
                                     function (tx5, error) {
                                         console.error("Error: " + error.message);
-                                    }
+                                    },
                                 );
                             },
                             function (error) {
@@ -491,12 +491,12 @@ function actualizaCargaDiesel() {
                             },
                             function (error) {
                                 console.error("Error: " + error.message);
-                            }
+                            },
                         );
                     },
                     function (tx, error) {
                         console.error("Error: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
@@ -504,7 +504,7 @@ function actualizaCargaDiesel() {
             },
             function (error) {
                 console.error("Error: " + error.message);
-            }
+            },
         );
     } else {
         swal("", "La unidad no puede estar vacía", "warning");
@@ -575,16 +575,16 @@ function FinalizarCargaDiesel() {
                                                                             },
                                                                             function (tx, error) {
                                                                                 swal("Error al guardar", error.message, "error");
-                                                                            }
+                                                                            },
                                                                         );
                                                                     },
                                                                     function (error) {},
-                                                                    function () {}
+                                                                    function () {},
                                                                 );
                                                             },
                                                             function (tx5, error) {
                                                                 console.error("Error: " + error.message);
-                                                            }
+                                                            },
                                                         );
                                                     },
                                                     function (error) {
@@ -592,16 +592,16 @@ function FinalizarCargaDiesel() {
                                                     },
                                                     function (error) {
                                                         console.error("Error: " + error.message);
-                                                    }
+                                                    },
                                                 );
                                             },
                                             function (tx, error) {
                                                 swal("Error al guardar", error.message, "error");
-                                            }
+                                            },
                                         );
                                     },
                                     function (error) {},
-                                    function () {}
+                                    function () {},
                                 );
                             }
                         });
@@ -611,7 +611,7 @@ function FinalizarCargaDiesel() {
                 },
                 function (tx5, error) {
                     console.error("Error: " + error.message);
-                }
+                },
             );
         },
         function (error) {
@@ -619,7 +619,7 @@ function FinalizarCargaDiesel() {
         },
         function (error) {
             console.error("Error: " + error.message);
-        }
+        },
     );
 }
 
@@ -764,7 +764,7 @@ function cargarDiesel() {
                 $(".preloader").remove();
                 $("#content-page").css("display", "none");
                 $("#nointernet-page").css("display", "block");
-            }
+            },
         );
     } else {
         app.request.get(
@@ -849,7 +849,7 @@ function cargarDiesel() {
                 $(".preloader").remove();
                 $("#content-page").css("display", "none");
                 $("#nointernet-page").css("display", "block");
-            }
+            },
         );
     }
 }
@@ -986,7 +986,7 @@ function recarga_Diesel(mes_pdfs, year_pdfs) {
                 $(".preloader").remove();
                 $("#content-page").css("display", "none");
                 $("#nointernet-page").css("display", "block");
-            }
+            },
         );
     } else {
         app.request.get(
@@ -1073,7 +1073,7 @@ function recarga_Diesel(mes_pdfs, year_pdfs) {
                 $(".preloader").remove();
                 $("#content-page").css("display", "none");
                 $("#nointernet-page").css("display", "block");
-            }
+            },
         );
     }
 }
@@ -1266,7 +1266,7 @@ function actualizaCargaDiesel2() {
                             app.sheet.close("#sheet-modal-u");
                             swal("Actualizado", "", "success");
                             $("#trdiesel_" + id_carga).html(`<td>${eco2}</td><td>${numberWithCommas(carga)}</td><td>${numberWithCommas(
-                                odometro
+                                odometro,
                             )}</td><td>${bomba}</td><td>${tipo_carga}</td><td> 
                             <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${id_carga}','${id_unidad}','${eco}','${carga}','${odometro}','${bomba}','${almacen}','${h_fin}','${h_inicio}','${jornada}','${operador}','${id_operador}','${vueltas}','${tipo_carga}','${operador2}','${VIN}','3','${eco2}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button>
                             <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="borrarCargaDiesel('${id_carga}','${id_unidad}','${eco}','${carga}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>delete_forever</i></button>
@@ -1716,7 +1716,7 @@ function agregaCarga2() {
                             app.sheet.close("#sheet-modal");
                             swal("Agregado", "", "success");
                             $("#disesl_detalle").append(`<tr id="trdiesel_${dat2}"><td>${eco2}</td><td>${numberWithCommas(
-                                carga_total
+                                carga_total,
                             )}</td><td>${numberWithCommas(odometro)}</td><td>${no_bomba}</td><td>${tipo_carga}</td><td> 
                                 <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="editarCargaDiesel('${dat2}','${id_unidad}','${eco}','${carga_total}','${odometro}','${no_bomba}','${almacen}','${h_fin}','${h_inicio}','${jornada}','${operador}','${id_operador}','${vueltas}','${tipo_carga}','${operador2}','${VIN}','3','${eco2}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button>
                                 <button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick="borrarCargaDiesel('${dat2}','${id_unidad}','${eco}','${carga_total}');"><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>delete_forever</i></button>

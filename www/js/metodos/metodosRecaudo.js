@@ -18,7 +18,7 @@ function iniciarRecaudo() {
         nombre_cliente,
         horario_programado,
         estatus,
-        tipo_cedula
+        tipo_cedula,
     );
     databaseHandler.db.transaction(
         function (tx) {
@@ -34,11 +34,11 @@ function iniciarRecaudo() {
                 },
                 function (tx, error) {
                     console.log("Error al guardar cedula: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 function recaudarUnidad() {
@@ -90,7 +90,7 @@ function recaudarUnidad() {
                                         0,
                                         0,
                                         0,
-                                        0
+                                        0,
                                     );
                                     databaseHandler.db.transaction(
                                         function (tx) {
@@ -108,11 +108,11 @@ function recaudarUnidad() {
                                                 },
                                                 function (tx, error) {
                                                     console.log("Error al guardar cedula: 1" + error.message);
-                                                }
+                                                },
                                             );
                                         },
                                         function (error) {},
-                                        function () {}
+                                        function () {},
                                     );
                                 }
                             });
@@ -120,7 +120,7 @@ function recaudarUnidad() {
                     },
                     function (tx, error) {
                         console.log("Error al guardar cedula: 2" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
@@ -151,7 +151,7 @@ function recaudarUnidad() {
                     0,
                     0,
                     0,
-                    0
+                    0,
                 );
                 databaseHandler.db.transaction(
                     function (tx) {
@@ -169,16 +169,16 @@ function recaudarUnidad() {
                             },
                             function (tx, error) {
                                 console.log("Error al guardar cedula: 1" + error.message);
-                            }
+                            },
                         );
                     },
                     function (error) {},
-                    function () {}
+                    function () {},
                 );
             },
             function (error) {
                 console.log("Error al guardar cedula: 4" + error.message);
-            }
+            },
         );
     } else {
         swal("", "No haz seleccionado una unidad", "warning");
@@ -252,11 +252,11 @@ function FinalizarRecaudo() {
                             },
                             function (tx, error) {
                                 console.error("Error al guardar cierre: " + error.message);
-                            }
+                            },
                         );
                     },
                     function (error) {},
-                    function () {}
+                    function () {},
                 );
             }
         });
@@ -499,11 +499,11 @@ function finRecaudoUnidad() {
                                                 },
                                                 function (tx, error) {
                                                     console.error("Error al guardar cierre: " + error.message);
-                                                }
+                                                },
                                             );
                                         },
                                         function (error) {},
-                                        function () {}
+                                        function () {},
                                     );
                                 }
                             });
@@ -523,21 +523,21 @@ function finRecaudoUnidad() {
                                         },
                                         function (tx, error) {
                                             console.error("Error al guardar cierre: " + error.message);
-                                        }
+                                        },
                                     );
                                 },
                                 function (error) {},
-                                function () {}
+                                function () {},
                             );
                         }
                     },
                     function (tx5, error) {
                         console.error("Error al consultar bandeja de salida: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else {
         app.views.main.router.back("/yallegueRecaudo/", {
@@ -703,7 +703,7 @@ function guardarMoneda(piezas, importe, moneda) {
                                                     numberWithCommas(item2.importe50c) +
                                                     "</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo(" +
                                                     item2.id_detalle +
-                                                    ",0);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>"
+                                                    ",0);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>",
                                             );
                                             $("#tb_recaudo").append(
                                                 "<tr><td>$1</td><td>" +
@@ -712,7 +712,7 @@ function guardarMoneda(piezas, importe, moneda) {
                                                     numberWithCommas(item2.importe1) +
                                                     "</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo(" +
                                                     item2.id_detalle +
-                                                    ",1);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>"
+                                                    ",1);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>",
                                             );
                                             $("#tb_recaudo").append(
                                                 "<tr><td>$2</td><td>" +
@@ -721,7 +721,7 @@ function guardarMoneda(piezas, importe, moneda) {
                                                     numberWithCommas(item2.importe2) +
                                                     "</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo(" +
                                                     item2.id_detalle +
-                                                    ",2);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>"
+                                                    ",2);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>",
                                             );
                                             $("#tb_recaudo").append(
                                                 "<tr><td>$5</td><td>" +
@@ -730,7 +730,7 @@ function guardarMoneda(piezas, importe, moneda) {
                                                     numberWithCommas(item2.importe5) +
                                                     "</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo(" +
                                                     item2.id_detalle +
-                                                    ",5);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>"
+                                                    ",5);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>",
                                             );
                                             $("#tb_recaudo").append(
                                                 "<tr><td>$10</td><td>" +
@@ -739,7 +739,7 @@ function guardarMoneda(piezas, importe, moneda) {
                                                     numberWithCommas(item2.importe10) +
                                                     "</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo(" +
                                                     item2.id_detalle +
-                                                    ",10);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>"
+                                                    ",10);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>",
                                             );
                                             $("#tb_recaudo").append(
                                                 "<tr><td>$20</td><td>" +
@@ -748,7 +748,7 @@ function guardarMoneda(piezas, importe, moneda) {
                                                     numberWithCommas(item2.importe20) +
                                                     "</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo(" +
                                                     item2.id_detalle +
-                                                    ",20);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>"
+                                                    ",20);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>",
                                             );
                                             $("#tb_recaudo").append(
                                                 "<tr><td>$50</td><td>" +
@@ -757,7 +757,7 @@ function guardarMoneda(piezas, importe, moneda) {
                                                     numberWithCommas(item2.importe50) +
                                                     "</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo(" +
                                                     item2.id_detalle +
-                                                    ",50);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>"
+                                                    ",50);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>",
                                             );
                                             $("#tb_recaudo").append(
                                                 "<tr><td>$100</td><td>" +
@@ -766,7 +766,7 @@ function guardarMoneda(piezas, importe, moneda) {
                                                     numberWithCommas(item2.importe100) +
                                                     "</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo(" +
                                                     item2.id_detalle +
-                                                    ",100);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>"
+                                                    ",100);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>",
                                             );
                                             $("#tb_recaudo").append(
                                                 "<tr><td>$200</td><td>" +
@@ -775,7 +775,7 @@ function guardarMoneda(piezas, importe, moneda) {
                                                     numberWithCommas(item2.importe200) +
                                                     "</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo(" +
                                                     item2.id_detalle +
-                                                    ",200);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>"
+                                                    ",200);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>",
                                             );
                                             $("#tb_recaudo").append(
                                                 "<tr><td>$500</td><td>" +
@@ -784,7 +784,7 @@ function guardarMoneda(piezas, importe, moneda) {
                                                     numberWithCommas(item2.importe500) +
                                                     "</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo(" +
                                                     item2.id_detalle +
-                                                    ",500);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>"
+                                                    ",500);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></td></tr>",
                                             );
 
                                             var piezastotales =
@@ -821,36 +821,36 @@ function guardarMoneda(piezas, importe, moneda) {
                                                                     numberWithCommas(piezastotales) +
                                                                     "</td><td>$" +
                                                                     numberWithCommas(importetotal) +
-                                                                    "</td><td>&nbsp;</td></tr>"
+                                                                    "</td><td>&nbsp;</td></tr>",
                                                             );
                                                         },
                                                         function (tx, error) {
                                                             console.error("Error al guardar cierre: " + error.message);
-                                                        }
+                                                        },
                                                     );
                                                 },
                                                 function (error) {},
-                                                function () {}
+                                                function () {},
                                             );
                                         }
                                     }
                                 },
                                 function (tx5, error) {
                                     console.error("Error al consultar bandeja de salida: " + error.message);
-                                }
+                                },
                             );
                         },
                         function (error) {},
-                        function () {}
+                        function () {},
                     );
                 },
                 function (tx, error) {
                     console.error("Error al guardar cierre: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 function validarRadio(id) {
@@ -1097,11 +1097,11 @@ function finRecaudo() {
                 },
                 function (tx, error) {
                     console.error("Error al guardar cierre: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 function EnviarRecaudo() {
@@ -1138,11 +1138,11 @@ function EnviarRecaudo() {
                         },
                         function (tx, error) {
                             swal("Error al guardar", error.message, "error");
-                        }
+                        },
                     );
                 },
                 function (error) {},
-                function () {}
+                function () {},
             );
         }
     });
@@ -1202,11 +1202,11 @@ function preingresoRecaudo() {
                         });
                     }
                 },
-                function (tx, error) {}
+                function (tx, error) {},
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 function actualiza_fecha() {
@@ -1229,20 +1229,20 @@ function actualiza_fecha() {
                                     "UPDATE cedulas_general SET fecha_entrada = ? WHERE id_cedula = ?",
                                     [fecha, id_cedula],
                                     function (tx5, results) {},
-                                    function (tx5, error) {}
+                                    function (tx5, error) {},
                                 );
                             },
                             function (error) {},
-                            function () {}
+                            function () {},
                         );
                     },
                     function (tx5, error) {
                         console.error("Error update: " + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     } else {
         swal("", "Debes elegir una fecha válida", "warning");
@@ -1311,7 +1311,7 @@ function RevisaHeaders_recaudo() {
                     content2[x].plomo3,
                     content2[x].plomo4,
                     content2[x].plomo5,
-                    content2[x].peso_cacharpa
+                    content2[x].peso_cacharpa,
                 );
             }
         }
@@ -1365,7 +1365,7 @@ function guardaHeaderRecaudo(
     plomo3,
     plomo4,
     plomo5,
-    peso_cacharpa
+    peso_cacharpa,
 ) {
     databaseHandler.db.transaction(
         function (tx5) {
@@ -1439,26 +1439,26 @@ function guardaHeaderRecaudo(
                                             peso_cacharpa,
                                             estatus,
                                             origen,
-                                            id
+                                            id,
                                         );
                                         PintaCedulas(0, "Recaudo");
                                         InsertaDetailsRecaudo(id_cedula, id);
                                     },
-                                    function (tx, error) {}
+                                    function (tx, error) {},
                                 );
                             },
                             function (error) {},
-                            function () {}
+                            function () {},
                         );
                     }
                 },
                 function (tx5, error) {
                     console.error("Error al consultar bandeja de salida: " + error.message);
-                }
+                },
             );
         },
         function (error) {},
-        function () {}
+        function () {},
     );
 }
 function InsertaDetailsRecaudo(id_cedula, id_servidor) {
@@ -1496,7 +1496,7 @@ function InsertaDetailsRecaudo(id_cedula, id_servidor) {
                         content2[x].importe500,
                         content2[x].piezas_totales,
                         content2[x].importe_total,
-                        content2[x].id_unidad
+                        content2[x].id_unidad,
                     );
                 }
             }

@@ -178,6 +178,7 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                                                     localStorage.setItem("sendFlag", 0);
                                                                                     $("#li-" + item.id_cedula).remove();
                                                                                     swal("Enviado!", "", "success");
+                                                                                    validaEmpresasGPO();
                                                                                 }
                                                                             );
                                                                         });
@@ -284,6 +285,7 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                                                     localStorage.setItem("sendFlag", 0);
                                                                                     $("#li-" + item.id_cedula).remove();
                                                                                     swal("Enviado!", "", "success");
+                                                                                    validaEmpresasGPO();
                                                                                 }
                                                                             );
                                                                         });
@@ -509,6 +511,7 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                                                                                                                     "",
                                                                                                                                                     "success"
                                                                                                                                                 );
+                                                                                                                                                validaEmpresasGPO();
                                                                                                                                             }
                                                                                                                                         );
                                                                                                                                     }
@@ -690,6 +693,7 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                                                     localStorage.setItem("sendFlag", 0);
                                                                                     $("#li-" + item.id_cedula).remove();
                                                                                     swal("Enviado!", "", "success");
+                                                                                    validaEmpresasGPO();
                                                                                 }
                                                                             );
                                                                         });
@@ -820,6 +824,7 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                                                     localStorage.setItem("sendFlag", 0);
                                                                                     $("#li-" + item.id_cedula).remove();
                                                                                     swal("Enviado!", "", "success");
+                                                                                    validaEmpresasGPO();
                                                                                 }
                                                                             );
                                                                         });
@@ -998,6 +1003,7 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                                                                                         "#li-" + item.id_cedula
                                                                                                                     ).remove();
                                                                                                                     swal("Enviado!", "", "success");
+                                                                                                                    validaEmpresasGPO();
                                                                                                                 }
                                                                                                             );
                                                                                                         });
@@ -1445,6 +1451,7 @@ function llevarDatosTrafico(id_cedula, tipo, id_servidor) {
                                                         localStorage.setItem("sendFlag", 0);
                                                         $("#li-" + item.id_cedula).remove();
                                                         swal("Enviado!", "", "success");
+                                                        validaEmpresasGPO();
                                                     }
                                                 );
                                             });
@@ -1461,6 +1468,7 @@ function llevarDatosTrafico(id_cedula, tipo, id_servidor) {
                                                         localStorage.setItem("sendFlag", 0);
                                                         $("#li-" + item.id_cedula).remove();
                                                         swal("Enviado!", "", "success");
+                                                        validaEmpresasGPO();
                                                     }
                                                 );
                                             });
@@ -1568,6 +1576,7 @@ function llevarDatosTrafico(id_cedula, tipo, id_servidor) {
                                                         localStorage.setItem("sendFlag", 0);
                                                         CambiaBolita(id_cedula, 2);
                                                         swal("Enviado!", "", "success");
+                                                        validaEmpresasGPO();
                                                     }
                                                 );
                                             });
@@ -1583,6 +1592,7 @@ function llevarDatosTrafico(id_cedula, tipo, id_servidor) {
                                                         localStorage.setItem("sendFlag", 0);
                                                         CambiaBolita(id_cedula, 4);
                                                         swal("Enviado!", "", "success");
+                                                        validaEmpresasGPO();
                                                     }
                                                 );
                                             });
@@ -1598,6 +1608,7 @@ function llevarDatosTrafico(id_cedula, tipo, id_servidor) {
                                                         localStorage.setItem("sendFlag", 0);
                                                         CambiaBolita(id_cedula, 4);
                                                         swal("Enviado!", "", "success");
+                                                        validaEmpresasGPO();
                                                     }
                                                 );
                                             });
@@ -1687,6 +1698,7 @@ function llevarDatosTrafico(id_cedula, tipo, id_servidor) {
                                                         localStorage.setItem("sendFlag", 0);
                                                         CambiaBolita2(id_cedula, 4);
                                                         swal("Enviado!", "", "success");
+                                                        validaEmpresasGPO();
                                                     }
                                                 );
                                             });
@@ -1702,6 +1714,7 @@ function llevarDatosTrafico(id_cedula, tipo, id_servidor) {
                                                         localStorage.setItem("sendFlag", 0);
                                                         CambiaBolita2(id_cedula, 4);
                                                         swal("Enviado!", "", "success");
+                                                        validaEmpresasGPO();
                                                     }
                                                 );
                                             });
@@ -1717,6 +1730,7 @@ function llevarDatosTrafico(id_cedula, tipo, id_servidor) {
                                                         localStorage.setItem("sendFlag", 0);
                                                         CambiaBolita2(id_cedula, 4);
                                                         swal("Enviado!", "", "success");
+                                                        validaEmpresasGPO();
                                                     }
                                                 );
                                             });
