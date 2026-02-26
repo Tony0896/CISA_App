@@ -23,7 +23,8 @@
     "cordova-plugin-geolocation": "^4.1.0",
     "cordova-plugin-splashscreen": "^6.0.0",
     "cordova-plugin-statusbar": "^3.0.0",
-    "cordova-sqlite-storage": "^6.0.0",
+    "cordova-plugin-zip": "^3.1.0",
+    "cordova-sqlite-storage": "^7.0.0",
     "cordova.plugins.diagnostic": "^6.1.1"
   },
   "cordova": {
@@ -35,7 +36,6 @@
       "cordova-plugin-androidx-adapter": {},
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-cache-clear": {},
-      "cordova-sqlite-storage": {},
       "cordova-plugin-geolocation": {
         "GPS_REQUIRED": "true"
       },
@@ -48,7 +48,8 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-camera": {
         "ANDROIDX_CORE_VERSION": "1.6.+"
-      }
+      },
+      "cordova-sqlite-storage": {}
     }
   },
   "dependencies": {

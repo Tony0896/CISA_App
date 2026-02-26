@@ -2757,7 +2757,7 @@ function edit_apoyo(val, estatus) {
 function sincronizaDatos() {
     var EmpresaID = localStorage.getItem("empresa");
     // var urlBase2 = "http://192.168.100.8/CISAApp";
-    var urlBase2 = "https://mantto.ci-sa.com.mx/www.CISAAPP.com";
+    var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
     var url = urlBase2 + "/Exec/datos_desin.php?empresa=" + EmpresaID;
     var url2 = urlBase2 + "/Exec/datos_desin_H.php?empresa=" + EmpresaID;
 
@@ -2800,7 +2800,7 @@ function validaMenor500(ID, value) {
 function validaEmpresasGPO() {
     const empresasJSON = localStorage.getItem("empresasGPO");
     if (!empresasJSON) {
-        var url = "https://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/App";
+        var url = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/Archivos/App";
         $.ajax({
             type: "POST",
             url: url + "/loginDatos.php",

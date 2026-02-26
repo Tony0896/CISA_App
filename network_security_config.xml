@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+    
+    <!-- Permitir tráfico HTTP a tus dominios específicos -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- CAMBIA ESTO por tu dominio real -->
+        <domain includeSubdomains="true">ci-sa.com.mx</domain>
+        <domain includeSubdomains="true">tmshmo.ci-sa.com.mx</domain>
+
+    </domain-config>
+</network-security-config>

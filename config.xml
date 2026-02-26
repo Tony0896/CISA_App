@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.cisa.cisapp" version="2.0.17" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.cisa.cisapp" version="2.0.17" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>CISA APP</name>
     <description>CISA APP</description>
     <author email="jacruz@ci-sa.com.mx" href="https://ci-sa.com.mx">
@@ -15,8 +15,17 @@
     <allow-navigation href="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    
+    <preference name="scheme" value="http" />
+    <preference name="hostname" value="localhost" />
 
     <platform name="android">
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+            <application android:networkSecurityConfig="@xml/network_security_config" android:usesCleartextTraffic="true" />
+        </edit-config>
+        
+        <resource-file src="res/android/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
+
         <preference name="StatusBarBackgroundColor" value="#124F90" />
         <preference name="orientation" value="portrait" />
         <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
@@ -25,22 +34,21 @@
         <preference name="AndroidPersistentFileLocation" value="Compatibility" />
         <preference name="AndroidInsecureFileModeEnabled" value="true" />
         <preference name="StatusBarOverlaysWebView" value="false" />
-        <preference name="android-minSdkVersion" value="25" />
-        <preference name="android-targetSdkVersion" value="35" />
-        <preference name="android-compileSdkVersion" value="35" />
-        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/icon/android/playstore.png"/>
+
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/icon/android/icon.png"/>
         <preference name="AndroidWindowSplashScreenBackground" value="#155169" />
-        <icon src="www/img/logo1.png"/>
-    </platform>
+        <preference name="AndroidWindowSplashScreenDuration" value="1000" />
 
-    <preference name="SplashMaintainAspectRatio" value="false"/>
-    <preference name="SplashScreen" value="screen"/>
-    <preference name="AutoHideSplashScreen" value="true" />  
-    <preference name="ShowSplashScreen" value="true"/>
-    <preference name="SplashShowOnlyFirstTime" value="true"/>
+        <icon src="res/icon/android/playstore.png" density="mdpi" />
+        <icon src="res/icon/android/playstore.png" density="hdpi" />
+        <icon src="res/icon/android/playstore.png" density="xhdpi" />
+        <icon src="res/icon/android/playstore.png" density="xxhdpi" />
+        <icon src="res/icon/android/playstore.png" density="xxxhdpi" />
 
-    <platform name="android">
-        <preference name="ShowSplashScreenSpinner" value="false" />
+        <allow-navigation href="http://tmshmo.ci-sa.com.mx/*" />
+        <allow-navigation href="https://tmshmo.ci-sa.com.mx/*" />
+        <access origin="http://tmshmo.ci-sa.com.mx" />
+        <access origin="https://tmshmo.ci-sa.com.mx" />
     </platform>
     
 </widget>

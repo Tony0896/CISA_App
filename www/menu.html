@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
         <title>Menu</title>
@@ -99,7 +99,7 @@
                                                                     <select
                                                                         name="menu_activo"
                                                                         id="menu_activo"
-                                                                        onchange="cambiamenu();"
+                                                                        onchange="cambiamenu()"
                                                                         style="border-bottom: 0px; margin: auto"
                                                                     ></select>
                                                                 </div>
@@ -115,7 +115,7 @@
                                                                     <select
                                                                         name="camara_activa"
                                                                         id="camara_activa"
-                                                                        onchange="cambiaCamara();"
+                                                                        onchange="cambiaCamara()"
                                                                         style="border-bottom: 0px; margin: auto"
                                                                     >
                                                                         <option value="1">Cámara Principal</option>
@@ -134,7 +134,7 @@
                                                             </div>
                                                         </li>
 
-                                                        <li class="container_info" onclick="logaout();">
+                                                        <li class="container_info" onclick="logaout()">
                                                             <div class="item-content">
                                                                 <i class="material-icons md-light panel-cerrar" style="color: #ff0037">exit_to_app</i>
                                                                 <div class="item-title">
@@ -145,7 +145,7 @@
 
                                                         <li
                                                             class="container_info"
-                                                            onclick="preEliminaTodo();"
+                                                            onclick="preEliminaTodo()"
                                                             style="margin-top: 100px; border: 1px solid #e0e0e0"
                                                         >
                                                             <div class="item-content">
@@ -171,7 +171,7 @@
                                                 <tr class="menu_imagen menus" style="display: none">
                                                     <td>
                                                         <div>
-                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();"
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu()"
                                                                 ><img src="img/iconsMenu/portapapeles2.svg" height="60px" />
                                                                 <p style="color: #000000; font-size: 19px">Nuevo Checklist</p>
                                                                 <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px"
@@ -195,7 +195,7 @@
                                                 <tr class="menu_limpieza menus" style="display: none">
                                                     <td>
                                                         <div>
-                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();">
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu()">
                                                                 <img src="img/iconsMenu/portapapeles2.svg" height="60px" />
                                                                 <p style="color: #000000; font-size: 19px">Nuevo Checklist</p>
                                                                 <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
@@ -219,7 +219,7 @@
                                                 <tr class="menu_desincorporaciones menus" style="display: none">
                                                     <td>
                                                         <div>
-                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();">
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu()">
                                                                 <img src="img/iconsMenu/portapapeles2.svg" height="60px" />
                                                                 <p style="color: #000000; font-size: 19px">Generar Nuevo Reporte</p>
                                                                 <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
@@ -233,7 +233,7 @@
                                                 <tr class="menu_recaudo menus">
                                                     <td>
                                                         <div>
-                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();">
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu()">
                                                                 <img src="img/iconsMenu/recaudo.svg" height="60px" />
                                                                 <p style="color: #000000; font-size: 19px">Nuevo Recaudo</p>
                                                                 <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
@@ -257,7 +257,7 @@
                                                 <tr class="menu_diesel menus" style="display: none">
                                                     <td>
                                                         <div>
-                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();">
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu()">
                                                                 <img src="img/iconsMenu/bomba_carga.svg" height="60px" />
                                                                 <p style="color: #000000; font-size: 19px">Nuevo Registro</p>
                                                                 <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
@@ -282,7 +282,7 @@
                                                 <tr class="menu_InsFlota menus" style="display: none">
                                                     <td>
                                                         <div>
-                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu();">
+                                                            <a class="item-content item-link entrar principalButton" href="#" onclick="moveMenu()">
                                                                 <img src="img/iconsMenu/portapapeles2.svg" height="60px" />
                                                                 <p style="color: #000000; font-size: 19px">Nueva Revisión</p>
                                                                 <i class="material-icons md-light" style="color: #ff0000; margin-right: 10px">
@@ -319,14 +319,24 @@
                                                 style="background-color: white; margin-top: 0; margin-bottom: 0"
                                             >
                                                 <p style="margin-bottom: 15px; font-size: 1.2em">
-                                                    <label style="color: #005d99; font-family: 'ITC Avant Garde Gothic', sans-serif; font-weight: 600"
+                                                    <label
+                                                        style="
+                                                            color: #005d99;
+                                                            font-family: &quot;ITC Avant Garde Gothic&quot;, sans-serif;
+                                                            font-weight: 600;
+                                                        "
                                                         >Sin Terminar</label
                                                     >
                                                 </p>
                                                 <ul id="pendientes" style="background-color: white"></ul>
                                                 <hr />
                                                 <p style="margin-bottom: 15px; font-size: 1.2em">
-                                                    <label style="color: #005d99; font-family: 'ITC Avant Garde Gothic', sans-serif; font-weight: 600"
+                                                    <label
+                                                        style="
+                                                            color: #005d99;
+                                                            font-family: &quot;ITC Avant Garde Gothic&quot;, sans-serif;
+                                                            font-weight: 600;
+                                                        "
                                                         >Por enviar</label
                                                     >
                                                 </p>
@@ -498,7 +508,7 @@
 
             function updateData() {
                 // var urlBase2 = "http://192.168.100.8/CISAApp";
-                var urlBase2 = "http:/mantto.ci-sa.com.mx/www.CISAAPP.com";
+                var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
                 if (localStorage.getItem("Modulos")) {
                     if (localStorage.getItem("Modulos") == "Limpieza") {
                         var RutaJSONS = urlBase2 + "/Archivos/JSON_limp/";
@@ -525,7 +535,7 @@
                     $("#processclick").addClass("badge");
                     $("#processclick").addClass("fixBadgeMenu");
                     $("#processclick").html(
-                        '<i class="material-icons md-light spin" style="color: #1D4F91;margin-right: 22.84px;">rotate_right</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
+                        '<i class="material-icons md-light spin" style="color: #1D4F91;margin-right: 22.84px;">rotate_right</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>',
                     );
                     var jsonPadre = new download();
                     jsonPadre.Initialize({
@@ -548,7 +558,7 @@
                     function DownloaderError(err) {
                         console.error("Error al descargar: " + err);
                         $("#processclick").html(
-                            '<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
+                            '<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>',
                         );
                         app.dialog.alert("Error al actualizar datos", "Error");
                     }
@@ -561,7 +571,7 @@
                                 app.ptr.done();
                                 $("#process").hide();
                                 $("#processclick").html(
-                                    '<i class="material-icons md-light" style="color: #1D4F91;margin-right: 22.84px;">close</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
+                                    '<i class="material-icons md-light" style="color: #1D4F91;margin-right: 22.84px;">close</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>',
                                 );
                             } else {
                                 const nameJson = JSON.parse(data);
@@ -592,7 +602,7 @@
                                             app.dialog.alert("Error al actualizar datos", "Error");
                                             console.error("Error al descargar: " + valor.jsonName + " " + err);
                                             $("#processclick").html(
-                                                '<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
+                                                '<i class="material-icons md-light panel-cerrar" style="color: #005D99;margin-right: 22.84px;">error_outline</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>',
                                             );
                                             app.dialog.alert("Error al actualizar datos", "Error");
                                         }
@@ -647,20 +657,20 @@
                                                                                 } else if (localStorage.getItem("Modulos") == "Recaudo") {
                                                                                     RevisaHeaders_recaudo();
                                                                                 }
-                                                                            }
+                                                                            },
                                                                         );
                                                                     },
                                                                     function (error) {},
-                                                                    function () {}
+                                                                    function () {},
                                                                 );
-                                                            }
+                                                            },
                                                         );
                                                     },
                                                     function (error) {},
-                                                    function () {}
+                                                    function () {},
                                                 );
                                                 $("#processclick").html(
-                                                    '<i class="material-icons md-light" style="color: #1D4F91;margin-right: 22.84px;">cloud_done</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>'
+                                                    '<i class="material-icons md-light" style="color: #1D4F91;margin-right: 22.84px;">cloud_done</i><div class="item-title"><a class="panel-text">Sincronizar datos</a></div>',
                                                 );
                                             }
                                         }
@@ -717,7 +727,7 @@
                         },
                         function (error) {
                             console.error("The following error occurred: " + error);
-                        }
+                        },
                     );
 
                     ///cedulas pendientes
@@ -754,32 +764,32 @@
                                         tx5.executeSql(
                                             "ALTER TABLE desincorporaciones ADD COLUMN OrigenApertura text",
                                             [],
-                                            function (tx5, results) {}
+                                            function (tx5, results) {},
                                         );
                                     },
                                     function (error) {},
-                                    function () {}
+                                    function () {},
                                 );
                                 databaseHandler.db.transaction(
                                     function (tx5) {
                                         tx5.executeSql("ALTER TABLE desincorporaciones ADD COLUMN OrigenCierre text", [], function (tx5, results) {});
                                     },
                                     function (error) {},
-                                    function () {}
+                                    function () {},
                                 );
                                 databaseHandler.db.transaction(
                                     function (tx5) {
                                         tx5.executeSql(
                                             "ALTER TABLE desincorporaciones ADD COLUMN fechaApertura text",
                                             [],
-                                            function (tx5, results) {}
+                                            function (tx5, results) {},
                                         );
                                     },
                                     function (error) {},
-                                    function () {}
+                                    function () {},
                                 );
                             },
-                            function () {}
+                            function () {},
                         );
                     } else if (localStorage.getItem("Modulos") == "Recaudo") {
                         var tipo = "Recaudo";
@@ -794,14 +804,14 @@
                                         tx5.executeSql(
                                             "ALTER TABLE datos_generales_diesel ADD COLUMN fechaReal text",
                                             [],
-                                            function (tx5, results) {}
+                                            function (tx5, results) {},
                                         );
                                     },
                                     function (error) {},
-                                    function () {}
+                                    function () {},
                                 );
                             },
-                            function () {}
+                            function () {},
                         );
                         var tipo = "Diesel";
                         let calendarModal;
@@ -868,7 +878,7 @@
                                                     item2.id_cedula +
                                                     ",`" +
                                                     item2.tipo_cedula +
-                                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
+                                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>",
                                             );
                                         } else if (item2.tipo_cedula == "Limpieza") {
                                             $("#pendientes").append(
@@ -884,7 +894,7 @@
                                                     item2.id_cedula +
                                                     ",`" +
                                                     item2.tipo_cedula +
-                                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
+                                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>",
                                             );
                                         } else if (item2.tipo_cedula == "Desincorporaciones") {
                                             fechas = item2.horario_programado;
@@ -897,7 +907,7 @@
                                                     fechas +
                                                     "</div> </div><div class='item-after'><a href='#' onclick='continuarCed(`" +
                                                     item2.id_cedula +
-                                                    "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>"
+                                                    "`,3);' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;</div></div></div></li>",
                                             );
                                         } else if (item2.tipo_cedula == "Recaudo") {
                                             $("#pendientes").append(
@@ -913,7 +923,7 @@
                                                     item2.id_cedula +
                                                     ",`" +
                                                     item2.tipo_cedula +
-                                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
+                                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>",
                                             );
                                         } else if (item2.tipo_cedula == "Diesel") {
                                             $("#pendientes").append(
@@ -929,7 +939,7 @@
                                                     item2.id_cedula +
                                                     ",`" +
                                                     item2.tipo_cedula +
-                                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>"
+                                                    "`)' style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>",
                                             );
                                         } else if (item2.tipo_cedula == "InsFlota") {
                                             $("#pendientes").append(
@@ -938,18 +948,18 @@
                                                     <div style='color: #afafaf;font-size: 12px;margin-left: 10px;margin-top: 8px;font-weight: bold;'>Inspección Flota</div> 
                                                     </div>
                                                     <div class='item-after'><a href='#' onclick="continuarCedIns('${item2.id_cedula}','${item2.geolocalizacion_entrada}');" style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:#00A7B5'>play_circle_outline</i></a>&nbsp;&nbsp;&nbsp;
-                                                    <a href='#' onclick="EliminarReg('${item2.id_cedula},'${item2.tipo_cedula}')" style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>`
+                                                    <a href='#' onclick="EliminarReg('${item2.id_cedula},'${item2.tipo_cedula}')" style='border: none; outline:none;'><i class='material-icons md-light' style='font-size:35px;color:red'>delete_forever</i></a></div></div></div></li>`,
                                             );
                                         }
                                     }
                                 },
                                 function (tx5, error) {
                                     console.error("Error al consultar bandeja de salida: " + error.message);
-                                }
+                                },
                             );
                         },
                         function (error) {},
-                        function () {}
+                        function () {},
                     );
                     //fin cedulas pendiente
                     //envios pendientes y terminados
@@ -978,7 +988,7 @@
                                                         item.id_cedula +
                                                         `,\"` +
                                                         item.tipo_cedula +
-                                                        `\");' style='border: none; outline:none;margin-left: 20px;'><img src='img/send.svg'  width='30px' height='30px' /></a></div></div></div></li>`
+                                                        `\");' style='border: none; outline:none;margin-left: 20px;'><img src='img/send.svg'  width='30px' height='30px' /></a></div></div></div></li>`,
                                                 );
                                             } else if (item.estatus == 2) {
                                                 $("#bandeja").append(
@@ -994,7 +1004,7 @@
                                                         item.id_cedula +
                                                         `,\"` +
                                                         item.tipo_cedula +
-                                                        `\");' style='border: none; outline:none;margin-left: 20px;'><img src='img/send.svg'  width='30px' height='30px' /></a></div></div></div><div class='sortable-handler'></div></li>`
+                                                        `\");' style='border: none; outline:none;margin-left: 20px;'><img src='img/send.svg'  width='30px' height='30px' /></a></div></div></div><div class='sortable-handler'></div></li>`,
                                                 );
                                             }
                                         } else {
@@ -1010,7 +1020,7 @@
                                                         item.id_cedula +
                                                         `,\"` +
                                                         item.tipo_cedula +
-                                                        `\");' style='border: none; outline:none;'><img src='img/send.svg'  width='30px' height='30px'/></a></div></div></div></li>`
+                                                        `\");' style='border: none; outline:none;'><img src='img/send.svg'  width='30px' height='30px'/></a></div></div></div></li>`,
                                                 );
                                             } else if (item.estatus == 2) {
                                                 $("#bandeja").append(
@@ -1024,7 +1034,7 @@
                                                         item.id_cedula +
                                                         `,\"` +
                                                         item.tipo_cedula +
-                                                        `\");' style='border: none; outline:none;'><img src='img/send.svg'  width='30px' height='30px' /></a></div></div></div><div class='sortable-handler'></div></li>`
+                                                        `\");' style='border: none; outline:none;'><img src='img/send.svg'  width='30px' height='30px' /></a></div></div></div><div class='sortable-handler'></div></li>`,
                                                 );
                                             }
                                         }
@@ -1032,11 +1042,11 @@
                                 },
                                 function (tx5, error) {
                                     console.error("Error al consultar bandeja de salida: " + error.message);
-                                }
+                                },
                             );
                         },
                         function (error) {},
-                        function () {}
+                        function () {},
                     );
                     //fin envios pendientes y terminados
 
@@ -1097,11 +1107,11 @@
                                                     updateData();
                                                 }
                                             }
-                                        }
+                                        },
                                     );
                                 },
                                 function (error) {},
-                                function () {}
+                                function () {},
                             );
                         }
                     }, 500);
@@ -1138,18 +1148,18 @@
                                                     [item2.id_cedula],
                                                     function (tx7, results) {
                                                         llevarTodo(item2.id_cedula, item2.tipo_cedula);
-                                                    }
+                                                    },
                                                 );
                                             });
                                         }
                                     },
                                     function (tx4, error) {
                                         console.error("Error al guardar registro: " + error.message);
-                                    }
+                                    },
                                 );
                             },
                             function (error) {},
-                            function () {}
+                            function () {},
                         );
                     }
                     //Boton para regresar en en recorridos
@@ -1159,7 +1169,7 @@
                     //Eliminar historial de Actualizaciones de menores a 9 dias
                     EliminarActualizacionesAntiguas();
                 },
-                false
+                false,
             );
         </script>
     </body>
