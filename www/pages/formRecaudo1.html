@@ -35,9 +35,17 @@
                     <div class="list FWM-fixing-form" id="datos_form" style="margin-bottom: 25px;">
 
                         <span class="span FWM-span-form">Editar Unidad</span>
-                        <input type="text" placeholder="Escribe el No. de la unidad"id="autocomplete-dropdown-ajax" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;margin-bottom: 20px;">
+                        <input type="text" placeholder="Escribe el No. de la unidad"id="autocomplete-dropdown-ajax" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;margin-bottom: 20px;" onchange="handleCambioReacudo()">
                         <input type="hidden" id="id_unidad">
-                        <div class="FWM-photo-container">
+                        <span class="span FWM-span-form" name="">Operador</span>
+                        <input type="text" placeholder="Escribe operador" id="operador_recaudar" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;" onchange="handleCambioReacudo()">
+                        <input type="hidden" id="operador_recaudarReal">
+                        <input type="hidden" id="cambioRecuado">
+                        <input type="hidden" id="incioRecuado">
+                        <span class="span FWM-span-form" name="">Ruta</span>
+                        <input type="text" placeholder="Ruta" id="ruta_recaudar" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;" maxlength="20" autocomplete="off" onchange="handleCambioReacudo()">
+
+                        <div class="FWM-photo-container" style="margin-top: 15px;">
                             <a onclick="modalCantidad(0)">
                                 <img src="img/currency/50c.png" alt="" class="moneda_mx">
                             </a>
@@ -89,7 +97,7 @@
                         </div>
                     </div>
                     <div class="block-title FWM-subtitulo" style="color: #000;">Resumen</div>
-                    <div class="card data-table" style="margin-bottom: 80px;">
+                    <div class="card data-table" style="margin-bottom: 30px;">
                         <div class="infinite-scroll-content">
                             <table>
                                 <thead>
@@ -108,6 +116,10 @@
                             </div>
                         </div>
                     </div>
+                    <div style="margin-bottom: 140px; margin-left: 10px;">
+                        <label class="form-label">Comentarios: </label>
+                        <textarea class="fFWM-input" id="comentarios_recaudo" rows="5" onchange="guardaComentariosUniadRecaudo();" style="margin-bottom: 10px;margin-top: 5px;width: 98%;border: 1px;border: 1px solid gray !important;border-radius: 8px !important;color: #5d5d5d !important;padding: 10px;"> </textarea>
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,6 +131,121 @@ return {
         pageInit: function () {
             app.preloader.show('red');
             //autocomplete-dropdown-ajax;
+
+            var empresa = localStorage.getItem("empresa");
+            var NomJson = 'Unidades_empresa'+empresa;
+            var NomDescCli = "Unidades_desc_empresa"+empresa;
+            var NomDescCli_2 = "Operadores_"+empresa;
+            self.autocompleteDropdownAjax = app.autocomplete.create({
+                inputEl: '#autocomplete-dropdown-ajax',
+                openIn: 'dropdown',
+                preloader: true, //enable preloader
+                valueProperty: 'id_unidad', //object's "value" property name
+                textProperty:  'buscador', //object's "text" property name
+                limit: 10, //limit to [number] results
+                dropdownPlaceholderText: 'Selecciona una Unidad...',
+                source: function (query, render) {
+                    var autocomplete = this;
+                    var results = [];
+                    if (query.length === 0) {
+                        render(results);
+                        return;
+                    }
+                    autocomplete.preloaderShow();
+                    app.request({
+                        url: cordova.file.dataDirectory + "jsons_recaudo/"+NomJson+".json", 
+                        method: 'GET',
+                        dataType: 'json',
+                        data: {
+                            query: query,
+                        },success: function (data) {
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                            }
+                            autocomplete.preloaderHide();
+                            render(results); 
+                        }
+                    }); 
+                }
+            });
+
+            $('#autocomplete-dropdown-ajax').change(function () {
+                var unidad = $("#autocomplete-dropdown-ajax").val();
+                var encontro = false;
+                app.request.get(cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli+".json", function (data) {
+                    var content2 = JSON.parse(data);
+                    for(var x = 0; x < content2.length; x++) {
+                        if(content2[x].id_unidad == unidad){
+                            $("#autocomplete-dropdown-ajax").val(content2[x].Unidad);
+                            $("#id_unidad").val(content2[x].id_unidad);
+                            encontro = true;
+                        }         
+                    }
+                    if(encontro){}else{
+                        $("#autocomplete-dropdown-ajax").val("");
+                        $("#id_unidad").val("");
+                    }
+                });
+            });
+
+            self.autocompleteDropdownAjax = app.autocomplete.create({
+                inputEl: '#operador_recaudar',
+                openIn: 'dropdown',
+                preloader: true, //enable preloader
+                valueProperty: 'id_ope', //object's "value" property name
+                textProperty:  'buscador', //object's "text" property name
+                limit: 10, //limit to [number] results
+                dropdownPlaceholderText: 'Selecciona una Unidad...',
+                source: function (query, render) {
+                    var autocomplete = this;
+                    var results = [];
+                    if (query.length === 0) {
+                        render(results);
+                        return;
+                    }
+                    autocomplete.preloaderShow();
+                    app.request({
+                        url: cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli_2+".json", 
+                        method: 'GET',
+                        dataType: 'json',
+                        data: {
+                            query: query,
+                        },success: function (data) {
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                            }
+                            autocomplete.preloaderHide();
+                            render(results); 
+                        }
+                    }); 
+                }
+            });
+
+            $('#operador_recaudar').change(function () {
+                var id_ope = $("#operador_recaudar").val();
+                var encontro = false;
+                app.request.get(cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli_2+".json", function (data) {
+                    var content2 = JSON.parse(data);
+                    for(var x = 0; x < content2.length; x++) {
+                        if(content2[x].id_ope == id_ope){
+                            $("#operador_recaudar").val(content2[x].buscador);
+                            $("#operador_recaudarReal").val(content2[x].id_ope)
+                            encontro = true;
+                            if(!$("#incioRecuado").val()){
+                                $("#incioRecuado").val(1)
+                            }
+                        }         
+                    }
+                    if(encontro){
+                        $("#btn_cheklist").css("display","block")
+                    }else{
+                        $("#btn_cheklist").css("display","none")
+                        $("#operador_recaudar").val("");
+                        $("#operador_recaudarReal").val("");
+                    }
+                });
+            });
+
             var id_detalle = localStorage.getItem("IdDetalle");
             var id_cedula = localStorage.getItem("IdCedula");
             databaseHandler.db.transaction(
@@ -134,6 +261,7 @@ return {
                                 $("#message-nr").css("display", "none");
                                 for(var i = 0; i< length; i++){
                                     var item2 = results.rows.item(i);
+                                    console.log(item2);
                                     $("#autocomplete-dropdown-ajax").val(item2.eco);
                                     $("#tb_recaudo").append("<tr><td>$0.5</td><td>"+numberWithCommas(item2.Moneda50c)+"</td><td>$"+numberWithCommas(item2.importe50c)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",0);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
                                     $("#tb_recaudo").append("<tr><td>$1</td><td>"+numberWithCommas(item2.Moneda1)+"</td><td>$"+numberWithCommas(item2.importe1)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",1);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
@@ -146,7 +274,12 @@ return {
                                     $("#tb_recaudo").append("<tr><td>$200</td><td>"+numberWithCommas(item2.Moneda200)+"</td><td>$"+numberWithCommas(item2.importe200)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",200);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
                                     $("#tb_recaudo").append("<tr><td>$500</td><td>"+numberWithCommas(item2.Moneda500)+"</td><td>$"+numberWithCommas(item2.importe500)+"</td><td><button class='col button button-small button-round button-outline edit-btn' style='height: 100%;border-color: #FF0037;' onclick='editarMonedaRecaudo("+ item2.id_detalle +",500);'><i class='material-icons md-light' style='color: #FF0037;vertical-align: middle;font-size: 23px;'>edit</i></button></td></tr>");
                                     
+                                    $("#id_unidad").val(item2.id_unidad);
                                     $("#tb_recaudo").append("<tr style='text-align: center;background-color: #005D99;color: white;''><td>Totales</td><td>"+numberWithCommas(item2.piezas_totales)+"</td><td>$"+numberWithCommas(item2.importe_total)+"</td><td>&nbsp;</td></tr>");
+                                    $("#operador_recaudar").val(item2.idOperador);
+                                    $("#operador_recaudar").trigger('change');
+                                    $("#ruta_recaudar").val(item2.ruta);
+                                    $("#comentarios_recaudo").val(item2.comentarios)
                                 }
                                 $(".title").html("Recaudo | "+item2.eco+" - $"+numberWithCommas(item2.importe_total));
                                 app.preloader.hide();
@@ -165,62 +298,6 @@ return {
             document.addEventListener('backbutton', function (e) {
                 regresaRecaudo(1);
             });
-
-            var empresa = localStorage.getItem("empresa");
-            var NomJson = 'Unidades_empresa'+empresa;
-            var NomDescCli = "Unidades_desc_empresa"+empresa;
-            
-            self.autocompleteDropdownAjax = app.autocomplete.create({
-                    inputEl: '#autocomplete-dropdown-ajax',
-                    openIn: 'dropdown',
-                    preloader: true, //enable preloader
-                    valueProperty: 'id_unidad', //object's "value" property name
-                    textProperty:  'buscador', //object's "text" property name
-                    limit: 10, //limit to [number] results
-                    dropdownPlaceholderText: 'Selecciona una Unidad...',
-                    source: function (query, render) {
-                        var autocomplete = this;
-                        var results = [];
-                        if (query.length === 0) {
-                            render(results);
-                            return;
-                        }
-                        autocomplete.preloaderShow();
-                        app.request({
-                            url: cordova.file.dataDirectory + "jsons_recaudo/"+NomJson+".json", 
-                            method: 'GET',
-                            dataType: 'json',
-                            data: {
-                                query: query,
-                            },success: function (data) {
-                                for (var i = 0; i < data.length; i++) {
-                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
-                                }
-                                autocomplete.preloaderHide();
-                                render(results); 
-                            }
-                        }); 
-                    }
-                });
-
-                $('#autocomplete-dropdown-ajax').change(function () {
-                    var unidad = $("#autocomplete-dropdown-ajax").val();
-                    var encontro = false;
-                    app.request.get(cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli+".json", function (data) {
-                        var content2 = JSON.parse(data);
-                        for(var x = 0; x < content2.length; x++) {
-                            if(content2[x].id_unidad == unidad){
-                                $("#autocomplete-dropdown-ajax").val(content2[x].Unidad);
-                                $("#id_unidad").val(content2[x].id_unidad);
-                                encontro = true;
-                            }         
-                        }
-                        if(encontro){}else{
-                            $("#autocomplete-dropdown-ajax").val("");
-                            $("#id_unidad").val("");
-                        }
-                    });
-                });
         }
     }
 }

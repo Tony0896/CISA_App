@@ -40,7 +40,15 @@
                             <hr style="margin-top:20px;">
                             <span class="span FWM-span-form" name="">Unidad</span>
                             <div style="display: flex;">
-                                <input type="text" placeholder="Escribe el No. de la unidad"id="autocomplete-dropdown-ajax" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;">
+                                <input type="text" placeholder="Escribe el No. de la unidad" id="autocomplete-dropdown-ajax" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;">
+                            </div>
+                            <span class="span FWM-span-form" name="">Operador</span>
+                            <div style="display: flex;">
+                                <input type="text" placeholder="Escribe operador" id="operador_recaudar" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;">
+                            </div>
+                            <span class="span FWM-span-form" name="">Ruta</span>
+                            <div style="display: flex;">
+                                <input type="text" placeholder="Ruta" id="ruta_recaudar" class="FWM-input autocomplete-dropdown item-title" style="padding-right: 5px;" maxlength="20" autocomplete="off">
                                 <span style="min-width: 20%;padding-left: 10px;">
                                     <button class="col button button-small button-round button-outline" style="height: 100%;border-color: #FF0037;" onclick="recaudarUnidad();"><i class="material-icons md-light" style="color: #FF0037;vertical-align: middle;font-size: 30px;">play_circle_outline</i></button>
                                 </span>
@@ -50,6 +58,7 @@
                             <input type="hidden" id="FK_unidad_danos_empresa">
                             <input type="hidden" id="recaudo_momento">
                             <input type="hidden" id="hora">
+                            <input type="hidden" id="operador_recaudarReal">
 
                             <div class="list simple-list" slot="margin: 20px 0px;">
                                 <div style="display: flex;">
@@ -157,6 +166,7 @@
                 var Division = localStorage.getItem("Division");
                 var NomJson = 'Unidades_empresa'+empresa;
                 var NomDescCli = "Unidades_desc_empresa"+empresa;
+                var NomDescCli_2 = "Operadores_"+empresa;
 
                 localStorage.removeItem("IdDetalle");
                 app.preloader.show('red');
@@ -221,8 +231,62 @@
                             $("#modelo_check").val("");
                         }
                     });
-                });  
+                });
 
+                self.autocompleteDropdownAjax = app.autocomplete.create({
+                    inputEl: '#operador_recaudar',
+                    openIn: 'dropdown',
+                    preloader: true, //enable preloader
+                    valueProperty: 'id_ope', //object's "value" property name
+                    textProperty:  'buscador', //object's "text" property name
+                    limit: 10, //limit to [number] results
+                    dropdownPlaceholderText: 'Selecciona una Unidad...',
+                    source: function (query, render) {
+                        var autocomplete = this;
+                        var results = [];
+                        if (query.length === 0) {
+                            render(results);
+                            return;
+                        }
+                        autocomplete.preloaderShow();
+                        app.request({
+                            url: cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli_2+".json", 
+                            method: 'GET',
+                            dataType: 'json',
+                            data: {
+                                query: query,
+                            },success: function (data) {
+                                for (var i = 0; i < data.length; i++) {
+                                    if (data[i].buscador.toLowerCase().indexOf(query.toLowerCase()) >= 0) results.push(data[i]);
+                                }
+                                autocomplete.preloaderHide();
+                                render(results); 
+                            }
+                        }); 
+                    }
+                });
+
+                $('#operador_recaudar').change(function () {
+                    var id_ope = $("#operador_recaudar").val();
+                    var encontro = false;
+                    app.request.get(cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli_2+".json", function (data) {
+                        var content2 = JSON.parse(data);
+                        for(var x = 0; x < content2.length; x++) {
+                            if(content2[x].id_ope == id_ope){
+                                $("#operador_recaudar").val(content2[x].buscador);
+                                $("#operador_recaudarReal").val(content2[x].id_ope)
+                                encontro = true;
+                            }         
+                        }
+                        if(encontro){
+                            $("#btn_cheklist").css("display","block")
+                        }else{
+                            $("#btn_cheklist").css("display","none")
+                            $("#operador_recaudar").val("");
+                            $("#operador_recaudarReal").val("");
+                        }
+                    });
+                });
 
                 app.request.get(cordova.file.dataDirectory + "jsons_recaudo/"+NomDescCli+".json", function (data) {
                     var content2 = JSON.parse(data);

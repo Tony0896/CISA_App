@@ -43,15 +43,28 @@ function iniciarRecaudo() {
 }
 function recaudarUnidad() {
     if ($("#id_unidad").val()) {
+        if (!$("#operador_recaudarReal").val()) {
+            swal("", "Debes elegir un operador", "warning");
+            return false;
+        }
+
+        if (!String($("#ruta_recaudar").val()).trim()) {
+            swal("", "Debes indicar una ruta", "warning");
+            return false;
+        }
+
         var id_cedula = localStorage.getItem("IdCedula");
         var eco = $("#autocomplete-dropdown-ajax").val();
         var fecha = getDateWhitZeros();
         var id_unidad = $("#id_unidad").val();
+        let idOperador = $("#operador_recaudarReal").val();
+        let ruta = $("#ruta_recaudar").val();
+
         databaseHandler.db.transaction(
             function (tx) {
                 tx.executeSql(
-                    "Select id_cedula from detalle_recaudo Where id_cedula = ? AND eco = ?",
-                    [id_cedula, eco],
+                    "Select id_cedula from detalle_recaudo Where id_cedula = ? AND eco = ? AND idOperador = ? AND ruta = ?",
+                    [id_cedula, eco, idOperador, ruta],
                     function (tx, results) {
                         var item = results.rows.item(0);
                         if (item.id_cedula) {
@@ -90,7 +103,9 @@ function recaudarUnidad() {
                                         0,
                                         0,
                                         0,
-                                        0,
+                                        idOperador,
+                                        ruta,
+                                        "",
                                     );
                                     databaseHandler.db.transaction(
                                         function (tx) {
@@ -151,7 +166,9 @@ function recaudarUnidad() {
                     0,
                     0,
                     0,
-                    0,
+                    idOperador,
+                    ruta,
+                    "",
                 );
                 databaseHandler.db.transaction(
                     function (tx) {
@@ -463,88 +480,125 @@ function modalCantidad(val) {
     popEvidencia.open();
 }
 function finRecaudoUnidad() {
-    if ($("#id_unidad").val()) {
-        var eco = $("#autocomplete-dropdown-ajax").val();
-        var id_detalle = localStorage.getItem("IdDetalle");
-        var id_cedula = localStorage.getItem("IdCedula");
-        var id_unidad = $("#id_unidad").val();
-        databaseHandler.db.transaction(
-            function (tx5) {
-                tx5.executeSql(
-                    "SELECT id_cedula FROM detalle_recaudo WHERE id_cedula = ? AND eco = ? ",
-                    [id_cedula, eco],
-                    function (tx5, results) {
-                        var length = results.rows.length;
-                        if (length > 0) {
-                            swal({
-                                title: "Aviso",
-                                text: "Ya existe una unidad recaudada con este eco, ¿Deseas aún así hacer el cambio?",
-                                icon: "warning",
-                                buttons: true,
-                                dangerMode: false,
-                            }).then((willGoBack) => {
-                                if (willGoBack) {
-                                    databaseHandler.db.transaction(
-                                        function (tx) {
-                                            tx.executeSql(
-                                                "UPDATE detalle_recaudo SET eco = ?, id_unidad = ? WHERE id_cedula = ? AND id_detalle = ?",
-                                                [eco, id_unidad, id_cedula, id_detalle],
-                                                function (tx, results) {
-                                                    swal("", "Unidad actualizada correctamente", "success");
-                                                    app.views.main.router.back("/yallegueRecaudo/", {
-                                                        force: true,
-                                                        ignoreCache: true,
-                                                        reload: true,
-                                                    });
-                                                },
-                                                function (tx, error) {
-                                                    console.error("Error al guardar cierre: " + error.message);
-                                                },
-                                            );
-                                        },
-                                        function (error) {},
-                                        function () {},
-                                    );
-                                }
-                            });
-                        } else {
-                            databaseHandler.db.transaction(
-                                function (tx) {
-                                    tx.executeSql(
-                                        "UPDATE detalle_recaudo SET eco = ?, id_unidad = ? WHERE id_cedula = ? AND id_detalle = ?",
-                                        [eco, id_unidad, id_cedula, id_detalle],
-                                        function (tx, results) {
-                                            swal("", "Unidad actualizada correctamente", "success");
-                                            app.views.main.router.back("/yallegueRecaudo/", {
-                                                force: true,
-                                                ignoreCache: true,
-                                                reload: true,
-                                            });
-                                        },
-                                        function (tx, error) {
-                                            console.error("Error al guardar cierre: " + error.message);
-                                        },
-                                    );
-                                },
-                                function (error) {},
-                                function () {},
-                            );
-                        }
-                    },
-                    function (tx5, error) {
-                        console.error("Error al consultar bandeja de salida: " + error.message);
-                    },
-                );
-            },
-            function (error) {},
-            function () {},
-        );
-    } else {
-        app.views.main.router.back("/yallegueRecaudo/", {
-            force: true,
-            ignoreCache: true,
-            reload: true,
-        });
+    let inicio = $("#incioRecuado").val();
+    if (!$("#id_unidad").val()) {
+        swal("", "Debes elegir un operador", "warning");
+        return false;
+    }
+
+    if (!$("#operador_recaudarReal").val()) {
+        swal("", "Debes elegir un operador", "warning");
+        return false;
+    }
+
+    if (!String($("#ruta_recaudar").val()).trim()) {
+        swal("", "Debes indicar una ruta", "warning");
+        return false;
+    }
+
+    if (inicio) {
+        let cambioRecuado = $("#cambioRecuado").val();
+        if (cambioRecuado) {
+            if (!$("#id_unidad").val()) {
+                swal("", "Debes elegir un operador", "warning");
+                return false;
+            }
+
+            if (!$("#operador_recaudarReal").val()) {
+                swal("", "Debes elegir un operador", "warning");
+                return false;
+            }
+
+            if (!String($("#ruta_recaudar").val()).trim()) {
+                swal("", "Debes indicar una ruta", "warning");
+                return false;
+            }
+
+            var eco = $("#autocomplete-dropdown-ajax").val();
+            var id_detalle = localStorage.getItem("IdDetalle");
+            var id_cedula = localStorage.getItem("IdCedula");
+            var id_unidad = $("#id_unidad").val();
+            let operador = $("#operador_recaudarReal").val();
+            let ruta = $("#ruta_recaudar").val();
+
+            databaseHandler.db.transaction(
+                function (tx5) {
+                    tx5.executeSql(
+                        "SELECT id_cedula FROM detalle_recaudo WHERE id_cedula = ? AND eco = ? AND idOperador = ? AND ruta = ?",
+                        [id_cedula, eco, operador, ruta],
+                        function (tx5, results) {
+                            var length = results.rows.length;
+                            if (length > 0) {
+                                swal({
+                                    title: "Aviso",
+                                    text: "Ya existe una unidad recaudada con este eco, ¿Deseas aún así hacer el cambio?",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: false,
+                                }).then((willGoBack) => {
+                                    if (willGoBack) {
+                                        databaseHandler.db.transaction(
+                                            function (tx) {
+                                                tx.executeSql(
+                                                    "UPDATE detalle_recaudo SET eco = ?, id_unidad = ?, idOperador = ?, ruta = ? WHERE id_cedula = ? AND id_detalle = ?",
+                                                    [eco, id_unidad, operador, ruta, id_cedula, id_detalle],
+                                                    function (tx, results) {
+                                                        swal("", "Datos actualizados correctamente", "success");
+                                                        app.views.main.router.back("/yallegueRecaudo/", {
+                                                            force: true,
+                                                            ignoreCache: true,
+                                                            reload: true,
+                                                        });
+                                                    },
+                                                    function (tx, error) {
+                                                        console.error("Error al guardar cierre: " + error.message);
+                                                    },
+                                                );
+                                            },
+                                            function (error) {},
+                                            function () {},
+                                        );
+                                    }
+                                });
+                            } else {
+                                databaseHandler.db.transaction(
+                                    function (tx) {
+                                        tx.executeSql(
+                                            "UPDATE detalle_recaudo SET eco = ?, id_unidad = ?, idOperador = ?, ruta = ? WHERE id_cedula = ? AND id_detalle = ?",
+                                            [eco, id_unidad, operador, ruta, id_cedula, id_detalle],
+                                            function (tx, results) {
+                                                swal("", "Datos actualizados correctamente", "success");
+                                                app.views.main.router.back("/yallegueRecaudo/", {
+                                                    force: true,
+                                                    ignoreCache: true,
+                                                    reload: true,
+                                                });
+                                            },
+                                            function (tx, error) {
+                                                console.error("Error al guardar cierre: " + error.message);
+                                            },
+                                        );
+                                    },
+                                    function (error) {},
+                                    function () {},
+                                );
+                            }
+                        },
+                        function (tx5, error) {
+                            console.error("Error al consultar bandeja de salida: " + error.message);
+                        },
+                    );
+                },
+                function (error) {},
+                function () {},
+            );
+        } else {
+            app.views.main.router.back("/yallegueRecaudo/", {
+                force: true,
+                ignoreCache: true,
+                reload: true,
+            });
+        }
     }
 }
 
@@ -1502,5 +1556,35 @@ function InsertaDetailsRecaudo(id_cedula, id_servidor) {
             }
         }
     });
+}
+
+function guardaComentariosUniadRecaudo() {
+    let id_detalle = localStorage.getItem("IdDetalle");
+    let id_cedula = localStorage.getItem("IdCedula");
+    let comentarios = $("#comentarios_recaudo").val();
+    databaseHandler.db.transaction(
+        function (tx) {
+            tx.executeSql(
+                "UPDATE detalle_recaudo SET comentarios = ? WHERE id_cedula = ? AND id_detalle = ?",
+                [comentarios, id_cedula, id_detalle],
+                function (tx, results) {
+                    swal("", "Comentarios guardados correctamente.", "success");
+                },
+                function (tx, error) {
+                    console.error("Error al guardar cierre: " + error.message);
+                },
+            );
+        },
+        function (error) {},
+        function () {},
+    );
+}
+
+function handleCambioReacudo() {
+    console.log("exec => handleCambioReacudo");
+    if ($("#incioRecuado").val()) {
+        console.log("exec => handleCambioReacudo => true");
+        $("#cambioRecuado").val(1);
+    }
 }
 //Fin Recaudo

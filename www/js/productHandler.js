@@ -8,7 +8,7 @@ var productHandler = {
         nombre_cliente,
         horario_programado,
         estatus,
-        tipo_cedula
+        tipo_cedula,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -30,11 +30,11 @@ var productHandler = {
                     },
                     function (tx, error) {
                         console.error("Error registrar cedula general:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     },
     addDatosGenerales: function (
@@ -48,7 +48,7 @@ var productHandler = {
         id_unidad_vs,
         FK_id_empresa,
         id_modelo_check,
-        fecha_revision
+        fecha_revision,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -60,14 +60,14 @@ var productHandler = {
                     },
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
                 console.log(error);
             },
 
-            function () {}
+            function () {},
         );
     },
     insertPreguntas: function (
@@ -83,7 +83,7 @@ var productHandler = {
         modelos,
         aux,
         aux2,
-        multiple
+        multiple,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -104,14 +104,14 @@ var productHandler = {
                     },
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
                 console.log(error);
             },
 
-            function () {}
+            function () {},
         );
     },
     addDatosGenerales_limp: function (
@@ -125,7 +125,7 @@ var productHandler = {
         id_unidad_vs,
         FK_id_empresa,
         id_modelo_check,
-        fecha_revision
+        fecha_revision,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -137,14 +137,14 @@ var productHandler = {
                     },
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
                 console.log(error);
             },
 
-            function () {}
+            function () {},
         );
     },
     insertPreguntas_limp: function (
@@ -160,7 +160,7 @@ var productHandler = {
         modelos,
         aux,
         aux2,
-        multiple
+        multiple,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -181,14 +181,14 @@ var productHandler = {
                     },
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
                 console.log(error);
             },
 
-            function () {}
+            function () {},
         );
     },
     addDesincorHeader: function (
@@ -201,7 +201,7 @@ var productHandler = {
         id_servidor,
         fechaApertura,
         OrigenApertura,
-        OrigenCierre
+        OrigenCierre,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -222,11 +222,11 @@ var productHandler = {
                     function (tx, results) {},
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     },
     addDesincorHeader2: function (
@@ -239,7 +239,7 @@ var productHandler = {
         id_servidor,
         usuarioCierre,
         OrigenApertura,
-        OrigenCierre
+        OrigenCierre,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -260,11 +260,11 @@ var productHandler = {
                     function (tx, results) {},
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     },
     addDetailsDes: function (
@@ -301,7 +301,7 @@ var productHandler = {
         JornadaSinIncorporacion,
         x,
         length,
-        id_cedula
+        id_cedula,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -361,11 +361,11 @@ var productHandler = {
                                         function (tx, results) {
                                             // console.log("inserta")
                                         },
-                                        function (tx, error) {}
+                                        function (tx, error) {},
                                     );
                                 },
                                 function (error) {},
-                                function (error) {}
+                                function (error) {},
                             );
                         } else {
                             databaseHandler.db.transaction(
@@ -416,19 +416,19 @@ var productHandler = {
                                         function (tx, results) {
                                             // console.log("actualiza")
                                         },
-                                        function (tx, error) {}
+                                        function (tx, error) {},
                                     );
                                 },
                                 function (error) {},
-                                function (error) {}
+                                function (error) {},
                             );
                         }
                     },
-                    function (tx, error) {}
+                    function (tx, error) {},
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     },
     addDetailsApoyo: function (
@@ -451,7 +451,7 @@ var productHandler = {
         Origen,
         x,
         length,
-        id_cedula
+        id_cedula,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -489,11 +489,11 @@ var productHandler = {
                                         function (tx, results) {
                                             // console.log("inserta")
                                         },
-                                        function (tx, error) {}
+                                        function (tx, error) {},
                                     );
                                 },
                                 function (error) {},
-                                function (error) {}
+                                function (error) {},
                             );
                         } else {
                             databaseHandler.db.transaction(
@@ -522,19 +522,19 @@ var productHandler = {
                                         function (tx, results) {
                                             // console.log("actualiza")
                                         },
-                                        function (tx, error) {}
+                                        function (tx, error) {},
                                     );
                                 },
                                 function (error) {},
-                                function (error) {}
+                                function (error) {},
                             );
                         }
                     },
-                    function (tx, error) {}
+                    function (tx, error) {},
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     },
     addDatosGenerales_Recaudo: function (id_cedula, fecha, id_usuario, id_empresa) {
@@ -548,13 +548,13 @@ var productHandler = {
                     },
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
                 console.log(error);
             },
-            function () {}
+            function () {},
         );
     },
     addDetalle_Recaudo: function (
@@ -583,12 +583,17 @@ var productHandler = {
         importe200,
         importe500,
         piezas_totales,
-        importe_total
+        importe_total,
+        idOperador,
+        ruta,
+        comentarios,
     ) {
+        console.log(idOperador);
+        console.log(ruta);
         databaseHandler.db.transaction(
             function (tx) {
                 tx.executeSql(
-                    "insert into detalle_recaudo(id_cedula, id_unidad, eco, fecha, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "insert into detalle_recaudo(id_cedula, id_unidad, eco, fecha, Moneda50c, Moneda1, Moneda2, Moneda5, Moneda10, Moneda20, Moneda50, Moneda100, Moneda200, Moneda500, importe50c, importe1, importe2, importe5, importe10, importe20, importe50, importe100, importe200, importe500, piezas_totales, importe_total, idOperador, ruta, comentarios) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     [
                         id_cedula,
                         id_unidad,
@@ -616,19 +621,22 @@ var productHandler = {
                         importe500,
                         piezas_totales,
                         importe_total,
+                        idOperador,
+                        ruta,
+                        comentarios,
                     ],
                     function (tx, results) {
                         //console.log("Frio correcto");
                     },
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
                 console.log(error);
             },
-            function () {}
+            function () {},
         );
     },
     addDesincorHeaderRecaudo: function (
@@ -679,7 +687,7 @@ var productHandler = {
         peso_cacharpa,
         estatus,
         origen,
-        id
+        id,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -739,13 +747,13 @@ var productHandler = {
                     },
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
                 console.log(error);
             },
-            function () {}
+            function () {},
         );
     },
     addDetailsDesRecaudo: function (
@@ -774,7 +782,7 @@ var productHandler = {
         importe500,
         piezas_totales,
         importe_total,
-        id_unidad
+        id_unidad,
     ) {
         Moneda50c ? null : (Moneda50c = 0);
         Moneda1 ? null : (Moneda1 = 0);
@@ -842,11 +850,11 @@ var productHandler = {
                                         function (tx, results) {
                                             // console.log("inserta")
                                         },
-                                        function (tx, error) {}
+                                        function (tx, error) {},
                                     );
                                 },
                                 function (error) {},
-                                function (error) {}
+                                function (error) {},
                             );
                         } else {
                             databaseHandler.db.transaction(
@@ -884,19 +892,19 @@ var productHandler = {
                                         function (tx, results) {
                                             // console.log("actualiza")
                                         },
-                                        function (tx, error) {}
+                                        function (tx, error) {},
                                     );
                                 },
                                 function (error) {},
-                                function (error) {}
+                                function (error) {},
                             );
                         }
                     },
-                    function (tx, error) {}
+                    function (tx, error) {},
                 );
             },
             function (error) {},
-            function () {}
+            function () {},
         );
     },
     addDatosGenerales_Diesel: function (id_cedula, fecha, id_usuario, id_empresa, estatus, origen, nombre_usuario, fechaReal) {
@@ -910,13 +918,13 @@ var productHandler = {
                     },
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
                 console.log(error);
             },
-            function () {}
+            function () {},
         );
     },
     addDatosGeneralesFlota: function (
@@ -936,7 +944,7 @@ var productHandler = {
         ultimoMantenimiento,
         tipoMannto,
         medidor,
-        intervalo
+        intervalo,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -995,14 +1003,14 @@ var productHandler = {
                     },
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
                 console.log(error);
             },
 
-            function () {}
+            function () {},
         );
     },
     insertPreguntasFlota: function (
@@ -1019,7 +1027,7 @@ var productHandler = {
         aux2,
         multiple,
         criterio,
-        ponderacion
+        ponderacion,
     ) {
         databaseHandler.db.transaction(
             function (tx) {
@@ -1053,14 +1061,14 @@ var productHandler = {
                     },
                     function (tx, error) {
                         console.error("Error registrar:" + error.message);
-                    }
+                    },
                 );
             },
             function (error) {
                 console.log(error);
             },
 
-            function () {}
+            function () {},
         );
     },
 };

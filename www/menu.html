@@ -80,7 +80,7 @@
                                                         </li>
 
                                                         <li class="container_info">
-                                                            <div class="item-content" id="processclick" onclick="eliminaCache()">
+                                                            <div class="item-content" id="processclick" onclick="preeliminaCache()">
                                                                 <i
                                                                     class="material-icons md-light panel-cerrar"
                                                                     style="color: #005d99; margin-right: 22.84px"
@@ -507,7 +507,7 @@
             }
 
             function updateData() {
-                // var urlBase2 = "http://192.168.100.8/CISAApp";
+                // var urlBase2 = "https://192.168.113.5/CISAApp";
                 var urlBase2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com";
                 if (localStorage.getItem("Modulos")) {
                     if (localStorage.getItem("Modulos") == "Limpieza") {
@@ -520,7 +520,7 @@
                         var RutaJSONS = urlBase2 + "/Archivos/JSON_desin/";
                         var carpeta = "jsons_desin";
                     } else if (localStorage.getItem("Modulos") == "Recaudo") {
-                        var RutaJSONS = urlBase2 + "/Archivos/JSON_recaudo/";
+                        var RutaJSONS = urlBase2 + "/Archivos_dev/JSON_recaudo/";
                         var carpeta = "jsons_recaudo";
                     } else if (localStorage.getItem("Modulos") == "Diesel") {
                         var RutaJSONS = urlBase2 + "/Archivos/JSON_diesel/";
@@ -792,6 +792,35 @@
                             function () {},
                         );
                     } else if (localStorage.getItem("Modulos") == "Recaudo") {
+                        databaseHandler.db.transaction(
+                            function (tx5) {
+                                tx5.executeSql("SELECT idOperador FROM detalle_recaudo LIMIT 1", [], function (tx5, results) {});
+                            },
+                            function (error) {
+                                databaseHandler.db.transaction(
+                                    function (tx5) {
+                                        tx5.executeSql("ALTER TABLE detalle_recaudo ADD COLUMN idOperador int", [], function (tx5, results) {});
+                                    },
+                                    function (error) {},
+                                    function () {},
+                                );
+                                databaseHandler.db.transaction(
+                                    function (tx5) {
+                                        tx5.executeSql("ALTER TABLE detalle_recaudo ADD COLUMN ruta text", [], function (tx5, results) {});
+                                    },
+                                    function (error) {},
+                                    function () {},
+                                );
+                                databaseHandler.db.transaction(
+                                    function (tx5) {
+                                        tx5.executeSql("ALTER TABLE detalle_recaudo ADD COLUMN comentarios text", [], function (tx5, results) {});
+                                    },
+                                    function (error) {},
+                                    function () {},
+                                );
+                            },
+                            function () {},
+                        );
                         var tipo = "Recaudo";
                     } else if (localStorage.getItem("Modulos") == "Diesel") {
                         databaseHandler.db.transaction(

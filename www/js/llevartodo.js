@@ -664,6 +664,9 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                                 piezas_totales: item2.piezas_totales,
                                                                 fecha: fecha,
                                                                 id_servidor: item2.id_servidor,
+                                                                idOperador: item2.idOperador,
+                                                                ruta: item2.ruta,
+                                                                comentarios: item2.comentarios,
                                                             };
                                                         }
                                                         console.log(datos_generales_recaudo);
@@ -671,7 +674,7 @@ function llevarTodo(id_cedula, tipo_cedula) {
                                                         $.ajax({
                                                             type: "POST",
                                                             async: true,
-                                                            url: url + "/guardarRecaudo.php",
+                                                            url: url + "/guardarRecaudo_dev.php",
                                                             dataType: "html",
                                                             data: {
                                                                 datosCedulaGeneral: JSON.stringify(datosCedulaGeneral),
