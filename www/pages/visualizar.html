@@ -153,19 +153,19 @@
                                             //nombres de las partes
                                             parte = Checklist[i].nombre_fase;
                                             $("#tb_check").append(
-                                                `<tr><td class='titulo_fases'>${Checklist[i].id_fase}</td><td class='titulo_fases'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`
+                                                `<tr><td class='titulo_fases'>${Checklist[i].id_fase}</td><td class='titulo_fases'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`,
                                             );
                                         } else {
                                             if (parte != Checklist[i].nombre_fase) {
                                                 $("#tb_check").append(
-                                                    `<tr><td class='titulo_fases'>${Checklist[i].id_fase}</td><td class='titulo_fases'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`
+                                                    `<tr><td class='titulo_fases'>${Checklist[i].id_fase}</td><td class='titulo_fases'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`,
                                                 );
                                             }
                                             parte = Checklist[i].nombre_fase;
                                         }
                                         $("#tb_check").append(`<tr>`);
                                         $("#tb_check").append(
-                                            `<td style='min-width: 50px;'>${Checklist[i].id_fase}.${Checklist[i].no_pregunta}</td>`
+                                            `<td style='min-width: 50px;'>${Checklist[i].id_fase}.${Checklist[i].no_pregunta}</td>`,
                                         );
                                         $("#tb_check").append(`<td>${Checklist[i].revision}</td>`);
                                         if (Checklist[i].respuesta == 2) {
@@ -286,19 +286,19 @@
                                                 //nombres de las partes
                                                 parte = Checklist[i].nombre_fase;
                                                 $("#tb_check").append(
-                                                    `<tr><td class='titulo_fases espacio_gris'>${Checklist[i].id_fase}</td><td class='titulo_fases espacio_gris'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`
+                                                    `<tr><td class='titulo_fases espacio_gris'>${Checklist[i].id_fase}</td><td class='titulo_fases espacio_gris'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`,
                                                 );
                                             } else {
                                                 if (parte != Checklist[i].nombre_fase) {
                                                     $("#tb_check").append(
-                                                        `<tr><td class='titulo_fases espacio_gris'>${Checklist[i].id_fase}</td><td class='titulo_fases espacio_gris'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`
+                                                        `<tr><td class='titulo_fases espacio_gris'>${Checklist[i].id_fase}</td><td class='titulo_fases espacio_gris'>${Checklist[i].nombre_fase}</td><td colspan='2' class='espacio_gris'>&nbsp;</td></tr>`,
                                                     );
                                                 }
                                                 parte = Checklist[i].nombre_fase;
                                             }
                                             $("#tb_check").append(`<tr>`);
                                             $("#tb_check").append(
-                                                `<td style='min-width: 50px;'>${Checklist[i].id_fase}.${Checklist[i].no_pregunta}</td>`
+                                                `<td style='min-width: 50px;'>${Checklist[i].id_fase}.${Checklist[i].no_pregunta}</td>`,
                                             );
                                             $("#tb_check").append(`<td style="text-align: left;">${Checklist[i].revision}</td>`);
                                             if (Checklist[i].respuesta == 2) {
@@ -316,6 +316,18 @@
                                     }
                                 }
                             } else if (TipoCed == "Recaudo") {
+                                let FechaCaptura = localStorage.getItem("FechaCapturaC");
+                                let fecha = new Date(FechaCaptura.replace(" ", "T"));
+                                let fechaLimite = new Date("2026-05-01T00:00:00");
+                                let valorBolsa50c, valorBolsa10;
+                                if (fecha >= fechaLimite) {
+                                    valorBolsa50c = 1500;
+                                    valorBolsa10 = 7500;
+                                } else {
+                                    valorBolsa50c = 1000;
+                                    valorBolsa10 = 5000;
+                                }
+
                                 var datosGenerales = new Array();
                                 datosGenerales = content[0];
                                 if (datosGenerales) {
@@ -413,7 +425,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th class="th_boleta">$10.00:</th>
-                                                    <td><span>$${numberWithCommas(datosGenerales[0].bolsa10 * 5000)}</span></td>
+                                                    <td><span>$${numberWithCommas(datosGenerales[0].bolsa10 * Number(valorBolsa10))}</span></td>
                                                     <td><span>${datosGenerales[0].bolsa10}</span></td>
                                                     <td><span>$${numberWithCommas(datosGenerales[0].pico10 * 10)}</span></td>
                                                     <td><span id="bolsa_pico10"></span></td>
@@ -535,7 +547,7 @@
                                     var bolsas_adicionales = bolsaAdd50c + bolsaAdd1 + bolsaAdd2 + bolsaAdd5 + bolsaAdd10;
                                     var bolsas_cacharpas = bolsaCacharpa10 + bolsaCacharpa20 + bolsaCacharpa50;
                                     var total_picos = picos50c + picos1 + picos2 + picos5 + picos10;
-                                    var monto_cacharpa = bolsaCacharpa10 * 500 + bolsaCacharpa20 * 500 + bolsaCacharpa50 * 1000;
+                                    var monto_cacharpa = bolsaCacharpa10 * 500 + bolsaCacharpa20 * 500 + bolsaCacharpa50 * Number(valorBolsa50c);
 
                                     datosGenerales[0].total_billetes
                                         ? datosGenerales[0].total_billetes > 0
@@ -553,20 +565,23 @@
                                             datosGenerales[0].bolsa5 +
                                             datosGenerales[0].bolsa10 +
                                             bolsaCacharpa50 +
-                                            bolsabilletes
+                                            bolsabilletes,
                                     );
                                     $("#bolsa_totales_pico").text(
                                         parseInt($("#bolsa_pico50c").text()) +
                                             parseInt($("#bolsa_pico1").text()) +
                                             parseInt($("#bolsa_pico2").text()) +
                                             parseInt($("#bolsa_pico5").text()) +
-                                            parseInt($("#bolsa_pico10").text())
+                                            parseInt($("#bolsa_pico10").text()),
                                     );
 
                                     $("#bolsas_final").text(parseInt($("#bolsas_totales").text()) + parseInt($("#bolsa_totales_pico").text()));
 
                                     $("#importe50c").text(
-                                        "$" + numberWithCommas((datosGenerales[0].bolsa50c + datosGenerales[0].bolsaCacharpa50) * 1000)
+                                        "$" +
+                                            numberWithCommas(
+                                                (datosGenerales[0].bolsa50c + datosGenerales[0].bolsaCacharpa50) * Number(valorBolsa50c),
+                                            ),
                                     ); //${datosGenerales[0].bolsa50c*1000}
                                     $("#bolsa50c").text(datosGenerales[0].bolsa50c + datosGenerales[0].bolsaCacharpa50); //${datosGenerales[0].bolsa50c}
 
@@ -661,7 +676,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th class="th_boleta">$10.00:</th>
-                                                        <td><span>$${numberWithCommas(datosGenerales[0].bolsa10_2 * 5000)}</span></td>
+                                                        <td><span>$${numberWithCommas(datosGenerales[0].bolsa10_2 * Number(valorBolsa10))}</span></td>
                                                         <td><span>${datosGenerales[0].bolsa10_2}</span></td>
                                                         <td><span>${numberWithCommas(datosGenerales[0].pico10_2)}</span></td>
                                                         <td><span id="bolsa_pico10_2"></span></td>
@@ -803,10 +818,10 @@
                                                 parseInt($("#bolsa_pico1_2").text()) +
                                                 parseInt($("#bolsa_pico2_2").text()) +
                                                 parseInt($("#bolsa_pico5_2").text()) +
-                                                parseInt($("#bolsa_pico10_2").text())
+                                                parseInt($("#bolsa_pico10_2").text()),
                                         );
 
-                                        $("#importe50c_2").text("$" + numberWithCommas(datosGenerales[0].bolsaAdd50c * 1000)); //${datosGenerales[0].bolsa50c*1000}
+                                        $("#importe50c_2").text("$" + numberWithCommas(datosGenerales[0].bolsaAdd50c * Number(valorBolsa50c))); //${datosGenerales[0].bolsa50c*1000}
                                         $("#bolsa50c_2").text(datosGenerales[0].bolsaAdd50c); //${datosGenerales[0].bolsa50c}
                                     }
                                     app.preloader.hide();
@@ -828,7 +843,7 @@
                         $(".sentencia1").remove();
                         $("#content-page1").css("display", "none");
                         $("#nointernet-page1").css("display", "block");
-                    }
+                    },
                 );
             },
         },

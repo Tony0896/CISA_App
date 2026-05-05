@@ -439,10 +439,11 @@ function onPhotoSingSuccess(imageData) {
     }
 }
 
-function verpdf(IdCte, IdCed, TipoC) {
+function verpdf(IdCte, IdCed, TipoC, FechaCaptura) {
     if (TipoC) {
         localStorage.setItem("IdCed", IdCed);
         localStorage.setItem("TipoC", TipoC);
+        localStorage.setItem("FechaCapturaC", FechaCaptura);
         app.views.main.router.navigate({
             name: "visualizar",
         });
@@ -615,6 +616,8 @@ function recarga_history(mes_pdfs, year_pdfs) {
                                 content[e].IdCedula +
                                 `','` +
                                 content[e].TipoCed +
+                                `','` +
+                                content[e].FechaCaptura +
                                 `')" style='border: none; outline:none;'><i class="material-icons md-light" style="font-size: 30px;">description</i></a></td> </tr>`;
                         }
                         $("#cedul").html(html);

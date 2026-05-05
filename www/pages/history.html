@@ -123,6 +123,8 @@
                                                 content[e].IdCedula +
                                                 `','` +
                                                 content[e].TipoCed +
+                                                `','` +
+                                                content[e].FechaCaptura +
                                                 `')" style='border: none; outline:none;'><i class="material-icons md-light" style="font-size: 30px;">description</i></a></td> </tr>`;
                                         }
                                         $("#cedul").html(html);
@@ -136,7 +138,7 @@
                             $(".preloader").remove();
                             $("#content-page").css("display", "none");
                             $("#nointernet-page").css("display", "block");
-                        }
+                        },
                     );
                 }
 
