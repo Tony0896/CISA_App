@@ -886,7 +886,7 @@ function CalculaBolsa(bolsa) {
 
     var monto10c = parseInt(bolsaCacharpa10 * 500);
     var monto20c = parseInt(bolsaCacharpa20 * 500);
-    var monto50c = parseInt(bolsaCacharpa50 * 1000);
+    var monto50c = parseInt(bolsaCacharpa50 * 1500);
 
     var cuenta = monto10c + monto20c + monto50c;
 
@@ -916,11 +916,11 @@ function CalculaBolsa2(bolsa) {
     var bolsas5 = $("#step_moneda5").val();
     var bolsas10 = $("#step_moneda10").val();
 
-    var monto0 = parseInt(bolsas50c * 1000);
+    var monto0 = parseInt(bolsas50c * 1500);
     var monto1 = parseInt(bolsas1 * 2000);
     var monto2 = parseInt(bolsas2 * 4000);
     var monto5 = parseInt(bolsas5 * 6000);
-    var monto10 = parseInt(bolsas10 * 5000);
+    var monto10 = parseInt(bolsas10 * 7500);
 
     var Acumulado2 = monto0 + monto1 + monto2 + monto5 + monto10;
 

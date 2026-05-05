@@ -2835,3 +2835,56 @@ function validaEmpresasGPO() {
             });
     }
 }
+
+function preeliminaCache() {
+    swal("", "Trabajando...", "success");
+    let url = "",
+        url2 = "";
+    let empresa = localStorage.getItem("empresa");
+
+    if (localStorage.getItem("Modulos") == "Imagen" || localStorage.getItem("Modulos") == "Checklist") {
+        url = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/datos.php?empresa=" + empresa;
+        url2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/datos_check_desc.php?empresa=" + empresa;
+    } else if (localStorage.getItem("Modulos") == "Limpieza") {
+        eliminaCache();
+    } else if (localStorage.getItem("Modulos") == "Desincorporaciones") {
+        eliminaCache();
+    } else if (localStorage.getItem("Modulos") == "Recaudo") {
+        // url = "https://192.168.113.5/CISAAPP/datos_recaudo.php?empresa=" + empresa;
+        // url2 = "https://192.168.113.5/CISAAPP/datos_check_desc_recaudo.php?empresa=" + empresa;
+        url = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/datos_recaudo_dev.php?empresa=" + empresa;
+        url2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/datos_check_desc_recaudo_dev.php?empresa=" + empresa;
+    } else {
+        let modulo = localStorage.getItem("Modulos");
+        url = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/Exec/" + modulo + "/datos.php?empresa=" + empresa;
+        url2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/Exec/" + modulo + "/datos_desc.php?empresa=" + empresa;
+        if (modulo == "InsFlota") {
+            url2 = "http://mantto.ci-sa.com.mx/www.CISAAPP.com/Exec/" + modulo + "/datos_check_desc.php?empresa=" + empresa;
+        }
+    }
+
+    app.preloader.show("blue");
+    // console.log(url);
+    // console.log(url2);
+    fetch(url)
+        .then((response) => {
+            console.log("Sincroniza datos OK!");
+            fetch(url2)
+                .then((response) => {
+                    console.log("Sincroniza datos OK!");
+                    eliminaCache();
+                    app.preloader.hide();
+                    swal.close();
+                })
+                .catch((err) => {
+                    swal("", "Sin Conexión", "error");
+                    swal.close();
+                    app.preloader.hide();
+                });
+        })
+        .catch((err) => {
+            swal("", "Sin Conexión", "error");
+            swal.close();
+            app.preloader.hide();
+        });
+}

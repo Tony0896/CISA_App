@@ -325,16 +325,16 @@
                                     <tr><td style='text-align: center;'>$500.00</td><td style='text-align: center;'>${numberWithCommas(pzaz500)}</td><td>$${numberWithCommas(importe500.toFixed(2))}</td></tr>
                                     <tr style='text-align: center;background-color: #005D99;color: white;'><th>Totales</th><td>${numberWithCommas(totalpzas)}</td><td>$${numberWithCommas(totalimporte.toFixed(2))}</td></tr>`);
 
-                                    var bolsas = pzaz50c/2000;
+                                    var bolsas = pzaz50c/3000;
                                     bolsas =  parseInt(bolsas);
-                                    var pzasbolsas = 2000*bolsas;
+                                    var pzasbolsas = 3000*bolsas;
                                     var picopzs = pzaz50c-pzasbolsas;
                                     var picopzs50c = picopzs;
-                                    var importebolsas = bolsas*1000;
+                                    var importebolsas = bolsas*1500;
                                     var importepicos = picopzs*.5;
                                     bolsasTotales = bolsasTotales+bolsas;
                                     recaudoSinBilletes = parseFloat(recaudoSinBilletes + importebolsas + importepicos);
-                                    $("#tb_resumen2").append(`<tr><td>2,000</td><td>$0.50</td><td>${numberWithCommas(bolsas)}</td><td>$${numberWithCommas(importebolsas.toFixed(2))}</td><td>${numberWithCommas(picopzs)}</td><td>$${numberWithCommas(importepicos.toFixed(2))}</td></tr>`);
+                                    $("#tb_resumen2").append(`<tr><td>3,000</td><td>$0.50</td><td>${numberWithCommas(bolsas)}</td><td>$${numberWithCommas(importebolsas.toFixed(2))}</td><td>${numberWithCommas(picopzs)}</td><td>$${numberWithCommas(importepicos.toFixed(2))}</td></tr>`);
 
                                     bolsas = pzaz1/2000;
                                     bolsas =  parseInt(bolsas);
@@ -369,16 +369,16 @@
                                     recaudoSinBilletes = parseFloat(recaudoSinBilletes + importebolsas + importepicos);
                                     $("#tb_resumen2").append(`<tr><td>1,200</td><td>$5.00</td><td>${numberWithCommas(bolsas)}</td><td>$${numberWithCommas(importebolsas.toFixed(2))}</td><td>${numberWithCommas(picopzs)}</td><td>$${numberWithCommas(importepicos.toFixed(2))}</td></tr>`);
 
-                                    bolsas = pzaz10/500;
+                                    bolsas = pzaz10/750;
                                     bolsas =  parseInt(bolsas);
-                                    pzasbolsas = 500*bolsas;
+                                    pzasbolsas = 750*bolsas;
                                     picopzs = pzaz10-pzasbolsas;
                                     var picopzs10 = picopzs;
-                                    importebolsas = bolsas*5000;
+                                    importebolsas = bolsas*7500;
                                     importepicos = picopzs*10;
                                     bolsasTotales = bolsasTotales+bolsas;
                                     recaudoSinBilletes = parseFloat(recaudoSinBilletes + importebolsas + importepicos);
-                                    $("#tb_resumen2").append(`<tr><td>500</td><td>$10.00</td><td>${numberWithCommas(bolsas)}</td><td>$${numberWithCommas(importebolsas.toFixed(2))}</td><td>${numberWithCommas(picopzs)}</td><td>$${numberWithCommas(importepicos.toFixed(2))}</td></tr>`);
+                                    $("#tb_resumen2").append(`<tr><td>750</td><td>$10.00</td><td>${numberWithCommas(bolsas)}</td><td>$${numberWithCommas(importebolsas.toFixed(2))}</td><td>${numberWithCommas(picopzs)}</td><td>$${numberWithCommas(importepicos.toFixed(2))}</td></tr>`);
 
                                     var Promedio_total = parseFloat(recaudototal/unidades_reales);
                                     var unidades_faltantes = span_total-span_avance;
@@ -425,11 +425,11 @@
                                             </table>
                                         </div>
                                     </div>`);
-                                    var bolsas50c = pzaz50c/2000;
+                                    var bolsas50c = pzaz50c/3000;
                                     var bolsas1 = pzaz1/2000;
                                     var bolsas2 = pzaz2/2000;
                                     var bolsas5 = pzaz5/1200;
-                                    var bolsas10 = pzaz10/500;
+                                    var bolsas10 = pzaz10/750;
 
                                     $("#fin_recaudo").data({
                                         bolsa1: parseInt(bolsas1),
